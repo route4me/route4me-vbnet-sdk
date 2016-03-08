@@ -70,7 +70,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Examples\AddAddressBookContact.vb" />
+    <Compile Include="Examples\AddAddressNote.vb" />
     <Compile Include="Examples\ExamplesInfrastructure.vb" />
+    <Compile Include="Examples\GetAddress.vb" />
+    <Compile Include="Examples\GetAddressNotes.vb" />
+    <Compile Include="Examples\SingleDriverRoundTrip.vb" />
+    <Compile Include="Examples\SingleDriverRoute10Stops.vb" />
     <Compile Include="Module1.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
