@@ -14,6 +14,12 @@ Namespace Route4MeSDKTest
             Dim dataObject1 As DataObject = examples.SingleDriverRoute10Stops()
 
             Console.WriteLine("contact1 and contact2 were added")
+            Dim routeId_SingleDriverRoute10Stops As String = If((dataObject IsNot Nothing AndAlso dataObject.Routes IsNot Nothing AndAlso dataObject.Routes.Length > 0), dataObject.Routes(0).RouteID, Nothing)
+
+            Dim destinationIds As Integer() = examples.AddRouteDestinations(routeId_SingleDriverRoute10Stops)
+            If destinationIds IsNot Nothing AndAlso destinationIds.Length > 0 Then
+                examples.RemoveRouteDestination(routeId_SingleDriverRoute10Stops, destinationIds(0))
+            End If
 
             Dim dataObject2 As DataObject = examples.SingleDriverRoundTrip()
             DataObject = dataObject2
