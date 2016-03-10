@@ -165,6 +165,10 @@ Namespace Route4MeSDKTest
                 System.Console.WriteLine("DeleteAvoidanceZone not called. territoryId == null.")
             End If
 
+            'disabled by default, not necessary for optimization tests
+            'not all accounts are capable of storing gps data
+            'examples.SetGPSPosition()
+            'examples.TrackDeviceLastLocationHistory()
 
             examples.GenericExample()
             examples.GenericExampleShortcut()

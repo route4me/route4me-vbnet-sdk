@@ -46,8 +46,9 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Route4MeSDKLibrary">
-      <HintPath>..\..\Route4me_vbnet_tests\Route4me_vbnet_tests\dll\Route4MeSDKLibrary.dll</HintPath>
+    <Reference Include="Route4MeSDKLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\Route4MeSDKLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -72,7 +73,9 @@
   <ItemGroup>
     <Compile Include="Examples\AddAddressBookContact.vb" />
     <Compile Include="Examples\AddAddressNote.vb" />
+    <Compile Include="Examples\AddAvoidanceZone.vb" />
     <Compile Include="Examples\AddRouteDestinations.vb" />
+    <Compile Include="Examples\DeleteAvoidanceZone.vb" />
     <Compile Include="Examples\DeleteRoutes.vb" />
     <Compile Include="Examples\DuplicateRoute.vb" />
     <Compile Include="Examples\ExamplesInfrastructure.vb" />
@@ -81,6 +84,8 @@
     <Compile Include="Examples\GetAddress.vb" />
     <Compile Include="Examples\GetAddressBookContacts.vb" />
     <Compile Include="Examples\GetAddressNotes.vb" />
+    <Compile Include="Examples\GetAvoidanceZone.vb" />
+    <Compile Include="Examples\GetAvoidanceZones.vb" />
     <Compile Include="Examples\GetOptimization.vb" />
     <Compile Include="Examples\GetOptimizations.vb" />
     <Compile Include="Examples\GetRoute.vb" />
@@ -93,12 +98,15 @@
     <Compile Include="Examples\RemoveAddressBookContacts.vb" />
     <Compile Include="Examples\RemoveRouteDestination.vb" />
     <Compile Include="Examples\ReOptimization.vb" />
+    <Compile Include="Examples\SetGPSPosition.vb" />
     <Compile Include="Examples\SingleDepotMultipleDriverNoTimeWindow.vb" />
     <Compile Include="Examples\SingleDriverMultipleTimeWindows.vb" />
     <Compile Include="Examples\SingleDriverRoundTrip.vb" />
     <Compile Include="Examples\SingleDriverRoundTripGeneric.vb" />
     <Compile Include="Examples\SingleDriverRoute10Stops.vb" />
+    <Compile Include="Examples\TrackDeviceLastLocationHistory.vb" />
     <Compile Include="Examples\UpdateAddressBookContact.vb" />
+    <Compile Include="Examples\UpdateAvoidanceZone.vb" />
     <Compile Include="Main.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
