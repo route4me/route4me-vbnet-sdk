@@ -146,6 +146,26 @@ Namespace Route4MeSDKTest
             End If
             examples.RemoveAddressBookContacts(addressIdsToRemove.ToArray())
 
+            ' Avoidance Zones
+            Dim territoryId As String = examples.AddAvoidanceZone()
+            examples.GetAvoidanceZones()
+            If territoryId IsNot Nothing Then
+                examples.GetAvoidanceZone(territoryId)
+            Else
+                System.Console.WriteLine("GetAvoidanceZone not called. territoryId == null.")
+            End If
+            If territoryId IsNot Nothing Then
+                examples.UpdateAvoidanceZone(territoryId)
+            Else
+                System.Console.WriteLine("UpdateAvoidanceZone not called. territoryId == null.")
+            End If
+            If territoryId IsNot Nothing Then
+                examples.DeleteAvoidanceZone(territoryId)
+            Else
+                System.Console.WriteLine("DeleteAvoidanceZone not called. territoryId == null.")
+            End If
+
+
             examples.GenericExample()
             examples.GenericExampleShortcut()
 
