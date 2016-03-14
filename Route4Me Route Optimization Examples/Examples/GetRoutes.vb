@@ -1,6 +1,6 @@
-﻿Imports Route4MeSDK
-Imports Route4MeSDK.DataTypes
-Imports Route4MeSDK.QueryTypes
+﻿Imports Route4MeSDKLibrary.Route4MeSDK
+Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
+Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub GetRoutes()

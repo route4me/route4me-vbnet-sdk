@@ -1,11 +1,11 @@
-﻿Imports Route4MeSDK
-Imports Route4MeSDK.DataTypes
-Imports Route4MeSDK.QueryTypes
+﻿Imports Route4MeSDKLibrary.Route4MeSDK
+Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
+Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Function AddAddressBookContact() As AddressBookContact
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeSDK.Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeSDKLibrary.Route4MeSDK.Route4MeManager(c_ApiKey)
 
             Dim contact As New AddressBookContact() With { _
                  .FirstName = "Test FirstName " + (New Random()).[Next]().ToString(), _

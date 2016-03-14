@@ -1,6 +1,6 @@
-﻿Imports Route4MeSDK
-Imports Route4MeSDK.DataTypes
-Imports Route4MeSDK.QueryTypes
+﻿Imports Route4MeSDKLibrary.Route4MeSDK
+Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
+Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
@@ -16,7 +16,7 @@ Namespace Route4MeSDKTest.Examples
                 .TerritoryName = "Test Territory Updated", _
                 .TerritoryColor = "ff00ff", _
                 .Territory = New Territory() With { _
-                    .Type = TerritoryType.Circle.Description(), _
+                    .Type = EnumHelper.GetEnumDescription(TerritoryType.Circle), _
                     .Data = New String() {"38.41322259056806,-78.501953234", "3000"} _
                 } _
             }

@@ -1,6 +1,6 @@
-﻿Imports Route4MeSDK
-Imports Route4MeSDK.DataTypes
-Imports Route4MeSDK.QueryTypes
+﻿Imports Route4MeSDKLibrary.Route4MeSDK
+Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
+Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Function MultipleDepotMultipleDriverTimeWindow() As DataObject
@@ -686,10 +686,10 @@ Namespace Route4MeSDKTest.Examples
                 .RouteMaxDuration = 86400 * 3, _
                 .VehicleCapacity = "99", _
                 .VehicleMaxDistanceMI = "99999", _
-                .Optimize = Optimize.Time.Description(), _
-                .DistanceUnit = DistanceUnit.MI.Description(), _
-                .DeviceType = DeviceType.Web.Description(), _
-                .TravelMode = TravelMode.Driving.Description(), _
+                .Optimize = EnumHelper.GetEnumDescription(Optimize.Time), _
+                .DistanceUnit = EnumHelper.GetEnumDescription(DistanceUnit.MI), _
+                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.Web), _
+                .TravelMode = EnumHelper.GetEnumDescription(TravelMode.Driving), _
                 .Metric = Metric.Geodesic _
             }
 

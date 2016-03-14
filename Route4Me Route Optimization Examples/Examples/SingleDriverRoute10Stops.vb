@@ -1,6 +1,6 @@
-﻿Imports Route4MeSDK
-Imports Route4MeSDK.DataTypes
-Imports Route4MeSDK.QueryTypes
+﻿Imports Route4MeSDKLibrary.Route4MeSDK
+Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
+Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Function SingleDriverRoute10Stops() As DataObject
@@ -88,9 +88,9 @@ Namespace Route4MeSDKTest.Examples
                 .RouteName = "Single Driver Route 10 Stops", _
                 .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)), _
                 .RouteTime = 60 * 60 * 7, _
-                .Optimize = Optimize.Distance.Description(), _
-                .DistanceUnit = DistanceUnit.MI.Description(), _
-                .DeviceType = DeviceType.Web.Description() _
+                .Optimize = EnumHelper.GetEnumDescription(Optimize.Distance), _
+                .DistanceUnit = EnumHelper.GetEnumDescription(DistanceUnit.MI), _
+                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.Web) _
             }
 
             Dim optimizationParameters As New OptimizationParameters() With { _
@@ -99,7 +99,7 @@ Namespace Route4MeSDKTest.Examples
             }
 
             ' Run the query
-            Dim errorString As String
+            Dim errorString As String = ""
             Dim dataObject As DataObject = route4Me.RunOptimization(optimizationParameters, errorString)
 
             ' Output the result

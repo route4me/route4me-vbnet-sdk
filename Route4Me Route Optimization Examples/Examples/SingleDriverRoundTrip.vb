@@ -1,6 +1,6 @@
-﻿Imports Route4MeSDK
-Imports Route4MeSDK.DataTypes
-Imports Route4MeSDK.QueryTypes
+﻿Imports Route4MeSDKLibrary.Route4MeSDK
+Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
+Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Function SingleDriverRoundTrip() As DataObject
@@ -70,7 +70,6 @@ Namespace Route4MeSDKTest.Examples
 
             ' Set parameters
 
-
             Dim parameters As New RouteParameters() With { _
                 .AlgorithmType = AlgorithmType.TSP, _
                 .StoreRoute = False, _
@@ -80,10 +79,10 @@ Namespace Route4MeSDKTest.Examples
                 .RouteMaxDuration = 86400, _
                 .VehicleCapacity = "1", _
                 .VehicleMaxDistanceMI = "10000", _
-                .Optimize = Optimize.Distance.Description(), _
-                .DistanceUnit = DistanceUnit.MI.Description(), _
-                .DeviceType = DeviceType.Web.Description(), _
-                .TravelMode = TravelMode.Driving.Description() _
+                .Optimize = EnumHelper.GetEnumDescription(Optimize.Distance), _
+                .DistanceUnit = EnumHelper.GetEnumDescription(DistanceUnit.MI), _
+                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.Web), _
+                .TravelMode = EnumHelper.GetEnumDescription(TravelMode.Driving) _
             }
 
             Dim optimizationParameters As New OptimizationParameters() With { _
@@ -92,7 +91,7 @@ Namespace Route4MeSDKTest.Examples
             }
 
             ' Run the query
-            Dim errorString As String
+            Dim errorString As String = ""
             Dim dataObject As DataObject = route4Me.RunOptimization(OptimizationParameters, errorString)
 
             ' Output the result

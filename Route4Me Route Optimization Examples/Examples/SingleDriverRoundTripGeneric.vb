@@ -1,6 +1,6 @@
-﻿Imports Route4MeSDK
-Imports Route4MeSDK.DataTypes
-Imports Route4MeSDK.QueryTypes
+﻿Imports Route4MeSDKLibrary.Route4MeSDK
+Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
+Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Imports System
 Imports System.Runtime.Serialization
 Namespace Route4MeSDKTest.Examples
@@ -175,10 +175,10 @@ Namespace Route4MeSDKTest.Examples
                 .RouteMaxDuration = 86400, _
                 .VehicleCapacity = "1", _
                 .VehicleMaxDistanceMI = "10000", _
-                .Optimize = Optimize.Distance.Description(), _
-                .DistanceUnit = DistanceUnit.MI.Description(), _
-                .DeviceType = DeviceType.Web.Description(), _
-                .TravelMode = TravelMode.Driving.Description() _
+                .Optimize = EnumHelper.GetEnumDescription(Optimize.Distance), _
+                .DistanceUnit = EnumHelper.GetEnumDescription(DistanceUnit.MI), _
+                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.Web), _
+                .TravelMode = EnumHelper.GetEnumDescription(TravelMode.Driving) _
             }
 
             Dim myParameters As New MyAddressAndParametersHolder() With { _
@@ -187,7 +187,7 @@ Namespace Route4MeSDKTest.Examples
             }
 
             ' Run the query
-            Dim errorString As String
+            Dim errorString As String = ""
             Dim dataObject As MyDataObjectGeneric = route4Me.GetJsonObjectFromAPI(Of MyDataObjectGeneric)(myParameters, uri, HttpMethodType.Post, errorString)
 
             Console.WriteLine("")

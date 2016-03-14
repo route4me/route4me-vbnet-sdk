@@ -1,6 +1,6 @@
-﻿Imports Route4MeSDK
-Imports Route4MeSDK.DataTypes
-Imports Route4MeSDK.QueryTypes
+﻿Imports Route4MeSDKLibrary.Route4MeSDK
+Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
+Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub MoveDestinationToRoute(toRouteId As String, routeDestinationId As Integer, afterDestinationId As Integer)
@@ -8,7 +8,7 @@ Namespace Route4MeSDKTest.Examples
             Dim route4Me As New Route4MeManager(c_ApiKey)
 
             ' Run the query
-            Dim errorString As String
+            Dim errorString As String = ""
             Dim success As Boolean = route4Me.MoveDestinationToRoute(toRouteId, routeDestinationId, afterDestinationId, errorString)
 
             Console.WriteLine("")

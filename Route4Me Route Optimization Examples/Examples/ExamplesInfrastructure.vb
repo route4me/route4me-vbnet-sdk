@@ -1,4 +1,4 @@
-﻿Imports Route4MeSDK.DataTypes
+﻿Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports System
 'Imports System.Linq
 Namespace Route4MeSDKTest.Examples

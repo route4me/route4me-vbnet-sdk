@@ -1,6 +1,6 @@
-﻿Imports Route4MeSDK
-Imports Route4MeSDK.DataTypes
-Imports Route4MeSDK.QueryTypes
+﻿Imports Route4MeSDKLibrary.Route4MeSDK
+Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
+Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub AddAddressNote(routeId As String, addressId As Integer)
@@ -12,8 +12,8 @@ Namespace Route4MeSDKTest.Examples
                 .AddressId = addressId, _
                 .Latitude = 33.132675170898, _
                 .Longitude = -83.244743347168, _
-                .DeviceType = DeviceType.Web.Description(), _
-                .ActivityType = StatusUpdateType.DropOff.Description() _
+                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.Web), _
+                .ActivityType = EnumHelper.GetEnumDescription(StatusUpdateType.DropOff) _
             }
 
             ' Run the query

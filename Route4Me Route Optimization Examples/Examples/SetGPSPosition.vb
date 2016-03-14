@@ -1,6 +1,6 @@
-﻿Imports Route4MeSDK
-Imports Route4MeSDK.DataTypes
-Imports Route4MeSDK.QueryTypes
+﻿Imports Route4MeSDKLibrary.Route4MeSDK
+Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
+Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub SetGPSPosition()
@@ -9,13 +9,13 @@ Namespace Route4MeSDKTest.Examples
 
             ' Create the gps parametes
             Dim gpsParameters As New GPSParameters() With { _
-                .Format = Format.Csv.Description(), _
+                .Format = Format.Csv, _
                 .RouteId = "742A9E5051AA84B9E6365C92369B030C", _
                 .Latitude = 33.14384, _
                 .Longitude = -83.22466, _
                 .Course = 1, _
                 .Speed = 120, _
-                .DeviceType = DeviceType.IPhone.Description(), _
+                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.IPhone), _
                 .MemberId = 1, _
                 .DeviceGuid = "TEST_GPS", _
                 .DeviceTimestamp = "2014-06-14 17:43:35" _
