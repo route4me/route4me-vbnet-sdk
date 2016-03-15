@@ -88,6 +88,7 @@ Route4Me does not currently lease or sell servers, and does not have on-premise 
 The time required to integrate the SDK can be as little as 1 hour or may take several weeks, depending on the number of features being incorporated into the customer’s application and how much integration testing will be done by the client. A programmer’s involvement is almost always required to use Route4Me’s technology when accessing it through the API.
 
 
+<<<<<<< HEAD
 ### Installation and Usage
 
 1. Add reference to Route4MeSDKLibrary.dll
@@ -205,3 +206,5 @@ Namespace Route4MeSDKTest.Examples
         End Function
     End Class
 End Namespace
+=======
+>>>>>>> origin/master
