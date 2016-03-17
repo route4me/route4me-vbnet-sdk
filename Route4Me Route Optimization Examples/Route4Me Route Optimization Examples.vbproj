@@ -46,8 +46,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Route4MeSDKLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Route4MeSDKLibrary">
       <HintPath>..\Route4MeSDKLibrary\bin\Debug\Route4MeSDKLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -74,6 +73,7 @@
     <Compile Include="Examples\AddAddressBookContact.vb" />
     <Compile Include="Examples\AddAddressNote.vb" />
     <Compile Include="Examples\AddAvoidanceZone.vb" />
+    <Compile Include="Examples\AddDestinationToOptimization.vb" />
     <Compile Include="Examples\AddRouteDestinations.vb" />
     <Compile Include="Examples\DeleteAvoidanceZone.vb" />
     <Compile Include="Examples\DeleteRoutes.vb" />

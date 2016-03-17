@@ -56,6 +56,13 @@ Namespace Route4MeSDKTest
 
             examples.GetOptimizations()
 
+
+            If optimizationProblemID IsNot Nothing Then
+                examples.AddDestinationToOptimization(optimizationProblemID, True)
+            Else
+                System.Console.WriteLine("AddDestinationToOptimization not called. optimizationProblemID == null.")
+            End If
+
             If optimizationProblemID IsNot Nothing Then
                 examples.ReOptimization(optimizationProblemID)
             Else
