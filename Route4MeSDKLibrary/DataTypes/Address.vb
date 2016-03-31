@@ -156,13 +156,13 @@ Namespace Route4MeSDK.DataTypes
         End Property
         Private m_PreferredGeocoding As System.Nullable(Of Integer)
 
-        <DataMember(Name:="FailedGeocoding", EmitDefaultValue:=False)> _
+        <DataMember(Name:="failed_geocoding", EmitDefaultValue:=False)> _
         Public Property FailedGeocoding() As System.Nullable(Of Boolean)
             Get
                 Return m_FailedGeocoding
             End Get
             Set(value As System.Nullable(Of Boolean))
-                m_FailedGeocoding = Value
+                m_FailedGeocoding = value
             End Set
         End Property
         Private m_FailedGeocoding As System.Nullable(Of Boolean)
@@ -409,15 +409,15 @@ Namespace Route4MeSDK.DataTypes
 
         'estimated time window start based on the optimization engine, after all the sequencing has been completed
         <DataMember(Name:="generated_time_window_start", EmitDefaultValue:=False)> _
-        Public Property GeneratedTimeEindowStart() As System.Nullable(Of Integer)
+        Public Property GeneratedTimeWindowStart() As System.Nullable(Of Integer)
             Get
-                Return m_GeneratedTimeEindowStart
+                Return m_GeneratedTimeWindowStart
             End Get
             Set(value As System.Nullable(Of Integer))
-                m_GeneratedTimeEindowStart = Value
+                m_GeneratedTimeWindowStart = value
             End Set
         End Property
-        Private m_GeneratedTimeEindowStart As System.Nullable(Of Integer)
+        Private m_GeneratedTimeWindowStart As System.Nullable(Of Integer)
 
         'estimated time window end based on the optimization engine, after all the sequencing has been completed
         <DataMember(Name:="generated_time_window_end", EmitDefaultValue:=False)> _
@@ -433,12 +433,12 @@ Namespace Route4MeSDK.DataTypes
 
         'the unique socket channel name which should be used to get real time alerts
         <DataMember(Name:="channel_name", EmitDefaultValue:=False)> _
-        Public Property channel_name() As String
+        Public Property ChannelName() As String
             Get
                 Return m_channel_name
             End Get
             Set(value As String)
-                m_channel_name = Value
+                m_channel_name = value
             End Set
         End Property
         Private m_channel_name As String
