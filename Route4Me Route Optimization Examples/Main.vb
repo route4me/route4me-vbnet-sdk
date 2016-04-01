@@ -174,8 +174,15 @@ Namespace Route4MeSDKTest
 
             'disabled by default, not necessary for optimization tests
             'not all accounts are capable of storing gps data
-            'examples.SetGPSPosition()
-            'examples.TrackDeviceLastLocationHistory()
+            'if (routeId_SingleDriverRoute10Stops != null)
+            '{
+            '  examples.SetGPSPosition(routeId_SingleDriverRoute10Stops);
+            '  examples.TrackDeviceLastLocationHistory(routeId_SingleDriverRoute10Stops);
+            '}
+            'else
+            '{
+            '  System.Console.WriteLine("SetGPSPosition, TrackDeviceLastLocationHistory not called. routeId_SingleDriverRoute10Stops == null.");
+            '}
 
             examples.GenericExample()
             examples.GenericExampleShortcut()

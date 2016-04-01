@@ -3,14 +3,14 @@ Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Sub SetGPSPosition()
+        Public Sub SetGPSPosition(routeId As String)
             ' Create the manager with the api key
             Dim route4Me As New Route4MeManager(c_ApiKey)
 
             ' Create the gps parametes
             Dim gpsParameters As New GPSParameters() With { _
                 .Format = Format.Csv, _
-                .RouteId = "742A9E5051AA84B9E6365C92369B030C", _
+                .RouteId = routeId, _
                 .Latitude = 33.14384, _
                 .Longitude = -83.22466, _
                 .Course = 1, _
