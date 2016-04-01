@@ -112,6 +112,12 @@ Namespace Route4MeSDK
             Return Nothing
         End Function
 
+        Public Function UpdateRoute(routeParameters As RouteParametersQuery, ByRef errorString As String) As DataObjectRoute
+            Dim result = GetJsonObjectFromAPI(Of DataObjectRoute)(routeParameters, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, errorString)
+
+            Return result
+        End Function
+
         <DataContract> _
         Private NotInheritable Class DuplicateRouteResponse
             <DataMember(Name:="optimization_problem_id")> _

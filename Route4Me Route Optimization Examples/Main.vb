@@ -75,6 +75,14 @@ Namespace Route4MeSDKTest
                 System.Console.WriteLine("GetRoute not called. routeId_SingleDriverRoute10Stops == null.")
             End If
 
+            If routeId_SingleDriverRoute10Stops IsNot Nothing Then
+                examples.UpdateRoute(routeId_SingleDriverRoute10Stops)
+                examples.ReoptimizeRoute(routeId_SingleDriverRoute10Stops)
+                examples.GetRoute(routeId_SingleDriverRoute10Stops)
+            Else
+                System.Console.WriteLine("UpdateRoute, ReoptimizeRoute, GetRoute not called. routeId_SingleDriverRoute10Stops == null.")
+            End If
+
             examples.GetRoutes()
             examples.GetUsers()
 
