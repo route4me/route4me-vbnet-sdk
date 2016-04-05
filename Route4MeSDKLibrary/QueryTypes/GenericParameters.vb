@@ -24,7 +24,7 @@ Namespace Route4MeSDK.QueryTypes
     <KnownType(GetType(NoteParameters))> _
     <KnownType(GetType(RouteParametersQuery))> _
     <KnownType(GetType(AvoidanceZoneParameters))> _
-    <KnownType(GetType(AvoidanceZoneQuerry))> _
+    <KnownType(GetType(AvoidanceZoneQuery))> _
     Public Class GenericParameters
 #Region "Fields"
 
@@ -37,7 +37,7 @@ Namespace Route4MeSDK.QueryTypes
                 Return m_ConvertBooleansToInteger
             End Get
             Protected Set(value As Boolean)
-                m_ConvertBooleansToInteger = Value
+                m_ConvertBooleansToInteger = value
             End Set
         End Property
         Private m_ConvertBooleansToInteger As Boolean

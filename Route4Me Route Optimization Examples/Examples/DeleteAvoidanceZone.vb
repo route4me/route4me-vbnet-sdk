@@ -11,13 +11,13 @@ Namespace Route4MeSDKTest.Examples
             ' Create the manager with the api key
             Dim route4Me As New Route4MeManager(c_ApiKey)
 
-            Dim avoidanceZoneQuerry As New AvoidanceZoneQuerry() With { _
+            Dim avoidanceZoneQuery As New AvoidanceZoneQuery() With { _
                 .TerritoryId = territoryId _
             }
 
             ' Run the query
             Dim errorString As String = ""
-            route4Me.DeleteAvoidanceZone(avoidanceZoneQuerry, errorString)
+            route4Me.DeleteAvoidanceZone(avoidanceZoneQuery, errorString)
 
             Console.WriteLine("")
 

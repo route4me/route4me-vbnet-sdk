@@ -11,11 +11,11 @@ Namespace Route4MeSDKTest.Examples
             Dim route4Me As New Route4MeManager(c_ApiKey)
 
 
-            Dim avoidanceZoneQuerry As New AvoidanceZoneQuerry()
+            Dim avoidanceZoneQuery As New AvoidanceZoneQuery()
 
             ' Run the query
             Dim errorString As String = ""
-            Dim avoidanceZones As AvoidanceZone() = route4Me.GetAvoidanceZones(avoidanceZoneQuerry, errorString)
+            Dim avoidanceZones As AvoidanceZone() = route4Me.GetAvoidanceZones(avoidanceZoneQuery, errorString)
 
             Console.WriteLine("")
 

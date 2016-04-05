@@ -98,6 +98,7 @@
     <Compile Include="Examples\RemoveAddressBookContacts.vb" />
     <Compile Include="Examples\RemoveRouteDestination.vb" />
     <Compile Include="Examples\ReOptimization.vb" />
+    <Compile Include="Examples\ReoptimizeRoute.vb" />
     <Compile Include="Examples\SetGPSPosition.vb" />
     <Compile Include="Examples\SingleDepotMultipleDriverNoTimeWindow.vb" />
     <Compile Include="Examples\SingleDriverMultipleTimeWindows.vb" />
@@ -107,6 +108,7 @@
     <Compile Include="Examples\TrackDeviceLastLocationHistory.vb" />
     <Compile Include="Examples\UpdateAddressBookContact.vb" />
     <Compile Include="Examples\UpdateAvoidanceZone.vb" />
+    <Compile Include="Examples\UpdateRoute.vb" />
     <Compile Include="Main.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

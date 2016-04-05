@@ -128,15 +128,15 @@ Namespace Route4MeSDK.DataTypes
         Private m_TripDistance As System.Nullable(Of Double)
 
         <DataMember(Name:="gas_price")> _
-        Public Property GasPprice() As System.Nullable(Of Double)
+        Public Property GasPrice() As System.Nullable(Of Double)
             Get
-                Return m_GasPprice
+                Return m_GasPrice
             End Get
             Set(value As System.Nullable(Of Double))
-                m_GasPprice = Value
+                m_GasPrice = value
             End Set
         End Property
-        Private m_GasPprice As System.Nullable(Of Double)
+        Private m_GasPrice As System.Nullable(Of Double)
 
         <DataMember(Name:="route_duration_sec")> _
         Public Property RouteDurationSec() As System.Nullable(Of Integer)

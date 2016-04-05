@@ -45,16 +45,16 @@
         End Property
         Private m_Start As System.Nullable(Of UInteger)
 
-        <HttpQueryMemberAttribute(Name:="querry", EmitDefaultValue:=False)> _
-        Public Property Querry() As String
+        <HttpQueryMemberAttribute(Name:="query", EmitDefaultValue:=False)> _
+        Public Property Query() As String
             Get
-                Return m_Querry
+                Return m_Query
             End Get
             Set(value As String)
-                m_Querry = Value
+                m_Query = value
             End Set
         End Property
-        Private m_Querry As String
+        Private m_Query As String
 
         <HttpQueryMemberAttribute(Name:="fields", EmitDefaultValue:=False)> _
         Public Property Fields() As String

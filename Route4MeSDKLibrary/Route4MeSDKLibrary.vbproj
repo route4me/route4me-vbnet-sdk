@@ -99,7 +99,7 @@
     <Compile Include="QueryTypes\AddressBookParameters.vb" />
     <Compile Include="QueryTypes\AddressParameters.vb" />
     <Compile Include="QueryTypes\AvoidanceZoneParameters.vb" />
-    <Compile Include="QueryTypes\AvoidanceZoneQuerry.vb" />
+    <Compile Include="QueryTypes\AvoidanceZoneQuery.vb" />
     <Compile Include="QueryTypes\GenericParameters.vb" />
     <Compile Include="QueryTypes\GPSParameters.vb" />
     <Compile Include="QueryTypes\HttpQueryMemberAttribute.vb" />

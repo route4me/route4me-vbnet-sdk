@@ -636,22 +636,22 @@ Namespace Route4MeSDK
         ''' <summary>
         ''' Get avoidance zones
         ''' </summary>
-        ''' <param name="avoidanceZoneQuerry"> Parameters for request </param>
+        ''' <param name="avoidanceZoneQuery"> Parameters for request </param>
         ''' <param name="errorString"> out: Error as string </param>
         ''' <returns> Avoidance zone Object list </returns>
-        Public Function GetAvoidanceZones(avoidanceZoneQuerry As AvoidanceZoneQuerry, ByRef errorString As String) As AvoidanceZone()
-            Dim avoidanceZones As AvoidanceZone() = GetJsonObjectFromAPI(Of AvoidanceZone())(avoidanceZoneQuerry, R4MEInfrastructureSettings.Avoidance, HttpMethodType.[Get], errorString)
+        Public Function GetAvoidanceZones(avoidanceZoneQuery As AvoidanceZoneQuery, ByRef errorString As String) As AvoidanceZone()
+            Dim avoidanceZones As AvoidanceZone() = GetJsonObjectFromAPI(Of AvoidanceZone())(avoidanceZoneQuery, R4MEInfrastructureSettings.Avoidance, HttpMethodType.[Get], errorString)
             Return avoidanceZones
         End Function
 
         ''' <summary>
         ''' Get avoidance zone by parameters (territory id, device id)
         ''' </summary>
-        ''' <param name="avoidanceZoneQuerry"> Parameters for request </param>
+        ''' <param name="avoidanceZoneQuery"> Parameters for request </param>
         ''' <param name="errorString"> out: Error as string </param>
         ''' <returns> Avoidance zone Object </returns>
-        Public Function GetAvoidanceZone(avoidanceZoneQuerry As AvoidanceZoneQuerry, ByRef errorString As String) As AvoidanceZone
-            Dim avoidanceZone As AvoidanceZone = GetJsonObjectFromAPI(Of AvoidanceZone)(avoidanceZoneQuerry, R4MEInfrastructureSettings.Avoidance, HttpMethodType.[Get], errorString)
+        Public Function GetAvoidanceZone(avoidanceZoneQuery As AvoidanceZoneQuery, ByRef errorString As String) As AvoidanceZone
+            Dim avoidanceZone As AvoidanceZone = GetJsonObjectFromAPI(Of AvoidanceZone)(avoidanceZoneQuery, R4MEInfrastructureSettings.Avoidance, HttpMethodType.[Get], errorString)
             Return avoidanceZone
         End Function
 
@@ -669,11 +669,11 @@ Namespace Route4MeSDK
         ''' <summary>
         ''' Delete avoidance zone (by territory id, device id)
         ''' </summary>
-        ''' <param name="avoidanceZoneQuerry"> Parameters for request </param>
+        ''' <param name="avoidanceZoneQuery"> Parameters for request </param>
         ''' <param name="errorString"> out: Error as string </param>
         ''' <returns> Result status true/false </returns>
-        Public Function DeleteAvoidanceZone(avoidanceZoneQuerry As AvoidanceZoneQuerry, ByRef errorString As String) As Boolean
-            GetJsonObjectFromAPI(Of AvoidanceZone)(avoidanceZoneQuerry, R4MEInfrastructureSettings.Avoidance, HttpMethodType.Delete, errorString)
+        Public Function DeleteAvoidanceZone(avoidanceZoneQuery As AvoidanceZoneQuery, ByRef errorString As String) As Boolean
+            GetJsonObjectFromAPI(Of AvoidanceZone)(avoidanceZoneQuery, R4MEInfrastructureSettings.Avoidance, HttpMethodType.Delete, errorString)
             Return errorString <> ""
         End Function
 
