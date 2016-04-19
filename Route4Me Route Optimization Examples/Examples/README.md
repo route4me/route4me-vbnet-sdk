@@ -37,12 +37,12 @@ https://www.route4me.com/api/demo/add_optimization_problem.php?sample=Single%20D
 
 Single Depot, Multiple Driver is particular case of Optimization Problem, in which multiple vehicles depart from the depot, visit a set of customers and end their routes in the depot.
 
-See video tutorial at [Single Depot, Multiple Driver](http://support.route4me.com/route-planning-help.php?id=manual0:tutorial2:chapter1:subchapter1)
+See video tutorial at [Single Depot, Multiple Driver](http://support.route4me.com/route-planning-help.php?id=manual0:tutorial2:chapter1:subchapter2)
 
 Required parameters: addresses, api_key, algorithm_types.
 
 see detailed description of parameters and sample values at:
-http://support.route4me.com/route-planning-help.php?id=manual0:tutorial2:chapter1:subchapter10
+https://www.route4me.com/api/demo/add_optimization_problem.php?sample=Single%20Depot,%20Multiple%20Driver
 
 ### Single Depot, Multiple Driver, Time window
 
@@ -53,9 +53,9 @@ Required parameters: addresses, api_key, algorithm_types.
 see detailed description of parameters and sample values at:
 https://www.route4me.com/api/demo/add_optimization_problem.php?sample=Single%20Depot,%20Multiple%20Driver,%20Time%20window
 
-### Multiple Depot, Multiple
+### Multiple Depot, Multiple Driver
 
-Multiple Depot, Multiple is particular case of Optimization Problem, in which multiple vehicles depart from the multiple depot, visit a set of customers and end their routes in the depots.
+Multiple Depot, Multiple Driver is particular case of Optimization Problem, in which multiple vehicles depart from the multiple depot, visit a set of customers and end their routes in the depots.
 
 See video tutorial at [Multiple Depot, Multiple](http://support.route4me.com/route-planning-help.php?id=manual0:tutorial2:chapter2:subchapter1)
 
