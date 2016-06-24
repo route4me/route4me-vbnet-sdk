@@ -23,6 +23,7 @@
         Public Const MoveRouteDestination As String = MainHost + "/actions/route/move_route_destination.php"
         Public Const AddressBook As String = MainHost + "/api.v4/address_book.php"
         Public Const Avoidance As String = MainHost + "/api.v4/avoidance.php"
+        Public Const Order As String = MainHost + "/api.v4/order.php"
 
 #End Region
     End Class

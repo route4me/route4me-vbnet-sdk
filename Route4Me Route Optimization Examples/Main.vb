@@ -192,6 +192,25 @@ Namespace Route4MeSDKTest
             '  System.Console.WriteLine("SetGPSPosition, TrackDeviceLastLocationHistory not called. routeId_SingleDriverRoute10Stops == null.");
             '}
 
+            ' Orders
+            Dim order1 As Order = examples.AddOrder()
+            Dim order2 As Order = examples.AddOrder()
+            examples.GetOrders()
+            If order1 IsNot Nothing Then
+                order1.LastName = "Updated " + (New Random()).[Next]().ToString()
+                examples.UpdateOrder(order1)
+            Else
+                System.Console.WriteLine("order1 == null. UpdateOrder not called.")
+            End If
+            Dim orderIdsToRemove As New List(Of String)()
+            If order1 IsNot Nothing Then
+                orderIdsToRemove.Add(order1.OrderId)
+            End If
+            If order2 IsNot Nothing Then
+                orderIdsToRemove.Add(order2.OrderId)
+            End If
+            examples.RemoveOrders(orderIdsToRemove.ToArray())
+
             examples.GenericExample()
             examples.GenericExampleShortcut()
 

@@ -679,6 +679,123 @@ Namespace Route4MeSDK
 
 #End Region
 
+
+#Region "Orders"
+
+        <DataContract> _
+        Private NotInheritable Class GetOrdersResponse
+            <DataMember(Name:="results")> _
+            Public Property Results() As Order()
+                Get
+                    Return m_Results
+                End Get
+                Set(value As Order())
+                    m_Results = Value
+                End Set
+            End Property
+            Private m_Results As Order()
+
+            <DataMember(Name:="total")> _
+            Public Property Total() As UInteger
+                Get
+                    Return m_Total
+                End Get
+                Set(value As UInteger)
+                    m_Total = Value
+                End Set
+            End Property
+            Private m_Total As UInteger
+        End Class
+
+        ''' <summary>
+        ''' Get Orders
+        ''' </summary>
+        ''' <param name="ordersQuery"> Parameters for request </param>
+        ''' <param name="total"> out: Total number of orders </param>
+        ''' <param name="errorString"> out: Error as string </param>
+        ''' <returns> Order object list </returns>
+        Public Function GetOrders(ordersQuery As OrderParameters, ByRef total As UInteger, ByRef errorString As String) As Order()
+            total = 0
+            Dim response As GetOrdersResponse = GetJsonObjectFromAPI(Of GetOrdersResponse)(ordersQuery, R4MEInfrastructureSettings.Order, HttpMethodType.[Get], errorString)
+            Dim result As Order() = Nothing
+            If response IsNot Nothing Then
+                result = response.Results
+                total = response.Total
+            End If
+            Return result
+        End Function
+
+        ''' <summary>
+        ''' Create Order
+        ''' </summary>
+        ''' <param name="order"> Parameters for request </param>
+        ''' <param name="errorString"> out: Error as string </param>
+        ''' <returns> Order object </returns>
+        Public Function AddOrder(order As Order, ByRef errorString As String) As Order
+            order.PrepareForSerialization()
+            Dim resultOrder As Order = GetJsonObjectFromAPI(Of Order)(order, R4MEInfrastructureSettings.Order, HttpMethodType.Post, errorString)
+            Return resultOrder
+        End Function
+
+        ''' <summary>
+        ''' Update Order
+        ''' </summary>
+        ''' <param name="order"> Parameters for request </param>
+        ''' <param name="errorString"> out: Error as string </param>
+        ''' <returns> Order Object </returns>
+        Public Function UpdateOrder(order As Order, ByRef errorString As String) As Order
+            order.PrepareForSerialization()
+            Dim resultOrder As Order = GetJsonObjectFromAPI(Of Order)(order, R4MEInfrastructureSettings.Order, HttpMethodType.Put, errorString)
+            Return resultOrder
+        End Function
+
+        <DataContract> _
+        Private NotInheritable Class RemoveOrdersRequest
+            Inherits GenericParameters
+            <DataMember(Name:="order_ids", EmitDefaultValue:=False)> _
+            Public Property OrderIds() As String()
+                Get
+                    Return m_OrderIds
+                End Get
+                Set(value As String())
+                    m_OrderIds = Value
+                End Set
+            End Property
+            Private m_OrderIds As String()
+        End Class
+
+        <DataContract> _
+        Private NotInheritable Class RemoveOrdersResponse
+            <DataMember(Name:="status")> _
+            Public Property Status() As Boolean
+                Get
+                    Return m_Status
+                End Get
+                Set(value As Boolean)
+                    m_Status = Value
+                End Set
+            End Property
+            Private m_Status As Boolean
+        End Class
+
+        ''' <summary>
+        ''' Remove Orders
+        ''' </summary>
+        ''' <param name="orderIds"> Order IDs </param>
+        ''' <param name="errorString"> out: Error as string </param>
+        ''' <returns> Result status true/false </returns>
+        Public Function RemoveOrders(orderIds As String(), ByRef errorString As String) As Boolean
+            Dim request As New RemoveOrdersRequest() With { _
+                    .OrderIds = orderIds _
+            }
+            Dim response As RemoveOrdersResponse = GetJsonObjectFromAPI(Of RemoveOrdersResponse)(request, R4MEInfrastructureSettings.Order, HttpMethodType.Delete, errorString)
+            If response IsNot Nothing AndAlso response.Status Then
+                Return True
+            Else
+                Return False
+            End If
+        End Function
+
 #End Region
 
 #Region "Generic Methods"
@@ -820,7 +937,7 @@ Namespace Route4MeSDK
         End Function
 
 #End Region
-
+#End Region
 #End Region
     End Class
 End Namespace
