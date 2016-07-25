@@ -480,6 +480,69 @@ Namespace Route4MeSDK
             End If
         End Function
 
+        <DataContract> _
+        Private NotInheritable Class RemoveAddressFromOptimizationRequest
+            Inherits GenericParameters
+            <HttpQueryMemberAttribute(Name:="optimization_problem_id", EmitDefaultValue:=False)> _
+            Public Property OptimizationProblemId() As String
+                Get
+                    Return m_OptimizationProblemId
+                End Get
+                Set(value As String)
+                    m_OptimizationProblemId = value
+                End Set
+            End Property
+            Private m_OptimizationProblemId As String
+
+            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)> _
+            Public Property RouteDestinationId() As Integer
+                Get
+                    Return m_RouteDestinationId
+                End Get
+                Set(value As Integer)
+                    m_RouteDestinationId = value
+                End Set
+            End Property
+            Private m_RouteDestinationId As Integer
+        End Class
+
+        <DataContract> _
+        Private NotInheritable Class RemoveAddressFromOptimizationResponse
+            <DataMember(Name:="deleted")> _
+            Public Property Deleted() As [Boolean]
+                Get
+                    Return m_Deleted
+                End Get
+                Set(value As [Boolean])
+                    m_Deleted = value
+                End Set
+            End Property
+            Private m_Deleted As [Boolean]
+
+            <DataMember(Name:="route_destination_id")> _
+            Public Property RouteDestinationId() As Integer
+                Get
+                    Return m_RouteDestinationId
+                End Get
+                Set(value As Integer)
+                    m_RouteDestinationId = value
+                End Set
+            End Property
+            Private m_RouteDestinationId As Integer
+        End Class
+
+        Public Function RemoveAddressFromOptimization(optiimizationId As String, destinationId As Integer, ByRef errorString As String) As Boolean
+            Dim request As New RemoveAddressFromOptimizationRequest() With { _
+                .OptimizationProblemId = optiimizationId, _
+                .RouteDestinationId = destinationId _
+            }
+            Dim response As RemoveAddressFromOptimizationResponse = GetJsonObjectFromAPI(Of RemoveAddressFromOptimizationResponse)(request, R4MEInfrastructureSettings.GetAddress, HttpMethodType.Delete, errorString)
+            If response IsNot Nothing AndAlso response.Deleted Then
+                Return True
+            Else
+                Return False
+            End If
+        End Function
 
         <DataContract> _
         Private NotInheritable Class MoveDestinationToRouteResponse
