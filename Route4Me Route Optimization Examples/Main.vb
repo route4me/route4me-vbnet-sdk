@@ -6,10 +6,16 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
-            ' ======== Get Route's Directions ===========================
-            Dim RouteId As String = "5C15E83A4BE005BCD1537955D28D51D7"
+            ' ======== Resequence Route Destination ===========================
+            Dim RouteId As String = "F0C842829D8799067F9BF7A495076335"
+            Dim RouteDestinationId = 174389214
+            examples.ResequenceRouteDestination(RouteId, RouteDestinationId)
+            '======================================================================
 
-            examples.GetRouteDirections(RouteId)
+            ' ======== Get Route's Directions ===========================
+            'Dim RouteId As String = "5C15E83A4BE005BCD1537955D28D51D7"
+
+            'examples.GetRouteDirections(RouteId)
             '======================================================================
 
             ' ======== Get Route's Path Points ===========================

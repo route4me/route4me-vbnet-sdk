@@ -179,6 +179,60 @@ Namespace Route4MeSDK
         End Function
 
         <DataContract> _
+        Private NotInheritable Class ResequenceRouteDestinationRequest
+            Inherits GenericParameters
+
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
+            Public Property RouteId() As String
+                Get
+                    Return m_RouteId
+                End Get
+                Set(value As String)
+                    m_RouteId = value
+                End Set
+            End Property
+            Private m_RouteId As String
+
+            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)> _
+            Public Property RouteDestinationId() As System.Nullable(Of Integer)
+                Get
+                    Return m_RouteDestinationId
+                End Get
+                Set(value As System.Nullable(Of Integer))
+                    m_RouteDestinationId = value
+                End Set
+            End Property
+            Private m_RouteDestinationId As System.Nullable(Of Integer)
+
+            <DataMember(Name:="addresses", EmitDefaultValue:=False)> _
+            Public Property Addresses() As Address()
+                Get
+                    Return m_Addresses
+                End Get
+                Set(value As Address())
+                    m_Addresses = value
+                End Set
+            End Property
+            Private m_Addresses As Address()
+
+        End Class
+
+        Public Function ResequenceRouteDestination(routeParames As RouteParametersQuery, addresses As Address(), ByRef errorString As String) As RouteResponse
+            Dim request As New ResequenceRouteDestinationRequest With { _
+               .RouteId = routeParames.RouteId, _
+               .RouteDestinationId = routeParames.RouteDestinationId, _
+               .Addresses = addresses
+            }
+            '.RouteId = routeParames.RouteId _
+            '.RouteDestinationId = routeParames.RouteDestinationId
+            '}
+
+            Dim response As RouteResponse = GetJsonObjectFromAPI(Of RouteResponse)(request, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, False, errorString)
+
+            Return response
+        End Function
+
+        <DataContract> _
         Private NotInheritable Class DuplicateRouteResponse
             <DataMember(Name:="optimization_problem_id")> _
             Public Property OptimizationProblemId() As String

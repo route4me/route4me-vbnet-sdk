@@ -23,6 +23,18 @@ Namespace Route4MeSDK.QueryTypes
         End Property
         Private m_RouteId As String
 
+        <IgnoreDataMember> _
+        <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)> _
+        Public Property RouteDestinationId() As System.Nullable(Of Integer)
+            Get
+                Return m_RouteDestinationId
+            End Get
+            Set(value As System.Nullable(Of Integer))
+                m_RouteDestinationId = value
+            End Set
+        End Property
+        Private m_RouteDestinationId As System.Nullable(Of Integer)
+
         ''' <summary>
         '''  	Pass True to return directions and the route path
         ''' </summary>
