@@ -469,6 +469,69 @@ Namespace Route4MeSDK
             Return destinationIds
         End Function
 
+        <DataContract> _
+        Private NotInheritable Class InsertAddressIntoRouteOptimalPositionRequest
+            Inherits GenericParameters
+
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
+            Public Property RouteId() As String
+                Get
+                    Return m_RouteId
+                End Get
+                Set(value As String)
+                    m_RouteId = value
+                End Set
+            End Property
+            Private m_RouteId As String
+
+            <DataMember(Name:="addresses", EmitDefaultValue:=False)> _
+            Public Property Addresses() As Address()
+                Get
+                    Return m_Addresses
+                End Get
+                Set(value As Address())
+                    m_Addresses = value
+                End Set
+            End Property
+            Private m_Addresses As Address()
+
+            <DataMember(Name:="optimal_position", EmitDefaultValue:=False)> _
+            Public Property OptimalPosition() As Boolean
+                Get
+                    Return m_OptimalPosition
+                End Get
+                Set(value As Boolean)
+                    m_OptimalPosition = value
+                End Set
+            End Property
+            Private m_OptimalPosition As String
+        End Class
+
+        Public Function InsertAddressIntoRouteOptimalPosition(routeId As String, addresses As Address(), optimalPosition As Boolean, ByRef errorString As String) As Integer()
+            Dim request As New InsertAddressIntoRouteOptimalPositionRequest() With { _
+                .RouteId = routeId, _
+                .Addresses = addresses, _
+                .OptimalPosition = optimalPosition
+            }
+
+            Dim response As DataObject = GetJsonObjectFromAPI(Of DataObject)(request, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, errorString)
+            Dim destinationIds As Integer() = Nothing
+            If response IsNot Nothing AndAlso response.Addresses IsNot Nothing Then
+                Dim arrDestinationIds As New List(Of Integer)()
+                For Each addressNew As Address In addresses
+                    Dim destinationId As Integer = 0
+                    For Each addressResp As Address In response.Addresses
+                        If addressResp.AddressString = addressNew.AddressString AndAlso addressResp.Latitude = addressNew.Latitude AndAlso addressResp.Longitude = addressNew.Longitude AndAlso addressResp.RouteDestinationId IsNot Nothing Then
+                            destinationId = CInt(addressResp.RouteDestinationId)
+                        End If
+                    Next
+                    arrDestinationIds.Add(destinationId)
+                Next
+                destinationIds = arrDestinationIds.ToArray()
+            End If
+            Return destinationIds
+
+        End Function
 
         <DataContract> _
         Private NotInheritable Class RemoveRouteDestinationRequest
