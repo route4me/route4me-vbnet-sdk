@@ -488,6 +488,17 @@ Namespace Route4MeSDK.DataTypes
         End Property
         Private m_Notes As AddressNote()
 
+        <DataMember(Name:="path_to_next", EmitDefaultValue:=False)> _
+        Public Property PathToNext() As GeoPoint()
+            Get
+                Return m_PathToNext
+            End Get
+            Set(value As GeoPoint())
+                m_PathToNext = value
+            End Set
+        End Property
+        Private m_PathToNext As GeoPoint()
+
         'if present, the priority will sequence addresses in all the optimal routes so that
         'higher priority addresses are general at the beginning of the route sequence
         '1 is the highest priority, 100000 is the lowest
