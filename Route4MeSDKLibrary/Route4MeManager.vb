@@ -84,6 +84,60 @@ Namespace Route4MeSDK
             Return result
         End Function
 
+        <DataContract> _
+        Private NotInheritable Class RemoveOptimizationResponse
+            <DataMember(Name:="status")> _
+            Public Property Status() As [Boolean]
+                Get
+                    Return m_Status
+                End Get
+                Set(value As [Boolean])
+                    m_Status = value
+                End Set
+            End Property
+            Private m_Status As [Boolean]
+
+            <DataMember(Name:="removed")> _
+            Public Property Removed() As Integer
+                Get
+                    Return m_Removed
+                End Get
+                Set(value As Integer)
+                    m_Removed = value
+                End Set
+            End Property
+            Private m_Removed As Integer
+        End Class
+
+        <DataContract> _
+        Private NotInheritable Class RemoveOptimizationRequest
+            Inherits GenericParameters
+            <DataMember(Name:="optimization_problem_ids", EmitDefaultValue:=False)> _
+            Public Property OptimizationProblemIDs() As String()
+                Get
+                    Return m_OptimizationProblemIDs
+                End Get
+                Set(value As String())
+                    m_OptimizationProblemIDs = value
+                End Set
+            End Property
+            Private m_OptimizationProblemIDs As String()
+        End Class
+
+        Public Function RemoveOptimization(optimizationProblemIDs As String(), ByRef errorString As String) As Boolean
+            Dim request As New RemoveOptimizationRequest() With { _
+                .OptimizationProblemIDs = optimizationProblemIDs _
+            }
+
+            Dim response As RemoveOptimizationResponse = GetJsonObjectFromAPI(Of RemoveOptimizationResponse)(request, R4MEInfrastructureSettings.ApiHost, HttpMethodType.Delete, False, errorString)
+
+            If response IsNot Nothing AndAlso response.Status Then
+                Return True
+            Else
+                Return False
+            End If
+        End Function
+
 #End Region
 
 #Region "Routes"
@@ -126,7 +180,7 @@ Namespace Route4MeSDK
                     Return m_OptimizationProblemId
                 End Get
                 Set(value As String)
-                    m_OptimizationProblemId = Value
+                    m_OptimizationProblemId = value
                 End Set
             End Property
             Private m_OptimizationProblemId As String
@@ -137,7 +191,7 @@ Namespace Route4MeSDK
                     Return m_Success
                 End Get
                 Set(value As [Boolean])
-                    m_Success = Value
+                    m_Success = value
                 End Set
             End Property
             Private m_Success As [Boolean]
@@ -167,7 +221,7 @@ Namespace Route4MeSDK
                     Return m_Deleted
                 End Get
                 Set(value As [Boolean])
-                    m_Deleted = Value
+                    m_Deleted = value
                 End Set
             End Property
             Private m_Deleted As [Boolean]
@@ -178,7 +232,7 @@ Namespace Route4MeSDK
                     Return m_Errors
                 End Get
                 Set(value As List(Of [String]))
-                    m_Errors = Value
+                    m_Errors = value
                 End Set
             End Property
             Private m_Errors As List(Of [String])
@@ -189,7 +243,7 @@ Namespace Route4MeSDK
                     Return m_routeId
                 End Get
                 Set(value As String)
-                    m_routeId = Value
+                    m_routeId = value
                 End Set
             End Property
             Private m_routeId As String
@@ -200,7 +254,7 @@ Namespace Route4MeSDK
                     Return m_routeIds
                 End Get
                 Set(value As String())
-                    m_routeIds = Value
+                    m_routeIds = value
                 End Set
             End Property
             Private m_routeIds As String()
@@ -276,7 +330,7 @@ Namespace Route4MeSDK
                     Return m_Status
                 End Get
                 Set(value As Boolean)
-                    m_Status = Value
+                    m_Status = value
                 End Set
             End Property
             Private m_Status As Boolean
@@ -287,7 +341,7 @@ Namespace Route4MeSDK
                     Return m_Note
                 End Get
                 Set(value As AddressNote)
-                    m_Note = Value
+                    m_Note = value
                 End Set
             End Property
             Private m_Note As AddressNote
@@ -330,7 +384,7 @@ Namespace Route4MeSDK
                     Return m_Results
                 End Get
                 Set(value As Activity())
-                    m_Results = Value
+                    m_Results = value
                 End Set
             End Property
             Private m_Results As Activity()
@@ -341,7 +395,7 @@ Namespace Route4MeSDK
                     Return m_Total
                 End Get
                 Set(value As UInteger)
-                    m_Total = Value
+                    m_Total = value
                 End Set
             End Property
             Private m_Total As UInteger
@@ -375,7 +429,7 @@ Namespace Route4MeSDK
                     Return m_RouteId
                 End Get
                 Set(value As String)
-                    m_RouteId = Value
+                    m_RouteId = value
                 End Set
             End Property
             Private m_RouteId As String
@@ -386,7 +440,7 @@ Namespace Route4MeSDK
                     Return m_Addresses
                 End Get
                 Set(value As Address())
-                    m_Addresses = Value
+                    m_Addresses = value
                 End Set
             End Property
             Private m_Addresses As Address()
@@ -425,7 +479,7 @@ Namespace Route4MeSDK
                     Return m_RouteId
                 End Get
                 Set(value As String)
-                    m_RouteId = Value
+                    m_RouteId = value
                 End Set
             End Property
             Private m_RouteId As String
@@ -436,7 +490,7 @@ Namespace Route4MeSDK
                     Return m_RouteDestinationId
                 End Get
                 Set(value As Integer)
-                    m_RouteDestinationId = Value
+                    m_RouteDestinationId = value
                 End Set
             End Property
             Private m_RouteDestinationId As Integer
@@ -450,7 +504,7 @@ Namespace Route4MeSDK
                     Return m_Deleted
                 End Get
                 Set(value As [Boolean])
-                    m_Deleted = Value
+                    m_Deleted = value
                 End Set
             End Property
             Private m_Deleted As [Boolean]
@@ -461,7 +515,7 @@ Namespace Route4MeSDK
                     Return m_RouteDestinationId
                 End Get
                 Set(value As Integer)
-                    m_RouteDestinationId = Value
+                    m_RouteDestinationId = value
                 End Set
             End Property
             Private m_RouteDestinationId As Integer
@@ -552,7 +606,7 @@ Namespace Route4MeSDK
                     Return m_Success
                 End Get
                 Set(value As [Boolean])
-                    m_Success = Value
+                    m_Success = value
                 End Set
             End Property
             Private m_Success As [Boolean]
@@ -563,7 +617,7 @@ Namespace Route4MeSDK
                     Return m_error
                 End Get
                 Set(value As String)
-                    m_error = Value
+                    m_error = value
                 End Set
             End Property
             Private m_error As String
@@ -598,7 +652,7 @@ Namespace Route4MeSDK
                     Return m_Results
                 End Get
                 Set(value As AddressBookContact())
-                    m_Results = Value
+                    m_Results = value
                 End Set
             End Property
             Private m_Results As AddressBookContact()
@@ -609,7 +663,7 @@ Namespace Route4MeSDK
                     Return m_Total
                 End Get
                 Set(value As UInteger)
-                    m_Total = Value
+                    m_Total = value
                 End Set
             End Property
             Private m_Total As UInteger
@@ -649,7 +703,7 @@ Namespace Route4MeSDK
                     Return m_AddressIds
                 End Get
                 Set(value As String())
-                    m_AddressIds = Value
+                    m_AddressIds = value
                 End Set
             End Property
             Private m_AddressIds As String()
@@ -663,7 +717,7 @@ Namespace Route4MeSDK
                     Return m_Status
                 End Get
                 Set(value As Boolean)
-                    m_Status = Value
+                    m_Status = value
                 End Set
             End Property
             Private m_Status As Boolean
@@ -753,7 +807,7 @@ Namespace Route4MeSDK
                     Return m_Results
                 End Get
                 Set(value As Order())
-                    m_Results = Value
+                    m_Results = value
                 End Set
             End Property
             Private m_Results As Order()
@@ -764,7 +818,7 @@ Namespace Route4MeSDK
                     Return m_Total
                 End Get
                 Set(value As UInteger)
-                    m_Total = Value
+                    m_Total = value
                 End Set
             End Property
             Private m_Total As UInteger
@@ -821,7 +875,7 @@ Namespace Route4MeSDK
                     Return m_OrderIds
                 End Get
                 Set(value As String())
-                    m_OrderIds = Value
+                    m_OrderIds = value
                 End Set
             End Property
             Private m_OrderIds As String()
@@ -835,7 +889,7 @@ Namespace Route4MeSDK
                     Return m_Status
                 End Get
                 Set(value As Boolean)
-                    m_Status = Value
+                    m_Status = value
                 End Set
             End Property
             Private m_Status As Boolean
