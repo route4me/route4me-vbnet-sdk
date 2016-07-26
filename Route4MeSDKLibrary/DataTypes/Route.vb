@@ -148,5 +148,6 @@ Namespace Route4MeSDK.DataTypes
             End Set
         End Property
         Private m_RouteDurationSec As System.Nullable(Of Integer)
+
     End Class
 End Namespace

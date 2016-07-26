@@ -91,7 +91,7 @@ Namespace Route4MeSDK.DataTypes
                 Return m_Links
             End Get
             Set(value As Links)
-                m_Links = Value
+                m_Links = value
             End Set
         End Property
         Private m_Links As Links
@@ -102,7 +102,7 @@ Namespace Route4MeSDK.DataTypes
                 Return m_TrackingHistory
             End Get
             Set(value As TrackingHistory())
-                m_TrackingHistory = Value
+                m_TrackingHistory = value
             End Set
         End Property
         Private m_TrackingHistory As TrackingHistory()

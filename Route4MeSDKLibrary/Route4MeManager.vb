@@ -148,8 +148,8 @@ Namespace Route4MeSDK
             Return result
         End Function
 
-        Public Function GetRoutePathPoints(routeParameters As RouteParametersQuery, ByRef errorString As String) As DataObjectRoute
-            Dim result = GetJsonObjectFromAPI(Of DataObjectRoute)(routeParameters, R4MEInfrastructureSettings.RouteHost, HttpMethodType.[Get], errorString)
+        Public Function GetRouteDirections(routeParameters As RouteParametersQuery, ByRef errorString As String) As RouteResponse
+            Dim result = GetJsonObjectFromAPI(Of RouteResponse)(routeParameters, R4MEInfrastructureSettings.RouteHost, HttpMethodType.[Get], errorString)
 
             Return result
         End Function
