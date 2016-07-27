@@ -7,9 +7,14 @@ Namespace Route4MeSDKTest
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
             ' ======== Resequence Route Destination ===========================
-            Dim RouteId As String = "F0C842829D8799067F9BF7A495076335"
-            Dim RouteDestinationId = 174389214
-            examples.ResequenceRouteDestination(RouteId, RouteDestinationId)
+            Dim RouteId As String = "CA902292134DBC134EAF8363426BD247"
+            examples.ResequenceReoptimizeRoute(RouteId)
+            '======================================================================
+
+            ' ======== Resequence Route Destination ===========================
+            'Dim RouteId As String = "F0C842829D8799067F9BF7A495076335"
+            'Dim RouteDestinationId = 174389214
+            'examples.ResequenceRouteDestination(RouteId, RouteDestinationId)
             '======================================================================
 
             ' ======== Get Route's Directions ===========================

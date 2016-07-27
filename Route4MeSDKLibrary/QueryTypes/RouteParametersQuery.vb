@@ -171,6 +171,36 @@ Namespace Route4MeSDK.QueryTypes
         Private m_ReOptimize As System.Nullable(Of Boolean)
 
         ''' <summary>
+        ''' For /api.v3/route/reoptimize_2.php endpoint. If equal to 0, optimization is enabled
+        ''' </summary>
+        <IgnoreDataMember> _
+        <HttpQueryMemberAttribute(Name:="disable_optimization", EmitDefaultValue:=False)> _
+        Public Property DisableOptimization() As System.Nullable(Of Boolean)
+            Get
+                Return m_DisableOptimization
+            End Get
+            Set(value As System.Nullable(Of Boolean))
+                m_DisableOptimization = value
+            End Set
+        End Property
+        Private m_DisableOptimization As System.Nullable(Of Boolean)
+
+        ''' <summary>
+        ''' For /api.v3/route/reoptimize_2.php endpoint. "Distance", "Time"
+        ''' </summary>
+        <IgnoreDataMember> _
+        <HttpQueryMemberAttribute(Name:="optimize", EmitDefaultValue:=False)> _
+        Public Property Optimize() As String
+            Get
+                Return m_Optimize
+            End Get
+            Set(value As String)
+                m_Optimize = value
+            End Set
+        End Property
+        Private m_Optimize As String
+
+        ''' <summary>
         ''' By sending recompute_directions=1 we request that the route directions be recomputed (note that this does happen automatically if certain properties of the route are updated, such as stop sequence_no changes or round-tripness)
         ''' </summary>
         <IgnoreDataMember> _

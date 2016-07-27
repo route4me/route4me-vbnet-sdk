@@ -179,6 +179,36 @@ Namespace Route4MeSDK
         End Function
 
         <DataContract> _
+        Private NotInheritable Class ResequenceReoptimizeRouteResponse
+            <DataMember(Name:="status")> _
+            Public Property Status() As [Boolean]
+                Get
+                    Return m_Status
+                End Get
+                Set(value As [Boolean])
+                    m_Status = value
+                End Set
+            End Property
+            Private m_Status As [Boolean]
+        End Class
+
+        Public Function ResequenceReoptimizeRoute(roParames As Dictionary(Of String, String), ByRef errorString As String) As Boolean
+            Dim request As New RouteParametersQuery With { _
+               .RouteId = roParames.Item("route_id"), _
+               .DisableOptimization = Val(roParames.Item("route_id")), _
+               .Optimize = roParames.Item("optimize")
+            }
+
+            Dim response As ResequenceReoptimizeRouteResponse = GetJsonObjectFromAPI(Of ResequenceReoptimizeRouteResponse)(request, R4MEInfrastructureSettings.RouteReoptimize, HttpMethodType.[Get], errorString)
+
+            If response IsNot Nothing AndAlso response.Status Then
+                Return True
+            Else
+                Return False
+            End If
+        End Function
+
+        <DataContract> _
         Private NotInheritable Class ResequenceRouteDestinationRequest
             Inherits GenericParameters
 
