@@ -39,6 +39,28 @@ Namespace Route4MeSDK.DataTypes
         End Property
         Private m_MemberId As String
 
+        <DataMember(Name:="first_name", EmitDefaultValue:=False)> _
+        Public Property FirstName() As String
+            Get
+                Return m_FirstName
+            End Get
+            Set(value As String)
+                m_FirstName = Value
+            End Set
+        End Property
+        Private m_FirstName As String
+
+        <DataMember(Name:="last_name", EmitDefaultValue:=False)> _
+        Public Property LastName() As String
+            Get
+                Return m_LastName
+            End Get
+            Set(value As String)
+                m_LastName = Value
+            End Set
+        End Property
+        Private m_LastName As String
+
         <DataMember(Name:="address")> _
         Public Property AddressString() As String
             Get
@@ -282,6 +304,17 @@ Namespace Route4MeSDK.DataTypes
             End Set
         End Property
         Private m_OrderNo As Object
+
+        <DataMember(Name:="order_id", EmitDefaultValue:=False)> _
+        Public Property OrderId() As System.Nullable(Of Integer)
+            Get
+                Return m_OrderId
+            End Get
+            Set(value As System.Nullable(Of Integer))
+                m_OrderId = value
+            End Set
+        End Property
+        Private m_OrderId As System.Nullable(Of Integer)
 
         <DataMember(Name:="weight", EmitDefaultValue:=False)> _
         Public Property Weight() As Object

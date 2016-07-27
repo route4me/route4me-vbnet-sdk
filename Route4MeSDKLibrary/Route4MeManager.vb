@@ -228,11 +228,6 @@ Namespace Route4MeSDK
             Return result
         End Function
 
-        <DataContract> _
-        Private NotInheritable Class MergeRoutesRequest
-
-        End Class
-
         Public Function MergeRoutes(params As Dictionary(Of String, String), ByRef errorString As String) As DataObjectRoute
 
             Dim keyValues = New List(Of KeyValuePair(Of String, String))()
@@ -1152,6 +1147,67 @@ Namespace Route4MeSDK
             End If
         End Function
 
+        <DataContract> _
+        Private NotInheritable Class AddOrdersToRouteRequest
+            Inherits GenericParameters
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
+            Public Property RouteId() As String
+                Get
+                    Return m_RouteId
+                End Get
+                Set(value As String)
+                    m_RouteId = value
+                End Set
+            End Property
+            Private m_RouteId As String
+
+            <HttpQueryMemberAttribute(Name:="redirect", EmitDefaultValue:=False)> _
+            Public Property Redirect() As System.Nullable(Of Integer)
+                Get
+                    Return m_Redirect
+                End Get
+                Set(value As System.Nullable(Of Integer))
+                    m_Redirect = value
+                End Set
+            End Property
+            Private m_Redirect As System.Nullable(Of Integer)
+
+            <DataMember(Name:="addresses", EmitDefaultValue:=False)> _
+            Public Property Addresses() As Address()
+                Get
+                    Return m_Addresses
+                End Get
+                Set(value As Address())
+                    m_Addresses = value
+                End Set
+            End Property
+            Private m_Addresses As Address()
+
+            <DataMember(Name:="parameters", EmitDefaultValue:=False)> _
+            Public Property Parameters() As RouteParameters
+                Get
+                    Return m_Parameters
+                End Get
+                Set(value As RouteParameters)
+                    m_Parameters = value
+                End Set
+            End Property
+            Private m_Parameters As RouteParameters
+
+        End Class
+
+        Public Function AddOrdersToRoute(rQueryParams As RouteParametersQuery, addresses As Address(), rParams As RouteParameters, ByRef errorString As String) As RouteResponse
+            Dim request As New AddOrdersToRouteRequest With { _
+                .RouteId = rQueryParams.RouteId, _
+                .Redirect = rQueryParams.Redirect, _
+                .Addresses = addresses, _
+                .Parameters = rParams _
+            }
+
+            Dim response As RouteResponse = GetJsonObjectFromAPI(Of RouteResponse)(request, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, False, errorString)
+
+            Return response
+        End Function
 #End Region
 
 #Region "Generic Methods"

@@ -186,6 +186,21 @@ Namespace Route4MeSDK.QueryTypes
         Private m_DisableOptimization As System.Nullable(Of Boolean)
 
         ''' <summary>
+        ''' If true will be redirected
+        ''' </summary>
+        <IgnoreDataMember> _
+        <HttpQueryMemberAttribute(Name:="redirect", EmitDefaultValue:=False)> _
+        Public Property Redirect() As System.Nullable(Of Boolean)
+            Get
+                Return m_Redirect
+            End Get
+            Set(value As System.Nullable(Of Boolean))
+                m_Redirect = value
+            End Set
+        End Property
+        Private m_Redirect As System.Nullable(Of Boolean)
+
+        ''' <summary>
         ''' For /api.v3/route/reoptimize_2.php endpoint. "Distance", "Time"
         ''' </summary>
         <IgnoreDataMember> _
