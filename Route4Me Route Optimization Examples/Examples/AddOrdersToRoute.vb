@@ -4,7 +4,7 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDKTest.Examples
     ''' <summary>
-    ''' Update Route Custom Data
+    ''' Add Orders to a Route
     ''' </summary>
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub AddOrdersToRoute(rQueryParams As RouteParametersQuery, addresses As Address(), rParams As RouteParameters)
