@@ -201,6 +201,21 @@ Namespace Route4MeSDK.QueryTypes
         Private m_Optimize As String
 
         ''' <summary>
+        ''' For /actions/route/share_route.php endpoint. "json", "xml"
+        ''' </summary>
+        <IgnoreDataMember> _
+        <HttpQueryMemberAttribute(Name:="response_format", EmitDefaultValue:=False)> _
+        Public Property ResponseFormat() As String
+            Get
+                Return m_ResponseFormat
+            End Get
+            Set(value As String)
+                m_ResponseFormat = value
+            End Set
+        End Property
+        Private m_ResponseFormat As String
+
+        ''' <summary>
         ''' By sending recompute_directions=1 we request that the route directions be recomputed (note that this does happen automatically if certain properties of the route are updated, such as stop sequence_no changes or round-tripness)
         ''' </summary>
         <IgnoreDataMember> _
@@ -210,7 +225,7 @@ Namespace Route4MeSDK.QueryTypes
                 Return m_RecomputeDirections
             End Get
             Set(value As System.Nullable(Of Boolean))
-                m_RecomputeDirections = Value
+                m_RecomputeDirections = value
             End Set
         End Property
         Private m_RecomputeDirections As System.Nullable(Of Boolean)

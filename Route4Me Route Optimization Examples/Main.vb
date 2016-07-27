@@ -8,7 +8,13 @@ Namespace Route4MeSDKTest
 
             ' ======== Resequence Route Destination ===========================
             Dim RouteId As String = "CA902292134DBC134EAF8363426BD247"
-            examples.ResequenceReoptimizeRoute(RouteId)
+            Dim email As String = "oleg.guchi@gmail.com"
+            examples.RouteSharing(RouteId, email)
+            '======================================================================
+
+            ' ======== Resequence Route Destination ===========================
+            'Dim RouteId As String = "CA902292134DBC134EAF8363426BD247"
+            'examples.ResequenceReoptimizeRoute(RouteId)
             '======================================================================
 
             ' ======== Resequence Route Destination ===========================

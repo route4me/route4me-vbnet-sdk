@@ -208,6 +208,26 @@ Namespace Route4MeSDK
             End If
         End Function
 
+        Public Function RouteSharing(roParames As RouteParametersQuery, Email As String, ByRef errorString As String) As Boolean
+            'Dim request As New RouteParametersQuery With { _
+            '   .RouteId = roParames.Item("route_id"), _
+            '   .DisableOptimization = Val(roParames.Item("route_id")), _
+            '   .Optimize = roParames.Item("optimize")
+            '}
+
+            Dim keyValues = New List(Of KeyValuePair(Of String, String))()
+            keyValues.Add(New KeyValuePair(Of String, String)("recipient_email", Email))
+            Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
+
+            Dim response As ResequenceReoptimizeRouteResponse = GetJsonObjectFromAPI(Of ResequenceReoptimizeRouteResponse)(roParames, R4MEInfrastructureSettings.RouteSharing, HttpMethodType.Post, httpContent, errorString)
+
+            If response IsNot Nothing AndAlso response.Status Then
+                Return True
+            Else
+                Return False
+            End If
+        End Function
+
         <DataContract> _
         Private NotInheritable Class ResequenceRouteDestinationRequest
             Inherits GenericParameters

@@ -25,6 +25,7 @@
         Public Const Avoidance As String = MainHost + "/api.v4/avoidance.php"
         Public Const Order As String = MainHost + "/api.v4/order.php"
         Public Const RouteReoptimize As String = MainHost + "/api.v3/route/reoptimize_2.php"
+        Public Const RouteSharing As String = MainHost + "//actions/route/share_route.php"
 
 #End Region
     End Class
