@@ -6,14 +6,30 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
-            ' ======== Resequence Route Destination ===========================
-            Dim RouteId As String = "CA902292134DBC134EAF8363426BD247"
-            Dim RouteDestinationId = 174405640
+            ' ======== MErge Routes ===========================
+            Dim RouteIds As String = "0E0F64689F772586042D0F3F4BFBEFA2,9E8D60B196743D6872E9D899E1BDE753"
+            Dim DepotAddress As String = "455 S 4th St, Louisville, KY 40202"
+            Dim RemoveOrigin As String = "False"
+            Dim Latitude As String = "38.251698"
+            Dim Longitude As String = "85.757308'"
 
-            Dim CustomData As New Dictionary(Of String, String)
-            CustomData.Add("animal", "tiger")
-            CustomData.Add("bird", "canary")
-            examples.UpdateRouteCustomData(RouteId, RouteDestinationId, CustomData)
+            Dim params As New Dictionary(Of String, String)
+            params.Add("route_ids", RouteIds)
+            params.Add("depot_address", DepotAddress)
+            params.Add("remove_origin", RemoveOrigin)
+            params.Add("depot_lat", Latitude)
+            params.Add("depot_lng", Longitude)
+            examples.MergeRoutes(params)
+            '======================================================================
+
+            ' ======== Resequence Route Destination ===========================
+            'Dim RouteId As String = "CA902292134DBC134EAF8363426BD247"
+            'Dim RouteDestinationId = 174405640
+
+            'Dim CustomData As New Dictionary(Of String, String)
+            'CustomData.Add("animal", "tiger")
+            'CustomData.Add("bird", "canary")
+            'examples.UpdateRouteCustomData(RouteId, RouteDestinationId, CustomData)
             '======================================================================
 
             ' ======== Resequence Route Destination ===========================

@@ -229,6 +229,28 @@ Namespace Route4MeSDK
         End Function
 
         <DataContract> _
+        Private NotInheritable Class MergeRoutesRequest
+
+        End Class
+
+        Public Function MergeRoutes(params As Dictionary(Of String, String), ByRef errorString As String) As DataObjectRoute
+
+            Dim keyValues = New List(Of KeyValuePair(Of String, String))()
+            keyValues.Add(New KeyValuePair(Of String, String)("route_ids", params.Item("route_ids")))
+            keyValues.Add(New KeyValuePair(Of String, String)("depot_address", params.Item("depot_address")))
+            keyValues.Add(New KeyValuePair(Of String, String)("remove_origin", params.Item("remove_origin")))
+            keyValues.Add(New KeyValuePair(Of String, String)("depot_lat", params.Item("depot_lat")))
+            keyValues.Add(New KeyValuePair(Of String, String)("depot_lng", params.Item("depot_lng")))
+            Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
+
+            Dim request As New RouteParametersQuery
+
+            Dim result = GetJsonObjectFromAPI(Of DataObjectRoute)(request, R4MEInfrastructureSettings.MergeRoutes, HttpMethodType.Post, httpContent, errorString)
+
+            Return result
+        End Function
+
+        <DataContract> _
         Private NotInheritable Class ResequenceReoptimizeRouteResponse
             <DataMember(Name:="status")> _
             Public Property Status() As [Boolean]
