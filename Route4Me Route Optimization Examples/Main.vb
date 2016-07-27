@@ -7,10 +7,10 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
-            ' ======== Resequence Route Destination ===========================
-            Dim rQueryParams As New RouteParametersQuery
+            ' ======== Add Orders To an Optimization ===========================
+            Dim rQueryParams As New OptimizationParameters
             With rQueryParams
-                .RouteId = "F0C842829D8799067F9BF7A495076335"
+                .OptimizationProblemID = "31AC533ECF9429CDECCECC530745F7BD"
                 .Redirect = False
             End With
 
@@ -20,7 +20,8 @@ Namespace Route4MeSDKTest
                 .Longitude = -74.0011966, _
                 .Alias = "", _
                 .CurbsideLatitude = 40.7191558, _
-                .CurbsideLongitude = -74.0011966 _
+                .CurbsideLongitude = -74.0011966, _
+                .IsDepot = True _
             }, New Address() With { _
                 .AddressString = "106 Liberty St, New York, NY 10006, USA", _
                 .Alias = "BK Restaurant #: 2446", _
@@ -34,7 +35,25 @@ Namespace Route4MeSDKTest
                 .LastName = "", _
                 .CustomFields = New Dictionary(Of String, String) From {{"icon", Nothing}}, _
                 .Time = 0, _
+                .TimeWindowStart = 1472544000, _
+                .TimeWindowEnd = 1472544300, _
                 .OrderId = 7205705 _
+            }, New Address() With { _
+                .AddressString = "325 Broadway, New York, NY 10007, USA", _
+                .Alias = "BK Restaurant #: 20333", _
+                .Latitude = 40.71615, _
+                .Longitude = -74.00505, _
+                .CurbsideLatitude = 40.71615, _
+                .CurbsideLongitude = -74.00505, _
+                .Email = "", _
+                .Phone = "(212) 227-7535", _
+                .FirstName = "", _
+                .LastName = "", _
+                .CustomFields = New Dictionary(Of String, String) From {{"icon", Nothing}}, _
+                .Time = 0, _
+                .TimeWindowStart = 1472545000, _
+                .TimeWindowEnd = 1472545300, _
+                .OrderId = 7205704 _
             }, New Address() With { _
                 .AddressString = "106 Fulton St, Farmingdale, NY 11735, USA", _
                 .Alias = "BK Restaurant #: 17871", _
@@ -48,6 +67,8 @@ Namespace Route4MeSDKTest
                 .LastName = "", _
                 .CustomFields = New Dictionary(Of String, String) From {{"icon", Nothing}}, _
                 .Time = 0, _
+                .TimeWindowStart = 1472546000, _
+                .TimeWindowEnd = 1472546300, _
                 .OrderId = 7205703 _
             }}
 
@@ -67,10 +88,73 @@ Namespace Route4MeSDKTest
                 .DisableOptimization = False
             End With
 
-            examples.AddOrdersToRoute(rQueryParams, addresses, rParams)
+            examples.AddOrdersToOptimization(rQueryParams, addresses, rParams)
             '======================================================================
 
-            ' ======== MErge Routes ===========================
+            ' ======== Add Orders To a Route ===========================
+            'Dim rQueryParams As New RouteParametersQuery
+            'With rQueryParams
+            '    .RouteId = "F0C842829D8799067F9BF7A495076335"
+            '    .Redirect = False
+            'End With
+
+            'Dim addresses As Address() = New Address() {New Address() With { _
+            '    .AddressString = "273 Canal St, New York, NY 10013, USA", _
+            '    .Latitude = 40.7191558, _
+            '    .Longitude = -74.0011966, _
+            '    .Alias = "", _
+            '    .CurbsideLatitude = 40.7191558, _
+            '    .CurbsideLongitude = -74.0011966 _
+            '}, New Address() With { _
+            '    .AddressString = "106 Liberty St, New York, NY 10006, USA", _
+            '    .Alias = "BK Restaurant #: 2446", _
+            '    .Latitude = 40.709637, _
+            '    .Longitude = -74.011912, _
+            '    .CurbsideLatitude = 40.709637, _
+            '    .CurbsideLongitude = -74.011912, _
+            '    .Email = "", _
+            '    .Phone = "(917) 338-1887", _
+            '    .FirstName = "", _
+            '    .LastName = "", _
+            '    .CustomFields = New Dictionary(Of String, String) From {{"icon", Nothing}}, _
+            '    .Time = 0, _
+            '    .OrderId = 7205705 _
+            '}, New Address() With { _
+            '    .AddressString = "106 Fulton St, Farmingdale, NY 11735, USA", _
+            '    .Alias = "BK Restaurant #: 17871", _
+            '    .Latitude = 40.73073, _
+            '    .Longitude = -73.459283, _
+            '    .CurbsideLatitude = 40.73073, _
+            '    .CurbsideLongitude = -73.459283, _
+            '    .Email = "", _
+            '    .Phone = "(212) 566-5132", _
+            '    .FirstName = "", _
+            '    .LastName = "", _
+            '    .CustomFields = New Dictionary(Of String, String) From {{"icon", Nothing}}, _
+            '    .Time = 0, _
+            '    .OrderId = 7205703 _
+            '}}
+
+            'Dim rParams As New RouteParameters
+
+            'With rParams
+            '    .RouteName = "Wednesday 15th of June 2016 07:01 PM (+03:00)"
+            '    .RouteDate = 1465948800
+            '    .RouteTime = 14400
+            '    .Optimize = "Time"
+            '    .RouteType = "single"
+            '    .AlgorithmType = 1
+            '    .RT = False
+            '    .LockLast = False
+            '    .MemberId = 1
+            '    .VehicleId = ""
+            '    .DisableOptimization = False
+            'End With
+
+            'examples.AddOrdersToRoute(rQueryParams, addresses, rParams)
+            '======================================================================
+
+            ' ======== Merge Routes ===========================
             'Dim RouteIds As String = "0E0F64689F772586042D0F3F4BFBEFA2,9E8D60B196743D6872E9D899E1BDE753"
             'Dim DepotAddress As String = "455 S 4th St, Louisville, KY 40202"
             'Dim RemoveOrigin As String = "0"
