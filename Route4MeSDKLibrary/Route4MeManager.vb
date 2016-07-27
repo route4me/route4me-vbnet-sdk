@@ -179,6 +179,56 @@ Namespace Route4MeSDK
         End Function
 
         <DataContract> _
+        Private NotInheritable Class UpdateRouteCustomDataRequest
+            Inherits GenericParameters
+
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
+            Public Property RouteId() As String
+                Get
+                    Return m_RouteId
+                End Get
+                Set(value As String)
+                    m_RouteId = value
+                End Set
+            End Property
+            Private m_RouteId As String
+
+            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)> _
+            Public Property RouteDestinationId() As System.Nullable(Of Integer)
+                Get
+                    Return m_RouteDestinationId
+                End Get
+                Set(value As System.Nullable(Of Integer))
+                    m_RouteDestinationId = value
+                End Set
+            End Property
+            Private m_RouteDestinationId As System.Nullable(Of Integer)
+
+            <DataMember(Name:="custom_fields", EmitDefaultValue:=False)> _
+            Public Property CustomFields() As Dictionary(Of String, String)
+                Get
+                    Return m_CustomFields
+                End Get
+                Set(value As Dictionary(Of String, String))
+                    m_CustomFields = Value
+                End Set
+            End Property
+            Private m_CustomFields As Dictionary(Of String, String)
+        End Class
+
+        Public Function UpdateRouteCustomData(routeParameters As RouteParametersQuery, customData As Dictionary(Of String, String), ByRef errorString As String) As Address
+            Dim request As New UpdateRouteCustomDataRequest With { _
+                .RouteId = routeParameters.RouteId, _
+                .RouteDestinationId = routeParameters.RouteDestinationId, _
+                .CustomFields = customData
+            }
+
+            Dim result = GetJsonObjectFromAPI(Of Address)(request, R4MEInfrastructureSettings.GetAddress, HttpMethodType.Put, errorString)
+
+            Return result
+        End Function
+
+        <DataContract> _
         Private NotInheritable Class ResequenceReoptimizeRouteResponse
             <DataMember(Name:="status")> _
             Public Property Status() As [Boolean]
@@ -209,12 +259,6 @@ Namespace Route4MeSDK
         End Function
 
         Public Function RouteSharing(roParames As RouteParametersQuery, Email As String, ByRef errorString As String) As Boolean
-            'Dim request As New RouteParametersQuery With { _
-            '   .RouteId = roParames.Item("route_id"), _
-            '   .DisableOptimization = Val(roParames.Item("route_id")), _
-            '   .Optimize = roParames.Item("optimize")
-            '}
-
             Dim keyValues = New List(Of KeyValuePair(Of String, String))()
             keyValues.Add(New KeyValuePair(Of String, String)("recipient_email", Email))
             Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)

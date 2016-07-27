@@ -8,8 +8,18 @@ Namespace Route4MeSDKTest
 
             ' ======== Resequence Route Destination ===========================
             Dim RouteId As String = "CA902292134DBC134EAF8363426BD247"
-            Dim email As String = "oleg.guchi@gmail.com"
-            examples.RouteSharing(RouteId, email)
+            Dim RouteDestinationId = 174405640
+
+            Dim CustomData As New Dictionary(Of String, String)
+            CustomData.Add("animal", "tiger")
+            CustomData.Add("bird", "canary")
+            examples.UpdateRouteCustomData(RouteId, RouteDestinationId, CustomData)
+            '======================================================================
+
+            ' ======== Resequence Route Destination ===========================
+            'Dim RouteId As String = "CA902292134DBC134EAF8363426BD247"
+            'Dim email As String = "oleg.guchi@gmail.com"
+            'examples.RouteSharing(RouteId, email)
             '======================================================================
 
             ' ======== Resequence Route Destination ===========================
