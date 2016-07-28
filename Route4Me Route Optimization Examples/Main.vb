@@ -7,13 +7,22 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
-            ' ======== Mark Address As Marked As Departed ===========================
+            ' ======== Mark Address As Marked As Visited ===========================
             Dim aParams As New AddressParameters With { _
                 .RouteId = "241466F15515D67D3F951E2DA38DE76D", _
                 .RouteDestinationId = 167899269, _
-                .IsDeparted = True
+                .IsVisited = True
             }
-            examples.MarkAddressAsMarkedAsDeparted(aParams)
+            examples.MarkAddressAsMarkedAsVisited(aParams)
+            '======================================================================
+
+            ' ======== Mark Address As Marked As Departed ===========================
+            'Dim aParams As New AddressParameters With { _
+            '    .RouteId = "241466F15515D67D3F951E2DA38DE76D", _
+            '    .RouteDestinationId = 167899269, _
+            '    .IsDeparted = True
+            '}
+            'examples.MarkAddressAsMarkedAsDeparted(aParams)
             '======================================================================
 
             ' ======== Search for Orders by Specified Text ===========================

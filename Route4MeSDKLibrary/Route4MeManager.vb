@@ -666,6 +666,7 @@ Namespace Route4MeSDK
             End Property
             Private m_RouteDestinationId As System.Nullable(Of Integer)
 
+            <IgnoreDataMember> _
             <DataMember(Name:="is_departed")> _
             Public Property IsDeparted() As Boolean
                 Get
@@ -676,6 +677,18 @@ Namespace Route4MeSDK
                 End Set
             End Property
             Private m_IsDeparted As Boolean
+
+            <IgnoreDataMember> _
+            <DataMember(Name:="is_visited")> _
+            Public Property IsVisited() As Boolean
+                Get
+                    Return m_IsVisited
+                End Get
+                Set(value As Boolean)
+                    m_IsVisited = value
+                End Set
+            End Property
+            Private m_IsVisited As Boolean
         End Class
 
         Public Function MarkAddressAsMarkedAsDeparted(aParams As AddressParameters, ByRef errorString As String) As Address
@@ -683,6 +696,18 @@ Namespace Route4MeSDK
                 .RouteId = aParams.RouteId, _
                 .RouteDestinationId = aParams.RouteDestinationId, _
                 .IsDeparted = aParams.IsDeparted _
+            }
+
+            Dim response As Address = GetJsonObjectFromAPI(Of Address)(request, R4MEInfrastructureSettings.GetAddress, HttpMethodType.[Put], errorString)
+
+            Return response
+        End Function
+
+        Public Function MarkAddressAsMarkedAsVisited(aParams As AddressParameters, ByRef errorString As String) As Address
+            Dim request As New MarkAddressAsMarkedAsDepartedRequest With { _
+                .RouteId = aParams.RouteId, _
+                .RouteDestinationId = aParams.RouteDestinationId, _
+                .IsVisited = aParams.IsVisited _
             }
 
             Dim response As Address = GetJsonObjectFromAPI(Of Address)(request, R4MEInfrastructureSettings.GetAddress, HttpMethodType.[Put], errorString)
