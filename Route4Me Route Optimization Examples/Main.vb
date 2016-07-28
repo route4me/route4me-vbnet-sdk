@@ -8,18 +8,25 @@ Namespace Route4MeSDKTest
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
             ' ======== Search for Orders by scheduled date ===========================
-            Dim ScheduledDate As String = ""
-            examples.GetOrderByScheduledDate(ScheduledDate)
-            ' ======== Add Orders To an Optimization ===========================
+            Dim CustomFields As String = "order_id,member_id"
+            examples.GetOrdersByCustomFields(CustomFields)
+            '======================================================================
+
+            ' ======== Search for Orders by scheduled date ===========================
+            'Dim ScheduledDate As String = ""
+            'examples.GetOrderByScheduledDate(ScheduledDate)
+            '======================================================================
 
             ' ======== Search for Orders by inserted date ===========================
             'Dim InsertedDate As String = ""
             'examples.GetOrderByInsertedDate(InsertedDate)
-            ' ======== Add Orders To an Optimization ===========================
+            '======================================================================
 
             ' ======== Retrieve Single Order by order_id ===========================
             'Dim OrderId As Integer = 216
             'examples.GetOrderByID(OrderId)
+            '======================================================================
+
             ' ======== Add Orders To an Optimization ===========================
             'Dim rQueryParams As New OptimizationParameters
             'With rQueryParams

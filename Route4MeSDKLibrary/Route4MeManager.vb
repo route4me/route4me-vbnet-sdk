@@ -1039,10 +1039,57 @@ Namespace Route4MeSDK
             Return response
         End Function
 
-        Public Function GetOrderByInsertedDate(orderQuery As OrderParameters, ByRef errorString As String) As Order()
+        Public Function SearchOrders(orderQuery As OrderParameters, ByRef errorString As String) As Order()
             Dim response As GetOrdersResponse = GetJsonObjectFromAPI(Of GetOrdersResponse)(orderQuery, R4MEInfrastructureSettings.Order, HttpMethodType.[Get], errorString)
 
             Dim result As Order() = Nothing
+            If response IsNot Nothing Then
+                result = response.Results
+            End If
+            Return result
+        End Function
+
+        <DataContract> _
+        Private NotInheritable Class SearchOrdersByCustomFieldsResponse
+            <DataMember(Name:="results")> _
+            Public Property Results() As List(Of Integer())
+                Get
+                    Return m_Results
+                End Get
+                Set(value As List(Of Integer()))
+                    m_Results = value
+                End Set
+            End Property
+            Private m_Results As List(Of Integer())
+
+            <DataMember(Name:="total")> _
+            Public Property Total() As UInteger
+                Get
+                    Return m_Total
+                End Get
+                Set(value As UInteger)
+                    m_Total = value
+                End Set
+            End Property
+            Private m_Total As UInteger
+
+            <DataMember(Name:="fields")> _
+            Public Property Fields() As String()
+                Get
+                    Return m_Fields
+                End Get
+                Set(value As String())
+                    m_Fields = value
+                End Set
+            End Property
+            Private m_Fields As String()
+
+        End Class
+
+        Public Function SearchOrdersByCustomFields(orderQuery As OrderParameters, ByRef errorString As String) As List(Of Integer())
+            Dim response As SearchOrdersByCustomFieldsResponse = GetJsonObjectFromAPI(Of SearchOrdersByCustomFieldsResponse)(orderQuery, R4MEInfrastructureSettings.Order, HttpMethodType.[Get], errorString)
+
+            Dim result As List(Of Integer()) = New List(Of Integer())
             If response IsNot Nothing Then
                 result = response.Results
             End If
