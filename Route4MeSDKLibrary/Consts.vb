@@ -26,7 +26,9 @@
         Public Const Order As String = MainHost + "/api.v4/order.php"
         Public Const RouteReoptimize As String = MainHost + "/api.v3/route/reoptimize_2.php"
         Public Const RouteSharing As String = MainHost + "/actions/route/share_route.php"
-        Public Const MergeRoutes As String = MainHost + "/actions/merge_routes.phpp"
+        Public Const MergeRoutes As String = MainHost + "/actions/merge_routes.php"
+        Public Const MarkAddressDeparted As String = MainHost + "/api/route/mark_address_departed.php"
+        Public Const MarkAddressVisited As String = MainHost + "/actions/address/update_address_visited.php"
 
 #End Region
     End Class

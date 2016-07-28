@@ -778,6 +778,18 @@ Namespace Route4MeSDK
             Return response
         End Function
 
+        Public Function MarkAddressVisited(aParams As AddressParameters, ByRef errorString As String) As Dictionary(Of String, Boolean)
+            Dim request As New MarkAddressDepartedRequest With { _
+                .RouteId = aParams.RouteId, _
+                .AddressId = aParams.AddressId, _
+                .IsVisited = aParams.IsVisited _
+            }
+
+            Dim response As Dictionary(Of String, Boolean) = GetJsonObjectFromAPI(Of Dictionary(Of String, Boolean))(request, R4MEInfrastructureSettings.MarkAddressDeparted, HttpMethodType.[Get], errorString)
+
+            Return response
+        End Function
+
         <DataContract> _
         Private NotInheritable Class InsertAddressIntoRouteOptimalPositionRequest
             Inherits GenericParameters
