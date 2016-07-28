@@ -7,13 +7,21 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
-            ' ======== Mark Address As Visited ===========================
-            Dim aParams As New AddressParameters With { _
-                .RouteId = "241466F15515D67D3F951E2DA38DE76D", _
-                .AddressId = 167899269, _
-                .IsVisited = True
+            ' ======== Forward Geocoding ===========================
+            Dim geoParams As New GeocodingParameters With { _
+                 .Addresses = "Los20%Angeles20%International20%Airport,20%CA", _
+                .Format = "xml" _
             }
-            examples.MarkAddressVisited(aParams)
+            examples.GeocodingForward(geoParams)
+            '======================================================================
+
+            ' ======== Mark Address As Visited ===========================
+            'Dim aParams As New AddressParameters With { _
+            '    .RouteId = "241466F15515D67D3F951E2DA38DE76D", _
+            '    .AddressId = 167899269, _
+            '    .IsVisited = True
+            '}
+            'examples.MarkAddressVisited(aParams)
             '======================================================================
 
             ' ======== Mark Address As Departed ===========================

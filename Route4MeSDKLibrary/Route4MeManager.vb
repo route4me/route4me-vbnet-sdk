@@ -6,6 +6,7 @@ Imports System.Net.Http
 Imports System.Net.Http.Headers
 Imports System.Runtime.Serialization
 Imports System.Text
+Imports System.Xml
 Imports System.Threading.Tasks
 
 Namespace Route4MeSDK
@@ -1485,6 +1486,49 @@ Namespace Route4MeSDK
         End Function
 #End Region
 
+#Region "Geocoding"
+
+        <DataContract> _
+        Private NotInheritable Class GeocodingRequest
+            Inherits GenericParameters
+
+            <HttpQueryMemberAttribute(Name:="addresses", EmitDefaultValue:=False)> _
+            Public Property Addresses() As String
+                Get
+                    Return m_Addresses
+                End Get
+                Set(value As String)
+                    m_Addresses = value
+                End Set
+            End Property
+            Private m_Addresses As String
+
+            <HttpQueryMemberAttribute(Name:="format", EmitDefaultValue:=False)> _
+            Public Property Format() As String
+                Get
+                    Return m_Format
+                End Get
+                Set(value As String)
+                    m_Format = value
+                End Set
+            End Property
+            Private m_Format As String
+
+        End Class
+
+        Public Function Geocoding(geoParams As GeocodingParameters, ByRef errorString As String) As String
+            Dim request As New GeocodingRequest With { _
+                .Addresses = geoParams.Addresses, _
+                .Format = geoParams.Format _
+            }
+
+            Dim response As String = GetXmlObjectFromAPI(Of String)(request, R4MEInfrastructureSettings.Geocoder, HttpMethodType.Post, DirectCast(Nothing, HttpContent), False, errorString)
+
+            Return response.ToString()
+        End Function
+
+#End Region
+
 #Region "Generic Methods"
 
         Public Function GetStringResponseFromAPI(optimizationParameters As GenericParameters, url As String, httpMethod As HttpMethodType, ByRef errorMessage As String) As String
@@ -1571,6 +1615,107 @@ Namespace Route4MeSDK
                                         'var test = m_isTestMode ? streamTask.Result.ReadString() : null;
                                         'var test = streamTask.Result.ReadString();
                                         result = If(isString, TryCast(streamTask.Result.ReadString(), T), streamTask.Result.ReadObject(Of T)())
+                                    End If
+                                Else
+                                    Dim streamTask = DirectCast(response.Result.Content, StreamContent).ReadAsStreamAsync()
+                                    streamTask.Wait()
+                                    Dim errorResponse As ErrorResponse = Nothing
+                                    Try
+                                        errorResponse = streamTask.Result.ReadObject(Of ErrorResponse)()
+                                    Catch
+                                        ' (Exception e)
+                                        errorResponse = Nothing
+                                    End Try
+                                    If errorResponse IsNot Nothing AndAlso errorResponse.Errors IsNot Nothing AndAlso errorResponse.Errors.Count > 0 Then
+                                        For Each [error] As [String] In errorResponse.Errors
+                                            If errorMessage.Length > 0 Then
+                                                errorMessage += "; "
+                                            End If
+                                            errorMessage += [error]
+                                        Next
+                                    Else
+                                        Dim responseStream = response.Result.Content.ReadAsStringAsync()
+                                        responseStream.Wait()
+                                        Dim responseString As [String] = responseStream.Result
+                                        If responseString IsNot Nothing Then
+                                            errorMessage = "Response: " + responseString
+                                        End If
+                                    End If
+                                End If
+
+                                Exit Select
+                            End If
+                    End Select
+                End Using
+            Catch e As Exception
+                errorMessage = If(TypeOf e Is AggregateException, e.InnerException.Message, e.Message)
+                result = Nothing
+            End Try
+
+            Return result
+        End Function
+
+        Private Function GetXmlObjectFromAPI(Of T As Class)(optimizationParameters As GenericParameters, url As String, httpMethod__1 As HttpMethodType, httpContent As HttpContent, isString As Boolean, ByRef errorMessage As String) As String
+            Dim result As String = String.Empty
+            errorMessage = String.Empty
+
+            Try
+                Using httpClient As HttpClient = CreateHttpClient(url)
+                    ' Get the parameters
+                    Dim parametersURI As String = optimizationParameters.Serialize(m_ApiKey)
+
+                    Select Case httpMethod__1
+                        Case HttpMethodType.[Get]
+                            If True Then
+                                Dim response = httpClient.GetStreamAsync(parametersURI)
+                                response.Wait()
+
+                                If response.IsCompleted Then
+                                    'var test = m_isTestMode ? response.Result.ReadString() : null;
+                                    result = If(isString, response.Result.ReadString(), response.Result.ReadObject(Of T)())
+                                End If
+
+                                Exit Select
+                            End If
+                        Case HttpMethodType.Post, HttpMethodType.Put, HttpMethodType.Delete
+                            If True Then
+                                Dim isPut As Boolean = httpMethod__1 = HttpMethodType.Put
+                                Dim isDelete As Boolean = httpMethod__1 = HttpMethodType.Delete
+                                Dim content As HttpContent = Nothing
+                                If httpContent IsNot Nothing Then
+                                    content = httpContent
+                                Else
+                                    Dim jsonString As String = R4MeUtils.SerializeObjectToJson(optimizationParameters)
+                                    content = New StringContent(jsonString)
+                                End If
+
+                                Dim response As Task(Of HttpResponseMessage) = Nothing
+                                If isPut Then
+                                    response = httpClient.PutAsync(parametersURI, content)
+                                ElseIf isDelete Then
+                                    Dim request As New HttpRequestMessage() With { _
+                                        .Content = content, _
+                                        .Method = HttpMethod.Delete, _
+                                        .RequestUri = New Uri(parametersURI, UriKind.Relative) _
+                                    }
+                                    response = httpClient.SendAsync(request)
+                                Else
+                                    response = httpClient.PostAsync(parametersURI, content)
+                                End If
+
+                                ' Wait for response
+                                response.Wait()
+
+                                ' Check if successful
+                                If response.IsCompleted AndAlso response.Result.IsSuccessStatusCode AndAlso TypeOf response.Result.Content Is StreamContent Then
+                                    Dim streamTask = DirectCast(response.Result.Content, StreamContent).ReadAsStreamAsync()
+                                    streamTask.Wait()
+
+                                    If streamTask.IsCompleted Then
+                                        'var test = m_isTestMode ? streamTask.Result.ReadString() : null;
+                                        'var test = streamTask.Result.ReadString();
+                                        result = streamTask.Result.ReadString()
+                                        'result = If(isString, TryCast(streamTask.Result.ReadString(), XmlDocument), streamTask.Result.ReadObject(Of XmlDocument)())
                                     End If
                                 Else
                                     Dim streamTask = DirectCast(response.Result.Content, StreamContent).ReadAsStreamAsync()

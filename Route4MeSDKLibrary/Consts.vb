@@ -29,6 +29,7 @@
         Public Const MergeRoutes As String = MainHost + "/actions/merge_routes.php"
         Public Const MarkAddressDeparted As String = MainHost + "/api/route/mark_address_departed.php"
         Public Const MarkAddressVisited As String = MainHost + "/actions/address/update_address_visited.php"
+        Public Const Geocoder As String = MainHost + "/api/geocoder.php"
 
 #End Region
     End Class
