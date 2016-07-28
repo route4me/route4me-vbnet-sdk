@@ -16,7 +16,7 @@ Namespace Route4MeSDKTest.Examples
             }
 
             Dim errorString As String = ""
-            Dim orders As Order() = route4Me.GetOrderByInsertedDate(oParams, errorString)
+            Dim orders As Order() = route4Me.SearchOrders(oParams, errorString)
 
             Console.WriteLine("")
 

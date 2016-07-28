@@ -5,7 +5,7 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
-        ''' Get single Order by order_id
+        ''' Get Orders by Custom Fields
         ''' </summary>
         Public Sub GetOrdersByCustomFields(CustomFields As String)
             ' Create the manager with the api key
