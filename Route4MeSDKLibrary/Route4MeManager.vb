@@ -716,6 +716,69 @@ Namespace Route4MeSDK
         End Function
 
         <DataContract> _
+        Private NotInheritable Class MarkAddressDepartedRequest
+            Inherits GenericParameters
+
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
+            Public Property RouteId() As String
+                Get
+                    Return m_RouteId
+                End Get
+                Set(value As String)
+                    m_RouteId = value
+                End Set
+            End Property
+            Private m_RouteId As String
+
+            <HttpQueryMemberAttribute(Name:="address_id", EmitDefaultValue:=False)> _
+            Public Property AddressId() As System.Nullable(Of Integer)
+                Get
+                    Return m_AddressId
+                End Get
+                Set(value As System.Nullable(Of Integer))
+                    m_AddressId = value
+                End Set
+            End Property
+            Private m_AddressId As System.Nullable(Of Integer)
+
+            <IgnoreDataMember> _
+            <DataMember(Name:="is_departed")> _
+            Public Property IsDeparted() As Boolean
+                Get
+                    Return m_IsDeparted
+                End Get
+                Set(value As Boolean)
+                    m_IsDeparted = value
+                End Set
+            End Property
+            Private m_IsDeparted As Boolean
+
+            <IgnoreDataMember> _
+            <DataMember(Name:="is_visited")> _
+            Public Property IsVisited() As Boolean
+                Get
+                    Return m_IsVisited
+                End Get
+                Set(value As Boolean)
+                    m_IsVisited = value
+                End Set
+            End Property
+            Private m_IsVisited As Boolean
+        End Class
+
+        Public Function MarkAddressDeparted(aParams As AddressParameters, ByRef errorString As String) As Dictionary(Of String, Boolean)
+            Dim request As New MarkAddressDepartedRequest With { _
+                .RouteId = aParams.RouteId, _
+                .AddressId = aParams.AddressId, _
+                .IsDeparted = aParams.IsDeparted _
+            }
+
+            Dim response As Dictionary(Of String, Boolean) = GetJsonObjectFromAPI(Of Dictionary(Of String, Boolean))(request, R4MEInfrastructureSettings.MarkAddressDeparted, HttpMethodType.[Get], errorString)
+
+            Return response
+        End Function
+
+        <DataContract> _
         Private NotInheritable Class InsertAddressIntoRouteOptimalPositionRequest
             Inherits GenericParameters
 

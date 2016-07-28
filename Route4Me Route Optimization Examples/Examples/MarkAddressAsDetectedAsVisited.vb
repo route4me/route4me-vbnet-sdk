@@ -21,7 +21,7 @@ Namespace Route4MeSDKTest.Examples
             If resultAddress IsNot Nothing Then
                 Console.WriteLine("MarkAddressAsMarkedAsVisited executed successfully")
 
-                Console.WriteLine("Mamrked Address ID: {0}", resultAddress.RouteDestinationId)
+                Console.WriteLine("Marked Address ID: {0}", resultAddress.RouteDestinationId)
 
             Else
                 Console.WriteLine("MarkAddressAsMarkedAsVisited error: {0}", errorString)

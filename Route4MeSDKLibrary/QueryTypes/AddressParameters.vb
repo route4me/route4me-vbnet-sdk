@@ -23,6 +23,17 @@
         End Property
         Private m_RouteDestinationId As Integer
 
+        <HttpQueryMemberAttribute(Name:="address_id", EmitDefaultValue:=False)> _
+        Public Property AddressId() As Integer
+            Get
+                Return m_AddressId
+            End Get
+            Set(value As Integer)
+                m_AddressId = value
+            End Set
+        End Property
+        Private m_AddressId As Integer
+
         <HttpQueryMemberAttribute(Name:="notes")> _
         Public Property Notes() As Boolean
             Get
