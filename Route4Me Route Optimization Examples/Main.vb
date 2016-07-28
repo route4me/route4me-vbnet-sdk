@@ -7,9 +7,14 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
-            ' ======== Search for Orders by scheduled date ===========================
-            Dim CustomFields As String = "order_id,member_id"
-            examples.GetOrdersByCustomFields(CustomFields)
+            ' ======== Search for Orders by Specified Text ===========================
+            Dim query As String = "Olman"
+            examples.GetOrdersBySpecifiedText(query)
+            '======================================================================
+
+            ' ======== Search for Orders by Custom Fields ===========================
+            'Dim CustomFields As String = "order_id,member_id"
+            'examples.GetOrdersByCustomFields(CustomFields)
             '======================================================================
 
             ' ======== Search for Orders by scheduled date ===========================
