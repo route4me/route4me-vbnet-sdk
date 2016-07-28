@@ -73,5 +73,19 @@ Namespace Route4MeSDK.QueryTypes
         End Property
         Private m_Display As String
 
+        ''' <summary>
+        ''' Order ID.
+        ''' </summary>
+        <HttpQueryMemberAttribute(Name:="order_id", EmitDefaultValue:=False)> _
+        Public Property OrderId() As System.Nullable(Of Integer)
+            Get
+                Return m_OrderId
+            End Get
+            Set(value As System.Nullable(Of Integer))
+                m_OrderId = value
+            End Set
+        End Property
+        Private m_OrderId As System.Nullable(Of Integer)
+
     End Class
 End Namespace

@@ -1033,6 +1033,12 @@ Namespace Route4MeSDK
 
 #Region "Orders"
 
+        Public Function GetOrderByID(orderQuery As OrderParameters, ByRef errorString As String) As Order
+            Dim response As Order = GetJsonObjectFromAPI(Of Order)(orderQuery, R4MEInfrastructureSettings.Order, HttpMethodType.[Get], errorString)
+
+            Return response
+        End Function
+
         <DataContract> _
         Private NotInheritable Class GetOrdersResponse
             <DataMember(Name:="results")> _

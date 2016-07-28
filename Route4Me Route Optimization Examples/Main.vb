@@ -7,88 +7,91 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
+            ' ======== Retrieve Single Order by order_id ===========================
+            Dim OrderId As Integer = 216
+            examples.GetOrderByID(OrderId)
             ' ======== Add Orders To an Optimization ===========================
-            Dim rQueryParams As New OptimizationParameters
-            With rQueryParams
-                .OptimizationProblemID = "31AC533ECF9429CDECCECC530745F7BD"
-                .Redirect = False
-            End With
+            'Dim rQueryParams As New OptimizationParameters
+            'With rQueryParams
+            '    .OptimizationProblemID = "31AC533ECF9429CDECCECC530745F7BD"
+            '    .Redirect = False
+            'End With
 
-            Dim addresses As Address() = New Address() {New Address() With { _
-                .AddressString = "273 Canal St, New York, NY 10013, USA", _
-                .Latitude = 40.7191558, _
-                .Longitude = -74.0011966, _
-                .Alias = "", _
-                .CurbsideLatitude = 40.7191558, _
-                .CurbsideLongitude = -74.0011966, _
-                .IsDepot = True _
-            }, New Address() With { _
-                .AddressString = "106 Liberty St, New York, NY 10006, USA", _
-                .Alias = "BK Restaurant #: 2446", _
-                .Latitude = 40.709637, _
-                .Longitude = -74.011912, _
-                .CurbsideLatitude = 40.709637, _
-                .CurbsideLongitude = -74.011912, _
-                .Email = "", _
-                .Phone = "(917) 338-1887", _
-                .FirstName = "", _
-                .LastName = "", _
-                .CustomFields = New Dictionary(Of String, String) From {{"icon", Nothing}}, _
-                .Time = 0, _
-                .TimeWindowStart = 1472544000, _
-                .TimeWindowEnd = 1472544300, _
-                .OrderId = 7205705 _
-            }, New Address() With { _
-                .AddressString = "325 Broadway, New York, NY 10007, USA", _
-                .Alias = "BK Restaurant #: 20333", _
-                .Latitude = 40.71615, _
-                .Longitude = -74.00505, _
-                .CurbsideLatitude = 40.71615, _
-                .CurbsideLongitude = -74.00505, _
-                .Email = "", _
-                .Phone = "(212) 227-7535", _
-                .FirstName = "", _
-                .LastName = "", _
-                .CustomFields = New Dictionary(Of String, String) From {{"icon", Nothing}}, _
-                .Time = 0, _
-                .TimeWindowStart = 1472545000, _
-                .TimeWindowEnd = 1472545300, _
-                .OrderId = 7205704 _
-            }, New Address() With { _
-                .AddressString = "106 Fulton St, Farmingdale, NY 11735, USA", _
-                .Alias = "BK Restaurant #: 17871", _
-                .Latitude = 40.73073, _
-                .Longitude = -73.459283, _
-                .CurbsideLatitude = 40.73073, _
-                .CurbsideLongitude = -73.459283, _
-                .Email = "", _
-                .Phone = "(212) 566-5132", _
-                .FirstName = "", _
-                .LastName = "", _
-                .CustomFields = New Dictionary(Of String, String) From {{"icon", Nothing}}, _
-                .Time = 0, _
-                .TimeWindowStart = 1472546000, _
-                .TimeWindowEnd = 1472546300, _
-                .OrderId = 7205703 _
-            }}
+            'Dim addresses As Address() = New Address() {New Address() With { _
+            '    .AddressString = "273 Canal St, New York, NY 10013, USA", _
+            '    .Latitude = 40.7191558, _
+            '    .Longitude = -74.0011966, _
+            '    .Alias = "", _
+            '    .CurbsideLatitude = 40.7191558, _
+            '    .CurbsideLongitude = -74.0011966, _
+            '    .IsDepot = True _
+            '}, New Address() With { _
+            '    .AddressString = "106 Liberty St, New York, NY 10006, USA", _
+            '    .Alias = "BK Restaurant #: 2446", _
+            '    .Latitude = 40.709637, _
+            '    .Longitude = -74.011912, _
+            '    .CurbsideLatitude = 40.709637, _
+            '    .CurbsideLongitude = -74.011912, _
+            '    .Email = "", _
+            '    .Phone = "(917) 338-1887", _
+            '    .FirstName = "", _
+            '    .LastName = "", _
+            '    .CustomFields = New Dictionary(Of String, String) From {{"icon", Nothing}}, _
+            '    .Time = 0, _
+            '    .TimeWindowStart = 1472544000, _
+            '    .TimeWindowEnd = 1472544300, _
+            '    .OrderId = 7205705 _
+            '}, New Address() With { _
+            '    .AddressString = "325 Broadway, New York, NY 10007, USA", _
+            '    .Alias = "BK Restaurant #: 20333", _
+            '    .Latitude = 40.71615, _
+            '    .Longitude = -74.00505, _
+            '    .CurbsideLatitude = 40.71615, _
+            '    .CurbsideLongitude = -74.00505, _
+            '    .Email = "", _
+            '    .Phone = "(212) 227-7535", _
+            '    .FirstName = "", _
+            '    .LastName = "", _
+            '    .CustomFields = New Dictionary(Of String, String) From {{"icon", Nothing}}, _
+            '    .Time = 0, _
+            '    .TimeWindowStart = 1472545000, _
+            '    .TimeWindowEnd = 1472545300, _
+            '    .OrderId = 7205704 _
+            '}, New Address() With { _
+            '    .AddressString = "106 Fulton St, Farmingdale, NY 11735, USA", _
+            '    .Alias = "BK Restaurant #: 17871", _
+            '    .Latitude = 40.73073, _
+            '    .Longitude = -73.459283, _
+            '    .CurbsideLatitude = 40.73073, _
+            '    .CurbsideLongitude = -73.459283, _
+            '    .Email = "", _
+            '    .Phone = "(212) 566-5132", _
+            '    .FirstName = "", _
+            '    .LastName = "", _
+            '    .CustomFields = New Dictionary(Of String, String) From {{"icon", Nothing}}, _
+            '    .Time = 0, _
+            '    .TimeWindowStart = 1472546000, _
+            '    .TimeWindowEnd = 1472546300, _
+            '    .OrderId = 7205703 _
+            '}}
 
-            Dim rParams As New RouteParameters
+            'Dim rParams As New RouteParameters
 
-            With rParams
-                .RouteName = "Wednesday 15th of June 2016 07:01 PM (+03:00)"
-                .RouteDate = 1465948800
-                .RouteTime = 14400
-                .Optimize = "Time"
-                .RouteType = "single"
-                .AlgorithmType = 1
-                .RT = False
-                .LockLast = False
-                .MemberId = 1
-                .VehicleId = ""
-                .DisableOptimization = False
-            End With
+            'With rParams
+            '    .RouteName = "Wednesday 15th of June 2016 07:01 PM (+03:00)"
+            '    .RouteDate = 1465948800
+            '    .RouteTime = 14400
+            '    .Optimize = "Time"
+            '    .RouteType = "single"
+            '    .AlgorithmType = 1
+            '    .RT = False
+            '    .LockLast = False
+            '    .MemberId = 1
+            '    .VehicleId = ""
+            '    .DisableOptimization = False
+            'End With
 
-            examples.AddOrdersToOptimization(rQueryParams, addresses, rParams)
+            'examples.AddOrdersToOptimization(rQueryParams, addresses, rParams)
             '======================================================================
 
             ' ======== Add Orders To a Route ===========================
