@@ -7,9 +7,14 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
+            ' ======== Search for Orders by inserted date ===========================
+            Dim InsertedDate As String = ""
+            examples.GetOrderByInsertedDate(InsertedDate)
+            ' ======== Add Orders To an Optimization ===========================
+
             ' ======== Retrieve Single Order by order_id ===========================
-            Dim OrderId As Integer = 216
-            examples.GetOrderByID(OrderId)
+            'Dim OrderId As Integer = 216
+            'examples.GetOrderByID(OrderId)
             ' ======== Add Orders To an Optimization ===========================
             'Dim rQueryParams As New OptimizationParameters
             'With rQueryParams

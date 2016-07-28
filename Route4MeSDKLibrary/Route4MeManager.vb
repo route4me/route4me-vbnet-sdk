@@ -1039,6 +1039,16 @@ Namespace Route4MeSDK
             Return response
         End Function
 
+        Public Function GetOrderByInsertedDate(orderQuery As OrderParameters, ByRef errorString As String) As Order()
+            Dim response As GetOrdersResponse = GetJsonObjectFromAPI(Of GetOrdersResponse)(orderQuery, R4MEInfrastructureSettings.Order, HttpMethodType.[Get], errorString)
+
+            Dim result As Order() = Nothing
+            If response IsNot Nothing Then
+                result = response.Results
+            End If
+            Return result
+        End Function
+
         <DataContract> _
         Private NotInheritable Class GetOrdersResponse
             <DataMember(Name:="results")> _

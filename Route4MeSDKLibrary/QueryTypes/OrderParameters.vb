@@ -87,5 +87,33 @@ Namespace Route4MeSDK.QueryTypes
         End Property
         Private m_OrderId As System.Nullable(Of Integer)
 
+        ''' <summary>
+        ''' Date an order was inserted
+        ''' </summary>
+        <HttpQueryMemberAttribute(Name:="day_added_YYMMDD", EmitDefaultValue:=False)> _
+        Public Property DayAddedYYMMDD() As String
+            Get
+                Return m_DayAddedYYMMDD
+            End Get
+            Set(value As String)
+                m_DayAddedYYMMDD = value
+            End Set
+        End Property
+        Private m_DayAddedYYMMDD As String
+
+        ''' <summary>
+        ''' Date an order was scheduled for
+        ''' </summary>
+        <HttpQueryMemberAttribute(Name:="scheduled_for_YYMMDD", EmitDefaultValue:=False)> _
+        Public Property ScheduledForYYMMDD() As String
+            Get
+                Return m_ScheduledForYYMMDD
+            End Get
+            Set(value As String)
+                m_ScheduledForYYMMDD = value
+            End Set
+        End Property
+        Private m_ScheduledForYYMMDD As String
+
     End Class
 End Namespace
