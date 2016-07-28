@@ -641,6 +641,56 @@ Namespace Route4MeSDK
         End Function
 
         <DataContract> _
+        Private NotInheritable Class MarkAddressAsMarkedAsDepartedRequest
+            Inherits GenericParameters
+
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
+            Public Property RouteId() As String
+                Get
+                    Return m_RouteId
+                End Get
+                Set(value As String)
+                    m_RouteId = value
+                End Set
+            End Property
+            Private m_RouteId As String
+
+            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)> _
+            Public Property RouteDestinationId() As System.Nullable(Of Integer)
+                Get
+                    Return m_RouteDestinationId
+                End Get
+                Set(value As System.Nullable(Of Integer))
+                    m_RouteDestinationId = value
+                End Set
+            End Property
+            Private m_RouteDestinationId As System.Nullable(Of Integer)
+
+            <DataMember(Name:="is_departed")> _
+            Public Property IsDeparted() As Boolean
+                Get
+                    Return m_IsDeparted
+                End Get
+                Set(value As Boolean)
+                    m_IsDeparted = value
+                End Set
+            End Property
+            Private m_IsDeparted As Boolean
+        End Class
+
+        Public Function MarkAddressAsMarkedAsDeparted(aParams As AddressParameters, ByRef errorString As String) As Address
+            Dim request As New MarkAddressAsMarkedAsDepartedRequest With { _
+                .RouteId = aParams.RouteId, _
+                .RouteDestinationId = aParams.RouteDestinationId, _
+                .IsDeparted = aParams.IsDeparted _
+            }
+
+            Dim response As Address = GetJsonObjectFromAPI(Of Address)(request, R4MEInfrastructureSettings.GetAddress, HttpMethodType.[Put], errorString)
+
+            Return response
+        End Function
+
+        <DataContract> _
         Private NotInheritable Class InsertAddressIntoRouteOptimalPositionRequest
             Inherits GenericParameters
 

@@ -33,5 +33,27 @@
             End Set
         End Property
         Private m_Notes As Boolean
+
+        <HttpQueryMemberAttribute(Name:="is_departed")> _
+        Public Property IsDeparted() As Boolean
+            Get
+                Return m_IsDeparted
+            End Get
+            Set(value As Boolean)
+                m_IsDeparted = value
+            End Set
+        End Property
+        Private m_IsDeparted As Boolean
+
+        <HttpQueryMemberAttribute(Name:="is_visited")> _
+        Public Property IsVisited() As Boolean
+            Get
+                Return m_IsVisited
+            End Get
+            Set(value As Boolean)
+                m_IsVisited = value
+            End Set
+        End Property
+        Private m_IsVisited As Boolean
     End Class
 End Namespace
