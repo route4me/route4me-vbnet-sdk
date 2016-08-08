@@ -8,11 +8,15 @@ Namespace Route4MeSDKTest
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
             ' ======== Forward Geocoding ===========================
-            Dim geoParams As New GeocodingParameters With { _
-                 .Addresses = "Los20%Angeles20%International20%Airport,20%CA", _
-                .Format = "xml" _
-            }
-            examples.GeocodingForward(geoParams)
+            examples.ReverseGeocoding()
+            '======================================================================
+
+            ' ======== Forward Geocoding ===========================
+            'Dim geoParams As New GeocodingParameters With { _
+            '     .Addresses = "Los20%Angeles20%International20%Airport,20%CA", _
+            '    .Format = "xml" _
+            '}
+            'examples.GeocodingForward(geoParams)
             '======================================================================
 
             ' ======== Mark Address As Visited ===========================
