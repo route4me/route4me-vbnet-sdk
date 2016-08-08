@@ -5,7 +5,7 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
-        ''' Forward geocoding
+        ''' Reverse geocoding
         ''' </summary>
         ''' <returns> xml object </returns>
         Public Sub ReverseGeocoding()
@@ -21,9 +21,9 @@ Namespace Route4MeSDKTest.Examples
             Console.WriteLine("")
 
             If result IsNot Nothing Then
-                Console.WriteLine("GeocodingForward executed successfully")
+                Console.WriteLine("ReverseGeocoding executed successfully")
             Else
-                Console.WriteLine("GeocodingForward error: {0}", errorString)
+                Console.WriteLine("ReverseGeocoding error: {0}", errorString)
             End If
         End Sub
     End Class
