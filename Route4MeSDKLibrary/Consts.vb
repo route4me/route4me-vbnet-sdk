@@ -18,6 +18,7 @@
 
         Public Const GetUsersHost As String = MainHost + "/api/member/view_users.php"
         Public Const UserAuthentication As String = MainHost + "/actions/authenticate.php"
+        Public Const ValidateSession As String = MainHost + "/datafeed/session/validate_session.php"
 
         Public Const AddRouteNotesHost As String = MainHost + "/actions/addRouteNotes.php"
         Public Const GetActivitiesHost As String = MainHost + "/api/get_activities.php"

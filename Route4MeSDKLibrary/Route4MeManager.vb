@@ -612,7 +612,57 @@ Namespace Route4MeSDK
             Return result
         End Function
 
+        <DataContract> _
+        Private NotInheritable Class ValidateSessionRequest
+            Inherits GenericParameters
 
+            <HttpQueryMemberAttribute(Name:="session_guid", EmitDefaultValue:=False)> _
+            Public Property SessionGuid() As String
+                Get
+                    Return m_SessionGuid
+                End Get
+                Set(value As String)
+                    m_SessionGuid = value
+                End Set
+            End Property
+            Private m_SessionGuid As String
+
+            <HttpQueryMemberAttribute(Name:="member_id", EmitDefaultValue:=False)> _
+            Public Property MemberId() As System.Nullable(Of Integer)
+                Get
+                    Return m_MemberId
+                End Get
+                Set(value As System.Nullable(Of Integer))
+                    m_MemberId = value
+                End Set
+            End Property
+            Private m_MemberId As System.Nullable(Of Integer)
+
+            <HttpQueryMemberAttribute(Name:="format", EmitDefaultValue:=False)> _
+            Public Property Format() As String
+                Get
+                    Return m_Format
+                End Get
+                Set(value As String)
+                    m_Format = value
+                End Set
+            End Property
+            Private m_Format As String
+
+        End Class
+
+        Public Function ValidateSession(memParams As MemberParameters, ByRef errorString As String) As MemberResponse
+            Dim request As ValidateSessionRequest = New ValidateSessionRequest() With { _
+                .SessionGuid = memParams.SessionGuid, _
+                .MemberId = memParams.MemberId, _
+                .Format = memParams.Format _
+            }
+
+            Dim result As MemberResponse = GetJsonObjectFromAPI(Of MemberResponse)(request, R4MEInfrastructureSettings.ValidateSession, HttpMethodType.[Get], False, errorString)
+
+            Return result
+
+        End Function
 #End Region
 
 #Region "Address Notes"

@@ -7,8 +7,12 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
+            ' ======== Validate Session ===========================
+            examples.ValidateSession()
+            '======================================================================
+
             ' ======== User Authentication ===========================
-            examples.UserAuthentication()
+            ' examples.UserAuthentication()
             '======================================================================
 
             ' ======== Find Asset (Asset Tracking) ===========================
