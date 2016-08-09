@@ -31,6 +31,8 @@
         Public Const MarkAddressVisited As String = MainHost + "/actions/address/update_address_visited.php"
         Public Const Geocoder As String = MainHost + "/api/geocoder.php"
         Public Const RapidStreetData As String = "https://rapid.route4me.com/street_data"
+        Public Const RapidStreetZipcode As String = "https://rapid.route4me.com/street_data/zipcode"
+        Public Const RapidStreetService As String = "https://rapid.route4me.com/street_data/service"
 
 #End Region
     End Class
