@@ -7,8 +7,12 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
+            ' ======== Rapid Stret Zipcode Limited ===========================
+            examples.RapidStreetZipcodeLimited()
+            '======================================================================
+
             ' ======== Rapid Stret Zipcode All ===========================
-            examples.RapidStreetZipcodeAll()
+            'examples.RapidStreetZipcodeAll()
             '======================================================================
 
             ' ======== Rapid Stret Data Limited ===========================

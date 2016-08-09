@@ -1601,9 +1601,11 @@ Namespace Route4MeSDK
 
             If geoParams.Zipcode IsNot Nothing Then
                 url = url & "/" & geoParams.Zipcode & "/"
+            Else
+                Return result
             End If
             If geoParams.Offset > 0 Or geoParams.Limit > 0 Then
-                url = url & "/" & geoParams.Offset & "/" & geoParams.Limit & "/"
+                url = url & geoParams.Offset & "/" & geoParams.Limit & "/"
             End If
 
             Dim response As RapidStreetResponse() = GetJsonObjectFromAPI(Of RapidStreetResponse())(request, url, HttpMethodType.Get, DirectCast(Nothing, HttpContent), False, errorString)
