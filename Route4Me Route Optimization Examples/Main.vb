@@ -7,8 +7,12 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
-            ' ======== Rapid Stret Service Limited ===========================
-            examples.FindAsset()
+            ' ======== User Authentication ===========================
+            examples.UserAuthentication()
+            '======================================================================
+
+            ' ======== Find Asset (Asset Tracking) ===========================
+            'examples.FindAsset()
             '======================================================================
 
             ' ======== Rapid Stret Service Limited ===========================
@@ -303,19 +307,19 @@ Namespace Route4MeSDKTest
             '======================================================================
 
             ' ======== Get Route's Directions ===========================
-            'Dim RouteId As String = "5C15E83A4BE005BCD1537955D28D51D7"
+            'Dim RouteId As String = "6D1622D3F794F3A804381C9451E5A239"
 
             'examples.GetRouteDirections(RouteId)
             '======================================================================
 
             ' ======== Get Route's Path Points ===========================
-            'Dim RouteId As String = "5C15E83A4BE005BCD1537955D28D51D7"
+            'Dim RouteId As String = "6D1622D3F794F3A804381C9451E5A239"
 
             'examples.GetRoutePathPoints(RouteId)
             '======================================================================
 
             ' ======== Insert Address Into Route's Optimal Position ===========================
-            'Dim RouteId As String = "5C15E83A4BE005BCD1537955D28D51D7"
+            'Dim RouteId As String = "6D1622D3F794F3A804381C9451E5A239"
 
             'examples.InsertAddressIntoRouteOptimzalPostion(RouteId)
             '======================================================================

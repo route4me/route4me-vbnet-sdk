@@ -561,6 +561,58 @@ Namespace Route4MeSDK
             Return result
         End Function
 
+        <DataContract> _
+        Private NotInheritable Class UserAuthenticationRequest
+            Inherits GenericParameters
+
+            <DataMember(Name:="strEmail", EmitDefaultValue:=False)> _
+            Public Property StrEmail() As String
+                Get
+                    Return m_StrEmail
+                End Get
+                Set(value As String)
+                    m_StrEmail = value
+                End Set
+            End Property
+            Private m_StrEmail As String
+
+            <DataMember(Name:="strPassword", EmitDefaultValue:=False)> _
+            Public Property StrPassword() As String
+                Get
+                    Return m_StrPassword
+                End Get
+                Set(value As String)
+                    m_StrPassword = value
+                End Set
+            End Property
+            Private m_StrPassword As String
+
+            <DataMember(Name:="format", EmitDefaultValue:=False)> _
+            Public Property Format() As String
+                Get
+                    Return m_Format
+                End Get
+                Set(value As String)
+                    m_Format = value
+                End Set
+            End Property
+            Private m_Format As String
+
+        End Class
+
+        Public Function UserAuthentication(memParams As MemberParameters, ByRef errorString As String) As MemberResponse
+            Dim request As UserAuthenticationRequest = New UserAuthenticationRequest() With { _
+                .StrEmail = memParams.StrEmail, _
+                .StrPassword = memParams.StrPassword, _
+                .Format = memParams.Format _
+            }
+
+            Dim result As MemberResponse = GetJsonObjectFromAPI(Of MemberResponse)(request, R4MEInfrastructureSettings.UserAuthentication, HttpMethodType.[Post], False, errorString)
+
+            Return result
+        End Function
+
+
 #End Region
 
 #Region "Address Notes"

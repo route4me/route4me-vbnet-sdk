@@ -15,7 +15,10 @@
         Public Const ShowRouteHost As String = MainHost + "/route4me.php"
         Public Const RouteHost As String = MainHost + "/api.v4/route.php"
         Public Const SetGpsHost As String = MainHost + "/track/set.php"
+
         Public Const GetUsersHost As String = MainHost + "/api/member/view_users.php"
+        Public Const UserAuthentication As String = MainHost + "/actions/authenticate.php"
+
         Public Const AddRouteNotesHost As String = MainHost + "/actions/addRouteNotes.php"
         Public Const GetActivitiesHost As String = MainHost + "/api/get_activities.php"
         Public Const GetAddress As String = MainHost + "/api.v4/address.php"
@@ -34,6 +37,7 @@
         Public Const RapidStreetZipcode As String = "https://rapid.route4me.com/street_data/zipcode"
         Public Const RapidStreetService As String = "https://rapid.route4me.com/street_data/service"
         Public Const AssetTracking As String = MainHost + "/api/asset/find_route.php"
+
 
 #End Region
     End Class

@@ -26,6 +26,7 @@ Namespace Route4MeSDK.QueryTypes
     <KnownType(GetType(AvoidanceZoneParameters))> _
     <KnownType(GetType(AvoidanceZoneQuery))> _
     <KnownType(GetType(GeocodingParameters))> _
+    <KnownType(GetType(MemberParameters))> _
     Public Class GenericParameters
 #Region "Fields"
 
