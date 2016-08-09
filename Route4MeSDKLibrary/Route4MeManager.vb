@@ -1516,6 +1516,33 @@ Namespace Route4MeSDK
 
         End Class
 
+        ''' <summary>
+        ''' </summary>
+        <DataContract> _
+        Private NotInheritable Class RapidStreetResponse
+            <DataMember(Name:="zipcode")> _
+            Public Property Zipcode() As String
+                Get
+                    Return m_Zipcode
+                End Get
+                Set(value As String)
+                    m_Zipcode = value
+                End Set
+            End Property
+            Private m_Zipcode As String
+
+            <DataMember(Name:="street_name")> _
+            Public Property StreetName() As String
+                Get
+                    Return m_StreetName
+                End Get
+                Set(value As String)
+                    m_StreetName = value
+                End Set
+            End Property
+            Private m_StreetName As String
+        End Class
+
         Public Function Geocoding(geoParams As GeocodingParameters, ByRef errorString As String) As String
             Dim request As New GeocodingRequest With { _
                 .Addresses = geoParams.Addresses, _
@@ -1525,6 +1552,42 @@ Namespace Route4MeSDK
             Dim response As String = GetXmlObjectFromAPI(Of String)(request, R4MEInfrastructureSettings.Geocoder, HttpMethodType.Post, DirectCast(Nothing, HttpContent), False, errorString)
 
             Return response.ToString()
+        End Function
+
+        Public Function RapidStreetData(geoParams As GeocodingParameters, ByRef errorString As String) As ArrayList
+            Dim request As New GeocodingRequest With { _
+                .Addresses = geoParams.Addresses, _
+                .Format = geoParams.Format _
+            }
+            Dim url As String = R4MEInfrastructureSettings.RapidStreetData
+
+            Dim result As New ArrayList
+
+            If geoParams.Pk > 0 Then
+                url = url & "/" & geoParams.Pk & "/"
+                Dim response As RapidStreetResponse = GetJsonObjectFromAPI(Of RapidStreetResponse)(request, url, HttpMethodType.Get, DirectCast(Nothing, HttpContent), False, errorString)
+                Dim dresult As Dictionary(Of String, String) = New Dictionary(Of String, String)()
+                If Not response Is Nothing Then
+                    dresult("zipcode") = response.Zipcode
+                    dresult("street_name") = response.StreetName
+                    result.Add(dresult)
+                End If
+            Else
+                If geoParams.Offset > 0 And geoParams.Limit > 0 Then
+                    url = url & "/" & geoParams.Offset & "/" & geoParams.Limit & "/"
+                End If
+                Dim response As RapidStreetResponse() = GetJsonObjectFromAPI(Of RapidStreetResponse())(request, url, HttpMethodType.Get, DirectCast(Nothing, HttpContent), False, errorString)
+                If Not response Is Nothing Then
+                    For Each resp1 In response
+                        Dim dresult As Dictionary(Of String, String) = New Dictionary(Of String, String)()
+                        dresult("zipcode") = resp1.Zipcode
+                        dresult("street_name") = resp1.StreetName
+                        result.Add(dresult)
+                    Next
+                End If
+            End If
+
+            Return result
         End Function
 
 #End Region
