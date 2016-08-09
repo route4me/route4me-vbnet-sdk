@@ -33,6 +33,7 @@
         Public Const RapidStreetData As String = "https://rapid.route4me.com/street_data"
         Public Const RapidStreetZipcode As String = "https://rapid.route4me.com/street_data/zipcode"
         Public Const RapidStreetService As String = "https://rapid.route4me.com/street_data/service"
+        Public Const AssetTracking As String = MainHost + "/api/asset/find_route.php"
 
 #End Region
     End Class

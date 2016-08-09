@@ -8,7 +8,11 @@ Namespace Route4MeSDKTest
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
             ' ======== Rapid Stret Service Limited ===========================
-            examples.RapidStreetServiceLimited()
+            examples.FindAsset()
+            '======================================================================
+
+            ' ======== Rapid Stret Service Limited ===========================
+            'examples.RapidStreetServiceLimited()
             '======================================================================
 
             ' ======== Rapid Stret Service All ===========================

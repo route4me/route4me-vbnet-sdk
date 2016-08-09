@@ -466,6 +466,91 @@ Namespace Route4MeSDK
             Return result
         End Function
 
+        <DataContract> _
+        Private NotInheritable Class FindAssetResponse
+            <DataMember(Name:="status")> _
+            Public Property Status() As [Boolean]
+                Get
+                    Return m_Status
+                End Get
+                Set(value As [Boolean])
+                    m_Status = value
+                End Set
+            End Property
+            Private m_Status As [Boolean]
+
+            <DataMember(Name:="route_id")> _
+            Public Property RouteId() As String
+                Get
+                    Return m_RouteId
+                End Get
+                Set(value As String)
+                    m_RouteId = value
+                End Set
+            End Property
+            Private m_RouteId As String
+
+            <DataMember(Name:="sequence_no")> _
+            Public Property SequenceNo() As System.Nullable(Of Integer)
+                Get
+                    Return m_SequenceNo
+                End Get
+                Set(value As System.Nullable(Of Integer))
+                    m_SequenceNo = value
+                End Set
+            End Property
+            Private m_SequenceNo As System.Nullable(Of Integer)
+
+            <DataMember(Name:="last_scanned_timestamp")> _
+            Public Property LastScannedTimestamp() As System.Nullable(Of Integer)
+                Get
+                    Return m_LastScannedTimestamp
+                End Get
+                Set(value As System.Nullable(Of Integer))
+                    m_LastScannedTimestamp = value
+                End Set
+            End Property
+            Private m_LastScannedTimestamp As System.Nullable(Of Integer)
+
+        End Class
+
+        <DataContract> _
+        Private NotInheritable Class FindAssetRequest
+            Inherits GenericParameters
+
+            <HttpQueryMemberAttribute(Name:="query", EmitDefaultValue:=False)> _
+            Public Property Query() As String
+                Get
+                    Return m_Query
+                End Get
+                Set(value As String)
+                    m_Query = value
+                End Set
+            End Property
+            Private m_Query As String
+
+        End Class
+
+        Public Function FindAsset(query As String, ByRef errorString As String) As Dictionary(Of String, String)
+
+            Dim request As New FindAssetRequest With { _
+               .Query = query _
+            }
+
+            Dim result As FindAssetResponse = GetJsonObjectFromAPI(Of FindAssetResponse)(request, R4MEInfrastructureSettings.AssetTracking, HttpMethodType.[Get], False, errorString)
+
+            Dim response As Dictionary(Of String, String) = New Dictionary(Of String, String)()
+
+            If Not result Is Nothing Then
+                response("route_id") = result.RouteId
+                response("sequence_no") = Str(result.SequenceNo)
+                Dim mDateTime As System.DateTime = New System.DateTime(1970, 1, 1, 0, 0, 0, 0)
+                mDateTime = mDateTime.AddSeconds(result.LastScannedTimestamp)
+                response("mDateTime") = mDateTime.ToString()
+            End If
+            Return response
+        End Function
+
 #End Region
 
 #Region "Users"
