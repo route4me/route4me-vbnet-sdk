@@ -1573,7 +1573,7 @@ Namespace Route4MeSDK
                     result.Add(dresult)
                 End If
             Else
-                If geoParams.Offset > 0 And geoParams.Limit > 0 Then
+                If geoParams.Offset > 0 Or geoParams.Limit > 0 Then
                     url = url & "/" & geoParams.Offset & "/" & geoParams.Limit & "/"
                 End If
                 Dim response As RapidStreetResponse() = GetJsonObjectFromAPI(Of RapidStreetResponse())(request, url, HttpMethodType.Get, DirectCast(Nothing, HttpContent), False, errorString)
@@ -1585,6 +1585,35 @@ Namespace Route4MeSDK
                         result.Add(dresult)
                     Next
                 End If
+            End If
+
+            Return result
+        End Function
+
+        Public Function RapidStreetZipcode(geoParams As GeocodingParameters, ByRef errorString As String) As ArrayList
+            Dim request As New GeocodingRequest With { _
+                .Addresses = geoParams.Addresses, _
+                .Format = geoParams.Format _
+            }
+            Dim url As String = R4MEInfrastructureSettings.RapidStreetZipcode
+
+            Dim result As New ArrayList
+
+            If geoParams.Zipcode IsNot Nothing Then
+                url = url & "/" & geoParams.Zipcode & "/"
+            End If
+            If geoParams.Offset > 0 Or geoParams.Limit > 0 Then
+                url = url & "/" & geoParams.Offset & "/" & geoParams.Limit & "/"
+            End If
+
+            Dim response As RapidStreetResponse() = GetJsonObjectFromAPI(Of RapidStreetResponse())(request, url, HttpMethodType.Get, DirectCast(Nothing, HttpContent), False, errorString)
+            If Not response Is Nothing Then
+                For Each resp1 In response
+                    Dim dresult As Dictionary(Of String, String) = New Dictionary(Of String, String)()
+                    dresult("zipcode") = resp1.Zipcode
+                    dresult("street_name") = resp1.StreetName
+                    result.Add(dresult)
+                Next
             End If
 
             Return result
