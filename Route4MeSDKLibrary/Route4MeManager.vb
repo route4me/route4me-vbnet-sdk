@@ -1621,6 +1621,42 @@ Namespace Route4MeSDK
             Return result
         End Function
 
+        Public Function RapidStreetService(geoParams As GeocodingParameters, ByRef errorString As String) As ArrayList
+            Dim request As New GeocodingRequest With { _
+                .Addresses = geoParams.Addresses, _
+                .Format = geoParams.Format _
+            }
+            Dim url As String = R4MEInfrastructureSettings.RapidStreetService
+
+            Dim result As New ArrayList
+
+            If geoParams.Zipcode IsNot Nothing Then
+                url = url & "/" & geoParams.Zipcode & "/"
+            Else
+                Return result
+            End If
+            If geoParams.Housenumber IsNot Nothing Then
+                url = url & geoParams.Housenumber & "/"
+            Else
+                Return result
+            End If
+            If geoParams.Offset > 0 Or geoParams.Limit > 0 Then
+                url = url & geoParams.Offset & "/" & geoParams.Limit & "/"
+            End If
+
+            Dim response As RapidStreetResponse() = GetJsonObjectFromAPI(Of RapidStreetResponse())(request, url, HttpMethodType.Get, DirectCast(Nothing, HttpContent), False, errorString)
+            If Not response Is Nothing Then
+                For Each resp1 In response
+                    Dim dresult As Dictionary(Of String, String) = New Dictionary(Of String, String)()
+                    dresult("zipcode") = resp1.Zipcode
+                    dresult("street_name") = resp1.StreetName
+                    result.Add(dresult)
+                Next
+            End If
+
+            Return result
+        End Function
+
 #End Region
 
 #Region "Generic Methods"
