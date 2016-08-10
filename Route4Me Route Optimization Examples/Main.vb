@@ -8,7 +8,7 @@ Namespace Route4MeSDKTest
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
             ' ======== User Registratin ===========================
-            examples.UserRegistration()
+            'examples.UserRegistration()
             '======================================================================
 
             ' ======== Validate Session ===========================
@@ -16,7 +16,7 @@ Namespace Route4MeSDKTest
             '======================================================================
 
             ' ======== User Authentication ===========================
-            ' examples.UserAuthentication()
+            examples.UserAuthentication()
             '======================================================================
 
             ' ======== Find Asset (Asset Tracking) ===========================
@@ -127,7 +127,7 @@ Namespace Route4MeSDKTest
             ' ======== Add Orders To an Optimization ===========================
             'Dim rQueryParams As New OptimizationParameters
             'With rQueryParams
-            '    .OptimizationProblemID = "31AC533ECF9429CDECCECC530745F7BD"
+            '    .OptimizationProblemID = "7988378F70C533283BAD5024E6E37201"
             '    .Redirect = False
             'End With
 
@@ -287,7 +287,7 @@ Namespace Route4MeSDKTest
             'examples.MergeRoutes(params)
             '======================================================================
 
-            ' ======== Resequence Route Destination ===========================
+            ' ======== Add Custom Data to a Route ===========================
             'Dim RouteId As String = "CA902292134DBC134EAF8363426BD247"
             'Dim RouteDestinationId = 174405640
 
@@ -297,13 +297,13 @@ Namespace Route4MeSDKTest
             'examples.UpdateRouteCustomData(RouteId, RouteDestinationId, CustomData)
             '======================================================================
 
-            ' ======== Resequence Route Destination ===========================
+            ' ======== Route Sharing ===========================
             'Dim RouteId As String = "CA902292134DBC134EAF8363426BD247"
-            'Dim email As String = "ooooooo@gmail.com"
+            'Dim email As String = "oleg.guchi@gmail.com"
             'examples.RouteSharing(RouteId, email)
             '======================================================================
 
-            ' ======== Resequence Route Destination ===========================
+            ' ======== Resequence Reoptimize Route ===========================
             'Dim RouteId As String = "CA902292134DBC134EAF8363426BD247"
             'examples.ResequenceReoptimizeRoute(RouteId)
             '======================================================================

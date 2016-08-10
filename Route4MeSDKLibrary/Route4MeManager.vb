@@ -601,15 +601,23 @@ Namespace Route4MeSDK
         End Class
 
         Public Function UserAuthentication(memParams As MemberParameters, ByRef errorString As String) As MemberResponse
-            Dim request As UserAuthenticationRequest = New UserAuthenticationRequest() With { _
-                .StrEmail = memParams.StrEmail, _
-                .StrPassword = memParams.StrPassword, _
-                .Format = memParams.Format _
-            }
+            'Dim request As UserAuthenticationRequest = New UserAuthenticationRequest() With { _
+            '    .StrEmail = memParams.StrEmail, _
+            '    .StrPassword = memParams.StrPassword, _
+            '    .Format = memParams.Format _
+            '}
+            Dim roParams As New MemberParameters()
 
-            Dim result As MemberResponse = GetJsonObjectFromAPI(Of MemberResponse)(request, R4MEInfrastructureSettings.UserAuthentication, HttpMethodType.[Post], False, errorString)
+            Dim keyValues = New List(Of KeyValuePair(Of String, String))()
+            keyValues.Add(New KeyValuePair(Of String, String)("strEmail", memParams.StrEmail))
+            keyValues.Add(New KeyValuePair(Of String, String)("strPassword", memParams.StrPassword))
+            keyValues.Add(New KeyValuePair(Of String, String)("format", memParams.Format))
 
-            Return result
+            Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
+
+            Dim response As MemberResponse = GetJsonObjectFromAPI(Of MemberResponse)(roParams, R4MEInfrastructureSettings.UserAuthentication, HttpMethodType.Post, httpContent, errorString)
+
+            Return response
         End Function
 
         <DataContract> _
@@ -2028,7 +2036,16 @@ Namespace Route4MeSDK
                                     }
                                     response = httpClient.SendAsync(request)
                                 Else
+                                    'Dim request As New HttpRequestMessage() With { _
+                                    '    .Content = content, _
+                                    '    .Method = HttpMethod.Post, _
+                                    '    .RequestUri = New Uri(parametersURI, UriKind.Relative) _
+                                    '}
+                                    'request.Headers.Add("User-agent", "Mozilla/5.0 (Windows NT 6.3; Trident/7.0; .NET4.0E; .NET4.0C; rv:11.0) like Gecko")
+                                    'response = httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead)
+
                                     response = httpClient.PostAsync(parametersURI, content)
+
                                 End If
 
                                 ' Wait for response

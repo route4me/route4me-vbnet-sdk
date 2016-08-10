@@ -171,15 +171,15 @@ Namespace Route4MeSDK.DataTypes
         Private m_AccountTypeId As System.Nullable(Of Integer)
 
         <DataMember(Name:="account_type_alias")> _
-        Public Property AccountTypeAlias() As System.Nullable(Of Integer)
+        Public Property AccountTypeAlias() As String
             Get
                 Return m_AccountTypeAlias
             End Get
-            Set(value As System.Nullable(Of Integer))
+            Set(value As String)
                 m_AccountTypeAlias = value
             End Set
         End Property
-        Private m_AccountTypeAlias As System.Nullable(Of Integer)
+        Private m_AccountTypeAlias As String
 
         <DataMember(Name:="member_type")> _
         Public Property MemberType() As String
