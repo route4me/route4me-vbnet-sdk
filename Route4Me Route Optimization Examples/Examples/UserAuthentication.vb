@@ -12,8 +12,8 @@ Namespace Route4MeSDKTest.Examples
             Dim route4Me As New Route4MeManager(c_ApiKey)
 
             Dim params As MemberParameters = New MemberParameters() With { _
-                .StrEmail = "demo@route4me.com", _
-                .StrPassword = "route4me", _
+                .StrEmail = "demo333@yahoo.com", _
+                .StrPassword = "1111111", _
                 .Format = "json" _
             }
             ' Run the query
