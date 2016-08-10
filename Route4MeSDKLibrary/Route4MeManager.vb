@@ -629,99 +629,6 @@ Namespace Route4MeSDK
 
         End Function
 
-        <DataContract> _
-        Private NotInheritable Class UserRegistrationRequest
-            Inherits GenericParameters
-
-            <DataMember(Name:="strEmail", EmitDefaultValue:=False)> _
-            Public Property StrEmail() As String
-                Get
-                    Return m_StrEmail
-                End Get
-                Set(value As String)
-                    m_StrEmail = value
-                End Set
-            End Property
-            Private m_StrEmail As String
-
-            <DataMember(Name:="strPassword_1", EmitDefaultValue:=False)> _
-            Public Property StrPassword1() As String
-                Get
-                    Return m_StrPassword1
-                End Get
-                Set(value As String)
-                    m_StrPassword1 = value
-                End Set
-            End Property
-            Private m_StrPassword1 As String
-
-            <DataMember(Name:="strPassword_2", EmitDefaultValue:=False)> _
-            Public Property StrPassword2() As String
-                Get
-                    Return m_StrPassword2
-                End Get
-                Set(value As String)
-                    m_StrPassword2 = value
-                End Set
-            End Property
-            Private m_StrPassword2 As String
-
-            <DataMember(Name:="strFirstName", EmitDefaultValue:=False)> _
-            Public Property StrFirstName() As String
-                Get
-                    Return m_StrFirstName
-                End Get
-                Set(value As String)
-                    m_StrFirstName = value
-                End Set
-            End Property
-            Private m_StrFirstName As String
-
-            <DataMember(Name:="strLastName", EmitDefaultValue:=False)> _
-            Public Property StrLastName() As String
-                Get
-                    Return m_StrLastName
-                End Get
-                Set(value As String)
-                    m_StrLastName = value
-                End Set
-            End Property
-            Private m_StrLastName As String
-
-            <DataMember(Name:="strIndustry", EmitDefaultValue:=False)> _
-            Public Property StrIndustry() As String
-                Get
-                    Return m_StrIndustry
-                End Get
-                Set(value As String)
-                    m_StrIndustry = value
-                End Set
-            End Property
-            Private m_StrIndustry As String
-
-            <DataMember(Name:="chkTerms", EmitDefaultValue:=False)> _
-            Public Property ChkTerms() As Boolean
-                Get
-                    Return m_ChkTerms
-                End Get
-                Set(value As Boolean)
-                    m_ChkTerms = value
-                End Set
-            End Property
-            Private m_ChkTerms As Boolean
-
-            <DataMember(Name:="plan", EmitDefaultValue:=False)> _
-            Public Property Plan() As String
-                Get
-                    Return m_Plan
-                End Get
-                Set(value As String)
-                    m_Plan = value
-                End Set
-            End Property
-            Private m_Plan As String
-        End Class
-
         Public Function UserRegistration(memParams As MemberParameters, ByRef errorString As String) As MemberResponse
 
             Dim roParams As MemberParameters = New MemberParameters()
@@ -847,6 +754,78 @@ Namespace Route4MeSDK
                 result = response.Results
             End If
             Return result
+        End Function
+
+        <DataContract> _
+        Private NotInheritable Class LogSpecificMessageResponse
+
+            <DataMember(Name:="status")> _
+            Public Property Status() As System.Nullable(Of Boolean)
+                Get
+                    Return m_Status
+                End Get
+                Set(value As System.Nullable(Of Boolean))
+                    m_Status = value
+                End Set
+            End Property
+            Private m_Status As System.Nullable(Of Boolean)
+        End Class
+
+        <DataContract> _
+        Private NotInheritable Class LogSpecificMessageRequest
+            Inherits GenericParameters
+
+            <DataMember(Name:="activity_type", EmitDefaultValue:=False)> _
+            Public Property ActivityType() As String
+                Get
+                    Return m_ActivityType
+                End Get
+                Set(value As String)
+                    m_ActivityType = value
+                End Set
+            End Property
+            Private m_ActivityType As String
+
+            <DataMember(Name:="activity_message", EmitDefaultValue:=False)> _
+            Public Property ActivityMessage() As String
+                Get
+                    Return m_ActivityMessage
+                End Get
+                Set(value As String)
+                    m_ActivityMessage = value
+                End Set
+            End Property
+            Private m_ActivityMessage As String
+
+            <DataMember(Name:="route_id", EmitDefaultValue:=False)> _
+            Public Property RouteId() As String
+                Get
+                    Return m_RouteId
+                End Get
+                Set(value As String)
+                    m_RouteId = value
+                End Set
+            End Property
+            Private m_RouteId As String
+
+        End Class
+
+        Public Function LogSpecificMessage(actParams As ActivityParameters, ByRef errorString As String) As Boolean
+
+            Dim request As LogSpecificMessageRequest = New LogSpecificMessageRequest With { _
+                .ActivityType = actParams.ActivityType, _
+                .ActivityMessage = actParams.ActivityMessage, _
+                .RouteId = actParams.RouteId _
+            }
+
+            Dim response As LogSpecificMessageResponse = GetJsonObjectFromAPI(Of LogSpecificMessageResponse)(request, R4MEInfrastructureSettings.ActivityFeed, HttpMethodType.[Post], errorString)
+
+            If Not response Is Nothing Then
+                Return response.Status
+            Else
+                Return False
+            End If
+
         End Function
 
 #End Region

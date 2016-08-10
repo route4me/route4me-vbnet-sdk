@@ -22,7 +22,10 @@
         Public Const UserRegistration As String = MainHost + "/actions/register_action.php"
 
         Public Const AddRouteNotesHost As String = MainHost + "/actions/addRouteNotes.php"
+
         Public Const GetActivitiesHost As String = MainHost + "/api/get_activities.php"
+        Public Const ActivityFeed As String = MainHost + "/api.v4/activity_feed.php"
+
         Public Const GetAddress As String = MainHost + "/api.v4/address.php"
         Public Const DuplicateRoute As String = MainHost + "/actions/duplicate_route.php"
         Public Const MoveRouteDestination As String = MainHost + "/actions/route/move_route_destination.php"

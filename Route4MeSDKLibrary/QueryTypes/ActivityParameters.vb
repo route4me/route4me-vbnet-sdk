@@ -77,5 +77,27 @@
             End Set
         End Property
         Private m_End As System.Nullable(Of UInteger)
+
+        <HttpQueryMemberAttribute(Name:="activity_type", EmitDefaultValue:=False)> _
+        Public Property ActivityType() As String
+            Get
+                Return m_ActivityType
+            End Get
+            Set(value As String)
+                m_ActivityType = value
+            End Set
+        End Property
+        Private m_ActivityType As String
+
+        <HttpQueryMemberAttribute(Name:="activity_message", EmitDefaultValue:=False)> _
+        Public Property ActivityMessage() As String
+            Get
+                Return m_ActivityMessage
+            End Get
+            Set(value As String)
+                m_ActivityMessage = value
+            End Set
+        End Property
+        Private m_ActivityMessage As String
     End Class
 End Namespace
