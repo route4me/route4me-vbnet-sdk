@@ -7,9 +7,28 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
+            ' ======== Search Route Owner Changed ===========================
+            examples.SearchRouteOwnerChanged()
+            '======================================================================
 
-            ' ======== Log Specific Message ===========================
-            examples.SearchAreaAdded()
+            ' ======== Search Note Inserted ===========================
+            'examples.SearchNoteInserted()
+            '======================================================================
+
+            ' ======== Search Destination Marked As Departed ===========================
+            'examples.SearchDestinationMarkedAsDeparted()
+            '======================================================================
+
+            ' ======== Search Area Destination Inserted ===========================
+            'examples.SearchDestinationInserted()
+            '======================================================================
+
+            ' ======== Search Area Destination Deleted ===========================
+            'examples.SearchDestinationDeleted()
+            '======================================================================
+
+            ' ======== Search Area Added Activiities ===========================
+            'examples.SearchAreaAdded()
             '======================================================================
 
             ' ======== Log Specific Message ===========================
