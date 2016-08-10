@@ -50,15 +50,15 @@ Namespace Route4MeSDK.DataTypes
         Private m_SessionGuid As String
 
         <DataMember(Name:="member_id")> _
-        Public Property MemberId() As String
+        Public Property MemberId() As System.Nullable(Of Integer)
             Get
                 Return m_MemberId
             End Get
-            Set(value As String)
+            Set(value As System.Nullable(Of Integer))
                 m_MemberId = value
             End Set
         End Property
-        Private m_MemberId As String
+        Private m_MemberId As System.Nullable(Of Integer)
 
         <DataMember(Name:="api_key")> _
         Public Property ApiKey() As String
@@ -160,26 +160,26 @@ Namespace Route4MeSDK.DataTypes
         Private m_LongPressEnabled As String
 
         <DataMember(Name:="account_type_id")> _
-        Public Property AccountTypeId() As String
+        Public Property AccountTypeId() As System.Nullable(Of Integer)
             Get
                 Return m_AccountTypeId
             End Get
-            Set(value As String)
+            Set(value As System.Nullable(Of Integer))
                 m_AccountTypeId = value
             End Set
         End Property
-        Private m_AccountTypeId As String
+        Private m_AccountTypeId As System.Nullable(Of Integer)
 
         <DataMember(Name:="account_type_alias")> _
-        Public Property AccountTypeAlias() As String
+        Public Property AccountTypeAlias() As System.Nullable(Of Integer)
             Get
                 Return m_AccountTypeAlias
             End Get
-            Set(value As String)
+            Set(value As System.Nullable(Of Integer))
                 m_AccountTypeAlias = value
             End Set
         End Property
-        Private m_AccountTypeAlias As String
+        Private m_AccountTypeAlias As System.Nullable(Of Integer)
 
         <DataMember(Name:="member_type")> _
         Public Property MemberType() As String
@@ -193,37 +193,37 @@ Namespace Route4MeSDK.DataTypes
         Private m_MemberType As String
 
         <DataMember(Name:="max_stops_per_route")> _
-        Public Property MaxStopsPerRoute() As String
+        Public Property MaxStopsPerRoute() As System.Nullable(Of Integer)
             Get
                 Return m_MaxStopsPerRoute
             End Get
-            Set(value As String)
+            Set(value As System.Nullable(Of Integer))
                 m_MaxStopsPerRoute = value
             End Set
         End Property
-        Private m_MaxStopsPerRoute As String
+        Private m_MaxStopsPerRoute As System.Nullable(Of Integer)
 
         <DataMember(Name:="max_routes")> _
-        Public Property MaxRoutes() As String
+        Public Property MaxRoutes() As System.Nullable(Of Integer)
             Get
                 Return m_MaxRoutes
             End Get
-            Set(value As String)
+            Set(value As System.Nullable(Of Integer))
                 m_MaxRoutes = value
             End Set
         End Property
-        Private m_MaxRoutes As String
+        Private m_MaxRoutes As System.Nullable(Of Integer)
 
         <DataMember(Name:="routes_planned")> _
-        Public Property RoutesPlanned() As String
+        Public Property RoutesPlanned() As System.Nullable(Of Integer)
             Get
                 Return m_RoutesPlanned
             End Get
-            Set(value As String)
+            Set(value As System.Nullable(Of Integer))
                 m_RoutesPlanned = value
             End Set
         End Property
-        Private m_RoutesPlanned As String
+        Private m_RoutesPlanned As System.Nullable(Of Integer)
 
         <DataMember(Name:="preferred_units")> _
         Public Property PreferredUnits() As String

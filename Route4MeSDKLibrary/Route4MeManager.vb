@@ -663,6 +663,117 @@ Namespace Route4MeSDK
             Return result
 
         End Function
+
+        <DataContract> _
+        Private NotInheritable Class UserRegistrationRequest
+            Inherits GenericParameters
+
+            <DataMember(Name:="strEmail", EmitDefaultValue:=False)> _
+            Public Property StrEmail() As String
+                Get
+                    Return m_StrEmail
+                End Get
+                Set(value As String)
+                    m_StrEmail = value
+                End Set
+            End Property
+            Private m_StrEmail As String
+
+            <DataMember(Name:="strPassword_1", EmitDefaultValue:=False)> _
+            Public Property StrPassword1() As String
+                Get
+                    Return m_StrPassword1
+                End Get
+                Set(value As String)
+                    m_StrPassword1 = value
+                End Set
+            End Property
+            Private m_StrPassword1 As String
+
+            <DataMember(Name:="strPassword_2", EmitDefaultValue:=False)> _
+            Public Property StrPassword2() As String
+                Get
+                    Return m_StrPassword2
+                End Get
+                Set(value As String)
+                    m_StrPassword2 = value
+                End Set
+            End Property
+            Private m_StrPassword2 As String
+
+            <DataMember(Name:="strFirstName", EmitDefaultValue:=False)> _
+            Public Property StrFirstName() As String
+                Get
+                    Return m_StrFirstName
+                End Get
+                Set(value As String)
+                    m_StrFirstName = value
+                End Set
+            End Property
+            Private m_StrFirstName As String
+
+            <DataMember(Name:="strLastName", EmitDefaultValue:=False)> _
+            Public Property StrLastName() As String
+                Get
+                    Return m_StrLastName
+                End Get
+                Set(value As String)
+                    m_StrLastName = value
+                End Set
+            End Property
+            Private m_StrLastName As String
+
+            <DataMember(Name:="strIndustry", EmitDefaultValue:=False)> _
+            Public Property StrIndustry() As String
+                Get
+                    Return m_StrIndustry
+                End Get
+                Set(value As String)
+                    m_StrIndustry = value
+                End Set
+            End Property
+            Private m_StrIndustry As String
+
+            <DataMember(Name:="chkTerms", EmitDefaultValue:=False)> _
+            Public Property ChkTerms() As Boolean
+                Get
+                    Return m_ChkTerms
+                End Get
+                Set(value As Boolean)
+                    m_ChkTerms = value
+                End Set
+            End Property
+            Private m_ChkTerms As Boolean
+
+            <DataMember(Name:="plan", EmitDefaultValue:=False)> _
+            Public Property Plan() As String
+                Get
+                    Return m_Plan
+                End Get
+                Set(value As String)
+                    m_Plan = value
+                End Set
+            End Property
+            Private m_Plan As String
+        End Class
+
+        Public Function UserRegistration(memParams As MemberParameters, ByRef errorString As String) As MemberResponse
+            Dim request As UserRegistrationRequest = New UserRegistrationRequest() With { _
+                .StrEmail = memParams.StrEmail, _
+                .StrPassword1 = memParams.StrPassword_1, _
+                .StrPassword2 = memParams.StrPassword_2, _
+                .StrFirstName = memParams.StrFirstName, _
+                .StrLastName = memParams.StrLastName, _
+                .StrIndustry = memParams.StrIndustry, _
+                .ChkTerms = memParams.ChkTerms, _
+                .Plan = memParams.Plan _
+            }
+
+            Dim result As MemberResponse = GetJsonObjectFromAPI(Of MemberResponse)(request, R4MEInfrastructureSettings.UserAuthentication, HttpMethodType.[Post], False, errorString)
+
+            Return result
+
+        End Function
 #End Region
 
 #Region "Address Notes"
