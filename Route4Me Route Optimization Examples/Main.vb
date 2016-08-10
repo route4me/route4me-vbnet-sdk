@@ -7,8 +7,13 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
+
             ' ======== Log Specific Message ===========================
-            examples.LogSpecificMessage()
+            examples.SearchAreaAdded()
+            '======================================================================
+
+            ' ======== Log Specific Message ===========================
+            'examples.LogSpecificMessage()
             '======================================================================
 
             ' ======== User Registratin ===========================
