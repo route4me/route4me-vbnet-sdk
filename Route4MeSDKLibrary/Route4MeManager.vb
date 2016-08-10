@@ -561,51 +561,8 @@ Namespace Route4MeSDK
             Return result
         End Function
 
-        <DataContract> _
-        Private NotInheritable Class UserAuthenticationRequest
-            Inherits GenericParameters
-
-            <DataMember(Name:="strEmail", EmitDefaultValue:=False)> _
-            Public Property StrEmail() As String
-                Get
-                    Return m_StrEmail
-                End Get
-                Set(value As String)
-                    m_StrEmail = value
-                End Set
-            End Property
-            Private m_StrEmail As String
-
-            <DataMember(Name:="strPassword", EmitDefaultValue:=False)> _
-            Public Property StrPassword() As String
-                Get
-                    Return m_StrPassword
-                End Get
-                Set(value As String)
-                    m_StrPassword = value
-                End Set
-            End Property
-            Private m_StrPassword As String
-
-            <DataMember(Name:="format", EmitDefaultValue:=False)> _
-            Public Property Format() As String
-                Get
-                    Return m_Format
-                End Get
-                Set(value As String)
-                    m_Format = value
-                End Set
-            End Property
-            Private m_Format As String
-
-        End Class
-
         Public Function UserAuthentication(memParams As MemberParameters, ByRef errorString As String) As MemberResponse
-            'Dim request As UserAuthenticationRequest = New UserAuthenticationRequest() With { _
-            '    .StrEmail = memParams.StrEmail, _
-            '    .StrPassword = memParams.StrPassword, _
-            '    .Format = memParams.Format _
-            '}
+
             Dim roParams As New MemberParameters()
 
             Dim keyValues = New List(Of KeyValuePair(Of String, String))()
@@ -766,20 +723,24 @@ Namespace Route4MeSDK
         End Class
 
         Public Function UserRegistration(memParams As MemberParameters, ByRef errorString As String) As MemberResponse
-            Dim request As UserRegistrationRequest = New UserRegistrationRequest() With { _
-                .StrEmail = memParams.StrEmail, _
-                .StrPassword1 = memParams.StrPassword_1, _
-                .StrPassword2 = memParams.StrPassword_2, _
-                .StrFirstName = memParams.StrFirstName, _
-                .StrLastName = memParams.StrLastName, _
-                .StrIndustry = memParams.StrIndustry, _
-                .ChkTerms = memParams.ChkTerms, _
-                .Plan = memParams.Plan _
-            }
 
-            Dim result As MemberResponse = GetJsonObjectFromAPI(Of MemberResponse)(request, R4MEInfrastructureSettings.UserAuthentication, HttpMethodType.[Post], False, errorString)
+            Dim roParams As MemberParameters = New MemberParameters()
+            roParams.Plan = memParams.Plan
 
-            Return result
+            Dim keyValues = New List(Of KeyValuePair(Of String, String))()
+            keyValues.Add(New KeyValuePair(Of String, String)("strEmail", memParams.StrEmail))
+            keyValues.Add(New KeyValuePair(Of String, String)("strPassword_1", memParams.StrPassword_1))
+            keyValues.Add(New KeyValuePair(Of String, String)("strPassword_2", memParams.StrPassword_2))
+            keyValues.Add(New KeyValuePair(Of String, String)("strFirstName", memParams.StrFirstName))
+            keyValues.Add(New KeyValuePair(Of String, String)("strLastName", memParams.StrLastName))
+            keyValues.Add(New KeyValuePair(Of String, String)("strIndustry", memParams.StrIndustry))
+            keyValues.Add(New KeyValuePair(Of String, String)("chkTerms", memParams.ChkTerms))
+
+            Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
+
+            Dim response As MemberResponse = GetJsonObjectFromAPI(Of MemberResponse)(roParams, R4MEInfrastructureSettings.UserRegistration, HttpMethodType.Post, httpContent, errorString)
+
+            Return response
 
         End Function
 #End Region

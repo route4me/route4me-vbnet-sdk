@@ -12,11 +12,11 @@ Namespace Route4MeSDKTest.Examples
             Dim route4Me As New Route4MeManager(c_ApiKey)
 
             Dim params As MemberParameters = New MemberParameters() With { _
-                .StrEmail = "olegi_g@yahoo.com", _
-                .StrPassword_1 = "ol123456", _
-                .StrPassword_2 = "ol123456", _
+                .StrEmail = "oooooo@gmail.com", _
+                .StrPassword_1 = "11111111", _
+                .StrPassword_2 = "11111111", _
                 .StrFirstName = "Olman", _
-                .StrLastName = "Guchi", _
+                .StrLastName = "Progman", _
                 .StrIndustry = "Transportation", _
                 .ChkTerms = 1, _
                 .Plan = "free" _
