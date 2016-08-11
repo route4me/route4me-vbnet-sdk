@@ -7,8 +7,16 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
+            ' ======== Search Locations By IDs  ===========================
+            examples.SearchLocationsByIDs()
+            '======================================================================
+
+            ' ======== Search Routed Locations  ===========================
+            'examples.SearchRoutedLocations()
+            '======================================================================
+
             ' ======== Get Addressbook Specified Fields Filtered by Text in Any Field  ===========================
-            examples.GetSpecifiedFieldsSearchText()
+            'examples.GetSpecifiedFieldsSearchText()
             '======================================================================
 
             ' ======== Get Addressbook Locations By Text In Any Field ===========================
