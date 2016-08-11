@@ -5,13 +5,25 @@ Namespace Route4MeSDK.DataTypes
     <DataContract> _
     Public NotInheritable Class AddressBookContact
         Inherits GenericParameters
+
+        <DataMember(Name:="created_timestamp", EmitDefaultValue:=False)> _
+        Public Property CreatedTimestamp() As System.Nullable(Of Integer)
+            Get
+                Return m_CreatedTimestamp
+            End Get
+            Set(value As System.Nullable(Of Integer))
+                m_CreatedTimestamp = value
+            End Set
+        End Property
+        Private m_CreatedTimestamp As System.Nullable(Of Integer)
+
         <DataMember(Name:="address_id", EmitDefaultValue:=False)> _
-        Public Property AddressId() As String
+Public Property AddressId() As String
             Get
                 Return m_AddressId
             End Get
             Set(value As String)
-                m_AddressId = Value
+                m_AddressId = value
             End Set
         End Property
         Private m_AddressId As String
@@ -59,6 +71,17 @@ Namespace Route4MeSDK.DataTypes
             End Set
         End Property
         Private m_Address2 As String
+
+        <DataMember(Name:="member_id", EmitDefaultValue:=False)> _
+        Public Property MemberId() As System.Nullable(Of Integer)
+            Get
+                Return m_MemberId
+            End Get
+            Set(value As System.Nullable(Of Integer))
+                m_MemberId = value
+            End Set
+        End Property
+        Private m_MemberId As System.Nullable(Of Integer)
 
         <DataMember(Name:="first_name", EmitDefaultValue:=False)> _
         Public Property FirstName() As String
@@ -170,15 +193,159 @@ Namespace Route4MeSDK.DataTypes
         End Property
         Private m_CachedLng As Double
 
+        <DataMember(Name:="curbside_lat")> _
+        Public Property CurbsideLat() As Double
+            Get
+                Return m_CurbsideLat
+            End Get
+            Set(value As Double)
+                m_CurbsideLat = value
+            End Set
+        End Property
+        Private m_CurbsideLat As Double
+
+        <DataMember(Name:="curbside_lng")> _
+        Public Property CurbsideLng() As Double
+            Get
+                Return m_CurbsideLng
+            End Get
+            Set(value As Double)
+                m_CurbsideLng = value
+            End Set
+        End Property
+        Private m_CurbsideLng As Double
+
+        <DataMember(Name:="address_custom_data", EmitDefaultValue:=False)> _
+        Public Property AddressCustomData() As Dictionary(Of String, String)()
+            Get
+                Return m_AddressCustomData
+            End Get
+            Set(value As Dictionary(Of String, String)())
+                m_AddressCustomData = value
+            End Set
+        End Property
+        Private m_AddressCustomData As Dictionary(Of String, String)()
+
+        <DataMember(Name:="in_route_count", EmitDefaultValue:=False)> _
+        Public Property InRouteCount() As System.Nullable(Of Integer)
+            Get
+                Return m_InRouteCount
+            End Get
+            Set(value As System.Nullable(Of Integer))
+                m_InRouteCount = value
+            End Set
+        End Property
+        Private m_InRouteCount As System.Nullable(Of Integer)
+
+        <DataMember(Name:="last_visited_timestamp", EmitDefaultValue:=False)> _
+        Public Property LastVisitedTimestamp() As System.Nullable(Of Integer)
+            Get
+                Return m_LastVisitedTimestamp
+            End Get
+            Set(value As System.Nullable(Of Integer))
+                m_LastVisitedTimestamp = value
+            End Set
+        End Property
+        Private m_LastVisitedTimestamp As System.Nullable(Of Integer)
+
+        <DataMember(Name:="last_routed_timestamp", EmitDefaultValue:=False)> _
+        Public Property LastRoutedTimestamp() As System.Nullable(Of Integer)
+            Get
+                Return m_LastRoutedTimestamp
+            End Get
+            Set(value As System.Nullable(Of Integer))
+                m_LastRoutedTimestamp = value
+            End Set
+        End Property
+        Private m_LastRoutedTimestamp As System.Nullable(Of Integer)
+
+        <DataMember(Name:="local_time_window_start", EmitDefaultValue:=False)> _
+        Public Property LocalTimeWindowStart() As System.Nullable(Of Integer)
+            Get
+                Return m_LocalTimeWindowStart
+            End Get
+            Set(value As System.Nullable(Of Integer))
+                m_LocalTimeWindowStart = value
+            End Set
+        End Property
+        Private m_LocalTimeWindowStart As System.Nullable(Of Integer)
+
+        <DataMember(Name:="local_time_window_end", EmitDefaultValue:=False)> _
+        Public Property LocalTimeWindowEnd() As System.Nullable(Of Integer)
+            Get
+                Return m_LocalTimeWindowEnd
+            End Get
+            Set(value As System.Nullable(Of Integer))
+                m_LocalTimeWindowEnd = value
+            End Set
+        End Property
+        Private m_LocalTimeWindowEnd As System.Nullable(Of Integer)
+
+        <DataMember(Name:="local_time_window_start_2", EmitDefaultValue:=False)> _
+        Public Property LocalTimeWindowStart2() As System.Nullable(Of Integer)
+            Get
+                Return m_LocalTimeWindowStart2
+            End Get
+            Set(value As System.Nullable(Of Integer))
+                m_LocalTimeWindowStart2 = value
+            End Set
+        End Property
+        Private m_LocalTimeWindowStart2 As System.Nullable(Of Integer)
+
+        <DataMember(Name:="local_time_window_end_2", EmitDefaultValue:=False)> _
+        Public Property LocalTimeWindowEnd2() As System.Nullable(Of Integer)
+            Get
+                Return m_LocalTimeWindowEnd2
+            End Get
+            Set(value As System.Nullable(Of Integer))
+                m_LocalTimeWindowEnd2 = value
+            End Set
+        End Property
+        Private m_LocalTimeWindowEnd2 As System.Nullable(Of Integer)
+
+        <DataMember(Name:="service_time", EmitDefaultValue:=False)> _
+        Public Property ServiceTime() As System.Nullable(Of Integer)
+            Get
+                Return m_ServiceTime
+            End Get
+            Set(value As System.Nullable(Of Integer))
+                m_ServiceTime = value
+            End Set
+        End Property
+        Private m_ServiceTime As System.Nullable(Of Integer)
+
+        <DataMember(Name:="local_timezone_string", EmitDefaultValue:=False)> _
+        Public Property LocalTimezoneString() As String
+            Get
+                Return m_LocalTimezoneString
+            End Get
+            Set(value As String)
+                m_LocalTimezoneString = value
+            End Set
+        End Property
+        Private m_LocalTimezoneString As String
+
         <DataMember(Name:="color", EmitDefaultValue:=False)> _
         Public Property Color() As String
             Get
                 Return m_Color
             End Get
             Set(value As String)
-                m_Color = Value
+                m_Color = value
             End Set
         End Property
         Private m_Color As String
+
+        <DataMember(Name:="address_icon", EmitDefaultValue:=False)> _
+        Public Property AddressIcon() As String
+            Get
+                Return m_AddressIcon
+            End Get
+            Set(value As String)
+                m_AddressIcon = value
+            End Set
+        End Property
+        Private m_AddressIcon As String
+
     End Class
 End Namespace

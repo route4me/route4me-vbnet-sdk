@@ -1,4 +1,7 @@
-﻿Namespace Route4MeSDK.QueryTypes
+﻿Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
+Imports System.Runtime.Serialization
+
+Namespace Route4MeSDK.QueryTypes
     Public NotInheritable Class AddressBookParameters
         Inherits GenericParameters
         <HttpQueryMemberAttribute(Name:="address_id", EmitDefaultValue:=False)> _
@@ -7,7 +10,7 @@
                 Return m_AddressId
             End Get
             Set(value As String)
-                m_AddressId = Value
+                m_AddressId = value
             End Set
         End Property
         Private m_AddressId As String
@@ -18,7 +21,7 @@
                 Return m_Limit
             End Get
             Set(value As System.Nullable(Of UInteger))
-                m_Limit = Value
+                m_Limit = value
             End Set
         End Property
         Private m_Limit As System.Nullable(Of UInteger)
@@ -29,7 +32,7 @@
                 Return m_Offset
             End Get
             Set(value As System.Nullable(Of UInteger))
-                m_Offset = Value
+                m_Offset = value
             End Set
         End Property
         Private m_Offset As System.Nullable(Of UInteger)
@@ -40,7 +43,7 @@
                 Return m_Start
             End Get
             Set(value As System.Nullable(Of UInteger))
-                m_Start = Value
+                m_Start = value
             End Set
         End Property
         Private m_Start As System.Nullable(Of UInteger)
@@ -56,13 +59,13 @@
         End Property
         Private m_Query As String
 
-        <HttpQueryMemberAttribute(Name:="fields", EmitDefaultValue:=False)> _
+        <DataMember(Name:="fields", EmitDefaultValue:=False)> _
         Public Property Fields() As String
             Get
                 Return m_Fields
             End Get
             Set(value As String)
-                m_Fields = Value
+                m_Fields = value
             End Set
         End Property
         Private m_Fields As String
@@ -73,9 +76,10 @@
                 Return m_Display
             End Get
             Set(value As String)
-                m_Display = Value
+                m_Display = value
             End Set
         End Property
         Private m_Display As String
+
     End Class
 End Namespace

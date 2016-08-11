@@ -1311,6 +1311,122 @@ Namespace Route4MeSDK
             Return result
         End Function
 
+        Public Function GetAddressBookLocation(addressBookParameters As AddressBookParameters, ByRef total As UInteger, ByRef errorString As String) As AddressBookContact()
+            total = 0
+
+            Dim response = GetJsonObjectFromAPI(Of GetAddressBookContactsResponse)(addressBookParameters, R4MEInfrastructureSettings.AddressBook, HttpMethodType.[Get], errorString)
+            Dim result As AddressBookContact() = Nothing
+            If response IsNot Nothing Then
+                result = response.Results
+                total = response.Total
+            End If
+            Return result
+        End Function
+
+        <DataContract> _
+        Private NotInheritable Class SearchAddressBookLocationRequest
+            Inherits GenericParameters
+            <HttpQueryMemberAttribute(Name:="query", EmitDefaultValue:=False)> _
+            Public Property Query() As String
+                Get
+                    Return m_Query
+                End Get
+                Set(value As String)
+                    m_Query = value
+                End Set
+            End Property
+            Private m_Query As String
+
+            <HttpQueryMemberAttribute(Name:="fields", EmitDefaultValue:=False)> _
+            Public Property Fields() As String
+                Get
+                    Return m_Fields
+                End Get
+                Set(value As String)
+                    m_Fields = value
+                End Set
+            End Property
+            Private m_Fields As String
+
+            <HttpQueryMemberAttribute(Name:="offset", EmitDefaultValue:=False)> _
+            Public Property Offset() As System.Nullable(Of Integer)
+                Get
+                    Return m_Offset
+                End Get
+                Set(value As System.Nullable(Of Integer))
+                    m_Offset = value
+                End Set
+            End Property
+            Private m_Offset As System.Nullable(Of Integer)
+
+            <HttpQueryMemberAttribute(Name:="limit", EmitDefaultValue:=False)> _
+            Public Property Limit() As System.Nullable(Of Integer)
+                Get
+                    Return m_Limit
+                End Get
+                Set(value As System.Nullable(Of Integer))
+                    m_Limit = value
+                End Set
+            End Property
+            Private m_Limit As System.Nullable(Of Integer)
+
+        End Class
+
+        <DataContract> _
+        Private NotInheritable Class SearchAddressBookLocationResponse
+            <DataMember(Name:="results")> _
+            Public Property Results() As List(Of String())
+                Get
+                    Return m_Results
+                End Get
+                Set(value As List(Of String()))
+                    m_Results = value
+                End Set
+            End Property
+            Private m_Results As List(Of String())
+
+            <DataMember(Name:="total")> _
+            Public Property Total() As UInteger
+                Get
+                    Return m_Total
+                End Get
+                Set(value As UInteger)
+                    m_Total = value
+                End Set
+            End Property
+            Private m_Total As UInteger
+
+            <DataMember(Name:="fields")> _
+            Public Property Fields() As String()
+                Get
+                    Return m_Fields
+                End Get
+                Set(value As String())
+                    m_Fields = value
+                End Set
+            End Property
+            Private m_Fields As String()
+        End Class
+
+        Public Function SearchAddressBookLocation(addressBookParameters As AddressBookParameters, ByRef total As UInteger, ByRef errorString As String) As List(Of String())
+            total = 0
+
+            Dim request As SearchAddressBookLocationRequest = New SearchAddressBookLocationRequest() With { _
+                .Query = addressBookParameters.Query, _
+                .Fields = addressBookParameters.Fields, _
+                .Offset = addressBookParameters.Offset, _
+                .Limit = addressBookParameters.Limit _
+            }
+
+            Dim response = GetJsonObjectFromAPI(Of SearchAddressBookLocationResponse)(request, R4MEInfrastructureSettings.AddressBook, HttpMethodType.[Get], errorString)
+            Dim result As List(Of String()) = Nothing
+            If response IsNot Nothing Then
+                result = response.Results
+                total = response.Total
+            End If
+            Return result
+        End Function
+
         Public Function AddAddressBookContact(contact As AddressBookContact, ByRef errorString As String) As AddressBookContact
             contact.PrepareForSerialization()
             Dim result As AddressBookContact = GetJsonObjectFromAPI(Of AddressBookContact)(contact, R4MEInfrastructureSettings.AddressBook, HttpMethodType.Post, errorString)
