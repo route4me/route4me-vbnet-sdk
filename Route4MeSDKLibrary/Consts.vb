@@ -43,6 +43,8 @@
         Public Const RapidStreetService As String = "https://rapid.route4me.com/street_data/service"
         Public Const AssetTracking As String = MainHost + "/api/asset/find_route.php"
 
+        Public Const ViewVehicles As String = MainHost + "/api/vehicles/view_vehicles.php"
+
 
 #End Region
     End Class

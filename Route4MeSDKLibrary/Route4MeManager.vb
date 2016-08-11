@@ -1427,7 +1427,6 @@ Namespace Route4MeSDK
 
 #End Region
 
-
 #Region "Orders"
 
         Public Function GetOrderByID(orderQuery As OrderParameters, ByRef errorString As String) As Order
@@ -1901,6 +1900,25 @@ Namespace Route4MeSDK
             End If
 
             Return result
+        End Function
+
+#End Region
+
+#Region "Vehicles"
+
+        ''' <summary>
+        ''' Get Vehicles
+        ''' </summary>
+        ''' <param name="vehParams"> Parameters for request </param>
+        ''' <param name="total"> out: Total number of Vehicles </param>
+        ''' <param name="errorString"> out: Error as string </param>
+        ''' <returns> Vehicle object list </returns>
+        Public Function GetVehicles(vehParams As VehicleParameters, ByRef errorString As String) As VehicleResponse()
+
+            Dim response As VehicleResponse() = GetJsonObjectFromAPI(Of VehicleResponse())(vehParams, R4MEInfrastructureSettings.ViewVehicles, HttpMethodType.[Get], errorString)
+
+            Return response
+
         End Function
 
 #End Region

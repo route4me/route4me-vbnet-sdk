@@ -7,6 +7,10 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
+            ' ======== Get Vehicles ===========================
+            examples.GetVehicles()
+            '======================================================================
+
             ' ======== Search Route Owner Changed ===========================
             examples.SearchRouteOwnerChanged()
             '======================================================================
