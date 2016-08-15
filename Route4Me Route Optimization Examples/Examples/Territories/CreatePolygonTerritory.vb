@@ -14,7 +14,7 @@ Namespace Route4MeSDKTest.Examples
                 .TerritoryName = "Test Territory", _
                 .TerritoryColor = "ff0000", _
                 .Territory = New Territory() With { _
-                    .Type = EnumHelper.GetEnumDescription(TerritoryType.Circle), _
+                    .Type = EnumHelper.GetEnumDescription(TerritoryType.Poly), _
                     .Data = New String() {"37.569752822786455,-77.47833251953125", _
                                           "37.75886716305343,-77.68974800109863", _
                                         "37.74763966054455,-77.6917221069336", _

@@ -4,9 +4,9 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
-        ''' Add Avoidance Zone
+        ''' Add Rectangle Territory
         ''' </summary>
-        Public Sub CreateTerritory()
+        Public Sub CreateRectTerritory()
             ' Create the manager with the api key
             Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -14,8 +14,11 @@ Namespace Route4MeSDKTest.Examples
                 .TerritoryName = "Test Territory", _
                 .TerritoryColor = "ff0000", _
                 .Territory = New Territory() With { _
-                    .Type = EnumHelper.GetEnumDescription(TerritoryType.Circle), _
-                    .Data = New String() {"37.569752822786455,-77.47833251953125", "5000"} _
+                    .Type = EnumHelper.GetEnumDescription(TerritoryType.Rect), _
+                    .Data = New String() { _
+                        "43.51668853502909,-109.3798828125", _
+                        "46.98025235521883,-101.865234375" _
+                        } _
                 } _
             }
 
@@ -26,11 +29,11 @@ Namespace Route4MeSDKTest.Examples
             Console.WriteLine("")
 
             If territory IsNot Nothing Then
-                Console.WriteLine("CreateTerritory executed successfully")
+                Console.WriteLine("CreateRectTerritory executed successfully")
 
                 Console.WriteLine("Territory ID: {0}", territory.TerritoryId)
             Else
-                Console.WriteLine("CreateTerritory error: {0}", errorString)
+                Console.WriteLine("CreateRectTerritory error: {0}", errorString)
             End If
         End Sub
     End Class
