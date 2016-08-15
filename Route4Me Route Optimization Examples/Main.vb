@@ -7,8 +7,16 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
+            ' ======== Add Rectangular Avoidance Zone  ===========================
+            examples.AddRectAvoidanceZone()
+            '======================================================================
+
+            ' ======== Add Polygon Avoidance Zone  ===========================
+            'examples.AddPolygonAvoidanceZone()
+            '======================================================================
+
             ' ======== Remove Territory  ===========================
-            examples.UpdateTerritory()
+            'examples.UpdateTerritory()
             '======================================================================
 
             ' ======== Remove Territory  ===========================
