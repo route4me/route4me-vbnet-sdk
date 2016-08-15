@@ -31,6 +31,7 @@
         Public Const MoveRouteDestination As String = MainHost + "/actions/route/move_route_destination.php"
         Public Const AddressBook As String = MainHost + "/api.v4/address_book.php"
         Public Const Avoidance As String = MainHost + "/api.v4/avoidance.php"
+        Public Const Territory As String = MainHost + "/api.v4/territory.php"
         Public Const Order As String = MainHost + "/api.v4/order.php"
         Public Const RouteReoptimize As String = MainHost + "/api.v3/route/reoptimize_2.php"
         Public Const RouteSharing As String = MainHost + "/actions/route/share_route.php"
