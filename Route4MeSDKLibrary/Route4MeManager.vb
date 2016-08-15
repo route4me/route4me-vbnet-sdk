@@ -1567,6 +1567,17 @@ Namespace Route4MeSDK
             Return territory
         End Function
 
+        ''' <summary>
+        ''' Get territories by parameters
+        ''' </summary>
+        ''' <param name="avoidanceZoneQuery"> Parameters for request </param>
+        ''' <param name="errorString"> out: Error as string </param>
+        ''' <returns> Territory zone Objects </returns>
+        Public Function GetTerritories(avoidanceZoneQuery As AvoidanceZoneQuery, ByRef errorString As String) As AvoidanceZone()
+            Dim territories As AvoidanceZone() = GetJsonObjectFromAPI(Of AvoidanceZone())(avoidanceZoneQuery, R4MEInfrastructureSettings.Territory, HttpMethodType.[Get], errorString)
+            Return territories
+        End Function
+
 #End Region
 
 #Region "Orders"

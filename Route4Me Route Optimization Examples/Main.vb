@@ -8,11 +8,15 @@ Namespace Route4MeSDKTest
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
             ' ======== Get a Territory  ===========================
-            examples.GetTerritory()
+            examples.GetTerritories()
+            '======================================================================
+
+            ' ======== Get a Territory  ===========================
+            'examples.GetTerritory()
             '======================================================================
 
             ' ======== Create a Territory  ===========================
-            examples.CreateTerritory()
+            'examples.CreateTerritory()
             '======================================================================
 
             ' ======== Search Locations By IDs  ===========================
