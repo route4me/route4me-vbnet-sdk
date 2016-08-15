@@ -1578,6 +1578,28 @@ Namespace Route4MeSDK
             Return territories
         End Function
 
+        ''' <summary>
+        ''' Remove Territory (by territory id, device id)
+        ''' </summary>
+        ''' <param name="territoryQuery"> Parameters for request </param>
+        ''' <param name="errorString"> out: Error as string </param>
+        ''' <returns> Result status true/false </returns>
+        Public Function RemoveTerritory(territoryQuery As AvoidanceZoneQuery, ByRef errorString As String) As Boolean
+            GetJsonObjectFromAPI(Of AvoidanceZone)(territoryQuery, R4MEInfrastructureSettings.Territory, HttpMethodType.Delete, errorString)
+            Return errorString <> ""
+        End Function
+
+        ''' <summary>
+        ''' Update Territory (by territory id, device id)
+        ''' </summary>
+        ''' <param name="tereritoryParameters"> Parameters for request </param>
+        ''' <param name="errorString"> out: Error as string </param>
+        ''' <returns> Territory Object </returns>
+        Public Function UpdateTerritory(tereritoryParameters As AvoidanceZoneParameters, ByRef errorString As String) As AvoidanceZone
+            Dim territory As AvoidanceZone = GetJsonObjectFromAPI(Of AvoidanceZone)(tereritoryParameters, R4MEInfrastructureSettings.Territory, HttpMethodType.Put, errorString)
+            Return territory
+        End Function
+
 #End Region
 
 #Region "Orders"

@@ -7,8 +7,24 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
-            ' ======== Get a Territory  ===========================
-            examples.GetTerritories()
+            ' ======== Remove Territory  ===========================
+            examples.UpdateTerritory()
+            '======================================================================
+
+            ' ======== Remove Territory  ===========================
+            'examples.RemoveTerritory()
+            '======================================================================
+
+            ' ======== Create Rectangular Territory  ===========================
+            'examples.CreateRectTerritory()
+            '======================================================================
+
+            ' ======== Create Polygon Territory  ===========================
+            'examples.CreatePolygonTerritory()
+            '======================================================================
+
+            ' ======== Get a Territories  ===========================
+            'examples.GetTerritories()
             '======================================================================
 
             ' ======== Get a Territory  ===========================
