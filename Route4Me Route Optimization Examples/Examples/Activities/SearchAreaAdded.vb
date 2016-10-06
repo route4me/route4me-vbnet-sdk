@@ -7,6 +7,9 @@ Namespace Route4MeSDKTest.Examples
             ' Create the manager with the api key
             Dim route4Me As New Route4MeManager(c_ApiKey)
 
+			' Possible values of the parameter ActivityType are:
+			' "delete-destination", "insert-destination", "mark-destination-departed", "move-destination", "update-destinations", 
+			' "mark-destination-visited", "member-created", "member-deleted", "member-modified", "note-insert", "route-delete", "route-optimized", "route-owner-changed"
             Dim activityParameters As New ActivityParameters() With { _
                 .ActivityType = "area-added" _
             }
