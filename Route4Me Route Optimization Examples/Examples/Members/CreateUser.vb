@@ -36,7 +36,7 @@ Namespace Route4MeSDKTest.Examples
 
             If result IsNot Nothing Then
                 Console.WriteLine("UserRegistration executed successfully")
-                Console.WriteLine("status: " & result.member_first_name & " " & result.member_first_name)
+                Console.WriteLine("User: " & result.member_first_name & " " & result.member_last_name)
                 Console.WriteLine("member_id: " & result.member_id)
                 Console.WriteLine("---------------------------")
             Else

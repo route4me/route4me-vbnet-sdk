@@ -651,6 +651,11 @@ Namespace Route4MeSDK
 
         End Function
 
+        Public Function GetUserById(memParams As MemberParametersV4, ByRef errorString As String) As MemberResponseV4
+            Dim response As MemberResponseV4 = GetJsonObjectFromAPI(Of MemberResponseV4)(memParams, R4MEInfrastructureSettings.GetUsersHost, HttpMethodType.Get, errorString)
+            Return response
+        End Function
+
         Public Function CreateUser(memParams As MemberParametersV4, ByRef errorString As String) As MemberResponseV4
 
             Dim response As MemberResponseV4 = GetJsonObjectFromAPI(Of MemberResponseV4)(memParams, R4MEInfrastructureSettings.GetUsersHost, HttpMethodType.Post, errorString)
