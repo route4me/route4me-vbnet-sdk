@@ -5,7 +5,7 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
-        ''' Remove User
+        ''' Get User By ID
         ''' </summary>
         Public Sub GetUserById()
             ' Create the manager with the api key
