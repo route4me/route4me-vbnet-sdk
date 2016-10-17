@@ -18,10 +18,6 @@ Namespace Route4MeSDKTest.Examples
             If dataObjects IsNot Nothing Then
                 Console.WriteLine("GetUsers executed successfully, {0} users returned", dataObjects.Length)
 
-                'dataObjects.ForEach(user =>
-                '{
-                '  Console.WriteLine("User ID: {0}", user.MemberId);
-                '});
                 Console.WriteLine("")
             Else
                 Console.WriteLine("GetUsers error: {0}", errorString)
