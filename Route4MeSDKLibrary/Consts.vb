@@ -16,7 +16,8 @@
         Public Const RouteHost As String = MainHost + "/api.v4/route.php"
         Public Const SetGpsHost As String = MainHost + "/track/set.php"
 
-        Public Const GetUsersHost As String = MainHost + "/api/member/view_users.php"
+        'Public Const GetUsersHost As String = MainHost + "/api/member/view_users.php" 'old endpoint version
+        Public Const GetUsersHost As String = MainHost + "/api.v4/user.php"
         Public Const UserAuthentication As String = MainHost + "/actions/authenticate.php"
         Public Const ValidateSession As String = MainHost + "/datafeed/session/validate_session.php"
         Public Const UserRegistration As String = MainHost + "/actions/register_action.php"

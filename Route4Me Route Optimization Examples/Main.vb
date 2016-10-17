@@ -7,8 +7,24 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
+            ' ======== Delete an User  ===========================
+            examples.DeleteUser()
+            '======================================================================
+
+            ' ======== Update an User  ===========================
+            'examples.UpdateUser()
+            '======================================================================
+
+            ' ======== Create an User  ===========================
+            'examples.CreateUser()
+            '======================================================================
+
+            ' ======== Get Users  ===========================
+            'examples.GetUsers()
+            '======================================================================
+
             ' ======== Add Rectangular Avoidance Zone  ===========================
-            examples.AddRectAvoidanceZone()
+            'examples.AddRectAvoidanceZone()
             '======================================================================
 
             ' ======== Add Polygon Avoidance Zone  ===========================
@@ -356,11 +372,11 @@ Namespace Route4MeSDKTest
             '======================================================================
 
             ' ======== Merge Routes ===========================
-            'Dim RouteIds As String = "0E0F64689F772586042D0F3F4BFBEFA2,9E8D60B196743D6872E9D899E1BDE753"
-            'Dim DepotAddress As String = "455 S 4th St, Louisville, KY 40202"
+            'Dim RouteIds As String = "56E8F6BF949670F0C0BBAC00590FD116,A6DAA07A7D4737723A9C85E7C3BA2351"
+            'Dim DepotAddress As String = "11921 N Dickinson Dr, Fredericksburg, VA 22407, USA"
             'Dim RemoveOrigin As String = "0"
-            'Dim Latitude As String = "38.251698"
-            'Dim Longitude As String = "85.757308'"
+            'Dim Latitude As String = "38.285804"
+            'Dim Longitude As String = "-77.555054"
 
             'Dim params As New Dictionary(Of String, String)
             'params.Add("route_ids", RouteIds)

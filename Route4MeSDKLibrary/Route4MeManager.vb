@@ -650,6 +650,47 @@ Namespace Route4MeSDK
             Return response
 
         End Function
+
+        Public Function CreateUser(memParams As MemberParametersV4, ByRef errorString As String) As MemberResponseV4
+
+            Dim response As MemberResponseV4 = GetJsonObjectFromAPI(Of MemberResponseV4)(memParams, R4MEInfrastructureSettings.GetUsersHost, HttpMethodType.Post, errorString)
+            Return response
+
+        End Function
+
+        Public Function UserUpdate(memParams As MemberParametersV4, ByRef errorString As String) As MemberResponseV4
+            Dim response As MemberResponseV4 = GetJsonObjectFromAPI(Of MemberResponseV4)(memParams, R4MEInfrastructureSettings.GetUsersHost, HttpMethodType.Put, errorString)
+            Return response
+        End Function
+
+        <DataContract> _
+        Public NotInheritable Class USerDeleteResponse
+            <DataMember(Name:="status")> _
+            Public Property Status() As Boolean
+                Get
+                    Return m_Status
+                End Get
+                Set(value As Boolean)
+                    m_Status = value
+                End Set
+            End Property
+            Private m_Status As Boolean
+        End Class
+
+        Public Function UserDelete(memParams As MemberParametersV4, ByRef errorString As String) As Boolean
+            Dim response As USerDeleteResponse = GetJsonObjectFromAPI(Of USerDeleteResponse)(memParams, R4MEInfrastructureSettings.GetUsersHost, HttpMethodType.Delete, errorString)
+
+            If response Is Nothing Then
+                Return False
+            End If
+
+            If response.Status Then
+                Return True
+            Else
+                Return False
+            End If
+
+        End Function
 #End Region
 
 #Region "Address Notes"
