@@ -56,6 +56,17 @@
         End Property
         Private m_Offset As System.Nullable(Of UInteger)
 
+        <HttpQueryMemberAttribute(Name:="team", EmitDefaultValue:=False)> _
+        Public Property team() As String
+            Get
+                Return m_team
+            End Get
+            Set(value As String)
+                m_team = value
+            End Set
+        End Property
+        Private m_team As String
+
         <HttpQueryMemberAttribute(Name:="start", EmitDefaultValue:=False)> _
         Public Property Start() As System.Nullable(Of UInteger)
             Get

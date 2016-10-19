@@ -7,7 +7,11 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
-            ' ======== Delete an User  ===========================
+            ' ======== Get Team Activities on a Route  ===========================
+            examples.GetRouteTeamActivities()
+            '======================================================================
+
+            ' ======== Get USer By ID  ===========================
             'examples.GetUserById()
             '======================================================================
 
@@ -56,7 +60,7 @@ Namespace Route4MeSDKTest
             '======================================================================
 
             ' ======== Get a Territory  ===========================
-            examples.GetTerritory()
+            'examples.GetTerritory()
             '======================================================================
 
             ' ======== Create a Territory  ===========================
