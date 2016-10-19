@@ -10,15 +10,16 @@ Namespace Route4MeSDKTest.Examples
             ' Create the manager with the api key
             Dim route4Me As New Route4MeManager(c_ApiKey)
 
-            Dim territoryId As String = "03C0330958139E3EDF61EFFCEFBBD64E"
+            Dim territoryId As String = "596A2A44FE9FB19EEB9C3C072BF2D0BE"
 
-            Dim territoryQuery As New AvoidanceZoneQuery() With { _
-                .TerritoryId = territoryId _
+            Dim territoryQuery1 As New TerritoryQuery() With { _
+                .TerritoryId = territoryId, _
+                .addresses = 1
             }
 
             ' Run the query
             Dim errorString As String = ""
-            Dim territory As AvoidanceZone = route4Me.GetTerritory(territoryQuery, errorString)
+            Dim territory As TerritoryZone = route4Me.GetTerritory(territoryQuery1, errorString)
 
             Console.WriteLine("")
 

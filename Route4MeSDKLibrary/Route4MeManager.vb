@@ -1603,13 +1603,13 @@ Namespace Route4MeSDK
         End Function
 
         ''' <summary>
-        ''' Get territory by parameters (territory id, device id)
+        ''' Get territory by parameters (territory id, device id, addresses)
         ''' </summary>
-        ''' <param name="avoidanceZoneQuery"> Parameters for request </param>
+        ''' <param name="territoryQuery"> Parameters for request </param>
         ''' <param name="errorString"> out: Error as string </param>
         ''' <returns> Territory zone Object </returns>
-        Public Function GetTerritory(avoidanceZoneQuery As AvoidanceZoneQuery, ByRef errorString As String) As AvoidanceZone
-            Dim territory As AvoidanceZone = GetJsonObjectFromAPI(Of AvoidanceZone)(avoidanceZoneQuery, R4MEInfrastructureSettings.Territory, HttpMethodType.[Get], errorString)
+        Public Function GetTerritory(territoryQuery As TerritoryQuery, ByRef errorString As String) As TerritoryZone
+            Dim territory As TerritoryZone = GetJsonObjectFromAPI(Of TerritoryZone)(territoryQuery, R4MEInfrastructureSettings.Territory, HttpMethodType.[Get], errorString)
             Return territory
         End Function
 
