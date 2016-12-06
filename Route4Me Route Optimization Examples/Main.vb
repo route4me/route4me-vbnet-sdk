@@ -7,8 +7,12 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
+            ' ======== Create Route with 7 stops and Hebrew addresses  ============
+            examples.SingleDriverRoute7Stops()
+            '======================================================================
+
             ' ======== Get Team Activities on a Route  ===========================
-            examples.GetRouteTeamActivities()
+            'examples.GetRouteTeamActivities()
             '======================================================================
 
             ' ======== Get USer By ID  ===========================

@@ -12,6 +12,21 @@
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,6 +60,9 @@
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Route4MeSDKLibrary">
       <HintPath>..\Route4MeSDKLibrary\bin\Debug\Route4MeSDKLibrary.dll</HintPath>
@@ -70,45 +88,111 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Examples\AddAddressBookContact.vb" />
+    <Compile Include="Examples\Activities\GetRouteTeamActivities.vb" />
+    <Compile Include="Examples\Activities\SearchAreaAdded.vb" />
+    <Compile Include="Examples\Activities\SearchDestinationDeleted.vb" />
+    <Compile Include="Examples\Activities\SearchDestinationInserted.vb" />
+    <Compile Include="Examples\Activities\SearchDestinationMarkedAsDeparted.vb" />
+    <Compile Include="Examples\Activities\SearchNoteInserted.vb" />
+    <Compile Include="Examples\Activities\SearchRouteOwnerChanged.vb" />
+    <Compile Include="Examples\Addressbook\AddAddressBookContact.vb" />
     <Compile Include="Examples\AddAddressNote.vb" />
-    <Compile Include="Examples\AddAvoidanceZone.vb" />
+    <Compile Include="Examples\AvoidanceZone\AddAvoidanceZone.vb" />
     <Compile Include="Examples\AddDestinationToOptimization.vb" />
+    <Compile Include="Examples\AddOrder.vb" />
+    <Compile Include="Examples\AddOrdersToOptimization.vb" />
+    <Compile Include="Examples\AddOrdersToRoute.vb" />
+    <Compile Include="Examples\Addressbook\GetAddressbookLocation.vb" />
+    <Compile Include="Examples\Addressbook\GetSpecifiedFieldsSearchText.vb" />
+    <Compile Include="Examples\Addressbook\SearchLocarionsByIDs.vb" />
+    <Compile Include="Examples\Addressbook\SearchRoutedLocations.vb" />
     <Compile Include="Examples\AddRouteDestinations.vb" />
-    <Compile Include="Examples\DeleteAvoidanceZone.vb" />
+    <Compile Include="Examples\AvoidanceZone\AddPolygonAvoidanceZone.vb" />
+    <Compile Include="Examples\AvoidanceZone\AddRectAvoidanceZone.vb" />
+    <Compile Include="Examples\AvoidanceZone\DeleteAvoidanceZone.vb" />
     <Compile Include="Examples\DeleteRoutes.vb" />
     <Compile Include="Examples\DuplicateRoute.vb" />
     <Compile Include="Examples\ExamplesInfrastructure.vb" />
+    <Compile Include="Examples\FindAsset.vb" />
     <Compile Include="Examples\GenericExample.vb" />
-    <Compile Include="Examples\GetActivities.vb" />
+    <Compile Include="Examples\GeocodingForward.vb" />
+    <Compile Include="Examples\Activities\GetActivities.vb" />
     <Compile Include="Examples\GetAddress.vb" />
-    <Compile Include="Examples\GetAddressBookContacts.vb" />
+    <Compile Include="Examples\Addressbook\GetAddressBookContacts.vb" />
     <Compile Include="Examples\GetAddressNotes.vb" />
-    <Compile Include="Examples\GetAvoidanceZone.vb" />
-    <Compile Include="Examples\GetAvoidanceZones.vb" />
+    <Compile Include="Examples\AvoidanceZone\GetAvoidanceZone.vb" />
+    <Compile Include="Examples\AvoidanceZone\GetAvoidanceZones.vb" />
     <Compile Include="Examples\GetOptimization.vb" />
     <Compile Include="Examples\GetOptimizations.vb" />
+    <Compile Include="Examples\GetOrder.vb" />
+    <Compile Include="Examples\GetOrderByID.vb" />
+    <Compile Include="Examples\GetOrderByInsertedDate.vb" />
+    <Compile Include="Examples\GetOrdersByCustomFields.vb" />
+    <Compile Include="Examples\GetOrdersByScheduledDate.vb" />
+    <Compile Include="Examples\GetOrdersBySpecifiedText.vb" />
     <Compile Include="Examples\GetRoute.vb" />
+    <Compile Include="Examples\GetRouteDirections.vb" />
+    <Compile Include="Examples\GetRoutePathPoints.vb" />
     <Compile Include="Examples\GetRoutes.vb" />
-    <Compile Include="Examples\GetUsers.vb" />
+    <Compile Include="Examples\Members\CreateUser.vb" />
+    <Compile Include="Examples\Members\DeleteUser.vb" />
+    <Compile Include="Examples\Members\GetUserById.vb" />
+    <Compile Include="Examples\Members\GetUsers.vb" />
+    <Compile Include="Examples\InsertAddressIntoRouteOptimalPosition.vb" />
+    <Compile Include="Examples\Activities\LogSpecificMessage.vb" />
+    <Compile Include="Examples\MarkAddressAsDetectedAsVisited.vb" />
+    <Compile Include="Examples\MarkAddressAsMarkedAsDeparted.vb" />
+    <Compile Include="Examples\MarkAddressDeparted.vb" />
+    <Compile Include="Examples\MarkAddressVisited.vb" />
+    <Compile Include="Examples\Members\UpdateUser.vb" />
+    <Compile Include="Examples\MergeRoutes.vb" />
     <Compile Include="Examples\MoveDestinationToRoute.vb" />
     <Compile Include="Examples\MultipleDepotMultipleDriver.vb" />
     <Compile Include="Examples\MultipleDepotMultipleDriverTimeWindow.vb" />
     <Compile Include="Examples\MultipleDepotMultipleDriverWith24StopsTimeWindow.vb" />
-    <Compile Include="Examples\RemoveAddressBookContacts.vb" />
+    <Compile Include="Examples\RapidStreetDataAll.vb" />
+    <Compile Include="Examples\RapidStreetDataLimited.vb" />
+    <Compile Include="Examples\RapidStreetDataSingle.vb" />
+    <Compile Include="Examples\RapidStreetServiceAll.vb" />
+    <Compile Include="Examples\RapidStreetServiceLimited.vb" />
+    <Compile Include="Examples\RapidStreetZipcodeAll.vb" />
+    <Compile Include="Examples\RapidStreetZipcodeLimited.vb" />
+    <Compile Include="Examples\Addressbook\RemoveAddressBookContacts.vb" />
+    <Compile Include="Examples\RemoveAddressFromOptimization.vb" />
+    <Compile Include="Examples\RemoveOptimization.vb" />
+    <Compile Include="Examples\RemoveOrder.vb" />
     <Compile Include="Examples\RemoveRouteDestination.vb" />
     <Compile Include="Examples\ReOptimization.vb" />
     <Compile Include="Examples\ReoptimizeRoute.vb" />
+    <Compile Include="Examples\ResequenceReoptimizeRoute.vb" />
+    <Compile Include="Examples\ResequenceRouteDestination.vb" />
+    <Compile Include="Examples\ReverseGeocoding.vb" />
+    <Compile Include="Examples\RouteSharing.vb" />
     <Compile Include="Examples\SetGPSPosition.vb" />
     <Compile Include="Examples\SingleDepotMultipleDriverNoTimeWindow.vb" />
     <Compile Include="Examples\SingleDriverMultipleTimeWindows.vb" />
     <Compile Include="Examples\SingleDriverRoundTrip.vb" />
     <Compile Include="Examples\SingleDriverRoundTripGeneric.vb" />
     <Compile Include="Examples\SingleDriverRoute10Stops.vb" />
+    <Compile Include="Examples\SingleDriverRoute7Stops.vb" />
+    <Compile Include="Examples\Territories\CreatePolygonTerritory.vb" />
+    <Compile Include="Examples\Territories\CreateRectTerritory.vb" />
+    <Compile Include="Examples\Territories\CreateTerritory.vb" />
+    <Compile Include="Examples\Territories\GetTerritories.vb" />
+    <Compile Include="Examples\Territories\GetTerritory.vb" />
+    <Compile Include="Examples\Territories\RemoveTerritory.vb" />
+    <Compile Include="Examples\Territories\UpdateTerritory.vb" />
     <Compile Include="Examples\TrackDeviceLastLocationHistory.vb" />
-    <Compile Include="Examples\UpdateAddressBookContact.vb" />
-    <Compile Include="Examples\UpdateAvoidanceZone.vb" />
+    <Compile Include="Examples\Addressbook\UpdateAddressBookContact.vb" />
+    <Compile Include="Examples\AvoidanceZone\UpdateAvoidanceZone.vb" />
+    <Compile Include="Examples\UpdateOrder.vb" />
     <Compile Include="Examples\UpdateRoute.vb" />
+    <Compile Include="Examples\UpdateRouteCustomData.vb" />
+    <Compile Include="Examples\Members\UserAuthentication.vb" />
+    <Compile Include="Examples\Members\UserRegistration.vb" />
+    <Compile Include="Examples\Members\ValidateSession.vb" />
+    <Compile Include="Examples\Vehicles\GetVehicles.vb" />
+    <Compile Include="MainFull.vb" />
     <Compile Include="Main.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -135,6 +219,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -145,6 +231,23 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
