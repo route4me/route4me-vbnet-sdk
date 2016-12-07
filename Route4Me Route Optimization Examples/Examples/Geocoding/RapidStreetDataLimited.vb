@@ -11,8 +11,8 @@ Namespace Route4MeSDKTest.Examples
             ' Create the manager with the api key
             Dim route4Me As New Route4MeManager(c_ApiKey)
             Dim geoParams As New GeocodingParameters With { _
-                 .Offset = 0, _
-                .Limit = 5 _
+                 .Offset = 1, _
+                .Limit = 10 _
             }
             ' Run the query
             Dim errorString As String = ""
