@@ -18,7 +18,7 @@ Namespace Route4MeSDKTest.Examples
 
                 Console.WriteLine("Destination ID: {0}", destinationId)
             Else
-                Console.WriteLine("RemoveRouteDestination error: {0}", errorString)
+                Console.WriteLine("RemoveAddressFromOptimizatio error: {0}", errorString)
             End If
 
         End Sub

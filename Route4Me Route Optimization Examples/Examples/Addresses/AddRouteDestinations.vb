@@ -8,10 +8,7 @@ Namespace Route4MeSDKTest.Examples
             Dim route4Me As New Route4MeManager(c_ApiKey)
 
             ' Prepare the addresses
-            '#Region "Addresses"
 
-
-            '#End Region
             Dim addresses As Address() = New Address() {New Address() With { _
                 .AddressString = "146 Bill Johnson Rd NE Milledgeville GA 31061", _
                 .Latitude = 33.143526, _
