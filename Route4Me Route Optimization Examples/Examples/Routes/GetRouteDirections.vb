@@ -22,10 +22,6 @@ Namespace Route4MeSDKTest.Examples
                 Console.WriteLine("GetRouteDirections executed successfully")
 
                 Console.WriteLine("Route ID: {0}", routeResponse.RouteID)
-                'foreach (Address a in dataObject.Addresses)
-                '        {
-                '          Console.WriteLine("addr: {0}, {1}, {2}, {3}, {4}", a.RouteDestinationId, a.Latitude, a.Longitude, a.Alias, a.AddressString);
-                '        }
 
                 Console.WriteLine("Total directions: {0}", routeResponse.Directions.Count())
             Else
