@@ -8,7 +8,11 @@ Namespace Route4MeSDKTest
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
             ' ======== Create Route with 7 stops and Hebrew addresses  ============
-            examples.SingleDriverRoute7Stops()
+            examples.SingleDriverRoute_UTF8_strings()
+            '======================================================================
+
+            ' ======== Create Route with 7 stops and Hebrew addresses  ============
+            'examples.SingleDriverRoute7Stops()
             '======================================================================
 
             ' ======== Get Team Activities on a Route  ===========================
@@ -93,6 +97,10 @@ Namespace Route4MeSDKTest
 
             ' ======== Search Route Owner Changed ===========================
             'examples.SearchRouteOwnerChanged()
+            '======================================================================
+
+            ' ======== Add note file to an address of a route ===========================
+            'examples.AddNoteFileToAddress("4728372005DE97EF9E4205852D690E34", 182302891)
             '======================================================================
 
             ' ======== Search Note Inserted ===========================
@@ -427,7 +435,7 @@ Namespace Route4MeSDKTest
             '======================================================================
 
             ' ======== Get Route's Directions ===========================
-            'Dim RouteId As String = "6D1622D3F794F3A804381C9451E5A239"
+            'Dim RouteId As String = "56E8F6BF949670F0C0BBAC00590FD116"
 
             'examples.GetRouteDirections(RouteId)
             '======================================================================
