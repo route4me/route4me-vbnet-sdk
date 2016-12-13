@@ -8,7 +8,11 @@ Namespace Route4MeSDKTest
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
             ' ======== Create Route with 7 stops and Hebrew addresses  ============
-            examples.SingleDriverRoute_UTF8_strings()
+            examples.SearchRoutesForText("Tbilisi")
+            '======================================================================
+
+            ' ======== Create Route with 7 stops and Hebrew addresses  ============
+            'examples.SingleDriverRoute_UTF8_strings()
             '======================================================================
 
             ' ======== Create Route with 7 stops and Hebrew addresses  ============
