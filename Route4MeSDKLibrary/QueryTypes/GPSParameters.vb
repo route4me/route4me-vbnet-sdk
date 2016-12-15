@@ -105,6 +105,50 @@
         End Property
         Private m_Longitude As Double
 
+        <HttpQueryMemberAttribute(Name:="last_position")> _
+        Public Property last_position() As Boolean
+            Get
+                Return m_last_position
+            End Get
+            Set(value As Boolean)
+                m_last_position = value
+            End Set
+        End Property
+        Private m_last_position As Boolean
+
+        <HttpQueryMemberAttribute(Name:="time_period")> _
+        Public Property time_period() As String
+            Get
+                Return m_time_period
+            End Get
+            Set(value As String)
+                m_time_period = value
+            End Set
+        End Property
+        Private m_time_period As String
+
+        <HttpQueryMemberAttribute(Name:="start_date")> _
+        Public Property start_date() As Integer
+            Get
+                Return m_start_date
+            End Get
+            Set(value As Integer)
+                m_start_date = value
+            End Set
+        End Property
+        Private m_start_date As Integer
+
+        <HttpQueryMemberAttribute(Name:="end_date")> _
+        Public Property end_date() As Integer
+            Get
+                Return m_end_date
+            End Get
+            Set(value As Integer)
+                m_end_date = value
+            End Set
+        End Property
+        Private m_end_date As Integer
+
         <HttpQueryMemberAttribute(Name:="altitude", EmitDefaultValue:=False)> _
         Public Property Altitude() As Double
             Get

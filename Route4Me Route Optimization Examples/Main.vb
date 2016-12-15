@@ -7,8 +7,12 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
-            ' ======== Create Route with 7 stops and Hebrew addresses  ============
-            examples.SearchRoutesForText("Tbilisi")
+            ' ======== Searc Routes for Specified Text  ============
+            examples.GetDeviceHistoryTimeRange("814FB49CEA8188D134E9D4D4B8B0DAF7")
+            '======================================================================
+
+            ' ======== Searc Routes for Specified Text  ============
+            'examples.SearchRoutesForText("Tbilisi")
             '======================================================================
 
             ' ======== Create Route with 7 stops and Hebrew addresses  ============
