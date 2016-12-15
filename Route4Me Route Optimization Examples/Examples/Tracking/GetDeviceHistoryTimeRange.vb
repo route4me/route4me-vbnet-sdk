@@ -40,7 +40,7 @@ Namespace Route4MeSDKTest.Examples
             Console.WriteLine("")
 
             If dataObject IsNot Nothing Then
-                Console.WriteLine("TrackDeviceLastLocationHistory executed successfully")
+                Console.WriteLine("GetDeviceHistoryTimeRange executed successfully")
                 Console.WriteLine("")
 
                 Console.WriteLine("Optimization Problem ID: {0}", dataObject.OptimizationProblemId)
@@ -54,7 +54,7 @@ Namespace Route4MeSDKTest.Examples
                     Console.WriteLine("")
                 Next
             Else
-                Console.WriteLine("TrackDeviceLastLocationHistory error: {0}", errorString)
+                Console.WriteLine("GetDeviceHistoryTimeRange error: {0}", errorString)
             End If
         End Sub
     End Class
