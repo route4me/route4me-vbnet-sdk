@@ -8,7 +8,15 @@ Namespace Route4MeSDKTest
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
             ' ======== Searc Routes for Specified Text  ============
-            examples.GetDeviceHistoryTimeRange("814FB49CEA8188D134E9D4D4B8B0DAF7")
+            examples.AddAddressNoteWithFile("67095EC0FC5AD521A1E473751ED5C9BF", 204321419)
+            '======================================================================
+
+            ' ======== Searc Routes for Specified Text  ============
+            'examples.SingleDriverRoute10Stops()
+            '======================================================================
+
+            ' ======== Searc Routes for Specified Text  ============
+            'examples.GetDeviceHistoryTimeRange("814FB49CEA8188D134E9D4D4B8B0DAF7")
             '======================================================================
 
             ' ======== Searc Routes for Specified Text  ============

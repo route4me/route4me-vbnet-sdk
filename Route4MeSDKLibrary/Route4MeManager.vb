@@ -5,6 +5,7 @@ Imports System.Collections.Generic
 Imports System.Net.Http
 Imports System.Net.Http.Headers
 Imports System.Runtime.Serialization
+Imports System.IO
 Imports System.Text
 Imports System.Xml
 Imports System.Threading.Tasks
@@ -750,6 +751,49 @@ Namespace Route4MeSDK
             Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
 
             Dim response As AddAddressNoteResponse = GetJsonObjectFromAPI(Of AddAddressNoteResponse)(noteParameters, R4MEInfrastructureSettings.AddRouteNotesHost, HttpMethodType.Post, httpContent, errorString)
+            If response IsNot Nothing Then
+                If response.Note IsNot Nothing Then
+                    Return response.Note
+                Else
+                    If response.Status = False Then
+                        errorString = "Note not added"
+                    End If
+                    Return Nothing
+                End If
+            Else
+                Return Nothing
+            End If
+        End Function
+
+        Public Function AddAddressNote(noteParameters As NoteParameters, noteContents As String, attachmentFilePath As String, ByRef errorString As String) As AddressNote
+            Dim strUpdateType = "unclassified"
+            If noteParameters.ActivityType IsNot Nothing AndAlso noteParameters.ActivityType.Length > 0 Then
+                strUpdateType = noteParameters.ActivityType
+            End If
+            Dim httpContent As HttpContent = Nothing
+            Dim attachmentFileStream As FileStream = Nothing
+            Dim attachmentStreamContent As StreamContent = Nothing
+            If attachmentFilePath IsNot Nothing Then
+                attachmentFileStream = File.OpenRead(attachmentFilePath)
+                attachmentStreamContent = New StreamContent(attachmentFileStream)
+                Dim multipartFormDataContent As New MultipartFormDataContent()
+                multipartFormDataContent.Add(attachmentStreamContent, "strFilename", Path.GetFileName(attachmentFilePath))
+                multipartFormDataContent.Add(New StringContent(strUpdateType), "strUpdateType")
+                multipartFormDataContent.Add(New StringContent(noteContents), "strNoteContents")
+                httpContent = multipartFormDataContent
+            Else
+                Dim keyValues = New List(Of KeyValuePair(Of String, String))()
+                keyValues.Add(New KeyValuePair(Of String, String)("strUpdateType", strUpdateType))
+                keyValues.Add(New KeyValuePair(Of String, String)("strNoteContents", noteContents))
+                httpContent = New FormUrlEncodedContent(keyValues)
+            End If
+            Dim response As AddAddressNoteResponse = GetJsonObjectFromAPI(Of AddAddressNoteResponse)(noteParameters, R4MEInfrastructureSettings.AddRouteNotesHost, HttpMethodType.Post, httpContent, errorString)
+            If attachmentStreamContent IsNot Nothing Then
+                attachmentStreamContent.Dispose()
+            End If
+            If attachmentFileStream IsNot Nothing Then
+                attachmentFileStream.Dispose()
+            End If
             If response IsNot Nothing Then
                 If response.Note IsNot Nothing Then
                     Return response.Note
@@ -2192,6 +2236,22 @@ Namespace Route4MeSDK
 
                                 Exit Select
                             End If
+                        Case HttpMethodType.FileUpload
+                            If True Then
+                                Dim myWebClient As New System.Net.WebClient()
+                                Dim uriString As String
+                                Dim filename As String
+                                uriString = "https://www.route4me.com/actions/addRouteNotes.php?api_key=11111111111111111111111111111111&route_id=4728372005DE97EF9E4205852D690E34&address_id=182302891&dev_lat=29.452769&dev_lng=-95.845939&device_type=web&strUpdateType=ANY_FILE"
+                                filename = "notes.csv"
+                                Dim uri As System.Uri = New Uri(uriString)
+
+
+                                myWebClient.UploadFileAsync(uri, "POST", filename)
+
+                                'Console.WriteLine(ControlChars.Cr & "Response Received.The contents of the file uploaded are: " & _
+                                'ControlChars.Cr & "{0}", System.Text.Encoding.ASCII.GetString(responseArray))
+
+                            End If
                         Case HttpMethodType.Post, HttpMethodType.Put, HttpMethodType.Delete
                             If True Then
                                 Dim isPut As Boolean = httpMethod__1 = HttpMethodType.Put
@@ -2237,7 +2297,7 @@ Namespace Route4MeSDK
 
                                     If streamTask.IsCompleted Then
                                         'var test = m_isTestMode ? streamTask.Result.ReadString() : null;
-                                        'var test = streamTask.Result.ReadString();
+                                        'Dim test As VariantType = streamTask.Result.ReadString()
                                         result = If(isString, TryCast(streamTask.Result.ReadString(), T), streamTask.Result.ReadObject(Of T)())
                                     End If
                                 Else
