@@ -21,6 +21,7 @@
         Public Const UserAuthentication As String = MainHost + "/actions/authenticate.php"
         Public Const ValidateSession As String = MainHost + "/datafeed/session/validate_session.php"
         Public Const UserRegistration As String = MainHost + "/actions/register_action.php"
+        Public Const UserConfiguration As String = MainHost + "/api.v4/configuration-settings.php"
 
         Public Const AddRouteNotesHost As String = MainHost + "/actions/addRouteNotes.php"
 

@@ -697,6 +697,14 @@ Namespace Route4MeSDK
             End If
 
         End Function
+
+        Public Function CreateNewConfigurationKey(confParams As MemberConfigurationParameters, ByRef errorString As String) As MemberConfigurationResponse
+            Dim response As MemberConfigurationResponse = GetJsonObjectFromAPI(Of MemberConfigurationResponse)(confParams, R4MEInfrastructureSettings.UserConfiguration, HttpMethodType.Post, errorString)
+
+            Return response
+
+        End Function
+
 #End Region
 
 #Region "Address Notes"

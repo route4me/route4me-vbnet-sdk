@@ -8,7 +8,11 @@ Namespace Route4MeSDKTest
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
             ' ======== Searc Routes for Specified Text  ============
-            examples.AddAddressNoteWithFile("67095EC0FC5AD521A1E473751ED5C9BF", 204321419)
+            examples.AddNewConfigurationKey()
+            '======================================================================
+
+            ' ======== Searc Routes for Specified Text  ============
+            'examples.AddAddressNoteWithFile("67095EC0FC5AD521A1E473751ED5C9BF", 204321419)
             '======================================================================
 
             ' ======== Searc Routes for Specified Text  ============
