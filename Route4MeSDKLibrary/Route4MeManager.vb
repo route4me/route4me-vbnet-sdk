@@ -705,6 +705,13 @@ Namespace Route4MeSDK
 
         End Function
 
+        Public Function RemoveConfigurationKey(confParams As MemberConfigurationParameters, ByRef errorString As String) As MemberConfigurationResponse
+            Dim response As MemberConfigurationResponse = GetJsonObjectFromAPI(Of MemberConfigurationResponse)(confParams, R4MEInfrastructureSettings.UserConfiguration, HttpMethodType.Delete, errorString)
+
+            Return response
+
+        End Function
+
 #End Region
 
 #Region "Address Notes"

@@ -7,8 +7,12 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
+            '======== Searc Routes for Specified Text  ============
+            examples.RemoveConfigurationKey()
+            '======================================================================
+
             ' ======== Searc Routes for Specified Text  ============
-            examples.AddNewConfigurationKey()
+            'examples.AddNewConfigurationKey()
             '======================================================================
 
             ' ======== Searc Routes for Specified Text  ============
