@@ -5,7 +5,7 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
-        ''' User Registration (v4)
+        ''' Update a Configuration Key Value
         ''' </summary>
         Public Sub UpdateConfigurationKey()
             ' Create the manager with the api key
@@ -28,7 +28,7 @@ Namespace Route4MeSDKTest.Examples
                 Console.WriteLine("Affected: " & result.affected)
                 Console.WriteLine("---------------------------")
             Else
-                Console.WriteLine("UserRegistration error: {0}", errorString)
+                Console.WriteLine("UpdateConfigurationKey error: {0}", errorString)
             End If
         End Sub
     End Class

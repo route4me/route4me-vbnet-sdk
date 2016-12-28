@@ -7,31 +7,39 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
-            '======== Searc Routes for Specified Text  ============
-            examples.UpdateConfigurationKey()
+            '======== Get All Member Configuration key  ============
+            examples.GetSpecificConfigurationKeyData()
             '======================================================================
 
-            '======== Searc Routes for Specified Text  ============
+            '======== Get All Member Configuration key  ============
+            'examples.GetAllConfigurationData()
+            '======================================================================
+
+            '======== Update a Member Configuration key  ============
+            'examples.UpdateConfigurationKey()
+            '======================================================================
+
+            '======== Remove a Member Configuration key  ============
             'examples.RemoveConfigurationKey()
             '======================================================================
 
-            ' ======== Searc Routes for Specified Text  ============
+            ' ======== Create New Member Configuration key  ============
             'examples.AddNewConfigurationKey()
             '======================================================================
 
-            ' ======== Searc Routes for Specified Text  ============
+            ' ======== Add an Address Note file to a Route Address  ============
             'examples.AddAddressNoteWithFile("67095EC0FC5AD521A1E473751ED5C9BF", 204321419)
             '======================================================================
 
-            ' ======== Searc Routes for Specified Text  ============
+            ' ======== Create Optimization Problem with Single Driver 10 Stops  ============
             'examples.SingleDriverRoute10Stops()
             '======================================================================
 
-            ' ======== Searc Routes for Specified Text  ============
+            ' ======== Get Device History from Time Range  ============
             'examples.GetDeviceHistoryTimeRange("814FB49CEA8188D134E9D4D4B8B0DAF7")
             '======================================================================
 
-            ' ======== Searc Routes for Specified Text  ============
+            ' ======== Search Routes for Specified Text  ============
             'examples.SearchRoutesForText("Tbilisi")
             '======================================================================
 

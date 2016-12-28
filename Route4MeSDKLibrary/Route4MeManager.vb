@@ -719,6 +719,36 @@ Namespace Route4MeSDK
 
         End Function
 
+        <DataContract> _
+        Private NotInheritable Class GetConfigurationDataRequest
+            Inherits GenericParameters
+
+            <HttpQueryMemberAttribute(Name:="config_key", EmitDefaultValue:=False)> _
+            Public Property config_key() As String
+                Get
+                    Return m_config_key
+                End Get
+                Set(value As String)
+                    m_config_key = value
+                End Set
+            End Property
+            Private m_config_key As String
+
+        End Class
+
+        Public Function GetConfigurationData(confParams As MemberConfigurationParameters, ByRef errorString As String) As MemberConfigurationDataRersponse
+            Dim mParams As GetConfigurationDataRequest
+            mParams = New GetConfigurationDataRequest()
+            If Not confParams Is Nothing Then
+                mParams.config_key = confParams.config_key
+            End If
+
+            Dim response As MemberConfigurationDataRersponse = GetJsonObjectFromAPI(Of MemberConfigurationDataRersponse)(mParams, R4MEInfrastructureSettings.UserConfiguration, HttpMethodType.Get, errorString)
+
+            Return response
+
+        End Function
+
 #End Region
 
 #Region "Address Notes"

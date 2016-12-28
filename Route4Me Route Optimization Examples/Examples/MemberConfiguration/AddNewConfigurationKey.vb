@@ -5,7 +5,7 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
-        ''' User Registration (v4)
+        ''' Create New Configuration Key
         ''' </summary>
         Public Sub AddNewConfigurationKey()
             ' Create the manager with the api key
