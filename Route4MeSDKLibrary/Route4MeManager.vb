@@ -1166,7 +1166,32 @@ Namespace Route4MeSDK
             Private m_MemberId As System.Nullable(Of Integer)
         End Class
 
-        Public Function MarkAddressDeparted(aParams As AddressParameters, ByRef errorString As String) As Dictionary(Of String, Boolean)
+        <DataContract> _
+        Private NotInheritable Class MarkAddressDepartedResponse
+            <DataMember(Name:="status")> _
+            Public Property Status() As [Boolean]
+                Get
+                    Return m_Status
+                End Get
+                Set(value As [Boolean])
+                    m_Status = Value
+                End Set
+            End Property
+            Private m_Status As [Boolean]
+
+            <DataMember(Name:="error")> _
+            Public Property [error]() As String
+                Get
+                    Return m_error
+                End Get
+                Set(value As String)
+                    m_error = Value
+                End Set
+            End Property
+            Private m_error As String
+        End Class
+
+        Public Function MarkAddressDeparted(aParams As AddressParameters, ByRef errorString As String) As Integer
             Dim request As New MarkAddressDepartedRequest With { _
                 .RouteId = aParams.RouteId, _
                 .AddressId = aParams.AddressId, _
@@ -1174,9 +1199,18 @@ Namespace Route4MeSDK
                 .MemberId = 1 _
             }
 
-            Dim response As Dictionary(Of String, Boolean) = GetJsonObjectFromAPI(Of Dictionary(Of String, Boolean))(request, R4MEInfrastructureSettings.MarkAddressDeparted, HttpMethodType.[Get], errorString)
+            Dim response As MarkAddressDepartedResponse = GetJsonObjectFromAPI(Of MarkAddressDepartedResponse)(request, R4MEInfrastructureSettings.MarkAddressDeparted, HttpMethodType.[Get], errorString)
 
-            Return response
+            If response IsNot Nothing Then
+                If response.Status Then
+                    Return 1
+                Else
+                    Return 0
+                End If
+            Else
+                Return 0
+            End If
+
         End Function
 
         Public Function MarkAddressVisited(aParams As AddressParameters, ByRef errorString As String) As Integer
