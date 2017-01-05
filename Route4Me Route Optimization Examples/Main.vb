@@ -8,7 +8,7 @@ Namespace Route4MeSDKTest
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
             '======== Get All Member Configuration key  ============
-            examples.GetSpecificConfigurationKeyData()
+            'examples.GetSpecificConfigurationKeyData()
             '======================================================================
 
             '======== Get All Member Configuration key  ============
@@ -220,12 +220,12 @@ Namespace Route4MeSDKTest
             '======================================================================
 
             ' ======== Mark Address As Visited ===========================
-            'Dim aParams As New AddressParameters With { _
-            '    .RouteId = "241466F15515D67D3F951E2DA38DE76D", _
-            '    .AddressId = 167899269, _
-            '    .IsVisited = True
-            '}
-            'examples.MarkAddressVisited(aParams)
+            Dim aParams As New AddressParameters With { _
+                .RouteId = "241466F15515D67D3F951E2DA38DE76D", _
+                .AddressId = 167899269, _
+                .IsVisited = True
+            }
+            examples.MarkAddressVisited(aParams)
             '======================================================================
 
             ' ======== Mark Address As Departed ===========================

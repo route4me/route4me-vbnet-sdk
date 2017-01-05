@@ -14,16 +14,12 @@ Namespace Route4MeSDKTest.Examples
 
             ' Run the query
             Dim errorString As String = ""
-            Dim result As Dictionary(Of String, Boolean) = route4Me.MarkAddressVisited(aParams, errorString)
+            Dim result As Integer = route4Me.MarkAddressVisited(aParams, errorString)
 
             Console.WriteLine("")
 
-            If result IsNot Nothing Then
-                If result.Item("status") Then
-                    Console.WriteLine("MarkAddressVisited executed successfully")
-                Else
-                    Console.WriteLine("MarkAddressVisited error: {0}", errorString)
-                End If
+            If result = 1 Then
+                Console.WriteLine("MarkAddressVisited executed successfully")
             Else
                 Console.WriteLine("MarkAddressVisited error: {0}", errorString)
             End If

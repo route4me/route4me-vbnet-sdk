@@ -1131,7 +1131,7 @@ Namespace Route4MeSDK
             Private m_AddressId As System.Nullable(Of Integer)
 
             <IgnoreDataMember> _
-            <DataMember(Name:="is_departed")> _
+            <HttpQueryMemberAttribute(Name:="is_departed", EmitDefaultValue:=False)> _
             Public Property IsDeparted() As Boolean
                 Get
                     Return m_IsDeparted
@@ -1143,7 +1143,7 @@ Namespace Route4MeSDK
             Private m_IsDeparted As Boolean
 
             <IgnoreDataMember> _
-            <DataMember(Name:="is_visited")> _
+            <HttpQueryMemberAttribute(Name:="is_visited", EmitDefaultValue:=False)> _
             Public Property IsVisited() As Boolean
                 Get
                     Return m_IsVisited
@@ -1153,13 +1153,25 @@ Namespace Route4MeSDK
                 End Set
             End Property
             Private m_IsVisited As Boolean
+
+            <HttpQueryMemberAttribute(Name:="member_id", EmitDefaultValue:=False)> _
+            Public Property MemberId() As System.Nullable(Of Integer)
+                Get
+                    Return m_MemberId
+                End Get
+                Set(value As System.Nullable(Of Integer))
+                    m_MemberId = value
+                End Set
+            End Property
+            Private m_MemberId As System.Nullable(Of Integer)
         End Class
 
         Public Function MarkAddressDeparted(aParams As AddressParameters, ByRef errorString As String) As Dictionary(Of String, Boolean)
             Dim request As New MarkAddressDepartedRequest With { _
                 .RouteId = aParams.RouteId, _
                 .AddressId = aParams.AddressId, _
-                .IsDeparted = aParams.IsDeparted _
+                .IsDeparted = aParams.IsDeparted, _
+                .MemberId = 1 _
             }
 
             Dim response As Dictionary(Of String, Boolean) = GetJsonObjectFromAPI(Of Dictionary(Of String, Boolean))(request, R4MEInfrastructureSettings.MarkAddressDeparted, HttpMethodType.[Get], errorString)
@@ -1167,16 +1179,20 @@ Namespace Route4MeSDK
             Return response
         End Function
 
-        Public Function MarkAddressVisited(aParams As AddressParameters, ByRef errorString As String) As Dictionary(Of String, Boolean)
+        Public Function MarkAddressVisited(aParams As AddressParameters, ByRef errorString As String) As Integer
             Dim request As New MarkAddressDepartedRequest With { _
                 .RouteId = aParams.RouteId, _
                 .AddressId = aParams.AddressId, _
-                .IsVisited = aParams.IsVisited _
+                .IsVisited = aParams.IsVisited, _
+                .MemberId = 1 _
             }
 
-            Dim response As Dictionary(Of String, Boolean) = GetJsonObjectFromAPI(Of Dictionary(Of String, Boolean))(request, R4MEInfrastructureSettings.MarkAddressVisited, HttpMethodType.[Get], errorString)
-
-            Return response
+            Dim response As String = GetJsonObjectFromAPI(Of String)(request, R4MEInfrastructureSettings.MarkAddressVisited, HttpMethodType.[Get], errorString)
+            Dim iResponse As Integer = 0
+            If Integer.TryParse(response.ToString(), iResponse) Then
+                iResponse = Convert.ToInt32(response)
+            End If
+            Return iResponse
         End Function
 
         <DataContract> _
