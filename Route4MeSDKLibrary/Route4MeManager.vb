@@ -218,7 +218,7 @@ Namespace Route4MeSDK
             Private m_CustomFields As Dictionary(Of String, String)
         End Class
 
-        Public Function UpdateRouteCustomData(routeParameters As RouteParametersQuery, customData As Dictionary(Of String, String), ByRef errorString As String) As Address
+        Public Function UpdateRouteCustomData(routeParameters As RouteParametersQuery, customData As Dictionary(Of String, String), errorString As String) As Address
             Dim request As New UpdateRouteCustomDataRequest With { _
                 .RouteId = routeParameters.RouteId, _
                 .RouteDestinationId = routeParameters.RouteDestinationId, _
@@ -1174,7 +1174,7 @@ Namespace Route4MeSDK
                 .IsVisited = aParams.IsVisited _
             }
 
-            Dim response As Dictionary(Of String, Boolean) = GetJsonObjectFromAPI(Of Dictionary(Of String, Boolean))(request, R4MEInfrastructureSettings.MarkAddressDeparted, HttpMethodType.[Get], errorString)
+            Dim response As Dictionary(Of String, Boolean) = GetJsonObjectFromAPI(Of Dictionary(Of String, Boolean))(request, R4MEInfrastructureSettings.MarkAddressVisited, HttpMethodType.[Get], errorString)
 
             Return response
         End Function
