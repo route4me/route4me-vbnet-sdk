@@ -18,6 +18,7 @@ Namespace Route4MeSDKTest.Examples
                 .StrFirstName = "Olman", _
                 .StrLastName = "Progman", _
                 .StrIndustry = "Transportation", _
+                .Format = "json", _
                 .ChkTerms = 1, _
                 .Plan = "free" _
             }

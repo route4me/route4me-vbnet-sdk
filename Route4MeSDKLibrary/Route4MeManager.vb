@@ -634,15 +634,18 @@ Namespace Route4MeSDK
 
             Dim roParams As MemberParameters = New MemberParameters()
             roParams.Plan = memParams.Plan
+            roParams.MemberType = memParams.MemberType
 
             Dim keyValues = New List(Of KeyValuePair(Of String, String))()
-            keyValues.Add(New KeyValuePair(Of String, String)("strEmail", memParams.StrEmail))
-            keyValues.Add(New KeyValuePair(Of String, String)("strPassword_1", memParams.StrPassword_1))
-            keyValues.Add(New KeyValuePair(Of String, String)("strPassword_2", memParams.StrPassword_2))
+            keyValues.Add(New KeyValuePair(Of String, String)("strIndustry", memParams.StrIndustry))
             keyValues.Add(New KeyValuePair(Of String, String)("strFirstName", memParams.StrFirstName))
             keyValues.Add(New KeyValuePair(Of String, String)("strLastName", memParams.StrLastName))
-            keyValues.Add(New KeyValuePair(Of String, String)("strIndustry", memParams.StrIndustry))
+            keyValues.Add(New KeyValuePair(Of String, String)("strEmail", memParams.StrEmail))
+            keyValues.Add(New KeyValuePair(Of String, String)("format", memParams.Format))
             keyValues.Add(New KeyValuePair(Of String, String)("chkTerms", memParams.ChkTerms))
+            keyValues.Add(New KeyValuePair(Of String, String)("device_type", memParams.DeviceType))
+            keyValues.Add(New KeyValuePair(Of String, String)("strPassword_1", memParams.StrPassword_1))
+            keyValues.Add(New KeyValuePair(Of String, String)("strPassword_2", memParams.StrPassword_2))
 
             Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
 

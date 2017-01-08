@@ -49,6 +49,17 @@ Namespace Route4MeSDK.QueryTypes
         End Property
         Private m_Plan As String
 
+        <HttpQueryMemberAttribute(Name:="member_type", EmitDefaultValue:=False)> _
+        Public Property MemberType() As System.Nullable(Of Integer)
+            Get
+                Return m_MemberType
+            End Get
+            Set(value As System.Nullable(Of Integer))
+                m_MemberType = value
+            End Set
+        End Property
+        Private m_MemberType As System.Nullable(Of Integer)
+
         <DataMember(Name:="strEmail", EmitDefaultValue:=False)> _
         Public Property StrEmail() As String
             Get
