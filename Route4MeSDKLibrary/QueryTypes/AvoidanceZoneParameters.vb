@@ -27,13 +27,13 @@ Namespace Route4MeSDK.QueryTypes
         ''' <summary>
         ''' Territory Id
         ''' </summary>
-        <DataMember(Name:="territory_id")> _
+        <HttpQueryMemberAttribute(Name:="territory_id", EmitDefaultValue:=False)> _
         Public Property TerritoryId() As String
             Get
                 Return m_TerritoryId
             End Get
             Set(value As String)
-                m_TerritoryId = Value
+                m_TerritoryId = value
             End Set
         End Property
         Private m_TerritoryId As String
