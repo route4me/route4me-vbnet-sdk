@@ -75,6 +75,7 @@
     <Compile Include="DataTypes\EnumHelper.vb" />
     <Compile Include="DataTypes\Enums.vb" />
     <Compile Include="DataTypes\ErrorResponse.vb" />
+    <Compile Include="DataTypes\FindAssetResponse.vb" />
     <Compile Include="DataTypes\GeoPoint.vb" />
     <Compile Include="DataTypes\Links.vb" />
     <Compile Include="DataTypes\Location.vb" />

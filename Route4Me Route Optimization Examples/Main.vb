@@ -164,7 +164,7 @@ Namespace Route4MeSDKTest
             '======================================================================
 
             ' ======== User Registratin ===========================
-            examples.UserRegistration()
+            'examples.UserRegistration()
             '======================================================================
 
             ' ======== Validate Session ===========================
@@ -176,7 +176,7 @@ Namespace Route4MeSDKTest
             '======================================================================
 
             ' ======== Find Asset (Asset Tracking) ===========================
-            'examples.FindAsset()
+            examples.FindAsset()
             '======================================================================
 
             ' ======== Rapid Stret Service Limited ===========================
@@ -229,12 +229,12 @@ Namespace Route4MeSDKTest
             '======================================================================
 
             ' ======== Mark Address As Departed ===========================
-            Dim aParams As New AddressParameters With { _
-                .RouteId = "DD376C7148E7FEE36CFABE2BD9978BDD", _
-                .AddressId = 183045808, _
-                .IsDeparted = True
-            }
-            examples.MarkAddressDeparted(aParams)
+            'Dim aParams As New AddressParameters With { _
+            '    .RouteId = "DD376C7148E7FEE36CFABE2BD9978BDD", _
+            '    .AddressId = 183045808, _
+            '    .IsDeparted = True
+            '}
+            'examples.MarkAddressDeparted(aParams)
             '======================================================================
 
             ' ======== Mark Address As Marked As Visited ===========================
