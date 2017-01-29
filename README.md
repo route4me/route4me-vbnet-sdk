@@ -1,4 +1,6 @@
 Access Route4Me's logistics-as-a-service API using our VB.NET SDK
+[![Build status](https://ci.appveyor.com/api/projects/status/nipumeo40obo9jcf?svg=true)](https://ci.appveyor.com/project/novapulsar/route4me-vbnet-sdk)
+
 -------------------
 
 
