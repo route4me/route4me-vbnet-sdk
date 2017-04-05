@@ -7,6 +7,10 @@ Namespace Route4MeSDKTest
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
+            '======== Update Route Destination  ============
+            examples.UpdateRouteDestination()
+            '======================================================================
+
             '======== Get All Member Configuration key  ============
             'examples.GetSpecificConfigurationKeyData()
             '======================================================================
@@ -176,7 +180,7 @@ Namespace Route4MeSDKTest
             '======================================================================
 
             ' ======== Find Asset (Asset Tracking) ===========================
-            examples.FindAsset()
+            ' examples.FindAsset()
             '======================================================================
 
             ' ======== Rapid Stret Service Limited ===========================

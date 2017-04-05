@@ -4,5 +4,6 @@
         Put
         Post
         Delete
+        FileUpload
     End Enum
 End Namespace
