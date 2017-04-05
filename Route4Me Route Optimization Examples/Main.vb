@@ -4,11 +4,11 @@ Imports System
 Imports System.Collections.Generic
 Namespace Route4MeSDKTest
     Public Module Main
-        Public Sub Main()
+        Public Sub MainNew()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
             '======== Update Route Destination  ============
-            examples.UpdateRouteDestination()
+            'examples.UpdateRouteDestination()
             '======================================================================
 
             '======== Get All Member Configuration key  ============
@@ -493,7 +493,10 @@ Namespace Route4MeSDKTest
             '======================================================================
 
             ' ======== Remove Existing Optimization ===========================
-            'Dim OptimizationProblemIds As String() = {"D2EAF1916DCC33A903BBCBF23364980D"}
+
+            'Dim optimizationProblemID As String = examples.SingleDriverRoundTripGeneric()
+
+            'Dim OptimizationProblemIds As String() = {optimizationProblemID}
 
             'examples.RemoveOptimization(OptimizationProblemIds)
             '======================================================================

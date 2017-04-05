@@ -5,6 +5,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Route4Me Route Optimization
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Route4MeSDKLibrary", "Route4MeSDKLibrary\Route4MeSDKLibrary.vbproj", "{8489AE49-5A78-4B7C-8F5B-AE5FD80D15BF}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Route4meSDKLibraryUnitTests", "Route4meSDKLibraryUnitTests\Route4meSDKLibraryUnitTests.vbproj", "{107F6C34-6659-48F7-8CCD-23B0AED0833C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{8489AE49-5A78-4B7C-8F5B-AE5FD80D15BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8489AE49-5A78-4B7C-8F5B-AE5FD80D15BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8489AE49-5A78-4B7C-8F5B-AE5FD80D15BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{107F6C34-6659-48F7-8CCD-23B0AED0833C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{107F6C34-6659-48F7-8CCD-23B0AED0833C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{107F6C34-6659-48F7-8CCD-23B0AED0833C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{107F6C34-6659-48F7-8CCD-23B0AED0833C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

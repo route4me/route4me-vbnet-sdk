@@ -4,7 +4,7 @@ Imports System.Collections.Generic
 Namespace Route4MeSDKTest
     Public Module MainFUll
 
-        Public Sub MainFull()
+        Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
             Dim dataObject As DataObject = Nothing
@@ -16,7 +16,10 @@ Namespace Route4MeSDKTest
             Dim destinationIds As Integer() = examples.AddRouteDestinations(routeId_SingleDriverRoute10Stops)
             If destinationIds IsNot Nothing AndAlso destinationIds.Length > 0 Then
                 examples.RemoveRouteDestination(routeId_SingleDriverRoute10Stops, destinationIds(0))
-                examples.RemoveAddressFromOptimization(dataObject1.OptimizationProblemId, destinationIds(2))
+            End If
+
+            If destinationIds IsNot Nothing AndAlso destinationIds.Length > 1 Then
+                examples.RemoveAddressFromOptimization(dataObject1.OptimizationProblemId, destinationIds(1))
             End If
 
             Dim dataObject2 As DataObject = examples.SingleDriverRoundTrip()
