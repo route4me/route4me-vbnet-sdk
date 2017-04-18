@@ -4,7 +4,7 @@ Imports System
 Imports System.Collections.Generic
 Namespace Route4MeSDKTest
     Public Module Main
-        Public Sub MainNew()
+        Public Sub MainTest()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
             '======== Update Route Destination  ============
@@ -29,10 +29,6 @@ Namespace Route4MeSDKTest
 
             ' ======== Create New Member Configuration key  ============
             'examples.AddNewConfigurationKey()
-            '======================================================================
-
-            ' ======== Add an Address Note file to a Route Address  ============
-            'examples.AddAddressNoteWithFile("67095EC0FC5AD521A1E473751ED5C9BF", 204321419)
             '======================================================================
 
             ' ======== Create Optimization Problem with Single Driver 10 Stops  ============

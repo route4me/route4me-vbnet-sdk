@@ -21,7 +21,7 @@ Namespace Route4MeSDKTest.Examples
             Console.WriteLine("")
 
             If order IsNot Nothing Then
-                Console.WriteLine("GetOrderByID executed successfully, order_id = {0}", order.OrderId)
+                Console.WriteLine("GetOrderByID executed successfully, order_id = {0}", order.order_id)
             Else
                 Console.WriteLine("GetOrderByID error: {0}", errorString)
             End If

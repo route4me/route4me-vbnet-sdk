@@ -13,10 +13,10 @@ Namespace Route4MeSDKTest.Examples
             Dim route4Me As New Route4MeManager(c_ApiKey)
 
             Dim order As New Order() With { _
-                .Address1 = "Test Address1 " + (New Random()).[Next]().ToString(), _
-                .AddressAlias = "Test AddressAlias " + (New Random()).[Next]().ToString(), _
-                .CachedLatitude = 37.773972, _
-                .CachedLongitude = -122.431297 _
+                .address_1 = "Test Address1 " + (New Random()).[Next]().ToString(), _
+                .address_alias = "Test AddressAlias " + (New Random()).[Next]().ToString(), _
+                .cached_lat = 37.773972, _
+                .cached_lng = -122.431297 _
             }
 
             ' Run the query
@@ -28,7 +28,7 @@ Namespace Route4MeSDKTest.Examples
             If resultOrder IsNot Nothing Then
                 Console.WriteLine("AddOrder executed successfully")
 
-                Console.WriteLine("Order ID: {0}", resultOrder.OrderId)
+                Console.WriteLine("Order ID: {0}", resultOrder.order_id)
 
                 Return resultOrder
             Else

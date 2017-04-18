@@ -24,7 +24,7 @@ Namespace Route4MeSDKTest.Examples
 
             ' Run the query
             Dim errorString As String = ""
-            Dim territory As AvoidanceZone = route4Me.CreateTerritory(territoryParameters, errorString)
+            Dim territory As TerritoryZone = route4Me.CreateTerritory(territoryParameters, errorString)
 
             Console.WriteLine("")
 

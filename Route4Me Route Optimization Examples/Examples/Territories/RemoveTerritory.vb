@@ -12,7 +12,7 @@ Namespace Route4MeSDKTest.Examples
 
             Dim territoryId As String = "12ABBFA3B5E4FB007BB0ED73291576C2"
 
-            Dim territoryQuery As New AvoidanceZoneQuery() With { _
+            Dim territoryQuery As New TerritoryQuery() With { _
                 .TerritoryId = territoryId _
             }
 

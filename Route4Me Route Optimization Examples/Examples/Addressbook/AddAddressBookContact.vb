@@ -8,10 +8,10 @@ Namespace Route4MeSDKTest.Examples
             Dim route4Me As New Route4MeSDKLibrary.Route4MeSDK.Route4MeManager(c_ApiKey)
 
             Dim contact As New AddressBookContact() With { _
-                 .FirstName = "Test FirstName " + (New Random()).[Next]().ToString(), _
-                 .Address1 = "Test Address1 " + (New Random()).[Next]().ToString(), _
-                 .CachedLat = 38.024654, _
-                 .CachedLng = -77.338814 _
+                 .first_name = "Test FirstName " + (New Random()).[Next]().ToString(), _
+                 .address_1 = "Test Address1 " + (New Random()).[Next]().ToString(), _
+                 .cached_lat = 38.024654, _
+                 .cached_lng = -77.338814 _
             }
 
             ' Run the query
@@ -23,7 +23,7 @@ Namespace Route4MeSDKTest.Examples
             If resultContact IsNot Nothing Then
                 Console.WriteLine("AddAddressBookContact executed successfully")
 
-                Console.WriteLine("AddressId: {0}", resultContact.AddressId)
+                Console.WriteLine("AddressId: {0}", resultContact.address_id)
 
                 Return resultContact
             Else
