@@ -151,17 +151,17 @@ Namespace Route4MeSDKTest
 
             examples.GetAddressBookContacts()
             If contact1 IsNot Nothing Then
-                contact1.LastName = "Updated " + (New Random()).[Next]().ToString()
+                contact1.last_name = "Updated " + (New Random()).[Next]().ToString()
                 examples.UpdateAddressBookContact(contact1)
             Else
                 System.Console.WriteLine("contact1 == null. UpdateAddressBookContact not called.")
             End If
             Dim addressIdsToRemove As New List(Of String)()
             If contact1 IsNot Nothing Then
-                addressIdsToRemove.Add(contact1.AddressId)
+                addressIdsToRemove.Add(contact1.address_id)
             End If
             If contact2 IsNot Nothing Then
-                addressIdsToRemove.Add(contact2.AddressId)
+                addressIdsToRemove.Add(contact2.address_id)
             End If
             examples.RemoveAddressBookContacts(addressIdsToRemove.ToArray())
 
@@ -201,17 +201,17 @@ Namespace Route4MeSDKTest
             Dim order2 As Order = examples.AddOrder()
             examples.GetOrders()
             If order1 IsNot Nothing Then
-                order1.LastName = "Updated " + (New Random()).[Next]().ToString()
+                order1.EXT_FIELD_last_name = "Updated " + (New Random()).[Next]().ToString()
                 examples.UpdateOrder(order1)
             Else
                 System.Console.WriteLine("order1 == null. UpdateOrder not called.")
             End If
             Dim orderIdsToRemove As New List(Of String)()
             If order1 IsNot Nothing Then
-                orderIdsToRemove.Add(order1.OrderId)
+                orderIdsToRemove.Add(order1.order_id)
             End If
             If order2 IsNot Nothing Then
-                orderIdsToRemove.Add(order2.OrderId)
+                orderIdsToRemove.Add(order2.order_id)
             End If
             examples.RemoveOrders(orderIdsToRemove.ToArray())
 

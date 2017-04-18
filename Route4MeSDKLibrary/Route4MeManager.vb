@@ -275,6 +275,9 @@ Namespace Route4MeSDK
             End Property
             Private m_AddressString As String
 
+            <DataMember(Name:="address_stop_type", EmitDefaultValue:=False)> _
+            Public Property AddressStopType As String
+
             <DataMember(Name:="is_depot", EmitDefaultValue:=False)> _
             Public Property IsDepot() As System.Nullable(Of Boolean)
                 Get
@@ -360,6 +363,9 @@ Namespace Route4MeSDK
                 End Set
             End Property
             Private m_TimestampLastDeparted As System.Nullable(Of UInteger)
+
+            <DataMember(Name:="group", EmitDefaultValue:=False)> _
+            Public Property Group As String
 
             'pass-through data about this route destination
             'the data will be visible on the manifest, website, and mobile apps
@@ -639,6 +645,9 @@ Namespace Route4MeSDK
             If addressParameters.AddressString IsNot Nothing Then
                 request.AddressString = addressParameters.AddressString
             End If
+            If addressParameters.AddressStopType IsNot Nothing Then
+                request.AddressStopType = addressParameters.AddressStopType
+            End If
             If addressParameters.IsDepot IsNot Nothing Then
                 request.IsDepot = addressParameters.IsDepot
             End If
@@ -663,6 +672,9 @@ Namespace Route4MeSDK
             End If
             If addressParameters.TimestampLastDeparted IsNot Nothing Then
                 request.TimestampLastDeparted = addressParameters.TimestampLastDeparted
+            End If
+            If addressParameters.Group IsNot Nothing Then
+                request.Group = addressParameters.Group
             End If
             If addressParameters.CustomerPo IsNot Nothing Then
                 request.CustomerPo = addressParameters.CustomerPo
@@ -731,21 +743,26 @@ Namespace Route4MeSDK
             Return result
         End Function
 
-        Public Function MergeRoutes(params As Dictionary(Of String, String), ByRef errorString As String) As DataObjectRoute
+        Public Function MergeRoutes(mergeRoutesParameters As MergeRoutesQuery, ByRef errorString As String) As Boolean
+            Dim roParames As New GenericParameters()
 
-            Dim keyValues = New List(Of KeyValuePair(Of String, String))()
-            keyValues.Add(New KeyValuePair(Of String, String)("route_ids", params.Item("route_ids")))
-            keyValues.Add(New KeyValuePair(Of String, String)("depot_address", params.Item("depot_address")))
-            keyValues.Add(New KeyValuePair(Of String, String)("remove_origin", params.Item("remove_origin")))
-            keyValues.Add(New KeyValuePair(Of String, String)("depot_lat", params.Item("depot_lat")))
-            keyValues.Add(New KeyValuePair(Of String, String)("depot_lng", params.Item("depot_lng")))
+            Dim keyValues As New List(Of KeyValuePair(Of String, String))()
+
+            keyValues.Add(New KeyValuePair(Of String, String)("route_ids", mergeRoutesParameters.RouteIds))
+            keyValues.Add(New KeyValuePair(Of String, String)("depot_address", mergeRoutesParameters.DepotAddress))
+            keyValues.Add(New KeyValuePair(Of String, String)("remove_origin", mergeRoutesParameters.RemoveOrigin.ToString()))
+            keyValues.Add(New KeyValuePair(Of String, String)("depot_lat", mergeRoutesParameters.DepotLat.ToString()))
+            keyValues.Add(New KeyValuePair(Of String, String)("depot_lng", mergeRoutesParameters.DepotLng.ToString()))
+
             Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
 
-            Dim request As New RouteParametersQuery
+            Dim response As ResequenceReoptimizeRouteResponse = GetJsonObjectFromAPI(Of ResequenceReoptimizeRouteResponse)(roParames, R4MEInfrastructureSettings.MergeRoutes, HttpMethodType.Post, httpContent, errorString)
 
-            Dim result = GetJsonObjectFromAPI(Of DataObjectRoute)(request, R4MEInfrastructureSettings.MergeRoutes, HttpMethodType.Post, httpContent, errorString)
-
-            Return result
+            If response IsNot Nothing AndAlso response.Status Then
+                Return True
+            Else
+                Return False
+            End If
         End Function
 
         <DataContract> _
@@ -2190,8 +2207,8 @@ Namespace Route4MeSDK
         ''' <param name="avoidanceZoneParameters"> Parameters for request </param>
         ''' <param name="errorString"> out: Error as string </param>
         ''' <returns> Territory Object </returns>
-        Public Function CreateTerritory(avoidanceZoneParameters As AvoidanceZoneParameters, ByRef errorString As String) As AvoidanceZone
-            Dim avoidanceZone As AvoidanceZone = GetJsonObjectFromAPI(Of AvoidanceZone)(avoidanceZoneParameters, R4MEInfrastructureSettings.Territory, HttpMethodType.Post, errorString)
+        Public Function CreateTerritory(avoidanceZoneParameters As AvoidanceZoneParameters, ByRef errorString As String) As TerritoryZone
+            Dim avoidanceZone As TerritoryZone = GetJsonObjectFromAPI(Of TerritoryZone)(avoidanceZoneParameters, R4MEInfrastructureSettings.Territory, HttpMethodType.Post, errorString)
             Return avoidanceZone
         End Function
 
@@ -2223,8 +2240,8 @@ Namespace Route4MeSDK
         ''' <param name="territoryQuery"> Parameters for request </param>
         ''' <param name="errorString"> out: Error as string </param>
         ''' <returns> Result status true/false </returns>
-        Public Function RemoveTerritory(territoryQuery As AvoidanceZoneQuery, ByRef errorString As String) As Boolean
-            GetJsonObjectFromAPI(Of AvoidanceZone)(territoryQuery, R4MEInfrastructureSettings.Territory, HttpMethodType.Delete, errorString)
+        Public Function RemoveTerritory(territoryQuery As TerritoryQuery, ByRef errorString As String) As Boolean
+            GetJsonObjectFromAPI(Of TerritoryZone)(territoryQuery, R4MEInfrastructureSettings.Territory, HttpMethodType.Delete, errorString)
             Return errorString <> ""
         End Function
 

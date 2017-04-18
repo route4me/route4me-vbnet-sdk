@@ -1,351 +1,288 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+Imports System.Collections.Generic
 Imports System.Runtime.Serialization
 
 Namespace Route4MeSDK.DataTypes
     <DataContract> _
     Public NotInheritable Class AddressBookContact
         Inherits GenericParameters
+        <DataMember(Name:="territory_name", EmitDefaultValue:=False)> _
+        Public Property territory_name() As String
+            Get
+                Return m_territory_name
+            End Get
+            Set(value As String)
+                m_territory_name = Value
+            End Set
+        End Property
+        Private m_territory_name As String
 
         <DataMember(Name:="created_timestamp", EmitDefaultValue:=False)> _
-        Public Property CreatedTimestamp() As System.Nullable(Of Integer)
+        Public Property created_timestamp() As Integer
             Get
-                Return m_CreatedTimestamp
+                Return m_created_timestamp
             End Get
-            Set(value As System.Nullable(Of Integer))
-                m_CreatedTimestamp = value
+            Set(value As Integer)
+                m_created_timestamp = Value
             End Set
         End Property
-        Private m_CreatedTimestamp As System.Nullable(Of Integer)
+        Private m_created_timestamp As Integer
 
         <DataMember(Name:="address_id", EmitDefaultValue:=False)> _
-Public Property AddressId() As String
+        Public Property address_id() As System.Nullable(Of Integer)
             Get
-                Return m_AddressId
+                Return m_address_id
             End Get
-            Set(value As String)
-                m_AddressId = value
+            Set(value As System.Nullable(Of Integer))
+                m_address_id = Value
             End Set
         End Property
-        Private m_AddressId As String
-
-        <DataMember(Name:="address_group", EmitDefaultValue:=False)> _
-        Public Property AddressGroup() As String
-            Get
-                Return m_AddressGroup
-            End Get
-            Set(value As String)
-                m_AddressGroup = Value
-            End Set
-        End Property
-        Private m_AddressGroup As String
-
-        <DataMember(Name:="address_alias", EmitDefaultValue:=False)> _
-        Public Property AddressAlias() As String
-            Get
-                Return m_AddressAlias
-            End Get
-            Set(value As String)
-                m_AddressAlias = Value
-            End Set
-        End Property
-        Private m_AddressAlias As String
+        Private m_address_id As System.Nullable(Of Integer)
 
         <DataMember(Name:="address_1")> _
-        Public Property Address1() As String
+        Public Property address_1() As String
             Get
-                Return m_Address1
+                Return m_address_1
             End Get
             Set(value As String)
-                m_Address1 = Value
+                m_address_1 = Value
             End Set
         End Property
-        Private m_Address1 As String
+        Private m_address_1 As String
 
         <DataMember(Name:="address_2", EmitDefaultValue:=False)> _
-        Public Property Address2() As String
+        Public Property address_2() As String
             Get
-                Return m_Address2
+                Return m_address_2
             End Get
             Set(value As String)
-                m_Address2 = Value
+                m_address_2 = Value
             End Set
         End Property
-        Private m_Address2 As String
+        Private m_address_2 As String
 
-        <DataMember(Name:="member_id", EmitDefaultValue:=False)> _
-        Public Property MemberId() As System.Nullable(Of Integer)
+        <DataMember(Name:="address_alias", EmitDefaultValue:=False)> _
+        Public Property address_alias() As String
             Get
-                Return m_MemberId
+                Return m_address_alias
             End Get
-            Set(value As System.Nullable(Of Integer))
-                m_MemberId = value
+            Set(value As String)
+                m_address_alias = Value
             End Set
         End Property
-        Private m_MemberId As System.Nullable(Of Integer)
+        Private m_address_alias As String
+
+        <DataMember(Name:="address_group", EmitDefaultValue:=False)> _
+        Public Property address_group() As String
+            Get
+                Return m_address_group
+            End Get
+            Set(value As String)
+                m_address_group = Value
+            End Set
+        End Property
+        Private m_address_group As String
 
         <DataMember(Name:="first_name", EmitDefaultValue:=False)> _
-        Public Property FirstName() As String
+        Public Property first_name() As String
             Get
-                Return m_FirstName
+                Return m_first_name
             End Get
             Set(value As String)
-                m_FirstName = Value
+                m_first_name = Value
             End Set
         End Property
-        Private m_FirstName As String
+        Private m_first_name As String
 
         <DataMember(Name:="last_name", EmitDefaultValue:=False)> _
-        Public Property LastName() As String
+        Public Property last_name() As String
             Get
-                Return m_LastName
+                Return m_last_name
             End Get
             Set(value As String)
-                m_LastName = Value
+                m_last_name = Value
             End Set
         End Property
-        Private m_LastName As String
+        Private m_last_name As String
 
         <DataMember(Name:="address_email", EmitDefaultValue:=False)> _
-        Public Property AddressEmail() As String
+        Public Property address_email() As String
             Get
-                Return m_AddressEmail
+                Return m_address_email
             End Get
             Set(value As String)
-                m_AddressEmail = Value
+                m_address_email = Value
             End Set
         End Property
-        Private m_AddressEmail As String
+        Private m_address_email As String
 
         <DataMember(Name:="address_phone_number", EmitDefaultValue:=False)> _
-        Public Property AddressPhoneNumber() As String
+        Public Property address_phone_number() As String
             Get
-                Return m_AddressPhoneNumber
+                Return m_address_phone_number
             End Get
             Set(value As String)
-                m_AddressPhoneNumber = Value
+                m_address_phone_number = Value
             End Set
         End Property
-        Private m_AddressPhoneNumber As String
-
-        <DataMember(Name:="address_city", EmitDefaultValue:=False)> _
-        Public Property AddressCity() As String
-            Get
-                Return m_AddressCity
-            End Get
-            Set(value As String)
-                m_AddressCity = Value
-            End Set
-        End Property
-        Private m_AddressCity As String
-
-        <DataMember(Name:="address_state_id", EmitDefaultValue:=False)> _
-        Public Property AddressStateId() As String
-            Get
-                Return m_AddressStateId
-            End Get
-            Set(value As String)
-                m_AddressStateId = Value
-            End Set
-        End Property
-        Private m_AddressStateId As String
-
-        <DataMember(Name:="address_country_id", EmitDefaultValue:=False)> _
-        Public Property AddressCountryId() As String
-            Get
-                Return m_AddressCountryId
-            End Get
-            Set(value As String)
-                m_AddressCountryId = Value
-            End Set
-        End Property
-        Private m_AddressCountryId As String
-
-        <DataMember(Name:="address_zip", EmitDefaultValue:=False)> _
-        Public Property AddressZip() As String
-            Get
-                Return m_AddressZip
-            End Get
-            Set(value As String)
-                m_AddressZip = Value
-            End Set
-        End Property
-        Private m_AddressZip As String
+        Private m_address_phone_number As String
 
         <DataMember(Name:="cached_lat")> _
-        Public Property CachedLat() As Double
+        Public Property cached_lat() As Double
             Get
-                Return m_CachedLat
+                Return m_cached_lat
             End Get
             Set(value As Double)
-                m_CachedLat = Value
+                m_cached_lat = Value
             End Set
         End Property
-        Private m_CachedLat As Double
+        Private m_cached_lat As Double
 
         <DataMember(Name:="cached_lng")> _
-        Public Property CachedLng() As Double
+        Public Property cached_lng() As Double
             Get
-                Return m_CachedLng
+                Return m_cached_lng
             End Get
             Set(value As Double)
-                m_CachedLng = Value
+                m_cached_lng = Value
             End Set
         End Property
-        Private m_CachedLng As Double
+        Private m_cached_lng As Double
 
         <DataMember(Name:="curbside_lat")> _
-        Public Property CurbsideLat() As Double
+        Public Property curbside_lat() As System.Nullable(Of Double)
             Get
-                Return m_CurbsideLat
+                Return m_curbside_lat
             End Get
-            Set(value As Double)
-                m_CurbsideLat = value
+            Set(value As System.Nullable(Of Double))
+                m_curbside_lat = Value
             End Set
         End Property
-        Private m_CurbsideLat As Double
+        Private m_curbside_lat As System.Nullable(Of Double)
 
         <DataMember(Name:="curbside_lng")> _
-        Public Property CurbsideLng() As Double
+        Public Property curbside_lng() As System.Nullable(Of Double)
             Get
-                Return m_CurbsideLng
+                Return m_curbside_lng
             End Get
-            Set(value As Double)
-                m_CurbsideLng = value
+            Set(value As System.Nullable(Of Double))
+                m_curbside_lng = Value
             End Set
         End Property
-        Private m_CurbsideLng As Double
+        Private m_curbside_lng As System.Nullable(Of Double)
+
+        <DataMember(Name:="address_city", EmitDefaultValue:=False)> _
+        Public Property address_city() As String
+            Get
+                Return m_address_city
+            End Get
+            Set(value As String)
+                m_address_city = Value
+            End Set
+        End Property
+        Private m_address_city As String
+
+        <DataMember(Name:="address_state_id", EmitDefaultValue:=False)> _
+        Public Property address_state_id() As String
+            Get
+                Return m_address_state_id
+            End Get
+            Set(value As String)
+                m_address_state_id = Value
+            End Set
+        End Property
+        Private m_address_state_id As String
+
+        <DataMember(Name:="address_country_id", EmitDefaultValue:=False)> _
+        Public Property address_country_id() As String
+            Get
+                Return m_address_country_id
+            End Get
+            Set(value As String)
+                m_address_country_id = Value
+            End Set
+        End Property
+        Private m_address_country_id As String
+
+        <DataMember(Name:="address_zip", EmitDefaultValue:=False)> _
+        Public Property address_zip() As String
+            Get
+                Return m_address_zip
+            End Get
+            Set(value As String)
+                m_address_zip = Value
+            End Set
+        End Property
+        Private m_address_zip As String
 
         <DataMember(Name:="address_custom_data", EmitDefaultValue:=False)> _
-        Public Property AddressCustomData() As Dictionary(Of String, String)()
+        Public Property address_custom_data() As Object
             Get
-                Return m_AddressCustomData
+                Return _address_custom_data
             End Get
-            Set(value As Dictionary(Of String, String)())
-                m_AddressCustomData = value
+            Set(value As Object)
+                If value.[GetType]().ToString() = "System.Collections.Generic.Dictionary" Then
+                    _address_custom_data = value
+                Else
+                    _address_custom_data = Nothing
+                End If
             End Set
         End Property
-        Private m_AddressCustomData As Dictionary(Of String, String)()
+        Private _address_custom_data As Object
 
-        <DataMember(Name:="in_route_count", EmitDefaultValue:=False)> _
-        Public Property InRouteCount() As System.Nullable(Of Integer)
+        <DataMember(Name:="schedule", EmitDefaultValue:=False)> _
+        Public Property schedule() As IList(Of Schedule)
             Get
-                Return m_InRouteCount
+                Return m_schedule
             End Get
-            Set(value As System.Nullable(Of Integer))
-                m_InRouteCount = value
+            Set(value As IList(Of Schedule))
+                m_schedule = Value
             End Set
         End Property
-        Private m_InRouteCount As System.Nullable(Of Integer)
+        Private m_schedule As IList(Of Schedule)
 
-        <DataMember(Name:="last_visited_timestamp", EmitDefaultValue:=False)> _
-        Public Property LastVisitedTimestamp() As System.Nullable(Of Integer)
+        <DataMember(Name:="schedule_blacklist", EmitDefaultValue:=False)> _
+        Public Property schedule_blacklist() As String()
             Get
-                Return m_LastVisitedTimestamp
+                Return m_schedule_blacklist
             End Get
-            Set(value As System.Nullable(Of Integer))
-                m_LastVisitedTimestamp = value
+            Set(value As String())
+                m_schedule_blacklist = Value
             End Set
         End Property
-        Private m_LastVisitedTimestamp As System.Nullable(Of Integer)
-
-        <DataMember(Name:="last_routed_timestamp", EmitDefaultValue:=False)> _
-        Public Property LastRoutedTimestamp() As System.Nullable(Of Integer)
-            Get
-                Return m_LastRoutedTimestamp
-            End Get
-            Set(value As System.Nullable(Of Integer))
-                m_LastRoutedTimestamp = value
-            End Set
-        End Property
-        Private m_LastRoutedTimestamp As System.Nullable(Of Integer)
-
-        <DataMember(Name:="local_time_window_start", EmitDefaultValue:=False)> _
-        Public Property LocalTimeWindowStart() As System.Nullable(Of Integer)
-            Get
-                Return m_LocalTimeWindowStart
-            End Get
-            Set(value As System.Nullable(Of Integer))
-                m_LocalTimeWindowStart = value
-            End Set
-        End Property
-        Private m_LocalTimeWindowStart As System.Nullable(Of Integer)
-
-        <DataMember(Name:="local_time_window_end", EmitDefaultValue:=False)> _
-        Public Property LocalTimeWindowEnd() As System.Nullable(Of Integer)
-            Get
-                Return m_LocalTimeWindowEnd
-            End Get
-            Set(value As System.Nullable(Of Integer))
-                m_LocalTimeWindowEnd = value
-            End Set
-        End Property
-        Private m_LocalTimeWindowEnd As System.Nullable(Of Integer)
-
-        <DataMember(Name:="local_time_window_start_2", EmitDefaultValue:=False)> _
-        Public Property LocalTimeWindowStart2() As System.Nullable(Of Integer)
-            Get
-                Return m_LocalTimeWindowStart2
-            End Get
-            Set(value As System.Nullable(Of Integer))
-                m_LocalTimeWindowStart2 = value
-            End Set
-        End Property
-        Private m_LocalTimeWindowStart2 As System.Nullable(Of Integer)
-
-        <DataMember(Name:="local_time_window_end_2", EmitDefaultValue:=False)> _
-        Public Property LocalTimeWindowEnd2() As System.Nullable(Of Integer)
-            Get
-                Return m_LocalTimeWindowEnd2
-            End Get
-            Set(value As System.Nullable(Of Integer))
-                m_LocalTimeWindowEnd2 = value
-            End Set
-        End Property
-        Private m_LocalTimeWindowEnd2 As System.Nullable(Of Integer)
+        Private m_schedule_blacklist As String()
 
         <DataMember(Name:="service_time", EmitDefaultValue:=False)> _
-        Public Property ServiceTime() As System.Nullable(Of Integer)
+        Public Property service_time() As System.Nullable(Of Integer)
             Get
-                Return m_ServiceTime
+                Return m_service_time
             End Get
             Set(value As System.Nullable(Of Integer))
-                m_ServiceTime = value
+                m_service_time = Value
             End Set
         End Property
-        Private m_ServiceTime As System.Nullable(Of Integer)
-
-        <DataMember(Name:="local_timezone_string", EmitDefaultValue:=False)> _
-        Public Property LocalTimezoneString() As String
-            Get
-                Return m_LocalTimezoneString
-            End Get
-            Set(value As String)
-                m_LocalTimezoneString = value
-            End Set
-        End Property
-        Private m_LocalTimezoneString As String
+        Private m_service_time As System.Nullable(Of Integer)
 
         <DataMember(Name:="color", EmitDefaultValue:=False)> _
-        Public Property Color() As String
+        Public Property color() As String
             Get
-                Return m_Color
+                Return m_color
             End Get
             Set(value As String)
-                m_Color = value
+                m_color = Value
             End Set
         End Property
-        Private m_Color As String
+        Private m_color As String
 
         <DataMember(Name:="address_icon", EmitDefaultValue:=False)> _
-        Public Property AddressIcon() As String
+        Public Property address_icon() As String
             Get
-                Return m_AddressIcon
+                Return m_address_icon
             End Get
             Set(value As String)
-                m_AddressIcon = value
+                m_address_icon = Value
             End Set
         End Property
-        Private m_AddressIcon As String
-
+        Private m_address_icon As String
     End Class
 End Namespace

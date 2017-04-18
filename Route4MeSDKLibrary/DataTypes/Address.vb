@@ -72,6 +72,9 @@ Namespace Route4MeSDK.DataTypes
         End Property
         Private m_AddressString As String
 
+        <DataMember(Name:="address_stop_type", EmitDefaultValue:=False)> _
+        Public Property AddressStopType As String
+
         'designate this stop as a depot
         'a route may have multiple depots/points of origin
         <DataMember(Name:="is_depot", EmitDefaultValue:=False)> _
@@ -252,6 +255,9 @@ Namespace Route4MeSDK.DataTypes
             End Set
         End Property
         Private m_TimestampLastDeparted As System.Nullable(Of UInteger)
+
+        <DataMember(Name:="group", EmitDefaultValue:=False)> _
+        Public Property Group As String
 
         'pass-through data about this route destination
         'the data will be visible on the manifest, website, and mobile apps
