@@ -4,7 +4,7 @@ Imports System
 Imports System.Collections.Generic
 Namespace Route4MeSDKTest
     Public Module Main
-        Public Sub MainTest()
+        Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
             '======== Update Route Destination  ============

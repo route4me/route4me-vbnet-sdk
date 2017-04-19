@@ -11,14 +11,14 @@ Namespace Route4MeSDKTest.Examples
             ' Create the manager with the api key
             Dim route4Me As New Route4MeManager(c_ApiKey)
 
-            Dim params As ActivityParameters = New ActivityParameters() With { _
+            Dim params As Activity = New Activity() With { _
                 .ActivityType = "user_message", _
                 .ActivityMessage = "Hello vb.net !", _
                 .RouteId = "2EA70721624592FC41522A708603876D" _
             }
             ' Run the query
             Dim errorString As String = ""
-            Dim result As Boolean = route4Me.LogSpecificMessage(params, errorString)
+            Dim result As Boolean = route4Me.LogCustomActivity(params, errorString)
 
             Console.WriteLine("")
 

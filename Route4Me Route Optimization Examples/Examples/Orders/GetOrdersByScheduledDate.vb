@@ -12,7 +12,7 @@ Namespace Route4MeSDKTest.Examples
             Dim route4Me As New Route4MeManager(c_ApiKey)
 
             Dim oParams As New OrderParameters() With { _
-                .ScheduledForYYMMDD = ScheduleddDate _
+                .scheduled_for_YYMMDD = ScheduleddDate _
             }
 
             Dim errorString As String = ""

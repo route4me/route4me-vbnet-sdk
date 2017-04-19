@@ -12,16 +12,18 @@ Namespace Route4MeSDKTest.Examples
             Dim route4Me As New Route4MeManager(c_ApiKey)
 
             Dim orderParameters As New OrderParameters() With { _
-                .OrderId = OrderId _
+                .order_id = OrderId _
             }
 
             Dim errorString As String = ""
-            Dim order As Order = route4Me.GetOrderByID(orderParameters, errorString)
+            Dim orders As Order() = route4Me.GetOrderByID(orderParameters, errorString)
 
             Console.WriteLine("")
 
-            If order IsNot Nothing Then
-                Console.WriteLine("GetOrderByID executed successfully, order_id = {0}", order.order_id)
+            If orders.Length > 0 Then
+                For Each order As Order In orders
+                    Console.WriteLine("GetOrderByID executed successfully, order_id = {0}", order.order_id)
+                Next
             Else
                 Console.WriteLine("GetOrderByID error: {0}", errorString)
             End If

@@ -4,7 +4,7 @@ Imports System.Collections.Generic
 Namespace Route4MeSDKTest
     Public Module MainFUll
 
-        Public Sub Main()
+        Public Sub MainFull()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
             Dim dataObject As DataObject = Nothing

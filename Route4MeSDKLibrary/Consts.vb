@@ -49,6 +49,7 @@
 
         Public Const ViewVehicles As String = MainHost + "/api/vehicles/view_vehicles.php"
 
+        Public Const HybridOptimization As String = MainHost + "/api.v4/hybrid_date_optimization.php"
 
 #End Region
     End Class
