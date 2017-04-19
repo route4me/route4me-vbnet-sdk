@@ -140,6 +140,35 @@ Namespace Route4MeSDK
             End If
         End Function
 
+        <DataContract> _
+        Private NotInheritable Class RemoveDestinationFromOptimizationResponse
+            <DataMember(Name:="deleted")> _
+            Public Property Deleted As [Boolean]
+
+            <DataMember(Name:="route_destination_id")> _
+            Public Property RouteDestinationId As Integer
+
+        End Class
+
+        Public Function RemoveDestinationFromOptimization(optimizationId As String, destinationId As Integer, ByRef errorString As String) As Boolean
+            Dim genericParameters As New GenericParameters()
+            genericParameters.ParametersCollection.Add("optimization_problem_id", optimizationId)
+            genericParameters.ParametersCollection.Add("route_destination_id", destinationId.ToString())
+            Dim response As RemoveDestinationFromOptimizationResponse = GetJsonObjectFromAPI(Of RemoveDestinationFromOptimizationResponse)(genericParameters, R4MEInfrastructureSettings.GetAddress, HttpMethodType.Delete, errorString)
+            If response IsNot Nothing AndAlso response.Deleted Then
+                Return True
+            Else
+                Return False
+            End If
+        End Function
+#End Region
+
+#Region "Hybrid Optimization"
+        Public Function GetOHybridptimization(hybridOptimizationParameters As HybridOptimizationParameters, ByRef errorString As String) As DataObject
+            Dim result = GetJsonObjectFromAPI(Of DataObject)(hybridOptimizationParameters, R4MEInfrastructureSettings.HybridOptimization, HttpMethodType.[Get], errorString)
+
+            Return result
+        End Function
 #End Region
 
 #Region "Routes"
@@ -212,7 +241,7 @@ Namespace Route4MeSDK
                     Return m_CustomFields
                 End Get
                 Set(value As Dictionary(Of String, String))
-                    m_CustomFields = Value
+                    m_CustomFields = value
                 End Set
             End Property
             Private m_CustomFields As Dictionary(Of String, String)
@@ -248,7 +277,7 @@ Namespace Route4MeSDK
                     Return m_FirstName
                 End Get
                 Set(value As String)
-                    m_FirstName = Value
+                    m_FirstName = value
                 End Set
             End Property
             Private m_FirstName As String
@@ -259,7 +288,7 @@ Namespace Route4MeSDK
                     Return m_LastName
                 End Get
                 Set(value As String)
-                    m_LastName = Value
+                    m_LastName = value
                 End Set
             End Property
             Private m_LastName As String
@@ -270,7 +299,7 @@ Namespace Route4MeSDK
                     Return m_AddressString
                 End Get
                 Set(value As String)
-                    m_AddressString = Value
+                    m_AddressString = value
                 End Set
             End Property
             Private m_AddressString As String
@@ -284,7 +313,7 @@ Namespace Route4MeSDK
                     Return m_IsDepot
                 End Get
                 Set(value As System.Nullable(Of Boolean))
-                    m_IsDepot = Value
+                    m_IsDepot = value
                 End Set
             End Property
             Private m_IsDepot As System.Nullable(Of Boolean)
@@ -311,7 +340,7 @@ Namespace Route4MeSDK
                     Return m_SequenceNo
                 End Get
                 Set(value As System.Nullable(Of Integer))
-                    m_SequenceNo = Value
+                    m_SequenceNo = value
                 End Set
             End Property
             Private m_SequenceNo As System.Nullable(Of Integer)
@@ -323,7 +352,7 @@ Namespace Route4MeSDK
                     Return m_IsVisited
                 End Get
                 Set(value As System.Nullable(Of Boolean))
-                    m_IsVisited = Value
+                    m_IsVisited = value
                 End Set
             End Property
             Private m_IsVisited As System.Nullable(Of Boolean)
@@ -335,7 +364,7 @@ Namespace Route4MeSDK
                     Return m_IsDeparted
                 End Get
                 Set(value As System.Nullable(Of Boolean))
-                    m_IsDeparted = Value
+                    m_IsDeparted = value
                 End Set
             End Property
             Private m_IsDeparted As System.Nullable(Of Boolean)
@@ -347,7 +376,7 @@ Namespace Route4MeSDK
                     Return m_TimestampLastVisited
                 End Get
                 Set(value As System.Nullable(Of UInteger))
-                    m_TimestampLastVisited = Value
+                    m_TimestampLastVisited = value
                 End Set
             End Property
             Private m_TimestampLastVisited As System.Nullable(Of UInteger)
@@ -359,7 +388,7 @@ Namespace Route4MeSDK
                     Return m_TimestampLastDeparted
                 End Get
                 Set(value As System.Nullable(Of UInteger))
-                    m_TimestampLastDeparted = Value
+                    m_TimestampLastDeparted = value
                 End Set
             End Property
             Private m_TimestampLastDeparted As System.Nullable(Of UInteger)
@@ -375,7 +404,7 @@ Namespace Route4MeSDK
                     Return m_CustomerPo
                 End Get
                 Set(value As Object)
-                    m_CustomerPo = Value
+                    m_CustomerPo = value
                 End Set
             End Property
             Private m_CustomerPo As Object
@@ -388,7 +417,7 @@ Namespace Route4MeSDK
                     Return m_InvoiceNo
                 End Get
                 Set(value As Object)
-                    m_InvoiceNo = Value
+                    m_InvoiceNo = value
                 End Set
             End Property
             Private m_InvoiceNo As Object
@@ -401,7 +430,7 @@ Namespace Route4MeSDK
                     Return m_ReferenceNo
                 End Get
                 Set(value As Object)
-                    m_ReferenceNo = Value
+                    m_ReferenceNo = value
                 End Set
             End Property
             Private m_ReferenceNo As Object
@@ -414,7 +443,7 @@ Namespace Route4MeSDK
                     Return m_OrderNo
                 End Get
                 Set(value As Object)
-                    m_OrderNo = Value
+                    m_OrderNo = value
                 End Set
             End Property
             Private m_OrderNo As Object
@@ -425,7 +454,7 @@ Namespace Route4MeSDK
                     Return m_OrderId
                 End Get
                 Set(value As System.Nullable(Of Integer))
-                    m_OrderId = Value
+                    m_OrderId = value
                 End Set
             End Property
             Private m_OrderId As System.Nullable(Of Integer)
@@ -436,7 +465,7 @@ Namespace Route4MeSDK
                     Return m_Weight
                 End Get
                 Set(value As Object)
-                    m_Weight = Value
+                    m_Weight = value
                 End Set
             End Property
             Private m_Weight As Object
@@ -447,7 +476,7 @@ Namespace Route4MeSDK
                     Return m_Cost
                 End Get
                 Set(value As Object)
-                    m_Cost = Value
+                    m_Cost = value
                 End Set
             End Property
             Private m_Cost As Object
@@ -458,7 +487,7 @@ Namespace Route4MeSDK
                     Return m_Revenue
                 End Get
                 Set(value As Object)
-                    m_Revenue = Value
+                    m_Revenue = value
                 End Set
             End Property
             Private m_Revenue As Object
@@ -471,7 +500,7 @@ Namespace Route4MeSDK
                     Return m_Cube
                 End Get
                 Set(value As Object)
-                    m_Cube = Value
+                    m_Cube = value
                 End Set
             End Property
             Private m_Cube As Object
@@ -483,7 +512,7 @@ Namespace Route4MeSDK
                     Return m_Pieces
                 End Get
                 Set(value As Object)
-                    m_Pieces = Value
+                    m_Pieces = value
                 End Set
             End Property
             Private m_Pieces As Object
@@ -494,7 +523,7 @@ Namespace Route4MeSDK
                     Return m_Email
                 End Get
                 Set(value As String)
-                    m_Email = Value
+                    m_Email = value
                 End Set
             End Property
             Private m_Email As String
@@ -505,7 +534,7 @@ Namespace Route4MeSDK
                     Return m_Phone
                 End Get
                 Set(value As String)
-                    m_Phone = Value
+                    m_Phone = value
                 End Set
             End Property
             Private m_Phone As String
@@ -516,7 +545,7 @@ Namespace Route4MeSDK
                     Return m_TimeWindowStart
                 End Get
                 Set(value As System.Nullable(Of Integer))
-                    m_TimeWindowStart = Value
+                    m_TimeWindowStart = value
                 End Set
             End Property
             Private m_TimeWindowStart As System.Nullable(Of Integer)
@@ -527,7 +556,7 @@ Namespace Route4MeSDK
                     Return m_TimeWindowEnd
                 End Get
                 Set(value As System.Nullable(Of Integer))
-                    m_TimeWindowEnd = Value
+                    m_TimeWindowEnd = value
                 End Set
             End Property
             Private m_TimeWindowEnd As System.Nullable(Of Integer)
@@ -539,7 +568,7 @@ Namespace Route4MeSDK
                     Return m_Time
                 End Get
                 Set(value As System.Nullable(Of Integer))
-                    m_Time = Value
+                    m_Time = value
                 End Set
             End Property
             Private m_Time As System.Nullable(Of Integer)
@@ -550,7 +579,7 @@ Namespace Route4MeSDK
                     Return m_Notes
                 End Get
                 Set(value As AddressNote())
-                    m_Notes = Value
+                    m_Notes = value
                 End Set
             End Property
             Private m_Notes As AddressNote()
@@ -564,7 +593,7 @@ Namespace Route4MeSDK
                     Return m_Priority
                 End Get
                 Set(value As System.Nullable(Of Integer))
-                    m_Priority = Value
+                    m_Priority = value
                 End Set
             End Property
             Private m_Priority As System.Nullable(Of Integer)
@@ -576,7 +605,7 @@ Namespace Route4MeSDK
                     Return m_CurbsideLatitude
                 End Get
                 Set(value As System.Nullable(Of Double))
-                    m_CurbsideLatitude = Value
+                    m_CurbsideLatitude = value
                 End Set
             End Property
             Private m_CurbsideLatitude As System.Nullable(Of Double)
@@ -588,7 +617,7 @@ Namespace Route4MeSDK
                     Return m_CurbsideLongitude
                 End Get
                 Set(value As System.Nullable(Of Double))
-                    m_CurbsideLongitude = Value
+                    m_CurbsideLongitude = value
                 End Set
             End Property
             Private m_CurbsideLongitude As System.Nullable(Of Double)
@@ -599,7 +628,7 @@ Namespace Route4MeSDK
                     Return m_TimeWindowStart2
                 End Get
                 Set(value As System.Nullable(Of Integer))
-                    m_TimeWindowStart2 = Value
+                    m_TimeWindowStart2 = value
                 End Set
             End Property
             Private m_TimeWindowStart2 As System.Nullable(Of Integer)
@@ -610,7 +639,7 @@ Namespace Route4MeSDK
                     Return m_TimeWindowEnd2
                 End Get
                 Set(value As System.Nullable(Of Integer))
-                    m_TimeWindowEnd2 = Value
+                    m_TimeWindowEnd2 = value
                 End Set
             End Property
             Private m_TimeWindowEnd2 As System.Nullable(Of Integer)
@@ -1331,26 +1360,11 @@ Namespace Route4MeSDK
         <DataContract> _
         Private NotInheritable Class GetActivitiesResponse
             <DataMember(Name:="results")> _
-            Public Property Results() As Activity()
-                Get
-                    Return m_Results
-                End Get
-                Set(value As Activity())
-                    m_Results = value
-                End Set
-            End Property
-            Private m_Results As Activity()
+            Public Property Results As Activity()
 
             <DataMember(Name:="total")> _
-            Public Property Total() As UInteger
-                Get
-                    Return m_Total
-                End Get
-                Set(value As UInteger)
-                    m_Total = value
-                End Set
-            End Property
-            Private m_Total As UInteger
+            Public Property Total As UInteger
+
         End Class
 
         Public Function GetActivityFeed(activityParameters As ActivityParameters, ByRef errorString As String) As Activity()
@@ -1363,75 +1377,26 @@ Namespace Route4MeSDK
         End Function
 
         <DataContract> _
-        Private NotInheritable Class LogSpecificMessageResponse
-
+        Private NotInheritable Class LogCustomActivityResponse
             <DataMember(Name:="status")> _
-            Public Property Status() As System.Nullable(Of Boolean)
-                Get
-                    Return m_Status
-                End Get
-                Set(value As System.Nullable(Of Boolean))
-                    m_Status = value
-                End Set
-            End Property
-            Private m_Status As System.Nullable(Of Boolean)
-        End Class
-
-        <DataContract> _
-        Private NotInheritable Class LogSpecificMessageRequest
-            Inherits GenericParameters
-
-            <DataMember(Name:="activity_type", EmitDefaultValue:=False)> _
-            Public Property ActivityType() As String
-                Get
-                    Return m_ActivityType
-                End Get
-                Set(value As String)
-                    m_ActivityType = value
-                End Set
-            End Property
-            Private m_ActivityType As String
-
-            <DataMember(Name:="activity_message", EmitDefaultValue:=False)> _
-            Public Property ActivityMessage() As String
-                Get
-                    Return m_ActivityMessage
-                End Get
-                Set(value As String)
-                    m_ActivityMessage = value
-                End Set
-            End Property
-            Private m_ActivityMessage As String
-
-            <DataMember(Name:="route_id", EmitDefaultValue:=False)> _
-            Public Property RouteId() As String
-                Get
-                    Return m_RouteId
-                End Get
-                Set(value As String)
-                    m_RouteId = value
-                End Set
-            End Property
-            Private m_RouteId As String
+            Public Property Status As Boolean
 
         End Class
 
-        Public Function LogSpecificMessage(actParams As ActivityParameters, ByRef errorString As String) As Boolean
-
-            Dim request As LogSpecificMessageRequest = New LogSpecificMessageRequest With { _
-                .ActivityType = actParams.ActivityType, _
-                .ActivityMessage = actParams.ActivityMessage, _
-                .RouteId = actParams.RouteId _
-            }
-
-            Dim response As LogSpecificMessageResponse = GetJsonObjectFromAPI(Of LogSpecificMessageResponse)(request, R4MEInfrastructureSettings.ActivityFeed, HttpMethodType.[Post], errorString)
-
-            If Not response Is Nothing Then
-                Return response.Status
+        ''' <summary>
+        ''' Create User Activity. Send custom message to Activity Stream.
+        ''' </summary>
+        ''' <param name="activity"> Input Activity object to add </param>
+        ''' <param name="errorString"> Error string </param>
+        ''' <returns> True/False </returns>
+        Public Function LogCustomActivity(activity As Activity, ByRef errorString As String) As Boolean
+            activity.PrepareForSerialization()
+            Dim response As LogCustomActivityResponse = GetJsonObjectFromAPI(Of LogCustomActivityResponse)(activity, R4MEInfrastructureSettings.ActivityFeed, HttpMethodType.Post, errorString)
+            If response IsNot Nothing AndAlso response.Status Then
+                Return True
             Else
                 Return False
             End If
-
         End Function
 
 #End Region
@@ -1638,7 +1603,7 @@ Namespace Route4MeSDK
                     Return m_Status
                 End Get
                 Set(value As [Boolean])
-                    m_Status = Value
+                    m_Status = value
                 End Set
             End Property
             Private m_Status As [Boolean]
@@ -1649,7 +1614,7 @@ Namespace Route4MeSDK
                     Return m_error
                 End Get
                 Set(value As String)
-                    m_error = Value
+                    m_error = value
                 End Set
             End Property
             Private m_error As String
@@ -2260,10 +2225,14 @@ Namespace Route4MeSDK
 
 #Region "Orders"
 
-        Public Function GetOrderByID(orderQuery As OrderParameters, ByRef errorString As String) As Order
-            Dim response As Order = GetJsonObjectFromAPI(Of Order)(orderQuery, R4MEInfrastructureSettings.Order, HttpMethodType.[Get], errorString)
+        Public Function GetOrderByID(orderQuery As OrderParameters, ByRef errorString As String) As Order()
+            Dim ids As String() = orderQuery.order_id.Split(","c)
+            If ids.Length = 1 Then
+                orderQuery.order_id = orderQuery.order_id + "," + orderQuery.order_id
+            End If
+            Dim response As GetOrdersResponse = GetJsonObjectFromAPI(Of GetOrdersResponse)(orderQuery, R4MEInfrastructureSettings.Order, HttpMethodType.[Get], errorString)
 
-            Return response
+            Return response.Results
         End Function
 
         Public Function SearchOrders(orderQuery As OrderParameters, ByRef errorString As String) As Order()

@@ -130,6 +130,7 @@
     <Compile Include="QueryTypes\GPSParameters.vb" />
     <Compile Include="QueryTypes\HttpQueryMemberAttribute.vb" />
     <Compile Include="DataTypes\MemberConfigurationDdata.vb" />
+    <Compile Include="QueryTypes\HybridOptimizationParameters.vb" />
     <Compile Include="QueryTypes\MemberConfigurationParameters.vb" />
     <Compile Include="QueryTypes\MemberParameters.vb" />
     <Compile Include="QueryTypes\MergeRoutesQuery.vb" />

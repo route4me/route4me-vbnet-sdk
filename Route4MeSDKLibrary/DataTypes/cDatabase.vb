@@ -48,6 +48,12 @@ Namespace Route4MeSDK.DataTypes
         Private sStartupFolder As String
 
         Public Sub New(db_type__1 As DB_Type)
+            For i As Integer = 0 To ConfigurationManager.ConnectionStrings.Count - 1
+                Dim sConn As String = ConfigurationManager.ConnectionStrings(i).ConnectionString
+                Console.WriteLine(sConn)
+
+            Next
+
             Select Case db_type__1
                 Case DB_Type.MySQL
                     _conStngInstitute = ConfigurationManager.ConnectionStrings("conMySQL")
@@ -173,7 +179,7 @@ Namespace Route4MeSDK.DataTypes
                 iRet = 1
                 Return iRet
             Catch ex As Exception
-                Console.WriteLine(":( Transaction failed... " + ex.Message)
+                Console.WriteLine(":( Transaction failed... " & ex.Message)
                 _transaction.Rollback()
                 iRet = 0
                 Return iRet
@@ -186,10 +192,10 @@ Namespace Route4MeSDK.DataTypes
             Dim tblDictionary As New DataTable()
 
             Try
-                tblDictionary = fillTable((Convert.ToString("SELECT * FROM csv_to_api_dictionary WHERE table_name='") & sTableName) + "'")
+                tblDictionary = fillTable((Convert.ToString("SELECT * FROM csv_to_api_dictionary WHERE table_name='") & sTableName) & "'")
                 Return tblDictionary
             Catch ex As Exception
-                Console.WriteLine(":( csv_to_api_dictionary table reading failed!.. " + ex.Message)
+                Console.WriteLine(":( csv_to_api_dictionary table reading failed!.. " & ex.Message)
             End Try
 
             Return tblDictionary
@@ -203,7 +209,7 @@ Namespace Route4MeSDK.DataTypes
         '  
         Public Sub Csv2Table(sFileName As String, sTableName As String, sIdName As String, iFieldsNumber As Integer, isFirstRowHeader As Boolean)
             If Not File.Exists(sFileName) Then
-                Console.WriteLine((Convert.ToString("The file ") & sFileName) + " doesn't exist...")
+                Console.WriteLine((Convert.ToString("The file ") & sFileName) & " doesn't exist...")
                 Return
             End If
 
@@ -212,13 +218,13 @@ Namespace Route4MeSDK.DataTypes
             Dim pathOnly As String = System.IO.Path.GetDirectoryName(sFileName)
             Dim fileName As String = System.IO.Path.GetFileName(sFileName)
 
-            Dim csvCom As String = (Convert.ToString("SELECT * FROM [") & fileName) + "]"
+            Dim csvCom As String = (Convert.ToString("SELECT * FROM [") & fileName) & "]"
 
             Dim tblDictionary As DataTable = GetCsv2ApiDictionary(sTableName)
 
             Dim tblTempTable As New DataTable()
 
-            Using csvCon As New OleDbConnection((Convert.ToString((Convert.ToString("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=") & pathOnly) + ";Extended Properties=""Text;HDR=") & header) + """")
+            Using csvCon As New OleDbConnection((Convert.ToString((Convert.ToString("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=") & pathOnly) & ";Extended Properties=""Text;HDR=") & header) & """")
                 Using comCsv As New OleDbCommand(csvCom, csvCon)
                     Using csvAdapter As New OleDbDataAdapter(comCsv)
                         tblTempTable.Locale = System.Globalization.CultureInfo.CurrentCulture
@@ -256,7 +262,7 @@ Namespace Route4MeSDK.DataTypes
                                 Continue For
                             End If
 
-                            Dim arRows As DataRow() = tblDictionary.[Select]((Convert.ToString("r4m_csv_field_name='") & sCsvFieldName) + "'")
+                            Dim arRows As DataRow() = tblDictionary.[Select]((Convert.ToString("r4m_csv_field_name='") & sCsvFieldName) & "'")
                             If arRows.Length = 1 Then
                                 Dim sFieldApiName As String = arRows(0)("api_field_name").ToString()
                                 Dim sApiFieldType As String = arRows(0)("api_field_type").ToString()
@@ -268,20 +274,20 @@ Namespace Route4MeSDK.DataTypes
                                     If oSchedule Is Nothing Then
                                         sList += sFieldApiName & Convert.ToString("=null,")
                                     Else
-                                        sList += (sFieldApiName & Convert.ToString("='")) + oSchedule + "',"
+                                        sList += (sFieldApiName & Convert.ToString("='")) & oSchedule & "',"
                                     End If
                                 Else
                                     Select Case tblTempTable.Columns(iCol).DataType.Name
                                         Case "String"
-                                            sList += (sFieldApiName & Convert.ToString("=N'")) + row(iCol).ToString() + "',"
+                                            sList += (sFieldApiName & Convert.ToString("=N'")) & row(iCol).ToString() & "',"
                                             Exit Select
                                         Case "Int32"
-                                            sList += (sFieldApiName & Convert.ToString("=")) + row(iCol).ToString() + ","
+                                            sList += (sFieldApiName & Convert.ToString("=")) & row(iCol).ToString() & ","
 
 
                                             Exit Select
                                         Case "Double"
-                                            sList += (sFieldApiName & Convert.ToString("=")) + row(iCol).ToString() + ","
+                                            sList += (sFieldApiName & Convert.ToString("=")) & row(iCol).ToString() & ","
                                             Exit Select
                                         Case "DateTime"
                                             Dim dt1900 As New DateTime(1900, 1, 1, 0, 0, 0)
@@ -289,12 +295,12 @@ Namespace Route4MeSDK.DataTypes
                                                 dt1900 = Convert.ToDateTime(row(iCol))
                                                 If sApiFieldType <> sCsvFieldType AndAlso sApiFieldType = "int" Then
                                                     Dim iUnixTime As Long = R4MeUtils.ConvertToUnixTimestamp(dt1900)
-                                                    sList += (sFieldApiName & Convert.ToString("=")) + iUnixTime + ","
+                                                    sList += (sFieldApiName & Convert.ToString("=")) & iUnixTime & ","
                                                 Else
                                                     If _conStngInstitute.ProviderName = "System.Data.OleDb" Then
-                                                        sList += (sFieldApiName & Convert.ToString("=#")) + dt1900.ToString("yyyy-MM-dd HH:mm:ss") + "#,"
+                                                        sList += (sFieldApiName & Convert.ToString("=#")) & dt1900.ToString("yyyy-MM-dd HH:mm:ss") & "#,"
                                                     Else
-                                                        sList += (sFieldApiName & Convert.ToString("='")) + dt1900.ToString("yyyy-MM-dd HH:mm:ss") + "',"
+                                                        sList += (sFieldApiName & Convert.ToString("='")) & dt1900.ToString("yyyy-MM-dd HH:mm:ss") & "',"
                                                     End If
                                                 End If
                                             End If
@@ -321,7 +327,7 @@ Namespace Route4MeSDK.DataTypes
                                     If tblTempTable.Columns(iCol1).DataType.Name = "String" Then
                                         Dim sFieldName As String = tblTempTable.Columns(iCol1).ColumnName
                                         Dim sValue As String = row(iCol1).ToString()
-                                        sbCustom1.Append((Convert.ToString((Convert.ToString("""") & sFieldName) + """: """) & sValue) + """,")
+                                        sbCustom1.Append((Convert.ToString((Convert.ToString("""") & sFieldName) & """: """) & sValue) & """,")
                                     End If
                                 End If
                             Next
@@ -329,17 +335,17 @@ Namespace Route4MeSDK.DataTypes
                             sCustom = sCustom.TrimEnd(","c)
                             sCustom += "}"
                             If sCustom.Length > 3 Then
-                                sList += (Convert.ToString("address_custom_data='" + " N'") & sCustom) + "'"
+                                sList += (Convert.ToString("address_custom_data='" & " N'") & sCustom) & "'"
                             End If
                         Next
                     End If
 
-                    Dim sQuery2 As String = (Convert.ToString((Convert.ToString((Convert.ToString("UPDATE ") & sTableName) + " ") & sList) + " WHERE ") & sIdName) + "=" + id
+                    Dim sQuery2 As String = (Convert.ToString((Convert.ToString((Convert.ToString("UPDATE ") & sTableName) & " ") & sList) & " WHERE ") & sIdName) & "=" & id
 
                     Dim iResult2 As Integer = ExecuteNon(sQuery2)
 
                     If iResult2 > 0 Then
-                        Console.WriteLine(Convert.ToString((Convert.ToString(":) The row with ") & sIdName) + "d=" + id + " was updated in the table ") & sTableName)
+                        Console.WriteLine(Convert.ToString((Convert.ToString(":) The row with ") & sIdName) & "d=" & id & " was updated in the table ") & sTableName)
                     Else
                         Console.WriteLine(Convert.ToString(":( Can not updated the row in the table ") & sTableName)
                     End If
@@ -349,7 +355,7 @@ Namespace Route4MeSDK.DataTypes
 
                         If isValid Then
                             Dim sCvsFieldName As String = tblTempTable.Columns(iCol).ColumnName
-                            Dim arRows As DataRow() = tblDictionary.[Select]((Convert.ToString("r4m_csv_field_name='") & sCvsFieldName) + "'")
+                            Dim arRows As DataRow() = tblDictionary.[Select]((Convert.ToString("r4m_csv_field_name='") & sCvsFieldName) & "'")
                             If arRows.Length = 1 Then
                                 Dim sFieldApiName As String = arRows(0)("api_field_name").ToString()
                                 Dim sApiFieldType As String = arRows(0)("api_field_type").ToString()
@@ -362,21 +368,21 @@ Namespace Route4MeSDK.DataTypes
                                     If oSchedule Is Nothing Then
                                         sValues += "null"
                                     Else
-                                        sValues += "'" + oSchedule + "',"
+                                        sValues += "'" & oSchedule & "',"
                                     End If
                                 Else
                                     Select Case tblTempTable.Columns(iCol).DataType.Name
                                         Case "String"
                                             sList += sFieldApiName & Convert.ToString(",")
-                                            sValues += "N'" + row(iCol).ToString() + "',"
+                                            sValues += "N'" & row(iCol).ToString() & "',"
                                             Exit Select
                                         Case "Int32"
                                             sList += sFieldApiName & Convert.ToString(",")
-                                            sValues += row(iCol).ToString() + ","
+                                            sValues += row(iCol).ToString() & ","
                                             Exit Select
                                         Case "Double"
                                             sList += sFieldApiName & Convert.ToString(",")
-                                            sValues += row(iCol).ToString() + ","
+                                            sValues += row(iCol).ToString() & ","
                                             Exit Select
                                         Case "DateTime"
                                             Dim dt1900 As New DateTime(1900, 1, 1, 0, 0, 0)
@@ -385,12 +391,12 @@ Namespace Route4MeSDK.DataTypes
                                                 sList += sFieldApiName & Convert.ToString(",")
                                                 If sApiFieldType <> sCsvFieldType AndAlso sApiFieldType = "int" Then
                                                     Dim iUnixTime As Long = R4MeUtils.ConvertToUnixTimestamp(dt1900)
-                                                    sValues += iUnixTime + ","
+                                                    sValues += iUnixTime & ","
                                                 Else
                                                     If _conStngInstitute.ProviderName = "System.Data.OleDb" Then
-                                                        sValues += "#" + dt1900.ToString("yyyy-MM-dd HH:mm:ss") + "#,"
+                                                        sValues += "#" & dt1900.ToString("yyyy-MM-dd HH:mm:ss") & "#,"
                                                     Else
-                                                        sValues += "'" + dt1900.ToString("yyyy-MM-dd HH:mm:ss") + "',"
+                                                        sValues += "'" & dt1900.ToString("yyyy-MM-dd HH:mm:ss") & "',"
                                                     End If
                                                 End If
                                             End If
@@ -431,12 +437,12 @@ Namespace Route4MeSDK.DataTypes
                     sList += ")"
                     sValues = sValues.TrimEnd(","c)
                     sValues += ")"
-                    Dim sQuery1 As String = Convert.ToString((Convert.ToString((Convert.ToString("INSERT INTO ") & sTableName) + " ") & sList) + " ") & sValues
+                    Dim sQuery1 As String = Convert.ToString((Convert.ToString((Convert.ToString("INSERT INTO ") & sTableName) & " ") & sList) & " ") & sValues
 
                     Dim iResult As Integer = ExecuteNon(sQuery1)
 
                     If iResult > 0 Then
-                        Console.WriteLine(Convert.ToString((Convert.ToString(":) New row with ") & sIdName) + "=" + id + " was added to the table ") & sTableName)
+                        Console.WriteLine(Convert.ToString((Convert.ToString(":) New row with ") & sIdName) & "=" & id & " was added to the table ") & sTableName)
                     Else
                         Console.WriteLine(Convert.ToString(":( Can not created new row in the table ") & sTableName)
                     End If
@@ -459,13 +465,13 @@ Namespace Route4MeSDK.DataTypes
 
             Dim sFileHeader As String = ""
             If WithId Then
-                sFileHeader += """" + tblTemp.Columns(0).ColumnName + ""","
+                sFileHeader += """" & tblTemp.Columns(0).ColumnName & ""","
             End If
 
             Dim tblDictionary As DataTable = GetCsv2ApiDictionary(sTableName)
 
             For Each dictRow As DataRow In tblDictionary.Rows
-                sFileHeader += """" + dictRow("r4m_csv_field_name").ToString() + ""","
+                sFileHeader += """" & dictRow("r4m_csv_field_name").ToString() & ""","
             Next
 
             ' Convert JSON string of the custom data to the csv fields (as they are represented in the exported from Route4Me csv file
@@ -475,7 +481,7 @@ Namespace Route4MeSDK.DataTypes
                     Dim dict As Dictionary(Of String, Object) = DirectCast(jsSerializer.DeserializeObject(row("address_custom_Data").ToString()), Dictionary(Of String, Object))
 
                     For Each kvpair As KeyValuePair(Of String, Object) In dict
-                        Dim fRows As DataRow() = tblDictionary.[Select]("r4m_csv_field_name='" + kvpair.Key + "'")
+                        Dim fRows As DataRow() = tblDictionary.[Select]("r4m_csv_field_name='" & kvpair.Key & "'")
 
                         If fRows.Length < 1 Then
                             Dim newRow As DataRow = tblDictionary.NewRow()
@@ -483,11 +489,11 @@ Namespace Route4MeSDK.DataTypes
                             newRow("r4m_csv_field_name") = kvpair.Key
                             newRow("table_name") = "addressbook_v4"
                             newRow("csv_field_nom") = tblDictionary.Rows.Count
-                            newRow("api_field_name") = "_cf__" + kvpair.Key
+                            newRow("api_field_name") = "_cf__" & kvpair.Key
 
                             tblDictionary.Rows.Add(newRow)
 
-                            sFileHeader += """" + kvpair.Key + ""","
+                            sFileHeader += """" & kvpair.Key & ""","
 
                         End If
                     Next
@@ -503,7 +509,7 @@ Namespace Route4MeSDK.DataTypes
 
                 If WithId Then
                     If IsValidValue(tblTemp.Columns(0), row(0)) Then
-                        sRow += row(0).ToString() + ","
+                        sRow += row(0).ToString() & ","
                     End If
                 End If
 
@@ -524,7 +530,7 @@ Namespace Route4MeSDK.DataTypes
                                 If kvpair.Key = sKeyName Then
                                     Dim sVal As String = kvpair.Value.ToString()
                                     sVal = sVal.Replace("""", """""")
-                                    sRow += (Convert.ToString("""") & sVal) + ""","
+                                    sRow += (Convert.ToString("""") & sVal) & ""","
                                     blExists = True
                                     Exit For
                                 End If
@@ -544,13 +550,13 @@ Namespace Route4MeSDK.DataTypes
                                 Case "System.String"
                                     Dim sVal As String = row(apiCol.ColumnName).ToString()
                                     sVal = sVal.Replace("""", """""")
-                                    sRow += (Convert.ToString("""") & sVal) + ""","
+                                    sRow += (Convert.ToString("""") & sVal) & ""","
                                     Exit Select
                                 Case "System.DdateTime"
-                                    sRow += """" + Convert.ToDateTime(row(apiCol.ColumnName)).ToString("yyyy-MM-dd HH:mm:ss") + ""","
+                                    sRow += """" & Convert.ToDateTime(row(apiCol.ColumnName)).ToString("yyyy-MM-dd HH:mm:ss") & ""","
                                     Exit Select
                                 Case Else
-                                    sRow += row(apiCol.ColumnName) + ","
+                                    sRow += row(apiCol.ColumnName) & ","
                                     Exit Select
 
                             End Select
@@ -567,7 +573,7 @@ Namespace Route4MeSDK.DataTypes
 
             File.WriteAllLines(sFileName, lsCsvContent.ToArray())
 
-            Console.WriteLine((Convert.ToString("The file ") & sFileName) + " was created. You can fill it with data for upoloading on the server.")
+            Console.WriteLine((Convert.ToString("The file ") & sFileName) & " was created. You can fill it with data for upoloading on the server.")
         End Sub
 
         ' Create data folder if it doesn't exist.
@@ -596,7 +602,7 @@ Namespace Route4MeSDK.DataTypes
 
             Select Case ttype.Name
                 Case "String"
-                    sQueryValue = "N'" + oValue.ToString() + "'"
+                    sQueryValue = "N'" & oValue.ToString() & "'"
                     Exit Select
                 Case "Int32"
                     sQueryValue = oValue.ToString()
@@ -609,9 +615,9 @@ Namespace Route4MeSDK.DataTypes
                     If DateTime.TryParse(oValue.ToString(), dt1900) Then
                         dt1900 = Convert.ToDateTime(oValue)
                         If _conStngInstitute.ProviderName = "System.Data.OleDb" Then
-                            sQueryValue = "#" + dt1900.ToString("yyyy-MM-dd HH:mm:ss") + "#"
+                            sQueryValue = "#" & dt1900.ToString("yyyy-MM-dd HH:mm:ss") & "#"
                         Else
-                            sQueryValue = "'" + dt1900.ToString("yyyy-MM-dd HH:mm:ss") + "'"
+                            sQueryValue = "'" & dt1900.ToString("yyyy-MM-dd HH:mm:ss") & "'"
                         End If
                     End If
                     Exit Select
@@ -641,9 +647,9 @@ Namespace Route4MeSDK.DataTypes
                     sbOrderCustom.Append("{")
                     For Each kvpair As KeyValuePair(Of String, Object) In DirectCast(oValue, Dictionary(Of String, Object))
                         If kvpair.Value Is Nothing Then
-                            sbOrderCustom.Append("""" + kvpair.Key + """: null,")
+                            sbOrderCustom.Append("""" & kvpair.Key & """: null,")
                         Else
-                            sbOrderCustom.Append("""" + kvpair.Key + """: """ + kvpair.Value.ToString() + """,")
+                            sbOrderCustom.Append("""" & kvpair.Key & """: """ + kvpair.Value.ToString() & """,")
                         End If
                     Next
                     sQueryValue = sbOrderCustom.ToString().TrimEnd(","c)
@@ -654,9 +660,9 @@ Namespace Route4MeSDK.DataTypes
                     sbCustom.Append("{")
                     For Each kvpair As KeyValuePair(Of String, Object) In DirectCast(oValue, Dictionary(Of String, Object))
                         If kvpair.Value Is Nothing Then
-                            sbCustom.Append("""" + kvpair.Key + """: null,")
+                            sbCustom.Append("""" & kvpair.Key & """: null,")
                         Else
-                            sbCustom.Append("""" + kvpair.Key + """: """ + kvpair.Value.ToString() + """,")
+                            sbCustom.Append("""" & kvpair.Key & """: """ & kvpair.Value.ToString() & """,")
                         End If
                     Next
                     sQueryValue = sbCustom.ToString().TrimEnd(","c)
@@ -673,7 +679,7 @@ Namespace Route4MeSDK.DataTypes
                 Case "schedule_blacklist"
                     Dim sbBlackList As New System.Text.StringBuilder()
                     For Each dt1 As String In DirectCast(oValue, String())
-                        sbBlackList.Append((Convert.ToString("""") & dt1) + """,")
+                        sbBlackList.Append((Convert.ToString("""") & dt1) & """,")
                     Next
                     sQueryValue = sbBlackList.ToString()
                     sQueryValue = sQueryValue.TrimEnd(","c)
@@ -687,7 +693,7 @@ Namespace Route4MeSDK.DataTypes
         ' Upload JSON response file, generated by the process of getting addressbook contacts by Route4Me API, to the SQL type server.
         Public Sub Json2Table(sFileName As String, sTableName As String, sIdName As String, r4m_dtype As R4M_DataType)
             If Not File.Exists(sFileName) Then
-                Console.WriteLine((Convert.ToString("The file ") & sFileName) + " doesn't exist...")
+                Console.WriteLine((Convert.ToString("The file ") & sFileName) & " doesn't exist...")
                 Return
             End If
 
@@ -729,21 +735,21 @@ Namespace Route4MeSDK.DataTypes
                                     Continue For
                                 End If
 
-                                Console.WriteLine("Properyt type=" + prop.PropertyType.Name)
+                                Console.WriteLine("Properyt type=" & prop.PropertyType.Name)
 
-                                sFields += prop.Name + ","
+                                sFields += prop.Name & ","
                                 If prop.Name = "address_custom_data" OrElse prop.Name = "schedule" OrElse prop.Name = "schedule_blacklist" Then
-                                    sValues += "'" + ExceptFields2QueryValue(prop.Name, vValue) + "',"
+                                    sValues += "'" & ExceptFields2QueryValue(prop.Name, vValue) & "',"
                                 Else
-                                    sValues += FieldValue2QueryValue(vValue.[GetType](), vValue) + ","
+                                    sValues += FieldValue2QueryValue(vValue.[GetType](), vValue) & ","
 
                                 End If
                             Next
                             sFields = sFields.TrimEnd(","c)
                             sValues = sValues.TrimEnd(","c)
 
-                            sFields = (Convert.ToString("(") & sFields) + ")"
-                            sValues = (Convert.ToString("(") & sValues) + ")"
+                            sFields = (Convert.ToString("(") & sFields) & ")"
+                            sValues = (Convert.ToString("(") & sValues) & ")"
 
                             sQuery += Convert.ToString(sFields & Convert.ToString(" VALUES ")) & sValues
                         Else
@@ -765,15 +771,15 @@ Namespace Route4MeSDK.DataTypes
                                     Continue For
                                 End If
 
-                                Console.WriteLine("Properyt type=" + prop.PropertyType.Name)
+                                Console.WriteLine("Properyt type=" & prop.PropertyType.Name)
                                 If prop.Name = "address_custom_data" OrElse prop.Name = "schedule" OrElse prop.Name = "schedule_blacklist" Then
-                                    sSet += prop.Name + "='" + ExceptFields2QueryValue(prop.Name, vValue) + "',"
+                                    sSet += prop.Name & "='" & ExceptFields2QueryValue(prop.Name, vValue) & "',"
                                 Else
-                                    sSet += prop.Name + "=" + FieldValue2QueryValue(vValue.[GetType](), vValue) + ","
+                                    sSet += prop.Name & "=" & FieldValue2QueryValue(vValue.[GetType](), vValue) & ","
                                 End If
                             Next
                             sSet = sSet.TrimEnd(","c)
-                            sQuery += (sSet & Convert.ToString(" WHERE address_id=")) + address_id
+                            sQuery += (sSet & Convert.ToString(" WHERE address_id=")) & address_id
                         End If
 
                         ExecuteNon(sQuery)
@@ -805,21 +811,21 @@ Namespace Route4MeSDK.DataTypes
                                     Continue For
                                 End If
 
-                                Console.WriteLine("Properyt type=" + prop.PropertyType.Name)
+                                Console.WriteLine("Properyt type=" & prop.PropertyType.Name)
 
-                                sFields += prop.Name + ","
+                                sFields += prop.Name & ","
                                 If prop.Name = "EXT_FIELD_custom_data" Then
-                                    sValues += "'" + ExceptFields2QueryValue(prop.Name, vValue) + "',"
+                                    sValues += "'" & ExceptFields2QueryValue(prop.Name, vValue) & "',"
                                 Else
-                                    sValues += FieldValue2QueryValue(vValue.[GetType](), vValue) + ","
+                                    sValues += FieldValue2QueryValue(vValue.[GetType](), vValue) & ","
 
                                 End If
                             Next
                             sFields = sFields.TrimEnd(","c)
                             sValues = sValues.TrimEnd(","c)
 
-                            sFields = (Convert.ToString("(") & sFields) + ")"
-                            sValues = (Convert.ToString("(") & sValues) + ")"
+                            sFields = (Convert.ToString("(") & sFields) & ")"
+                            sValues = (Convert.ToString("(") & sValues) & ")"
 
 
                             sQuery += Convert.ToString(sFields & Convert.ToString(" VALUES ")) & sValues
@@ -845,13 +851,13 @@ Namespace Route4MeSDK.DataTypes
 
                                 Console.WriteLine("Properyt type=" + prop.PropertyType.Name)
                                 If prop.Name = "EXT_FIELD_custom_data" Then
-                                    sSet += prop.Name + "='" + ExceptFields2QueryValue(prop.Name, vValue) + "',"
+                                    sSet += prop.Name & "='" & ExceptFields2QueryValue(prop.Name, vValue) & "',"
                                 Else
-                                    sSet += prop.Name + "=" + FieldValue2QueryValue(vValue.[GetType](), vValue) + ","
+                                    sSet += prop.Name & "=" & FieldValue2QueryValue(vValue.[GetType](), vValue) & ","
                                 End If
                             Next
                             sSet = sSet.TrimEnd(","c)
-                            sQuery += (sSet & Convert.ToString(" WHERE order_id=")) + order_id
+                            sQuery += (sSet & Convert.ToString(" WHERE order_id=")) & order_id
                         End If
                         ExecuteNon(sQuery)
                     Next
@@ -865,7 +871,7 @@ Namespace Route4MeSDK.DataTypes
 
         Public Function IsNewAddress(sTableName As String, sIdName As String, AddressId As Integer) As Boolean
             Dim blNew As Boolean = True
-            Dim sCom As String = (Convert.ToString((Convert.ToString("SELECT COUNT(*) as rba FROM ") & sTableName) + " WHERE ") & sIdName) + "=" + AddressId
+            Dim sCom As String = (Convert.ToString((Convert.ToString("SELECT COUNT(*) as rba FROM ") & sTableName) & " WHERE ") & sIdName) & "=" & AddressId
             Dim result As Object = ExecuteScalar(sCom)
             Dim iRows As Integer = -1
             If Integer.TryParse(result.ToString(), iRows) Then
@@ -886,7 +892,7 @@ Namespace Route4MeSDK.DataTypes
                 Return True
             End If
 
-            Dim sCom As String = (Convert.ToString("SELECT COUNT(*) as rba FROM ") & sTableName) + " WHERE address_id=" + AddressId
+            Dim sCom As String = (Convert.ToString("SELECT COUNT(*) as rba FROM ") & sTableName) & " WHERE address_id=" & AddressId
             Dim result As Object = ExecuteScalar(sCom)
             Dim iRows As Integer = -1
             If Integer.TryParse(result.ToString(), iRows) Then
@@ -907,7 +913,7 @@ Namespace Route4MeSDK.DataTypes
                 Return True
             End If
 
-            Dim sCom As String = (Convert.ToString("SELECT COUNT(*) as rba FROM ") & sTableName) + " WHERE order_id=" + OrderId
+            Dim sCom As String = (Convert.ToString("SELECT COUNT(*) as rba FROM ") & sTableName) & " WHERE order_id=" & OrderId
             Dim result As Object = ExecuteScalar(sCom)
             Dim iRows As Integer = -1
             If Integer.TryParse(result.ToString(), iRows) Then

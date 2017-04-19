@@ -9,7 +9,11 @@ Namespace Route4MeSDK.DataTypes
     <DataContract> _
     Public NotInheritable Class Schedule
 
-        Public Sub New(sMode As String, blNth As Boolean)
+        Public Sub New()
+
+        End Sub
+
+        Public Sub New(ByVal sMode As String, ByVal blNth As Boolean)
             Select Case sMode
                 Case "daily"
                     Me.daily = New schedule_daily()
