@@ -3,6 +3,12 @@ before_build:
   - nuget restore
 configuration: Debug
 platform: Any CPU
+image: Visual Studio 2012
+
+assembly_info:
+  patch: true
+  file: AssemblyInfo.*
+  
 build:
   project: Route4Me Route Optimization Examples.sln 
   verbosity: minimal
