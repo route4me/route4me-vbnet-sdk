@@ -20,7 +20,7 @@ mono:
 cache:
   directories:
     - packages
-xbuild /p:VbcToolExe=vbnc.exe WindowsApplicationTravisDemo.sln
+
 script:
   - xbuild /p:VbcToolExe=vbnc.exe ./Route4MeSDKLibrary/Route4MeSDKLibrary.vbproj
   - xbuild /p:VbcToolExe=vbnc.exe ./Route4Me Route Optimization Examples/Route4Me Route Optimization Examples.vbproj
