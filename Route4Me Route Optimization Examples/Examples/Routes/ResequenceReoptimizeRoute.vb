@@ -4,8 +4,9 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
+
         ''' <summary>
-        ''' Resequence & Reoptimze a Route
+        ''' Resequence and Reoptimze a Route
         ''' </summary>
         Public Sub ResequenceReoptimizeRoute(routeId As String)
             ' Create the manager with the api key

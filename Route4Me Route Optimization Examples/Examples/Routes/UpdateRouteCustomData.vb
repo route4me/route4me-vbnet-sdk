@@ -3,9 +3,7 @@ Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDKTest.Examples
-    ''' <summary>
-    ''' Update Route Custom Data
-    ''' </summary>
+
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub UpdateRouteCustomData(routeId As String, routeDestionationId As Integer, CustomData As Dictionary(Of String, String))
             ' Create the manager with the api key

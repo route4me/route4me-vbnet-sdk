@@ -3,9 +3,7 @@ Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDKTest.Examples
-    ''' <summary>
-    ''' Add Orders to an Optimization
-    ''' </summary>
+
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub AddOrdersToOptimization(rQueryParams As OptimizationParameters, addresses As Address(), rParams As RouteParameters)
             ' Create the manager with the api key

@@ -7,7 +7,6 @@ Namespace Route4MeSDKTest.Examples
         ''' <summary>
         ''' Forward geocoding
         ''' </summary>
-        ''' <returns> xml object </returns>
         Public Sub GeocodingForward(geoParams As GeocodingParameters)
             ' Create the manager with the api key
             Dim route4Me As New Route4MeManager(c_ApiKey)
