@@ -2722,7 +2722,6 @@ Namespace Route4MeSDK
         ''' Get Vehicles
         ''' </summary>
         ''' <param name="vehParams"> Parameters for request </param>
-        ''' <param name="total"> out: Total number of Vehicles </param>
         ''' <param name="errorString"> out: Error as string </param>
         ''' <returns> Vehicle object list </returns>
         Public Function GetVehicles(vehParams As VehicleParameters, ByRef errorString As String) As VehicleResponse()

@@ -11,7 +11,6 @@ Namespace Route4MeSDK.QueryTypes
         ''' <summary>
         ''' Device Id
         ''' </summary>
-        ' Don't serialize as JSON
         <IgnoreDataMember> _
         <HttpQueryMemberAttribute(Name:="device_id", EmitDefaultValue:=False)> _
         Public Property DeviceID() As String
@@ -19,7 +18,7 @@ Namespace Route4MeSDK.QueryTypes
                 Return m_DeviceID
             End Get
             Set(value As String)
-                m_DeviceID = Value
+                m_DeviceID = value
             End Set
         End Property
         Private m_DeviceID As String
