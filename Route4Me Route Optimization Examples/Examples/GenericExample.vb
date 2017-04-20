@@ -24,7 +24,7 @@ Namespace Route4MeSDKTest.Examples
             'the page offset starting at zero
             genericParameters.ParametersCollection.Add("Offset", "5")
 
-            Dim errorMessage As String
+            Dim errorMessage As String = ""
             Dim dataObjects As DataObjectRoute() = route4Me.GetJsonObjectFromAPI(Of DataObjectRoute())(genericParameters, uri, HttpMethodType.[Get], errorMessage)
 
             Console.WriteLine("")

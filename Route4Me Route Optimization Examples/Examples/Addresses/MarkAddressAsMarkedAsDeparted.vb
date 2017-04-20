@@ -7,7 +7,6 @@ Namespace Route4MeSDKTest.Examples
         ''' <summary>
         ''' Mark Address As Marked As Departed
         ''' </summary>
-        ''' <returns> Address </returns>
         Public Sub MarkAddressAsMarkedAsDeparted(aParams As AddressParameters)
             ' Create the manager with the api key
             Dim route4Me As New Route4MeManager(c_ApiKey)
