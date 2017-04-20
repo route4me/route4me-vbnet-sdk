@@ -2151,6 +2151,12 @@ Namespace Route4MeSDK
             Return avoidanceZone
         End Function
 
+        <DataContract> _
+        Private NotInheritable Class DeleteAvoidanceZoneResponse
+            <DataMember(Name:="status")> _
+            Public Property status As [Boolean]
+
+        End Class
         ''' <summary>
         ''' Delete avoidance zone (by territory id, device id)
         ''' </summary>
@@ -2158,8 +2164,8 @@ Namespace Route4MeSDK
         ''' <param name="errorString"> out: Error as string </param>
         ''' <returns> Result status true/false </returns>
         Public Function DeleteAvoidanceZone(avoidanceZoneQuery As AvoidanceZoneQuery, ByRef errorString As String) As Boolean
-            GetJsonObjectFromAPI(Of AvoidanceZone)(avoidanceZoneQuery, R4MEInfrastructureSettings.Avoidance, HttpMethodType.Delete, errorString)
-            Return errorString <> ""
+            Dim Result = GetJsonObjectFromAPI(Of DeleteAvoidanceZoneResponse)(avoidanceZoneQuery, R4MEInfrastructureSettings.Avoidance, HttpMethodType.Delete, errorString)
+            Return Result.status
         End Function
 
 #End Region
@@ -2199,6 +2205,12 @@ Namespace Route4MeSDK
             Return territories
         End Function
 
+        <DataContract> _
+        Private NotInheritable Class RemoveTerritoryResponse
+            <DataMember(Name:="status")> _
+            Public Property status As [Boolean]
+
+        End Class
         ''' <summary>
         ''' Remove Territory (by territory id, device id)
         ''' </summary>
@@ -2206,8 +2218,8 @@ Namespace Route4MeSDK
         ''' <param name="errorString"> out: Error as string </param>
         ''' <returns> Result status true/false </returns>
         Public Function RemoveTerritory(territoryQuery As TerritoryQuery, ByRef errorString As String) As Boolean
-            GetJsonObjectFromAPI(Of TerritoryZone)(territoryQuery, R4MEInfrastructureSettings.Territory, HttpMethodType.Delete, errorString)
-            Return errorString <> ""
+            Dim result = GetJsonObjectFromAPI(Of RemoveTerritoryResponse)(territoryQuery, R4MEInfrastructureSettings.Territory, HttpMethodType.Delete, errorString)
+            Return result.status
         End Function
 
         ''' <summary>

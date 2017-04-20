@@ -3992,9 +3992,8 @@ End Class
 
     Shared lsAvoidanceZones As New List(Of String)()
 
-    <TestMethod> _
-<TestInitialize> _
-    Public Sub AddAvoidanceZonesTest()
+    <ClassInitialize> _
+    Public Shared Sub AvoidanseZonesGroupInitialize(context As TestContext)
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim circleAvoidanceZoneParameters As New AvoidanceZoneParameters() With { _
@@ -4052,6 +4051,30 @@ End Class
     End Sub
 
     <TestMethod> _
+    Public Sub AddAvoidanceZonesTest()
+        Dim route4Me As New Route4MeManager(c_ApiKey)
+
+        Dim circleAvoidanceZoneParameters As New AvoidanceZoneParameters() With { _
+            .TerritoryName = "Test Circle Territory", _
+            .TerritoryColor = "ff0000", _
+            .Territory = New Territory() With { _
+                .Type = TerritoryType.Circle.GetEnumDescription(), _
+                .Data = New String() {"37.569752822786455,-77.47833251953125", "5000"} _
+            } _
+        }
+
+        Dim errorString As String = ""
+        Dim circleAvoidanceZone As AvoidanceZone = route4Me.AddAvoidanceZone(circleAvoidanceZoneParameters, errorString)
+
+        If circleAvoidanceZone IsNot Nothing Then
+            lsAvoidanceZones.Add(circleAvoidanceZone.TerritoryId)
+        End If
+
+        Assert.IsNotNull(circleAvoidanceZone, Convert.ToString("Add Circle Avoidance Zone test failed... ") & errorString)
+
+    End Sub
+
+    <TestMethod> _
     Public Sub GetAvoidanceZonesTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -4070,9 +4093,10 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim territoryId As String = ""
-        If lsAvoidanceZones.Count > 0 Then
-            territoryId = lsAvoidanceZones(0)
+        If lsAvoidanceZones.Count > 1 Then
+            territoryId = lsAvoidanceZones(1)
         End If
+
         Dim avoidanceZoneQuery As New AvoidanceZoneQuery() With { _
             .TerritoryId = territoryId _
         }
@@ -4089,8 +4113,8 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim territoryId As String = ""
-        If lsAvoidanceZones.Count > 0 Then
-            territoryId = lsAvoidanceZones(0)
+        If lsAvoidanceZones.Count > 1 Then
+            territoryId = lsAvoidanceZones(1)
         End If
 
         Dim avoidanceZoneParameters As New AvoidanceZoneParameters() With { _
@@ -4111,8 +4135,27 @@ End Class
     End Sub
 
     <TestMethod> _
-<ClassCleanup> _
-    Public Shared Sub RemoveAvoidanceZoneTest()
+    Public Sub RemoveAvoidanceZoneTest()
+        Dim route4Me As New Route4MeManager(c_ApiKey)
+
+        Dim territoryId As String = ""
+        If lsAvoidanceZones.Count > 0 Then
+            territoryId = lsAvoidanceZones(0)
+        End If
+
+        Dim avoidanceZoneQuery As New AvoidanceZoneQuery() With { _
+            .TerritoryId = territoryId _
+        }
+
+        ' Run the query
+        Dim errorString As String = ""
+        Dim result As Boolean = route4Me.DeleteAvoidanceZone(avoidanceZoneQuery, errorString)
+
+        Assert.IsTrue(result, Convert.ToString("RemoveAvoidanceZoneTest failed... ") & errorString)
+    End Sub
+
+    <ClassCleanup> _
+    Public Shared Sub AvoidanseZonesGroupCleanup()
         For Each territoryId As String In lsAvoidanceZones
             Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -4135,9 +4178,8 @@ End Class
 
     Shared lsTerritories As New List(Of String)()
 
-    <TestMethod> _
-<TestInitialize> _
-    Public Sub AddTerritoriesTest()
+    <ClassInitialize> _
+    Public Shared Sub TerritoriesGroupInitialize(context As TestContext)
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim circleTerritoryParameters As New AvoidanceZoneParameters() With { _
@@ -4195,6 +4237,30 @@ End Class
     End Sub
 
     <TestMethod> _
+    Public Sub AddTerritoriesTest()
+        Dim route4Me As New Route4MeManager(c_ApiKey)
+
+        Dim circleTerritoryParameters As New AvoidanceZoneParameters() With { _
+            .TerritoryName = "Test Circle Territory", _
+            .TerritoryColor = "ff0000", _
+            .Territory = New Territory() With { _
+                .Type = TerritoryType.Circle.GetEnumDescription(), _
+                .Data = New String() {"37.569752822786455,-77.47833251953125", "5000"} _
+            } _
+        }
+
+        Dim errorString As String = ""
+        Dim circleTerritory As TerritoryZone = route4Me.CreateTerritory(circleTerritoryParameters, errorString)
+
+        If circleTerritory IsNot Nothing Then
+            lsTerritories.Add(circleTerritory.TerritoryId)
+        End If
+
+        Assert.IsNotNull(circleTerritory, Convert.ToString("Add Circle Territory test failed... ") & errorString)
+
+    End Sub
+
+    <TestMethod> _
     Public Sub GetTerritoriesTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -4213,8 +4279,8 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim territoryId As String = ""
-        If lsTerritories.Count > 0 Then
-            territoryId = lsTerritories(0)
+        If lsTerritories.Count > 1 Then
+            territoryId = lsTerritories(1)
         End If
         Dim territoryQuery As New TerritoryQuery() With { _
             .TerritoryId = territoryId _
@@ -4232,8 +4298,8 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim territoryId As String = ""
-        If lsTerritories.Count > 0 Then
-            territoryId = lsTerritories(0)
+        If lsTerritories.Count > 1 Then
+            territoryId = lsTerritories(1)
         End If
 
         Dim territoryParameters As New AvoidanceZoneParameters() With { _
@@ -4254,8 +4320,27 @@ End Class
     End Sub
 
     <TestMethod> _
-<ClassCleanup> _
-    Public Shared Sub RemoveTerritoriesTest()
+    Public Sub RemoveTerritoriesTest()
+        Dim route4Me As New Route4MeManager(c_ApiKey)
+
+        Dim territoryId As String = ""
+        If lsTerritories.Count > 0 Then
+            territoryId = lsTerritories(0)
+        End If
+
+        Dim territoryQuery As New TerritoryQuery() With { _
+            .TerritoryId = territoryId _
+        }
+
+        ' Run the query
+        Dim errorString As String = ""
+        Dim result As Boolean = route4Me.RemoveTerritory(territoryQuery, errorString)
+
+        Assert.IsTrue(result, Convert.ToString("RemoveTerritoriesTest failed... ") & errorString)
+    End Sub
+
+    <ClassCleanup> _
+    Public Shared Sub TerritoriesGroupCleanup()
         For Each territoryId As String In lsTerritories
             Dim route4Me As New Route4MeManager(c_ApiKey)
 

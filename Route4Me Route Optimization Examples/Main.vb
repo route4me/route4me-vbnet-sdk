@@ -1,510 +1,227 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
-Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Imports System
 Imports System.Collections.Generic
 Namespace Route4MeSDKTest
-    Public Module Main
+    Public Module MainFUll
+
         Public Sub Main()
             Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
 
-            '======== Update Route Destination  ============
-            'examples.UpdateRouteDestination()
-            '======================================================================
+            Dim dataObject As DataObject = Nothing
 
-            '======== Get All Member Configuration key  ============
-            'examples.GetSpecificConfigurationKeyData()
-            '======================================================================
+            Dim dataObject1 As DataObject = examples.SingleDriverRoute10Stops()
+            dataObject = dataObject1
+            Dim routeId_SingleDriverRoute10Stops As String = If((dataObject IsNot Nothing AndAlso dataObject.Routes IsNot Nothing AndAlso dataObject.Routes.Length > 0), dataObject.Routes(0).RouteID, Nothing)
 
-            '======== Get All Member Configuration key  ============
-            'examples.GetAllConfigurationData()
-            '======================================================================
+            Dim destinationIds As Integer() = examples.AddRouteDestinations(routeId_SingleDriverRoute10Stops)
+            If destinationIds IsNot Nothing AndAlso destinationIds.Length > 0 Then
+                examples.RemoveRouteDestination(routeId_SingleDriverRoute10Stops, destinationIds(0))
+            End If
 
-            '======== Update a Member Configuration key  ============
-            'examples.UpdateConfigurationKey()
-            '======================================================================
+            If destinationIds IsNot Nothing AndAlso destinationIds.Length > 1 Then
+                examples.RemoveAddressFromOptimization(dataObject1.OptimizationProblemId, destinationIds(1))
+            End If
 
-            '======== Remove a Member Configuration key  ============
-            'examples.RemoveConfigurationKey()
-            '======================================================================
+            Dim dataObject2 As DataObject = examples.SingleDriverRoundTrip()
+            dataObject = dataObject2
+            Dim routeId_SingleDriverRoundTrip As String = If((dataObject IsNot Nothing AndAlso dataObject.Routes IsNot Nothing AndAlso dataObject.Routes.Length > 0), dataObject.Routes(0).RouteID, Nothing)
 
-            ' ======== Create New Member Configuration key  ============
-            'examples.AddNewConfigurationKey()
-            '======================================================================
+            Dim routeIdToMoveTo As String = routeId_SingleDriverRoundTrip
+            Dim routeDestinationIdToMove As Integer = If((dataObject1 IsNot Nothing AndAlso dataObject1.Routes IsNot Nothing AndAlso dataObject1.Routes.Length > 0 AndAlso dataObject1.Routes(0).Addresses.Length > 1 AndAlso dataObject1.Routes(0).Addresses(1).RouteDestinationId IsNot Nothing), dataObject1.Routes(0).Addresses(1).RouteDestinationId.Value, 0)
+            Dim afterDestinationIdToMoveAfter As Integer = If((dataObject2 IsNot Nothing AndAlso dataObject2.Routes IsNot Nothing AndAlso dataObject2.Routes.Length > 0 AndAlso dataObject2.Routes(0).Addresses.Length > 1 AndAlso dataObject2.Routes(0).Addresses(0).RouteDestinationId IsNot Nothing), dataObject2.Routes(0).Addresses(0).RouteDestinationId.Value, 0)
+            If routeIdToMoveTo IsNot Nothing AndAlso routeDestinationIdToMove <> 0 AndAlso afterDestinationIdToMoveAfter <> 0 Then
+                examples.MoveDestinationToRoute(routeIdToMoveTo, routeDestinationIdToMove, afterDestinationIdToMoveAfter)
+            Else
+                System.Console.WriteLine("MoveDestinationToRoute not called. routeDestinationId = {0}, afterDestinationId = {1}.", routeDestinationIdToMove, afterDestinationIdToMoveAfter)
+            End If
 
-            ' ======== Create Optimization Problem with Single Driver 10 Stops  ============
-            'examples.SingleDriverRoute10Stops()
-            '======================================================================
+            Dim optimizationProblemID As String = examples.SingleDriverRoundTripGeneric()
 
-            ' ======== Get Device History from Time Range  ============
-            'examples.GetDeviceHistoryTimeRange("814FB49CEA8188D134E9D4D4B8B0DAF7")
-            '======================================================================
+            dataObject = examples.MultipleDepotMultipleDriver()
+            Dim routeId_MultipleDepotMultipleDriver As String = If((dataObject IsNot Nothing AndAlso dataObject.Routes IsNot Nothing AndAlso dataObject.Routes.Length > 0), dataObject.Routes(0).RouteID, Nothing)
 
-            ' ======== Search Routes for Specified Text  ============
-            'examples.SearchRoutesForText("Tbilisi")
-            '======================================================================
+            dataObject = examples.MultipleDepotMultipleDriverTimeWindow()
+            Dim routeId_MultipleDepotMultipleDriverTimeWindow As String = If((dataObject IsNot Nothing AndAlso dataObject.Routes IsNot Nothing AndAlso dataObject.Routes.Length > 0), dataObject.Routes(0).RouteID, Nothing)
 
-            ' ======== Create Route with 7 stops and Hebrew addresses  ============
-            'examples.SingleDriverRoute_UTF8_strings()
-            '======================================================================
+            dataObject = examples.SingleDepotMultipleDriverNoTimeWindow()
+            Dim routeId_SingleDepotMultipleDriverNoTimeWindow As String = If((dataObject IsNot Nothing AndAlso dataObject.Routes IsNot Nothing AndAlso dataObject.Routes.Length > 0), dataObject.Routes(0).RouteID, Nothing)
 
-            ' ======== Create Route with 7 stops and Hebrew addresses  ============
-            'examples.SingleDriverRoute7Stops()
-            '======================================================================
+            dataObject = examples.MultipleDepotMultipleDriverWith24StopsTimeWindow()
+            Dim routeId_MultipleDepotMultipleDriverWith24StopsTimeWindow As String = If((dataObject IsNot Nothing AndAlso dataObject.Routes IsNot Nothing AndAlso dataObject.Routes.Length > 0), dataObject.Routes(0).RouteID, Nothing)
 
-            ' ======== Get Team Activities on a Route  ===========================
-            'examples.GetRouteTeamActivities()
-            '======================================================================
+            dataObject = examples.SingleDriverMultipleTimeWindows()
+            Dim routeId_SingleDriverMultipleTimeWindows As String = If((dataObject IsNot Nothing AndAlso dataObject.Routes IsNot Nothing AndAlso dataObject.Routes.Length > 0), dataObject.Routes(0).RouteID, Nothing)
 
-            ' ======== Get USer By ID  ===========================
-            'examples.GetUserById()
-            '======================================================================
+            If optimizationProblemID IsNot Nothing Then
+                examples.GetOptimization(optimizationProblemID)
+            Else
+                System.Console.WriteLine("GetOptimization not called. optimizationProblemID == null.")
+            End If
 
-            ' ======== Delete an User  ===========================
-            'examples.DeleteUser()
-            '======================================================================
+            examples.GetOptimizations()
 
-            ' ======== Update an User  ===========================
-            'examples.UpdateUser()
-            '======================================================================
 
-            ' ======== Create an User  ===========================
-            'examples.CreateUser()
-            '======================================================================
+            If optimizationProblemID IsNot Nothing Then
+                examples.AddDestinationToOptimization(optimizationProblemID, True)
+            Else
+                System.Console.WriteLine("AddDestinationToOptimization not called. optimizationProblemID == null.")
+            End If
 
-            ' ======== Get Users  ===========================
-            'examples.GetUsers()
-            '======================================================================
+            If optimizationProblemID IsNot Nothing Then
+                examples.ReOptimization(optimizationProblemID)
+            Else
+                System.Console.WriteLine("ReOptimization not called. optimizationProblemID == null.")
+            End If
 
-            ' ======== Add Rectangular Avoidance Zone  ===========================
-            'examples.AddRectAvoidanceZone()
-            '======================================================================
+            If routeId_SingleDriverRoute10Stops IsNot Nothing Then
+                examples.GetRoute(routeId_SingleDriverRoute10Stops)
+            Else
+                System.Console.WriteLine("GetRoute not called. routeId_SingleDriverRoute10Stops == null.")
+            End If
 
-            ' ======== Add Polygon Avoidance Zone  ===========================
-            'examples.AddPolygonAvoidanceZone()
-            '======================================================================
+            If routeId_SingleDriverRoute10Stops IsNot Nothing Then
+                examples.UpdateRoute(routeId_SingleDriverRoute10Stops)
+                examples.ReoptimizeRoute(routeId_SingleDriverRoute10Stops)
+                examples.GetRoute(routeId_SingleDriverRoute10Stops)
+            Else
+                System.Console.WriteLine("UpdateRoute, ReoptimizeRoute, GetRoute not called. routeId_SingleDriverRoute10Stops == null.")
+            End If
 
-            ' ======== Remove Territory  ===========================
-            'examples.UpdateTerritory()
-            '======================================================================
+            examples.GetRoutes()
+            examples.GetUsers()
 
-            ' ======== Remove Territory  ===========================
-            'examples.RemoveTerritory()
-            '======================================================================
+            If routeId_SingleDriverRoute10Stops IsNot Nothing Then
+                examples.GetActivities(routeId_SingleDriverRoute10Stops)
+            Else
+                System.Console.WriteLine("GetActivities not called. routeId_SingleDriverRoute10Stops == null.")
+            End If
 
-            ' ======== Create Rectangular Territory  ===========================
-            'examples.CreateRectTerritory()
-            '======================================================================
+            If routeIdToMoveTo IsNot Nothing AndAlso routeDestinationIdToMove <> 0 Then
+                examples.GetAddress(routeIdToMoveTo, routeDestinationIdToMove)
 
-            ' ======== Create Polygon Territory  ===========================
-            'examples.CreatePolygonTerritory()
-            '======================================================================
+                examples.AddAddressNote(routeIdToMoveTo, routeDestinationIdToMove)
+                examples.GetAddressNotes(routeIdToMoveTo, routeDestinationIdToMove)
+            Else
+                System.Console.WriteLine("AddAddressNote, GetAddress, GetAddressNotes not called. routeIdToMoveTo == null || routeDestinationIdToMove == 0.")
+            End If
 
-            ' ======== Get a Territories  ===========================
-            'examples.GetTerritories()
-            '======================================================================
+            Dim routeId_DuplicateRoute As String = Nothing
+            If routeId_SingleDriverRoute10Stops IsNot Nothing Then
+                routeId_DuplicateRoute = examples.DuplicateRoute(routeId_SingleDriverRoute10Stops)
+            Else
+                System.Console.WriteLine("DuplicateRoute not called. routeId_SingleDriverRoute10Stops == null.")
+            End If
 
-            ' ======== Get a Territory  ===========================
-            'examples.GetTerritory()
-            '======================================================================
+            Dim routeIdsToDelete As New List(Of String)()
+            If routeId_SingleDriverRoute10Stops IsNot Nothing Then
+                routeIdsToDelete.Add(routeId_SingleDriverRoute10Stops)
+            End If
+            If routeId_SingleDriverRoundTrip IsNot Nothing Then
+                routeIdsToDelete.Add(routeId_SingleDriverRoundTrip)
+            End If
+            If routeId_DuplicateRoute IsNot Nothing Then
+                routeIdsToDelete.Add(routeId_DuplicateRoute)
+            End If
+            If routeId_MultipleDepotMultipleDriver IsNot Nothing Then
+                routeIdsToDelete.Add(routeId_MultipleDepotMultipleDriver)
+            End If
+            If routeId_MultipleDepotMultipleDriverTimeWindow IsNot Nothing Then
+                routeIdsToDelete.Add(routeId_MultipleDepotMultipleDriverTimeWindow)
+            End If
+            If routeId_SingleDepotMultipleDriverNoTimeWindow IsNot Nothing Then
+                routeIdsToDelete.Add(routeId_SingleDepotMultipleDriverNoTimeWindow)
+            End If
+            If routeId_MultipleDepotMultipleDriverWith24StopsTimeWindow IsNot Nothing Then
+                routeIdsToDelete.Add(routeId_MultipleDepotMultipleDriverWith24StopsTimeWindow)
+            End If
+            If routeId_SingleDriverMultipleTimeWindows IsNot Nothing Then
+                routeIdsToDelete.Add(routeId_SingleDriverMultipleTimeWindows)
+            End If
 
-            ' ======== Create a Territory  ===========================
-            'examples.CreateTerritory()
-            '======================================================================
+            If routeIdsToDelete.Count > 0 Then
+                examples.DeleteRoutes(routeIdsToDelete.ToArray())
+            Else
+                System.Console.WriteLine("routeIdsToDelete.Count == 0. DeleteRoutes not called.")
+            End If
 
-            ' ======== Search Locations By IDs  ===========================
-            'examples.SearchLocationsByIDs()
-            '======================================================================
+            Dim contact1 As AddressBookContact = examples.AddAddressBookContact()
+            Dim contact2 As AddressBookContact = examples.AddAddressBookContact()
 
-            ' ======== Search Routed Locations  ===========================
-            'examples.SearchRoutedLocations()
-            '======================================================================
+            Console.WriteLine("contact1 and contact2 were added")
 
-            ' ======== Get Addressbook Specified Fields Filtered by Text in Any Field  ===========================
-            'examples.GetSpecifiedFieldsSearchText()
-            '======================================================================
+            examples.GetAddressBookContacts()
+            If contact1 IsNot Nothing Then
+                contact1.last_name = "Updated " + (New Random()).[Next]().ToString()
+                examples.UpdateAddressBookContact(contact1)
+            Else
+                System.Console.WriteLine("contact1 == null. UpdateAddressBookContact not called.")
+            End If
+            Dim addressIdsToRemove As New List(Of String)()
+            If contact1 IsNot Nothing Then
+                addressIdsToRemove.Add(contact1.address_id)
+            End If
+            If contact2 IsNot Nothing Then
+                addressIdsToRemove.Add(contact2.address_id)
+            End If
+            examples.RemoveAddressBookContacts(addressIdsToRemove.ToArray())
 
-            ' ======== Get Addressbook Locations By Text In Any Field ===========================
-            'examples.GetAddressbookLocation()
-            '======================================================================
+            ' Avoidance Zones
+            Dim territoryId As String = examples.AddAvoidanceZone()
+            examples.GetAvoidanceZones()
+            If territoryId IsNot Nothing Then
+                examples.GetAvoidanceZone(territoryId)
+            Else
+                System.Console.WriteLine("GetAvoidanceZone not called. territoryId == null.")
+            End If
+            If territoryId IsNot Nothing Then
+                examples.UpdateAvoidanceZone(territoryId)
+            Else
+                System.Console.WriteLine("UpdateAvoidanceZone not called. territoryId == null.")
+            End If
+            If territoryId IsNot Nothing Then
+                examples.DeleteAvoidanceZone(territoryId)
+            Else
+                System.Console.WriteLine("DeleteAvoidanceZone not called. territoryId == null.")
+            End If
 
-            ' ======== Get Vehicles ===========================
-            'examples.GetVehicles()
-            '======================================================================
-
-            ' ======== Search Route Owner Changed ===========================
-            'examples.SearchRouteOwnerChanged()
-            '======================================================================
-
-            ' ======== Add note file to an address of a route ===========================
-            'examples.AddNoteFileToAddress("4728372005DE97EF9E4205852D690E34", 182302891)
-            '======================================================================
-
-            ' ======== Search Note Inserted ===========================
-            'examples.SearchNoteInserted()
-            '======================================================================
-
-            ' ======== Search Destination Marked As Departed ===========================
-            'examples.SearchDestinationMarkedAsDeparted()
-            '======================================================================
-
-            ' ======== Search Area Destination Inserted ===========================
-            'examples.SearchDestinationInserted()
-            '======================================================================
-
-            ' ======== Search Area Destination Deleted ===========================
-            'examples.SearchDestinationDeleted()
-            '======================================================================
-
-            ' ======== Search Area Added Activiities ===========================
-            'examples.SearchAreaAdded()
-            '======================================================================
-
-            ' ======== Log Specific Message ===========================
-            'examples.LogSpecificMessage()
-            '======================================================================
-
-            ' ======== User Registratin ===========================
-            'examples.UserRegistration()
-            '======================================================================
-
-            ' ======== Validate Session ===========================
-            'examples.ValidateSession()
-            '======================================================================
-
-            ' ======== User Authentication ===========================
-            'examples.UserAuthentication()
-            '======================================================================
-
-            ' ======== Find Asset (Asset Tracking) ===========================
-            ' examples.FindAsset()
-            '======================================================================
-
-            ' ======== Rapid Stret Service Limited ===========================
-            'examples.RapidStreetServiceLimited()
-            '======================================================================
-
-            ' ======== Rapid Stret Service All ===========================
-            'examples.RapidStreetServiceAll()
-            '======================================================================
-
-            ' ======== Rapid Stret Zipcode Limited ===========================
-            'examples.RapidStreetZipcodeLimited()
-            '======================================================================
-
-            ' ======== Rapid Stret Zipcode All ===========================
-            'examples.RapidStreetZipcodeAll()
-            '======================================================================
-
-            ' ======== Rapid Stret Data Limited ===========================
-            'examples.RapidStreetDataLimited()
-            '======================================================================
-
-            ' ======== Rapid Stret Data All ===========================
-            'examples.RapidStreetDataAll()
-            '======================================================================
-
-            ' ======== Rapid Stret Data Single ===========================
-            'examples.RapidStreetDataSingle()
-            '======================================================================
-
-            ' ======== Reverse Geocoding ===========================
-            'examples.ReverseGeocoding()
-            '======================================================================
-
-            ' ======== Forward Geocoding ===========================
-            'Dim geoParams As New GeocodingParameters With { _
-            '     .Addresses = "Los20%Angeles20%International20%Airport,20%CA", _
-            '    .Format = "xml" _
+            'disabled by default, not necessary for optimization tests
+            'not all accounts are capable of storing gps data
+            'if (routeId_SingleDriverRoute10Stops != null)
+            '{
+            '  examples.SetGPSPosition(routeId_SingleDriverRoute10Stops);
+            '  examples.TrackDeviceLastLocationHistory(routeId_SingleDriverRoute10Stops);
             '}
-            'examples.GeocodingForward(geoParams)
-            '======================================================================
-
-            ' ======== Mark Address As Visited ===========================
-            'Dim aParams As New AddressParameters With { _
-            '    .RouteId = "241466F15515D67D3F951E2DA38DE76D", _
-            '    .AddressId = 167899269, _
-            '    .IsVisited = True
+            'else
+            '{
+            '  System.Console.WriteLine("SetGPSPosition, TrackDeviceLastLocationHistory not called. routeId_SingleDriverRoute10Stops == null.");
             '}
-            'examples.MarkAddressVisited(aParams)
-            '======================================================================
 
-            ' ======== Mark Address As Departed ===========================
-            'Dim aParams As New AddressParameters With { _
-            '    .RouteId = "DD376C7148E7FEE36CFABE2BD9978BDD", _
-            '    .AddressId = 183045808, _
-            '    .IsDeparted = True
-            '}
-            'examples.MarkAddressDeparted(aParams)
-            '======================================================================
+            ' Orders
+            Dim order1 As Order = examples.AddOrder()
+            Dim order2 As Order = examples.AddOrder()
+            examples.GetOrders()
+            If order1 IsNot Nothing Then
+                order1.EXT_FIELD_last_name = "Updated " + (New Random()).[Next]().ToString()
+                examples.UpdateOrder(order1)
+            Else
+                System.Console.WriteLine("order1 == null. UpdateOrder not called.")
+            End If
+            Dim orderIdsToRemove As New List(Of String)()
+            If order1 IsNot Nothing Then
+                orderIdsToRemove.Add(order1.order_id)
+            End If
+            If order2 IsNot Nothing Then
+                orderIdsToRemove.Add(order2.order_id)
+            End If
+            examples.RemoveOrders(orderIdsToRemove.ToArray())
 
-            ' ======== Mark Address As Marked As Visited ===========================
-            'Dim aParams As New AddressParameters With { _
-            '    .RouteId = "241466F15515D67D3F951E2DA38DE76D", _
-            '    .RouteDestinationId = 167899269, _
-            '    .IsVisited = True
-            '}
-            'examples.MarkAddressAsMarkedAsVisited(aParams)
-            '======================================================================
+            examples.GenericExample()
+            examples.GenericExampleShortcut()
 
-            ' ======== Mark Address As Marked As Departed ===========================
-            'Dim aParams As New AddressParameters With { _
-            '    .RouteId = "241466F15515D67D3F951E2DA38DE76D", _
-            '    .RouteDestinationId = 167899269, _
-            '    .IsDeparted = True
-            '}
-            'examples.MarkAddressAsMarkedAsDeparted(aParams)
-            '======================================================================
+            System.Console.WriteLine("Press any key")
+            System.Console.ReadKey()
 
-            ' ======== Search for Orders by Specified Text ===========================
-            'Dim query As String = "Olman"
-            'examples.GetOrdersBySpecifiedText(query)
-            '======================================================================
-
-            ' ======== Search for Orders by Custom Fields ===========================
-            'Dim CustomFields As String = "order_id,member_id"
-            'examples.GetOrdersByCustomFields(CustomFields)
-            '======================================================================
-
-            ' ======== Search for Orders by scheduled date ===========================
-            'Dim ScheduledDate As String = ""
-            'examples.GetOrderByScheduledDate(ScheduledDate)
-            '======================================================================
-
-            ' ======== Search for Orders by inserted date ===========================
-            'Dim InsertedDate As String = ""
-            'examples.GetOrderByInsertedDate(InsertedDate)
-            '======================================================================
-
-            ' ======== Retrieve Single Order by order_id ===========================
-            'Dim OrderId As Integer = 216
-            'examples.GetOrderByID(OrderId)
-            '======================================================================
-
-            ' ======== Add Orders To an Optimization ===========================
-            'Dim rQueryParams As New OptimizationParameters
-            'With rQueryParams
-            '    .OptimizationProblemID = "7988378F70C533283BAD5024E6E37201"
-            '    .Redirect = False
-            'End With
-
-            'Dim addresses As Address() = New Address() {New Address() With { _
-            '    .AddressString = "273 Canal St, New York, NY 10013, USA", _
-            '    .Latitude = 40.7191558, _
-            '    .Longitude = -74.0011966, _
-            '    .Alias = "", _
-            '    .CurbsideLatitude = 40.7191558, _
-            '    .CurbsideLongitude = -74.0011966, _
-            '    .IsDepot = True _
-            '}, New Address() With { _
-            '    .AddressString = "106 Liberty St, New York, NY 10006, USA", _
-            '    .Alias = "BK Restaurant #: 2446", _
-            '    .Latitude = 40.709637, _
-            '    .Longitude = -74.011912, _
-            '    .CurbsideLatitude = 40.709637, _
-            '    .CurbsideLongitude = -74.011912, _
-            '    .Email = "", _
-            '    .Phone = "(917) 338-1887", _
-            '    .FirstName = "", _
-            '    .LastName = "", _
-            '    .CustomFields = New Dictionary(Of String, String) From {{"icon", Nothing}}, _
-            '    .Time = 0, _
-            '    .TimeWindowStart = 1472544000, _
-            '    .TimeWindowEnd = 1472544300, _
-            '    .OrderId = 7205705 _
-            '}, New Address() With { _
-            '    .AddressString = "325 Broadway, New York, NY 10007, USA", _
-            '    .Alias = "BK Restaurant #: 20333", _
-            '    .Latitude = 40.71615, _
-            '    .Longitude = -74.00505, _
-            '    .CurbsideLatitude = 40.71615, _
-            '    .CurbsideLongitude = -74.00505, _
-            '    .Email = "", _
-            '    .Phone = "(212) 227-7535", _
-            '    .FirstName = "", _
-            '    .LastName = "", _
-            '    .CustomFields = New Dictionary(Of String, String) From {{"icon", Nothing}}, _
-            '    .Time = 0, _
-            '    .TimeWindowStart = 1472545000, _
-            '    .TimeWindowEnd = 1472545300, _
-            '    .OrderId = 7205704 _
-            '}, New Address() With { _
-            '    .AddressString = "106 Fulton St, Farmingdale, NY 11735, USA", _
-            '    .Alias = "BK Restaurant #: 17871", _
-            '    .Latitude = 40.73073, _
-            '    .Longitude = -73.459283, _
-            '    .CurbsideLatitude = 40.73073, _
-            '    .CurbsideLongitude = -73.459283, _
-            '    .Email = "", _
-            '    .Phone = "(212) 566-5132", _
-            '    .FirstName = "", _
-            '    .LastName = "", _
-            '    .CustomFields = New Dictionary(Of String, String) From {{"icon", Nothing}}, _
-            '    .Time = 0, _
-            '    .TimeWindowStart = 1472546000, _
-            '    .TimeWindowEnd = 1472546300, _
-            '    .OrderId = 7205703 _
-            '}}
-
-            'Dim rParams As New RouteParameters
-
-            'With rParams
-            '    .RouteName = "Wednesday 15th of June 2016 07:01 PM (+03:00)"
-            '    .RouteDate = 1465948800
-            '    .RouteTime = 14400
-            '    .Optimize = "Time"
-            '    .RouteType = "single"
-            '    .AlgorithmType = 1
-            '    .RT = False
-            '    .LockLast = False
-            '    .MemberId = 1
-            '    .VehicleId = ""
-            '    .DisableOptimization = False
-            'End With
-
-            'examples.AddOrdersToOptimization(rQueryParams, addresses, rParams)
-            '======================================================================
-
-            ' ======== Add Orders To a Route ===========================
-            'Dim rQueryParams As New RouteParametersQuery
-            'With rQueryParams
-            '    .RouteId = "F0C842829D8799067F9BF7A495076335"
-            '    .Redirect = False
-            'End With
-
-            'Dim addresses As Address() = New Address() {New Address() With { _
-            '    .AddressString = "273 Canal St, New York, NY 10013, USA", _
-            '    .Latitude = 40.7191558, _
-            '    .Longitude = -74.0011966, _
-            '    .Alias = "", _
-            '    .CurbsideLatitude = 40.7191558, _
-            '    .CurbsideLongitude = -74.0011966 _
-            '}, New Address() With { _
-            '    .AddressString = "106 Liberty St, New York, NY 10006, USA", _
-            '    .Alias = "BK Restaurant #: 2446", _
-            '    .Latitude = 40.709637, _
-            '    .Longitude = -74.011912, _
-            '    .CurbsideLatitude = 40.709637, _
-            '    .CurbsideLongitude = -74.011912, _
-            '    .Email = "", _
-            '    .Phone = "(917) 338-1887", _
-            '    .FirstName = "", _
-            '    .LastName = "", _
-            '    .CustomFields = New Dictionary(Of String, String) From {{"icon", Nothing}}, _
-            '    .Time = 0, _
-            '    .OrderId = 7205705 _
-            '}, New Address() With { _
-            '    .AddressString = "106 Fulton St, Farmingdale, NY 11735, USA", _
-            '    .Alias = "BK Restaurant #: 17871", _
-            '    .Latitude = 40.73073, _
-            '    .Longitude = -73.459283, _
-            '    .CurbsideLatitude = 40.73073, _
-            '    .CurbsideLongitude = -73.459283, _
-            '    .Email = "", _
-            '    .Phone = "(212) 566-5132", _
-            '    .FirstName = "", _
-            '    .LastName = "", _
-            '    .CustomFields = New Dictionary(Of String, String) From {{"icon", Nothing}}, _
-            '    .Time = 0, _
-            '    .OrderId = 7205703 _
-            '}}
-
-            'Dim rParams As New RouteParameters
-
-            'With rParams
-            '    .RouteName = "Wednesday 15th of June 2016 07:01 PM (+03:00)"
-            '    .RouteDate = 1465948800
-            '    .RouteTime = 14400
-            '    .Optimize = "Time"
-            '    .RouteType = "single"
-            '    .AlgorithmType = 1
-            '    .RT = False
-            '    .LockLast = False
-            '    .MemberId = 1
-            '    .VehicleId = ""
-            '    .DisableOptimization = False
-            'End With
-
-            'examples.AddOrdersToRoute(rQueryParams, addresses, rParams)
-            '======================================================================
-
-            ' ======== Merge Routes ===========================
-            'Dim RouteIds As String = "56E8F6BF949670F0C0BBAC00590FD116,A6DAA07A7D4737723A9C85E7C3BA2351"
-            'Dim DepotAddress As String = "11921 N Dickinson Dr, Fredericksburg, VA 22407, USA"
-            'Dim RemoveOrigin As String = "0"
-            'Dim Latitude As String = "38.285804"
-            'Dim Longitude As String = "-77.555054"
-
-            'Dim params As New Dictionary(Of String, String)
-            'params.Add("route_ids", RouteIds)
-            'params.Add("depot_address", DepotAddress)
-            'params.Add("remove_origin", RemoveOrigin)
-            'params.Add("depot_lat", Latitude)
-            'params.Add("depot_lng", Longitude)
-            'examples.MergeRoutes(params)
-            '======================================================================
-
-            ' ======== Add Custom Data to a Route ===========================
-            'Dim RouteId As String = "CA902292134DBC134EAF8363426BD247"
-            'Dim RouteDestinationId = 174405640
-
-            'Dim CustomData As New Dictionary(Of String, String)
-            'CustomData.Add("animal", "tiger")
-            'CustomData.Add("bird", "canary")
-            'examples.UpdateRouteCustomData(RouteId, RouteDestinationId, CustomData)
-            '======================================================================
-
-            ' ======== Route Sharing ===========================
-            'Dim RouteId As String = "CA902292134DBC134EAF8363426BD247"
-            'Dim email As String = "oleg.guchi@gmail.com"
-            'examples.RouteSharing(RouteId, email)
-            '======================================================================
-
-            ' ======== Resequence Reoptimize Route ===========================
-            'Dim RouteId As String = "CA902292134DBC134EAF8363426BD247"
-            'examples.ResequenceReoptimizeRoute(RouteId)
-            '======================================================================
-
-            ' ======== Resequence Route Destination ===========================
-            'Dim RouteId As String = "F0C842829D8799067F9BF7A495076335"
-            'Dim RouteDestinationId = 174389214
-            'examples.ResequenceRouteDestination(RouteId, RouteDestinationId)
-            '======================================================================
-
-            ' ======== Get Route's Directions ===========================
-            'Dim RouteId As String = "56E8F6BF949670F0C0BBAC00590FD116"
-
-            'examples.GetRouteDirections(RouteId)
-            '======================================================================
-
-            ' ======== Get Route's Path Points ===========================
-            'Dim RouteId As String = "6D1622D3F794F3A804381C9451E5A239"
-
-            'examples.GetRoutePathPoints(RouteId)
-            '======================================================================
-
-            ' ======== Insert Address Into Route's Optimal Position ===========================
-            'Dim RouteId As String = "6D1622D3F794F3A804381C9451E5A239"
-
-            'examples.InsertAddressIntoRouteOptimzalPostion(RouteId)
-            '======================================================================
-
-            ' ======== Remove Existing Optimization ===========================
-
-            'Dim optimizationProblemID As String = examples.SingleDriverRoundTripGeneric()
-
-            'Dim OptimizationProblemIds As String() = {optimizationProblemID}
-
-            'examples.RemoveOptimization(OptimizationProblemIds)
-            '======================================================================
-
-            ' ======== Remove Address From Optimization ===========================
-            'Dim OptimizationProblemId As String = "F678E11289BBEA44D5BEC41BB22B3FB4"
-            'Dim RouteDestinationId As Integer = 174785127
-
-            'examples.RemoveAddressFromOptimization(OptimizationProblemId, RouteDestinationId)
-            '======================================================================
-            Console.WriteLine("Press any key")
-            Console.ReadKey()
         End Sub
+
     End Module
 End Namespace
