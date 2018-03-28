@@ -10,7 +10,7 @@
 
         Public Const ApiVersion As String = "4"
 
-        Public Const MainHost As String = "https://www.route4me.com"
+        Public Const MainHost As String = "https://api.route4me.com"
         Public Const ApiHost As String = MainHost + "/api.v4/optimization_problem.php"
         Public Const ShowRouteHost As String = MainHost + "/route4me.php"
         Public Const RouteHost As String = MainHost + "/api.v4/route.php"
