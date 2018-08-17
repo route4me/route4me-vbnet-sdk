@@ -10,7 +10,7 @@
 
         Public Const ApiVersion As String = "4"
 
-        Public Const MainHost As String = "https://api.route4me.com"
+        Public Const MainHost As String = "https://www.route4me.com"
         Public Const ApiHost As String = MainHost + "/api.v4/optimization_problem.php"
         Public Const ShowRouteHost As String = MainHost + "/route4me.php"
         Public Const RouteHost As String = MainHost + "/api.v4/route.php"
@@ -48,8 +48,11 @@
         Public Const AssetTracking As String = MainHost + "/api.v4/status.php"
 
         Public Const ViewVehicles As String = MainHost + "/api/vehicles/view_vehicles.php"
+        Public Const Vehicle_V4 As String = "https://wh.route4me.com/modules/api/vehicles"
 
         Public Const HybridOptimization As String = MainHost + "/api.v4/hybrid_date_optimization.php"
+
+        Public Const CustomNoteType As String = MainHost + "/api.v4/note_custom_types.php"
 
 #End Region
     End Class
