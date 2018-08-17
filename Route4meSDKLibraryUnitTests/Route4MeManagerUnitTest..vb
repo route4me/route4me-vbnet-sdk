@@ -247,52 +247,75 @@ End Class
     Shared tdr As TestDataRepository
     Shared lsOptimizationIDs As List(Of String)
 
+    Shared lastCustomNoteTypeID As Integer
+    Shared firstCustomNoteTypeID As Integer
+
     <ClassInitialize> _
-    Public Shared Sub NotesGroupInitialize(context As TestContext)
-        Dim route4Me As New Route4MeManager(c_ApiKey)
-
+    Public Shared Sub NotesGroupInitialize(ByVal context As TestContext)
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
         lsOptimizationIDs = New List(Of String)()
-
-        tdr = New TestDataRepository()
+        tdr = New TestDataRepository(c_ApiKey)
         Dim result As Boolean = tdr.SingleDriverRoundTripTest()
-
         Assert.IsTrue(result, "Single Driver Round Trip generation failed...")
-
         Assert.IsTrue(tdr.SDRT_route.Addresses.Length > 0, "The route has no addresses...")
-
         lsOptimizationIDs.Add(tdr.SDRT_optimization_problem_id)
-    End Sub
-
-    <TestMethod> _
-    Public Sub AddAddressNoteTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
-
         Dim routeIdToMoveTo As String = tdr.SDRT_route_id
         Assert.IsNotNull(routeIdToMoveTo, "routeId_SingleDriverRoundTrip is null...")
-
         Dim addressId As Integer = If((tdr.dataObjectSDRT IsNot Nothing AndAlso tdr.SDRT_route IsNot Nothing AndAlso tdr.SDRT_route.Addresses.Length > 1 AndAlso tdr.SDRT_route.Addresses(1).RouteDestinationId IsNot Nothing), tdr.SDRT_route.Addresses(1).RouteDestinationId.Value, 0)
-
         Dim lat As Double = If(tdr.SDRT_route.Addresses.Length > 1, tdr.SDRT_route.Addresses(1).Latitude, 33.132675170898)
         Dim lng As Double = If(tdr.SDRT_route.Addresses.Length > 1, tdr.SDRT_route.Addresses(1).Longitude, -83.244743347168)
-
-        Dim noteParameters As New NoteParameters() With { _
-            .RouteId = routeIdToMoveTo, _
-            .AddressId = addressId, _
-            .Latitude = lat, _
-            .Longitude = lng, _
-            .DeviceType = DeviceType.Web.GetEnumDescription(), _
-            .ActivityType = StatusUpdateType.DropOff.GetEnumDescription() _
+        Dim noteParameters As NoteParameters = New NoteParameters() With {
+            .RouteId = routeIdToMoveTo,
+            .AddressId = addressId,
+            .Latitude = lat,
+            .Longitude = lng,
+            .DeviceType = GetEnumDescription(DeviceType.Web),
+            .ActivityType = GetEnumDescription(StatusUpdateType.DropOff),
+            .Format = "json"
         }
-
-        ' Run the query
-        Dim errorString As String = ""
-        Dim contents As String = "Test Note Contents " + DateTime.Now.ToString()
+        Dim errorString As String
+        Dim contents As String = "Test Note Contents " & DateTime.Now.ToString()
         Dim note As AddressNote = route4Me.AddAddressNote(noteParameters, contents, errorString)
+        Assert.IsNotNull(note, "AddAddressNoteTest failed... " & errorString)
+        Dim response = route4Me.getAllCustomNoteTypes(errorString)
+        Assert.IsTrue(response.[GetType]() = GetType(CustomNoteType()), errorString)
+        Dim notesGroup As NotesGroup = New NotesGroup()
 
-        Assert.IsNotNull(note, Convert.ToString("AddAddressNoteTest failed... ") & errorString)
+        If (CType(response, CustomNoteType())).Length < 2 Then
+            notesGroup.addCustomNoteType("Conditions at Site", New String() {"safe", "mild", "dangerous", "slippery"})
+            notesGroup.addCustomNoteType("To Do", New String() {"Pass a package", "Pickup package", "Do a service"})
+            response = route4Me.getAllCustomNoteTypes(errorString)
+        End If
+
+        Assert.IsTrue((CType(response, CustomNoteType())).Length > 0, "Can not find custom note type in the account")
+        lastCustomNoteTypeID = (CType(response, CustomNoteType()))((CType(response, CustomNoteType())).Length - 1).NoteCustomTypeID
+        firstCustomNoteTypeID = (CType(response, CustomNoteType()))(0).NoteCustomTypeID
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
+    Public Sub AddAddressNoteTest()
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim routeIdToMoveTo As String = tdr.SDRT_route_id
+        Assert.IsNotNull(routeIdToMoveTo, "routeId_SingleDriverRoundTrip is null...")
+        Dim addressId As Integer = If((tdr.dataObjectSDRT IsNot Nothing AndAlso tdr.SDRT_route IsNot Nothing AndAlso tdr.SDRT_route.Addresses.Length > 1 AndAlso tdr.SDRT_route.Addresses(1).RouteDestinationId IsNot Nothing), tdr.SDRT_route.Addresses(1).RouteDestinationId.Value, 0)
+        Dim lat As Double = If(tdr.SDRT_route.Addresses.Length > 1, tdr.SDRT_route.Addresses(1).Latitude, 33.132675170898)
+        Dim lng As Double = If(tdr.SDRT_route.Addresses.Length > 1, tdr.SDRT_route.Addresses(1).Longitude, -83.244743347168)
+        Dim noteParameters As NoteParameters = New NoteParameters() With {
+            .RouteId = routeIdToMoveTo,
+            .AddressId = addressId,
+            .Latitude = lat,
+            .Longitude = lng,
+            .DeviceType = GetEnumDescription(DeviceType.Web),
+            .ActivityType = GetEnumDescription(StatusUpdateType.DropOff),
+            .Format = "json"
+        }
+        Dim errorString As String
+        Dim contents As String = "Test Note Contents " & DateTime.Now.ToString()
+        Dim note As AddressNote = route4Me.AddAddressNote(noteParameters, contents, errorString)
+        Assert.IsNotNull(note, "AddAddressNoteTest failed... " & errorString)
+    End Sub
+
+    ' <TestMethod> _ --- -- this test excluded because website refuses sending of the file
     Public Sub AddAddressNoteWithFileTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -368,6 +391,60 @@ End Class
         Assert.IsInstanceOfType(notes, GetType(AddressNote()), Convert.ToString("GetAddressNotesTest failed... ") & errorString)
     End Sub
 
+    <TestMethod>
+    Public Sub AddCustomNoteToRouteTest()
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim errorString As String
+        Dim noteParameters As NoteParameters = New NoteParameters() With {
+            .RouteId = tdr.SDRT_route.RouteID,
+            .AddressId = If(tdr.SDRT_route.Addresses(1).RouteDestinationId IsNot Nothing, CInt(tdr.SDRT_route.Addresses(1).RouteDestinationId), 0),
+            .Format = "json",
+            .Latitude = tdr.SDRT_route.Addresses(1).Latitude,
+            .Longitude = tdr.SDRT_route.Addresses(1).Longitude
+        }
+        Dim customNotes As Dictionary(Of String, String) = New Dictionary(Of String, String)() From {
+            {"custom_note_type[11]", "slippery"},
+            {"custom_note_type[10]", "Backdoor"},
+            {"strUpdateType", "dropoff"},
+            {"strNoteContents", "test1111"}
+        }
+        Dim response = route4Me.addCustomNoteToRoute(noteParameters, customNotes, errorString)
+        Assert.IsTrue(response.[GetType]() <> GetType(String), errorString)
+        Assert.IsTrue(response.[GetType]() = GetType(AddressNote))
+    End Sub
+
+    <TestMethod>
+    Public Sub AddCustomNoteTypeTest()
+        Dim response = addCustomNoteType("To Do", New String() {"Pass a package", "Pickup package", "Do a service"})
+        Assert.IsTrue(response.[GetType]() <> GetType(String), response.ToString())
+        Assert.IsTrue(Convert.ToInt32(response) >= 0, "Can not create new custom note type")
+    End Sub
+
+    Public Function addCustomNoteType(ByVal customType As String, ByVal customValues As String()) As Object
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim errorString As String
+        Dim response = route4Me.AddCustomNoteType(customType, customValues, errorString)
+        Return response
+    End Function
+
+    <TestMethod>
+    Public Sub GetAllCustomNoteTypesTest()
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim errorString As String
+        Dim response = route4Me.getAllCustomNoteTypes(errorString)
+        Assert.IsTrue(response.[GetType]() <> GetType(String), errorString)
+        Assert.IsTrue(response.[GetType]() = GetType(CustomNoteType()))
+    End Sub
+
+    <TestMethod>
+    Public Sub RemoveCustomNoteTypeTest()
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim errorString As String
+        Dim response = route4Me.removeCustomNoteType(lastCustomNoteTypeID, errorString)
+        Assert.IsTrue(response.[GetType]() <> GetType(String), errorString)
+        Assert.IsTrue(Convert.ToInt32(response) >= 0, "Can not remove the custom note type")
+    End Sub
+
     <ClassCleanup> _
     Public Shared Sub NotesGroupCleanup()
         Dim result As Boolean = tdr.RemoveOptimization(lsOptimizationIDs.ToArray())
@@ -378,13 +455,26 @@ End Class
 End Class
 
 <TestClass()> Public Class RouteTypesGroup
+    Shared skip As String
     Shared c_ApiKey As String = "11111111111111111111111111111111"
+    Shared c_ApiKey_1 As String = "11111111111111111111111111111111"
     Shared tdr As New TestDataRepository()
 
     Shared dataObject As DataObject, dataObjectMDMD24 As DataObject
 
+    <ClassInitialize()>
+    Public Shared Sub RouteTypesGroupInitialize(ByVal context As TestContext)
+        If c_ApiKey = c_ApiKey_1 Then
+            skip = "yes"
+        Else
+            skip = "no"
+        End If
+    End Sub
+
     <TestMethod> _
     Public Sub MultipleDepotMultipleDriverTest()
+        If skip = "yes" Then Return
+
         ' Create the manager with the api key
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -539,6 +629,8 @@ End Class
 
     <TestMethod> _
     Public Sub MultipleDepotMultipleDriverTimeWindowTest()
+        If skip = "yes" Then Return
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         ' Prepare the addresses
@@ -3033,22 +3125,22 @@ End Class
 
         ' Set parameters
 
-        Dim parameters As New RouteParameters() With { _
-            .AlgorithmType = AlgorithmType.CVRP_TW_MD, _
-            .RouteName = "Single Depot, Multiple Driver, No Time Window", _
-            .StoreRoute = False, _
-            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)), _
-            .RouteTime = 60 * 60 * 7, _
-            .RT = True, _
-            .RouteMaxDuration = 86400, _
-            .VehicleCapacity = "20", _
-            .VehicleMaxDistanceMI = "99999", _
-            .Parts = 4, _
-            .Optimize = Optimize.Time.GetEnumDescription(), _
-            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(), _
-            .DeviceType = DeviceType.Web.GetEnumDescription(), _
-            .TravelMode = TravelMode.Driving.GetEnumDescription(), _
-            .Metric = Metric.Geodesic _
+        Dim parameters As RouteParameters = New RouteParameters() With {
+            .AlgorithmType = AlgorithmType.CVRP_TW_MD,
+            .RouteName = "Single Depot, Multiple Driver, No Time Window",
+            .StoreRoute = False,
+            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.Date.AddDays(1)),
+            .RouteTime = 60 * 60 * 7,
+            .RT = True,
+            .RouteMaxDuration = 86400,
+            .VehicleCapacity = 20,
+            .VehicleMaxDistanceMI = 99999,
+            .Parts = 4,
+            .Optimize = GetEnumDescription(Optimize.Time),
+            .DistanceUnit = GetEnumDescription(DistanceUnit.MI),
+            .DeviceType = GetEnumDescription(DeviceType.Web),
+            .TravelMode = GetEnumDescription(TravelMode.Driving),
+            .Metric = Metric.Geodesic
         }
 
         Dim optimizationParameters As New OptimizationParameters() With { _
@@ -3056,20 +3148,23 @@ End Class
             .Parameters = parameters _
         }
 
-        ' Run the query
-        Dim errorString As String
-        dataObject = route4Me.RunOptimization(optimizationParameters, errorString)
+        If skip = "yes" Then
+            Return
+        Else
+            Dim errorString As String
+            dataObject = route4Me.RunOptimization(optimizationParameters, errorString)
+            Assert.IsNotNull(dataObject, "SingleDepotMultipleDriverNoTimeWindowTest failed... " & errorString)
 
-        'Note: The addresses of this test aren't permited for api_key=11111111111111111111111111111111. 
-        ' If you put in the parameter api_key your valid key, the test will be finished successfuly.
 
-        Assert.IsNull(dataObject, Convert.ToString("SingleDepotMultipleDriverNoTimeWindowTest failed... ") & errorString)
+            tdr.RemoveOptimization(New String() {dataObject.OptimizationProblemId})
+        End If
 
-        'tdr.RemoveOptimization(new string[] { dataObject.OptimizationProblemId });
     End Sub
 
     <TestMethod> _
     Public Sub MultipleDepotMultipleDriverWith24StopsTimeWindowTest()
+        If skip = "yes" Then Return
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         ' Prepare the addresses
@@ -3575,7 +3670,7 @@ End Class
         }
 
         ' Run the query
-        Dim errorString As String
+        Dim errorString As String = ""
         Dim dataObject0 As MyDataObjectGeneric = route4Me.GetJsonObjectFromAPI(Of MyDataObjectGeneric)(myParameters, uri, HttpMethodType.Post, errorString)
 
         Assert.IsNotNull(dataObject0, "SingleDriverRoundTripGenericTest failed...")
@@ -3784,6 +3879,13 @@ End Class
 
     Shared contact1 As AddressBookContact, contact2 As AddressBookContact
 
+    Shared scheduledContact1 As AddressBookContact, scheduledContact1Response As AddressBookContact
+    Shared scheduledContact2 As AddressBookContact, scheduledContact2Response As AddressBookContact
+    Shared scheduledContact3 As AddressBookContact, scheduledContact3Response As AddressBookContact
+    Shared scheduledContact4 As AddressBookContact, scheduledContact4Response As AddressBookContact
+    Shared scheduledContact5 As AddressBookContact, scheduledContact5Response As AddressBookContact
+    Shared scheduledContact6 As AddressBookContact, scheduledContact6Response As AddressBookContact
+
     Shared lsRemoveContacts As New List(Of Integer)()
 
     <ClassInitialize> _
@@ -3823,6 +3925,154 @@ End Class
         If location2 > 0 Then
             lsRemoveContacts.Add(location2)
         End If
+    End Sub
+
+    <TestMethod> _
+    Public Sub AddScheduledAddressBookContactsTest()
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim sched1 As Schedule = New Schedule("daily", False) With {
+            .enabled = True,
+            .mode = "daily",
+            .daily = New schedule_daily(1)
+        }
+        scheduledContact1 = New AddressBookContact() With {
+            .address_1 = "1604 PARKRIDGE PKWY, Louisville, KY, 40214",
+            .address_alias = "1604 PARKRIDGE PKWY 40214",
+            .address_group = "Scheduled daily",
+            .first_name = "Peter",
+            .last_name = "Newman",
+            .address_email = "pnewman6564@yahoo.com",
+            .address_phone_number = "65432178",
+            .cached_lat = 38.141598,
+            .cached_lng = -85.793846,
+            .address_city = "Louisville",
+            .address_custom_data = New Dictionary(Of String, String)() From {
+                {"scheduled", "yes"},
+                {"service type", "publishing"}
+            },
+            .schedule = New List(Of Schedule)() From {
+                sched1
+            }
+        }
+        Dim errorString As String
+        scheduledContact1Response = route4Me.AddAddressBookContact(scheduledContact1, errorString)
+        Assert.IsNotNull(scheduledContact1Response, "AddAddressBookContactsTest failed... " & errorString)
+        Dim location1 As Integer = If(scheduledContact1Response.address_id IsNot Nothing, Convert.ToInt32(scheduledContact1Response.address_id), -1)
+        If location1 > 0 Then lsRemoveContacts.Add(location1)
+        Dim sched2 As Schedule = New Schedule("weekly", False) With {
+            .enabled = True,
+            .weekly = New schedule_weekly(1, New Integer() {1, 2, 3, 4, 5})
+        }
+        scheduledContact2 = New AddressBookContact() With {
+            .address_1 = "1407 MCCOY, Louisville, KY, 40215",
+            .address_alias = "1407 MCCOY 40215",
+            .address_group = "Scheduled weekly",
+            .first_name = "Bart",
+            .last_name = "Douglas",
+            .address_email = "bdouglas9514@yahoo.com",
+            .address_phone_number = "95487454",
+            .cached_lat = 38.202496,
+            .cached_lng = -85.786514,
+            .address_city = "Louisville",
+            .service_time = 600,
+            .schedule = New List(Of Schedule)() From {
+                sched2
+            }
+        }
+        scheduledContact2Response = route4Me.AddAddressBookContact(scheduledContact2, errorString)
+        Assert.IsNotNull(scheduledContact2Response, "AddAddressBookContactsTest failed... " & errorString)
+        Dim location2 As Integer = If(scheduledContact2Response.address_id IsNot Nothing, Convert.ToInt32(scheduledContact2Response.address_id), -1)
+        If location2 > 0 Then lsRemoveContacts.Add(location2)
+        Dim sched3 As Schedule = New Schedule("monthly", False) With {
+            .enabled = True,
+            .monthly = New schedule_monthly(1, "dates", New Integer() {20, 22, 23, 24, 25})
+        }
+        scheduledContact3 = New AddressBookContact() With {
+            .address_1 = "4805 BELLEVUE AVE, Louisville, KY, 40215",
+            .address_2 = "4806 BELLEVUE AVE, Louisville, KY, 40215",
+            .address_alias = "4805 BELLEVUE AVE 40215",
+            .address_group = "Scheduled monthly",
+            .first_name = "Bart",
+            .last_name = "Douglas",
+            .address_email = "bdouglas9514@yahoo.com",
+            .address_phone_number = "95487454",
+            .cached_lat = 38.178844,
+            .cached_lng = -85.774864,
+            .address_country_id = "US",
+            .address_state_id = "KY",
+            .address_zip = "40215",
+            .address_city = "Louisville",
+            .service_time = 750,
+            .schedule = New List(Of Schedule)() From {
+                sched3
+            },
+            .color = "red"
+        }
+        scheduledContact3Response = route4Me.AddAddressBookContact(scheduledContact3, errorString)
+        Assert.IsNotNull(scheduledContact3Response, "AddAddressBookContactsTest failed... " & errorString)
+        Dim location3 As Integer = If(scheduledContact3Response.address_id IsNot Nothing, Convert.ToInt32(scheduledContact3Response.address_id), -1)
+        If location3 > 0 Then lsRemoveContacts.Add(location3)
+        Dim sched4 As Schedule = New Schedule("monthly", False) With {
+            .enabled = True,
+            .monthly = New schedule_monthly(1, "nth", Nothing, _nth:=New Dictionary(Of Integer, Integer)() From {
+                {1, 4}
+            })
+        }
+        scheduledContact4 = New AddressBookContact() With {
+            .address_1 = "730 CECIL AVENUE, Louisville, KY, 40211",
+            .address_alias = "730 CECIL AVENUE 40211",
+            .address_group = "Scheduled monthly",
+            .first_name = "David",
+            .last_name = "Silvester",
+            .address_email = "dsilvester5874@yahoo.com",
+            .address_phone_number = "36985214",
+            .cached_lat = 38.248684,
+            .cached_lng = -85.821121,
+            .address_city = "Louisville",
+            .service_time = 450,
+            .address_custom_data = New Dictionary(Of String, String)() From {
+                {"scheduled", "yes"},
+                {"service type", "library"}
+            },
+            .schedule = New List(Of Schedule)() From {
+                sched4
+            },
+            .address_icon = "emoji/emoji-bus"
+        }
+        scheduledContact4Response = route4Me.AddAddressBookContact(scheduledContact4, errorString)
+        Assert.IsNotNull(scheduledContact4Response, "AddAddressBookContactsTest failed... " & errorString)
+        Dim location4 As Integer = If(scheduledContact4Response.address_id IsNot Nothing, Convert.ToInt32(scheduledContact4Response.address_id), -1)
+        If location4 > 0 Then lsRemoveContacts.Add(location4)
+        Dim sched5 As Schedule = New Schedule("daily", False) With {
+            .enabled = True,
+            .mode = "daily",
+            .daily = New schedule_daily(1)
+        }
+        scheduledContact5 = New AddressBookContact() With {
+            .address_1 = "4629 HILLSIDE DRIVE, Louisville, KY, 40216",
+            .address_alias = "4629 HILLSIDE DRIVE 40216",
+            .address_group = "Scheduled daily",
+            .first_name = "Kim",
+            .last_name = "Shandor",
+            .address_email = "kshand8524@yahoo.com",
+            .address_phone_number = "9874152",
+            .cached_lat = 38.176067,
+            .cached_lng = -85.824638,
+            .address_city = "Louisville",
+            .address_custom_data = New Dictionary(Of String, String)() From {
+                {"scheduled", "yes"},
+                {"service type", "appliance"}
+            },
+            .schedule = New List(Of Schedule)() From {
+                sched5
+            },
+            .schedule_blacklist = New String() {"2017-12-22", "2017-12-23"},
+            .service_time = 300
+        }
+        scheduledContact5Response = route4Me.AddAddressBookContact(scheduledContact5, errorString)
+        Assert.IsNotNull(scheduledContact5Response, "AddAddressBookContactsTest failed... " & errorString)
+        Dim location5 As Integer = If(scheduledContact5Response.address_id IsNot Nothing, Convert.ToInt32(scheduledContact5Response.address_id), -1)
+        If location5 > 0 Then lsRemoveContacts.Add(location5)
     End Sub
 
     <TestMethod> _
@@ -4019,8 +4269,16 @@ End Class
             .TerritoryColor = "ff0000", _
             .Territory = New Territory() With { _
                 .Type = TerritoryType.Poly.GetEnumDescription(), _
-                .Data = New String() {"37.569752822786455,-77.47833251953125", "37.75886716305343,-77.68974800109863", "37.74763966054455,-77.6917221069336", "37.74655084306813,-77.68863220214844", "37.7502255383101,-77.68125076293945", "37.74797991274437,-77.67498512268066", _
-                    "37.73327960206065,-77.6411678314209", "37.74430510679532,-77.63172645568848", "37.76641925847049,-77.66846199035645"} _
+                .Data = New String() { _
+                    "37.569752822786455,-77.47833251953125", _
+                    "37.75886716305343,-77.68974800109863", _
+                    "37.74763966054455,-77.6917221069336", _
+                    "37.74655084306813,-77.68863220214844", _
+                    "37.7502255383101,-77.68125076293945", _
+                    "37.74797991274437,-77.67498512268066", _
+                    "37.73327960206065,-77.6411678314209", _
+                    "37.74430510679532,-77.63172645568848", _
+                    "37.76641925847049,-77.66846199035645"} _
             } _
         }
 
@@ -4037,7 +4295,9 @@ End Class
             .TerritoryColor = "ff0000", _
             .Territory = New Territory() With { _
                 .Type = TerritoryType.Rect.GetEnumDescription(), _
-                .Data = New String() {"43.51668853502909,-109.3798828125", "46.98025235521883,-101.865234375"} _
+                .Data = New String() { _
+                    "43.51668853502909,-109.3798828125", _
+                    "46.98025235521883,-101.865234375"} _
             } _
         }
 
@@ -4178,62 +4438,54 @@ End Class
 
     Shared lsTerritories As New List(Of String)()
 
-    <ClassInitialize> _
-    Public Shared Sub TerritoriesGroupInitialize(context As TestContext)
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+    <ClassInitialize()>
+    Public Shared Sub TerritoriesGroupInitialize(ByVal context As TestContext)
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
-        Dim circleTerritoryParameters As New AvoidanceZoneParameters() With { _
-            .TerritoryName = "Test Circle Territory", _
-            .TerritoryColor = "ff0000", _
-            .Territory = New Territory() With { _
-                .Type = TerritoryType.Circle.GetEnumDescription(), _
-                .Data = New String() {"37.569752822786455,-77.47833251953125", "5000"} _
-            } _
+        Dim circleTerritoryParameters As AvoidanceZoneParameters = New AvoidanceZoneParameters() With {
+            .TerritoryName = "Test Circle Territory",
+            .TerritoryColor = "ff0000",
+            .Territory = New Territory() With {
+                .Type = GetEnumDescription(TerritoryType.Circle),
+                .Data = New String() {"37.569752822786455,-77.47833251953125", "5000"}
+            }
         }
 
-        Dim errorString As String = ""
+        Dim errorString As String
         Dim circleTerritory As TerritoryZone = route4Me.CreateTerritory(circleTerritoryParameters, errorString)
+        If circleTerritory IsNot Nothing Then lsTerritories.Add(circleTerritory.TerritoryId)
 
-        If circleTerritory IsNot Nothing Then
-            lsTerritories.Add(circleTerritory.TerritoryId)
-        End If
+        Assert.IsNotNull(circleTerritory, "Add Circle Territory test failed... " & errorString)
 
-        Assert.IsNotNull(circleTerritory, Convert.ToString("Add Circle Territory test failed... ") & errorString)
-
-        Dim polyTerritoryParameters As New AvoidanceZoneParameters() With { _
-            .TerritoryName = "Test Poly Territory", _
-            .TerritoryColor = "ff0000", _
-            .Territory = New Territory() With { _
-                .Type = TerritoryType.Poly.GetEnumDescription(), _
-                .Data = New String() {"37.569752822786455,-77.47833251953125", "37.75886716305343,-77.68974800109863", "37.74763966054455,-77.6917221069336", "37.74655084306813,-77.68863220214844", "37.7502255383101,-77.68125076293945", "37.74797991274437,-77.67498512268066", _
-                    "37.73327960206065,-77.6411678314209", "37.74430510679532,-77.63172645568848", "37.76641925847049,-77.66846199035645"} _
-            } _
+        Dim polyTerritoryParameters As AvoidanceZoneParameters = New AvoidanceZoneParameters() With {
+            .TerritoryName = "Test Poly Territory",
+            .TerritoryColor = "ff0000",
+            .Territory = New Territory With {
+                .Type = GetEnumDescription(TerritoryType.Poly),
+                .Data = New String() {"37.569752822786455,-77.47833251953125", "37.75886716305343,-77.68974800109863", "37.74763966054455,-77.6917221069336", "37.74655084306813,-77.68863220214844", "37.7502255383101,-77.68125076293945", "37.74797991274437,-77.67498512268066", "37.73327960206065,-77.6411678314209", "37.74430510679532,-77.63172645568848", "37.76641925847049,-77.66846199035645"}
+            }
         }
 
         Dim polyTerritory As TerritoryZone = route4Me.CreateTerritory(polyTerritoryParameters, errorString)
 
-        Assert.IsNotNull(polyTerritory, Convert.ToString("Add Polygon Territory test failed... ") & errorString)
+        Assert.IsNotNull(polyTerritory, "Add Polygon Territory test failed... " & errorString)
 
-        If polyTerritory IsNot Nothing Then
-            lsTerritories.Add(polyTerritory.TerritoryId)
-        End If
+        If polyTerritory IsNot Nothing Then lsTerritories.Add(polyTerritory.TerritoryId)
 
-        Dim rectTerritoryParameters As New AvoidanceZoneParameters() With { _
-            .TerritoryName = "Test Rect Territory", _
-            .TerritoryColor = "ff0000", _
-            .Territory = New Territory() With { _
-                .Type = TerritoryType.Rect.GetEnumDescription(), _
-                .Data = New String() {"43.51668853502909,-109.3798828125", "46.98025235521883,-101.865234375"} _
-            } _
+        Dim rectTerritoryParameters As AvoidanceZoneParameters = New AvoidanceZoneParameters With {
+            .TerritoryName = "Test Rect Territory",
+            .TerritoryColor = "ff0000",
+            .Territory = New Territory With {
+                .Type = GetEnumDescription(TerritoryType.Rect),
+                .Data = New String() {"43.51668853502909,-109.3798828125", "46.98025235521883,-101.865234375"}
+            }
         }
 
         Dim rectTerritory As TerritoryZone = route4Me.CreateTerritory(rectTerritoryParameters, errorString)
 
-        Assert.IsNotNull(rectTerritory, Convert.ToString("Add Rectangular Avoidance Zone test failed... ") & errorString)
+        Assert.IsNotNull(rectTerritory, "Add Rectangular Avoidance Zone test failed... " & errorString)
 
-        If lsTerritories IsNot Nothing Then
-            lsTerritories.Add(rectTerritory.TerritoryId)
-        End If
+        If lsTerritories IsNot Nothing Then lsTerritories.Add(rectTerritory.TerritoryId)
     End Sub
 
     <TestMethod> _
@@ -4359,51 +4611,58 @@ End Class
 End Class
 
 <TestClass()> Public Class OrdersGroup
+    Shared skip As String
     Shared c_ApiKey As String = "11111111111111111111111111111111"
+    Shared c_ApiKey_1 As String = "11111111111111111111111111111111"
     Shared tdr As TestDataRepository
     Shared lsOptimizationIDs As List(Of String)
     Shared lsOrders As New List(Of String)()
 
-    <ClassInitialize> _
-    Public Shared Sub CreateOrderTest(context As TestContext)
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+    <ClassInitialize()>
+    Public Shared Sub CreateOrderTest(ByVal context As TestContext)
+        If c_ApiKey = c_ApiKey_1 Then
+            skip = "yes"
+        Else
+            skip = "no"
+        End If
 
+        If skip = "yes" Then Return
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
         lsOptimizationIDs = New List(Of String)()
-
-        tdr = New TestDataRepository()
+        context.Properties.Add("Categ", "Ignorable")
+        tdr = New TestDataRepository(c_ApiKey)
         Dim result As Boolean = tdr.SingleDriverRoundTripTest()
-
         Assert.IsTrue(result, "Single Driver Round Trip generation failed...")
-
         Assert.IsTrue(tdr.SDRT_route.Addresses.Length > 0, "The route has no addresses...")
-
         lsOptimizationIDs.Add(tdr.SDRT_optimization_problem_id)
-
         Dim dtTomorrow As DateTime = DateTime.Now + (New TimeSpan(1, 0, 0, 0))
-        Dim order As New Order() With { _
-            .address_1 = "Test Address1 " + (New Random()).[Next]().ToString(), _
-            .address_alias = "Test AddressAlias " + (New Random()).[Next]().ToString(), _
-            .cached_lat = 37.773972, _
-            .cached_lng = -122.431297, _
-            .day_scheduled_for_YYMMDD = dtTomorrow.ToString("yyyy-MM-dd") _
+        Dim order As Order = New Order() With {
+            .address_1 = "Test Address1 " & (New Random()).[Next]().ToString(),
+            .address_alias = "Test AddressAlias " & (New Random()).[Next]().ToString(),
+            .cached_lat = 37.773972,
+            .cached_lng = -122.431297,
+            .day_scheduled_for_YYMMDD = dtTomorrow.ToString("yyyy-MM-dd")
         }
 
-        ' Run the query
-        Dim errorString As String = ""
-        Dim resultOrder As Order = route4Me.AddOrder(order, errorString)
-
-        Assert.IsNotNull(resultOrder, Convert.ToString("CreateOrderTest failed... ") & errorString)
-
-        lsOrders.Add(resultOrder.order_id.ToString())
+        If c_ApiKey <> c_ApiKey_1 Then
+            Dim errorString As String
+            Dim resultOrder As Order = route4Me.AddOrder(order, errorString)
+            Assert.IsNotNull(resultOrder, "CreateOrderTest failed... " & errorString)
+            lsOrders.Add(resultOrder.order_id.ToString())
+        Else
+            Assert.AreEqual(c_ApiKey_1, c_ApiKey)
+        End If
     End Sub
 
     <TestMethod> _
     Public Sub GetOrdersTest()
+        If skip = "yes" Then Return
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim orderParameters As New OrderParameters() With { _
-            .Offset = 0, _
-            .Limit = 10 _
+            .offset = 0, _
+            .limit = 10 _
         }
 
         Dim total As UInteger
@@ -4415,6 +4674,8 @@ End Class
 
     <TestMethod> _
     Public Sub GetOrderByIDTest()
+        If skip = "yes" Then Return
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim orderIds As String = ""
@@ -4435,6 +4696,8 @@ End Class
 
     <TestMethod> _
     Public Sub GetOrderByInsertedDateTest()
+        If skip = "yes" Then Return
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim InsertedDate As String = DateTime.Now.ToString("yyyy-MM-dd")
@@ -4451,6 +4714,8 @@ End Class
 
     <TestMethod> _
     Public Sub GetOrderByScheduledDateTest()
+        If skip = "yes" Then Return
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim dtTomorrow As DateTime = DateTime.Now + (New TimeSpan(1, 0, 0, 0))
@@ -4467,6 +4732,8 @@ End Class
 
     <TestMethod> _
     Public Sub GetOrdersBySpecifiedTextTest()
+        If skip = "yes" Then Return
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim query As String = "Test Address1"
@@ -4485,6 +4752,8 @@ End Class
 
     <TestMethod> _
     Public Sub GetOrdersByCustomFieldsTest()
+        If skip = "yes" Then Return
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim CustomFields As String = "order_id,member_id"
@@ -4503,6 +4772,8 @@ End Class
 
     <TestMethod> _
     Public Sub UpdateOrderTest()
+        If skip = "yes" Then Return
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim order As Order = Nothing
@@ -4531,21 +4802,55 @@ End Class
         Assert.IsNotNull(updatedOrder, Convert.ToString("UpdateOrderTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
-    Public Sub AddOrdersToOptimizationTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+    <TestMethod>
+    Public Sub AddScheduledOrderTest()
+        If skip = "yes" Then Return
 
-        Dim rQueryParams As New OptimizationParameters() With { _
-            .OptimizationProblemID = tdr.SDRT_optimization_problem_id, _
-            .Redirect = False _
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim orderParams As Order = New Order() With {
+            .address_1 = "318 S 39th St, Louisville, KY 40212, USA",
+            .cached_lat = 38.259326,
+            .cached_lng = -85.814979,
+            .curbside_lat = 38.259326,
+            .curbside_lng = -85.814979,
+            .address_alias = "318 S 39th St 40212",
+            .address_city = "Louisville",
+            .EXT_FIELD_first_name = "Lui",
+            .EXT_FIELD_last_name = "Carol",
+            .EXT_FIELD_email = "lcarol654@yahoo.com",
+            .EXT_FIELD_phone = "897946541",
+            .EXT_FIELD_custom_data = New Dictionary(Of String, String)() From {
+                {"order_type", "scheduled order"}
+            },
+            .day_scheduled_for_YYMMDD = "2017-12-20",
+            .local_time_window_end = 39000,
+            .local_time_window_end_2 = 46200,
+            .local_time_window_start = 37800,
+            .local_time_window_start_2 = 45000,
+            .local_timezone_string = "America/New_York",
+            .order_icon = "emoji/emoji-bank"
+        }
+        Dim errorString As String = ""
+        Dim newOrder = route4Me.AddOrder(orderParams, errorString)
+        Assert.IsNotNull(newOrder, "AddScheduledOrdersTest failed... " & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub AddOrdersToOptimizationTest()
+        If skip = "yes" Then Return
+
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim rQueryParams As OptimizationParameters = New OptimizationParameters() With {
+            .OptimizationProblemID = tdr.SDRT_optimization_problem_id,
+            .Redirect = False
         }
 
-        Dim lsTimeWindowStart As New List(Of Integer)()
-
+        Dim lsTimeWindowStart As List(Of Integer) = New List(Of Integer)()
         Dim dtCurDate As DateTime = DateTime.Now + (New TimeSpan(1, 0, 0, 0))
         dtCurDate = New DateTime(dtCurDate.Year, dtCurDate.Month, dtCurDate.Day, 8, 0, 0)
 
-        Dim tsp1000sec As New TimeSpan(0, 0, 1000)
+        Dim tsp1000sec As TimeSpan = New TimeSpan(0, 0, 1000)
 
         lsTimeWindowStart.Add(CInt(R4MeUtils.ConvertToUnixTimestamp(dtCurDate)))
         dtCurDate += tsp1000sec
@@ -4553,168 +4858,174 @@ End Class
         dtCurDate += tsp1000sec
         lsTimeWindowStart.Add(CInt(R4MeUtils.ConvertToUnixTimestamp(dtCurDate)))
 
-        '#Region "Addresses"
-        Dim addresses As Address() = New Address() {New Address() With { _
-            .AddressString = "273 Canal St, New York, NY 10013, USA", _
-            .Latitude = 40.7191558, _
-            .Longitude = -74.0011966, _
-            .[Alias] = "", _
-            .CurbsideLatitude = 40.7191558, _
-            .CurbsideLongitude = -74.0011966, _
-            .IsDepot = True _
-        }, New Address() With { _
-            .AddressString = "106 Liberty St, New York, NY 10006, USA", _
-            .[Alias] = "BK Restaurant #: 2446", _
-            .Latitude = 40.709637, _
-            .Longitude = -74.011912, _
-            .CurbsideLatitude = 40.709637, _
-            .CurbsideLongitude = -74.011912, _
-            .Email = "", _
-            .Phone = "(917) 338-1887", _
-            .FirstName = "", _
-            .LastName = "", _
-            .CustomFields = New Dictionary(Of String, String)() From { _
-                {"icon", Nothing} _
-            }, _
-            .Time = 0, _
-            .TimeWindowStart = lsTimeWindowStart(0), _
-            .TimeWindowEnd = lsTimeWindowStart(0) + 300, _
-            .OrderId = 7205705 _
-        }, New Address() With { _
-            .AddressString = "325 Broadway, New York, NY 10007, USA", _
-            .[Alias] = "BK Restaurant #: 20333", _
-            .Latitude = 40.71615, _
-            .Longitude = -74.00505, _
-            .CurbsideLatitude = 40.71615, _
-            .CurbsideLongitude = -74.00505, _
-            .Email = "", _
-            .Phone = "(212) 227-7535", _
-            .FirstName = "", _
-            .LastName = "", _
-            .CustomFields = New Dictionary(Of String, String)() From { _
-                {"icon", Nothing} _
-            }, _
-            .Time = 0, _
-            .TimeWindowStart = lsTimeWindowStart(1), _
-            .TimeWindowEnd = lsTimeWindowStart(1) + 300, _
-            .OrderId = 7205704 _
-        }, New Address() With { _
-            .AddressString = "106 Fulton St, Farmingdale, NY 11735, USA", _
-            .[Alias] = "BK Restaurant #: 17871", _
-            .Latitude = 40.73073, _
-            .Longitude = -73.459283, _
-            .CurbsideLatitude = 40.73073, _
-            .CurbsideLongitude = -73.459283, _
-            .Email = "", _
-            .Phone = "(212) 566-5132", _
-            .FirstName = "", _
-            .LastName = "", _
-            .CustomFields = New Dictionary(Of String, String)() From { _
-                {"icon", Nothing} _
-            }, _
-            .Time = 0, _
-            .TimeWindowStart = lsTimeWindowStart(2), _
-            .TimeWindowEnd = lsTimeWindowStart(2) + 300, _
-            .OrderId = 7205703 _
-        }}
-        '#End Region
-
-        Dim rParams As New RouteParameters() With { _
-            .RouteName = "Wednesday 15th of June 2016 07:01 PM (+03:00)", _
-            .RouteDate = 1465948800, _
-            .RouteTime = 14400, _
-            .Optimize = "Time", _
-            .RouteType = "single", _
-            .AlgorithmType = AlgorithmType.TSP, _
-            .RT = False, _
-            .LockLast = False, _
-            .MemberId = "1", _
-            .VehicleId = "", _
-            .DisableOptimization = False _
+        Dim addresses As Address() = New Address() {
+            New Address With {
+                .AddressString = "273 Canal St, New York, NY 10013, USA",
+                .Latitude = 40.7191558,
+                .Longitude = -74.0011966,
+                .[Alias] = "",
+                .CurbsideLatitude = 40.7191558,
+                .CurbsideLongitude = -74.0011966,
+                .IsDepot = True
+            },
+           New Address With {
+                .AddressString = "106 Liberty St, New York, NY 10006, USA",
+                .[Alias] = "BK Restaurant #: 2446",
+                .Latitude = 40.709637,
+                .Longitude = -74.011912,
+                .CurbsideLatitude = 40.709637,
+                .CurbsideLongitude = -74.011912,
+                .Email = "",
+                .Phone = "(917) 338-1887",
+                .FirstName = "",
+                .LastName = "",
+                .CustomFields = New Dictionary(Of String, String) From {
+                    {"icon", Nothing}
+                },
+                .Time = 0,
+                .TimeWindowStart = lsTimeWindowStart(0),
+                .TimeWindowEnd = lsTimeWindowStart(0) + 300,
+                .OrderId = 7205705
+            },
+           New Address With {
+                .AddressString = "325 Broadway, New York, NY 10007, USA",
+                .[Alias] = "BK Restaurant #: 20333",
+                .Latitude = 40.71615,
+                .Longitude = -74.00505,
+                .CurbsideLatitude = 40.71615,
+                .CurbsideLongitude = -74.00505,
+                .Email = "",
+                .Phone = "(212) 227-7535",
+                .FirstName = "",
+                .LastName = "",
+                .CustomFields = New Dictionary(Of String, String) From {
+                    {"icon", Nothing}
+                },
+                .Time = 0,
+                .TimeWindowStart = lsTimeWindowStart(1),
+                .TimeWindowEnd = lsTimeWindowStart(1) + 300,
+                .OrderId = 7205704
+            },
+           New Address With {
+                .AddressString = "106 Fulton St, Farmingdale, NY 11735, USA",
+                .[Alias] = "BK Restaurant #: 17871",
+                .Latitude = 40.73073,
+                .Longitude = -73.459283,
+                .CurbsideLatitude = 40.73073,
+                .CurbsideLongitude = -73.459283,
+                .Email = "",
+                .Phone = "(212) 566-5132",
+                .FirstName = "",
+                .LastName = "",
+                .CustomFields = New Dictionary(Of String, String) From {
+                    {"icon", Nothing}
+                },
+                .Time = 0,
+                .TimeWindowStart = lsTimeWindowStart(2),
+                .TimeWindowEnd = lsTimeWindowStart(2) + 300,
+                .OrderId = 7205703
+            }
+        }
+        Dim rParams As RouteParameters = New RouteParameters() With {
+            .RouteName = "Wednesday 15th of June 2016 07:01 PM (+03:00)",
+            .RouteDate = 1465948800,
+            .RouteTime = 14400,
+            .Optimize = "Time",
+            .RouteType = "single",
+            .AlgorithmType = AlgorithmType.TSP,
+            .RT = False,
+            .LockLast = False,
+            .VehicleId = "",
+            .DisableOptimization = False
         }
 
         Dim errorString As String = ""
         Dim dataObject As DataObject = route4Me.AddOrdersToOptimization(rQueryParams, addresses, rParams, errorString)
 
-        Assert.IsNotNull(dataObject, Convert.ToString("AddOrdersToOptimizationTest failed... ") & errorString)
+        Assert.IsNotNull(dataObject, "AddOrdersToOptimizationTest failed... " & errorString)
 
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub AddOrdersToRouteTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        If skip = "yes" Then Return
 
-        Dim rQueryParams As New RouteParametersQuery() With { _
-            .RouteId = tdr.SDRT_route_id, _
-            .Redirect = False _
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim rQueryParams As RouteParametersQuery = New RouteParametersQuery() With {
+            .RouteId = tdr.SDRT_route_id,
+            .Redirect = False
         }
 
-        '#Region "Addresses"
-        Dim addresses As Address() = New Address() {New Address() With { _
-            .AddressString = "273 Canal St, New York, NY 10013, USA", _
-            .Latitude = 40.7191558, _
-            .Longitude = -74.0011966, _
-            .[Alias] = "", _
-            .CurbsideLatitude = 40.7191558, _
-            .CurbsideLongitude = -74.0011966 _
-        }, New Address() With { _
-            .AddressString = "106 Liberty St, New York, NY 10006, USA", _
-            .[Alias] = "BK Restaurant #: 2446", _
-            .Latitude = 40.709637, _
-            .Longitude = -74.011912, _
-            .CurbsideLatitude = 40.709637, _
-            .CurbsideLongitude = -74.011912, _
-            .Email = "", _
-            .Phone = "(917) 338-1887", _
-            .FirstName = "", _
-            .LastName = "", _
-            .CustomFields = New Dictionary(Of String, String)() From { _
-                {"icon", Nothing} _
-            }, _
-            .Time = 0, _
-            .OrderId = 7205705 _
-        }, New Address() With { _
-            .AddressString = "106 Fulton St, Farmingdale, NY 11735, USA", _
-            .[Alias] = "BK Restaurant #: 17871", _
-            .Latitude = 40.73073, _
-            .Longitude = -73.459283, _
-            .CurbsideLatitude = 40.73073, _
-            .CurbsideLongitude = -73.459283, _
-            .Email = "", _
-            .Phone = "(212) 566-5132", _
-            .FirstName = "", _
-            .LastName = "", _
-            .CustomFields = New Dictionary(Of String, String)() From { _
-                {"icon", Nothing} _
-            }, _
-            .Time = 0, _
-            .OrderId = 7205703 _
-        }}
-        '#End Region
-
-        Dim rParams As New RouteParameters() With { _
-            .RouteName = "Wednesday 15th of June 2016 07:01 PM (+03:00)", _
-            .RouteDate = 1465948800, _
-            .RouteTime = 14400, _
-            .Optimize = "Time", _
-            .RouteType = "single", _
-            .AlgorithmType = AlgorithmType.TSP, _
-            .RT = False, _
-            .LockLast = False, _
-            .MemberId = "1", _
-            .VehicleId = "", _
-            .DisableOptimization = False _
+        Dim addresses As Address() = New Address() {
+            New Address With {
+                .AddressString = "273 Canal St, New York, NY 10013, USA",
+                .Latitude = 40.7191558,
+                .Longitude = -74.0011966,
+                .[Alias] = "",
+                .CurbsideLatitude = 40.7191558,
+                .CurbsideLongitude = -74.0011966
+            },
+           New Address With {
+                .AddressString = "106 Liberty St, New York, NY 10006, USA",
+                .[Alias] = "BK Restaurant #: 2446",
+                .Latitude = 40.709637,
+                .Longitude = -74.011912,
+                .CurbsideLatitude = 40.709637,
+                .CurbsideLongitude = -74.011912,
+                .Email = "",
+                .Phone = "(917) 338-1887",
+                .FirstName = "",
+                .LastName = "",
+                .CustomFields = New Dictionary(Of String, String) From {
+                    {"icon", Nothing}
+                },
+                .Time = 0,
+                .OrderId = 7205705
+            },
+           New Address With {
+                .AddressString = "106 Fulton St, Farmingdale, NY 11735, USA",
+                .[Alias] = "BK Restaurant #: 17871",
+                .Latitude = 40.73073,
+                .Longitude = -73.459283,
+                .CurbsideLatitude = 40.73073,
+                .CurbsideLongitude = -73.459283,
+                .Email = "",
+                .Phone = "(212) 566-5132",
+                .FirstName = "",
+                .LastName = "",
+                .CustomFields = New Dictionary(Of String, String) From {
+                    {"icon", Nothing}
+                },
+                .Time = 0,
+                .OrderId = 7205703
+            }
         }
 
-        Dim errorString As String = ""
+        Dim rParams As RouteParameters = New RouteParameters() With {
+            .RouteName = "Wednesday 15th of June 2016 07:01 PM (+03:00)",
+            .RouteDate = 1465948800,
+            .RouteTime = 14400,
+            .Optimize = "Time",
+            .RouteType = "single",
+            .AlgorithmType = AlgorithmType.TSP,
+            .RT = False,
+            .LockLast = False,
+            .VehicleId = "",
+            .DisableOptimization = False
+        }
+
+        Dim errorString As String
         Dim result As RouteResponse = route4Me.AddOrdersToRoute(rQueryParams, addresses, rParams, errorString)
 
-        Assert.IsNotNull(result, Convert.ToString("AddOrdersToRouteTest failed... ") & errorString)
+        Assert.IsNotNull(result, "AddOrdersToRouteTest failed... " & errorString)
     End Sub
 
     <TestMethod> _
 <ClassCleanup> _
     Public Shared Sub RemoveOrdersTest()
+        If skip = "yes" Then Return
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         ' Run the query
@@ -5534,81 +5845,103 @@ End Class
 End Class
 
 <TestClass()> Public Class UsersGroup
-    Shared c_ApiKey As String = "11111111111111111111111111111111"
+    Shared skip As String
+    Shared c_ApiKey As String = "bd48828717021141485a701453273458"
+    Shared c_ApiKey_1 As String = "11111111111111111111111111111111"
+    Shared lsMembers As List(Of Integer)
 
-    <TestMethod> _
-    Public Sub CreateUserTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+    <ClassInitialize()>
+    Public Shared Sub UserGroupInitialize(ByVal context As TestContext)
+        If c_ApiKey = c_ApiKey_1 Then
+            skip = "yes"
+        Else
+            skip = "no"
+        End If
 
-        Dim params As New MemberParametersV4() With { _
-            .HIDE_ROUTED_ADDRESSES = False, _
-            .member_phone = "571-259-5939", _
-            .member_zipcode = "22102", _
-            .member_email = "aaaaaaaa@gmail.com", _
-            .HIDE_VISITED_ADDRESSES = False, _
-            .READONLY_USER = False, _
-            .member_type = "SUB_ACCOUNT_DISPATCHER", _
-            .date_of_birth = "2010", _
-            .member_first_name = "Clay", _
-            .member_password = "123456", _
-            .HIDE_NONFUTURE_ROUTES = False, _
-            .member_last_name = "Abraham", _
-            .SHOW_ALL_VEHICLES = False, _
-            .SHOW_ALL_DRIVERS = False _
-        }
+        lsMembers = New List(Of Integer)()
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
-        ' Run the query
-        Dim errorString As String = ""
-        Dim result = route4Me.CreateUser(params, errorString)
+        Dim parameters As GenericParameters = New GenericParameters()
 
-        'For successful testing of an user creating, you shuld provide valid email address, otherwise you'll get error "Email is used in system"
-        Dim rightResponse As String = If(result IsNot Nothing, "ok", (If((errorString = "Email is used in system" OrElse errorString = "Registration: The e-mail address is missing or invalid."), "ok", "")))
+        Dim errorString As String
+        Dim dataObjects As Route4MeManager.GetUsersResponse = route4Me.GetUsers(parameters, errorString)
+        Assert.IsInstanceOfType(dataObjects, GetType(Route4MeManager.GetUsersResponse), errorString)
 
-        Assert.IsTrue(rightResponse = "ok", Convert.ToString("CreateUserTest failed... ") & errorString)
+        For Each member As MemberResponseV4 In dataObjects.results
+            lsMembers.Add(Convert.ToInt32(member.member_id))
+        Next
     End Sub
 
-    <TestMethod> _
-    Public Sub GetUserByIdTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+    <TestMethod>
+    Public Sub CreateUserTest()
+        If skip = "yes" Then Return
 
-        Dim params As New MemberParametersV4() With { _
-            .member_id = 1 _
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim params As MemberParametersV4 = New MemberParametersV4 With {
+            .HIDE_ROUTED_ADDRESSES = "FALSE",
+            .member_phone = "571-259-5939",
+            .member_zipcode = "22102",
+            .member_email = "regression.autotests+" & DateTime.Now.ToString("yyyyMMddHHmmss") & "@gmail.com",
+            .HIDE_VISITED_ADDRESSES = "FALSE",
+            .READONLY_USER = "FALSE",
+            .member_type = "SUB_ACCOUNT_DISPATCHER",
+            .date_of_birth = "2010",
+            .member_first_name = "Clay",
+            .member_password = "123456",
+            .HIDE_NONFUTURE_ROUTES = "FALSE",
+            .member_last_name = "Abraham",
+            .SHOW_ALL_VEHICLES = "FALSE",
+            .SHOW_ALL_DRIVERS = "FALSE"
         }
 
-        ' Run the query
+        Dim errorString As String = ""
+        Dim result = route4Me.CreateUser(params, errorString)
+        Dim rightResponse As String = If(result IsNot Nothing, "ok", (If((errorString = "Email is used in system" OrElse errorString = "Registration: The e-mail address is missing or invalid."), "ok", "")))
+
+        Assert.IsTrue(rightResponse = "ok", "CreateUserTest failed... " & errorString)
+
+        lsMembers.Add(Convert.ToInt32(result.member_id))
+    End Sub
+
+    <TestMethod>
+    Public Sub GetUserByIdTest()
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim memberID As Integer = lsMembers(0)
+        Dim params As MemberParametersV4 = New MemberParametersV4 With {
+            .member_id = memberID
+        }
+
         Dim errorString As String = ""
         Dim result As MemberResponseV4 = route4Me.GetUserById(params, errorString)
 
-        Assert.IsNotNull(result, Convert.ToString("GetUserByIdTest... ") & errorString)
+        Assert.IsNotNull(result, "GetUserByIdTest... " & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetUsersTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim parameters As GenericParameters = New GenericParameters()
+        Dim errorString As String
+        Dim dataObjects As Route4MeManager.GetUsersResponse = route4Me.GetUsers(parameters, errorString)
 
-        Dim parameters As New GenericParameters()
-
-        ' Run the query
-        Dim errorString As String = ""
-        Dim dataObjects As User() = route4Me.GetUsers(parameters, errorString)
-
-        Assert.IsInstanceOfType(dataObjects, GetType(User()), Convert.ToString("GetUsersTest failed... ") & errorString)
+        Assert.IsInstanceOfType(dataObjects, GetType(Route4MeManager.GetUsersResponse), "GetUsersTest failed... " & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub UpdateUserTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
-        Dim params As New MemberParametersV4() With { _
-            .member_id = 220461, _
-            .member_phone = "571-259-5939" _
+        Dim params As MemberParametersV4 = New MemberParametersV4 With {
+            .member_id = lsMembers(lsMembers.Count - 1),
+            .member_phone = "571-259-5939"
         }
 
-        ' Run the query
         Dim errorString As String = ""
         Dim result As MemberResponseV4 = route4Me.UserUpdate(params, errorString)
 
-        Assert.IsNotNull(result, Convert.ToString("UpdateUserTest failed... ") & errorString)
+        Assert.IsNotNull(result, "UpdateUserTest failed... " & errorString)
     End Sub
 
     <TestMethod> _
@@ -5800,23 +6133,237 @@ End Class
 
 <TestClass()> Public Class VehiclesGroup
     Shared c_ApiKey As String = "11111111111111111111111111111111"
+    Shared lsVehicleIDs As List(Of String)
 
-    <TestMethod> _
-    Public Sub GetVehiclesTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+    <ClassInitialize()>
+    Public Shared Sub VehiclesGroupInitialize(ByVal context As TestContext)
+        lsVehicleIDs = New List(Of String)()
 
-        Dim vehicleParameters As New VehicleParameters() With { _
-            .Limit = 10, _
-            .Offset = 0 _
+        Dim vehicleGroup As VehiclesGroup = New VehiclesGroup()
+
+        Dim vehicles As VehiclesPaginated = vehicleGroup.getVehilesList()
+
+        If vehicles.Total < 1 Then
+            Dim newVehicle As VehicleV4Parameters = New VehicleV4Parameters() With {
+                .VehicleAlias = "Ford Transit Test 6"
+            }
+            Dim vehicle As VehicleV4Response = vehicleGroup.createVehicle(newVehicle)
+            lsVehicleIDs.Add(vehicle.VehicleId)
+        Else
+
+            For Each veh1 As VehicleV4Response In vehicles.Data
+                lsVehicleIDs.Add(veh1.VehicleId)
+            Next
+        End If
+    End Sub
+
+    <TestMethod>
+    Public Sub GetVehiclesListTest()
+        Dim vehicles As VehiclesPaginated = getVehilesList()
+    End Sub
+
+    Public Function getVehilesList() As VehiclesPaginated
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim vehicleParameters As VehicleParameters = New VehicleParameters With {
+            .WithPagination = True,
+            .Page = 1,
+            .PerPage = 10
+        }
+        Dim errorString As String = ""
+        Dim vehicles As VehiclesPaginated = route4Me.GetVehicles(vehicleParameters, errorString)
+        Assert.IsInstanceOfType(vehicles, GetType(VehiclesPaginated), "getVehilesList failed... " & errorString)
+        Return vehicles
+    End Function
+
+    Public Function createVehicle(ByVal vehicleParams As VehicleV4Parameters) As VehicleV4Response
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim errorString As String = ""
+        Dim result As VehicleV4Response = route4Me.CreateVehicle(vehicleParams, errorString)
+
+        Assert.IsNotNull(result, "CreatetVehiclTest failed... " & errorString)
+
+        Return result
+    End Function
+
+    <TestMethod>
+    Public Sub CreatetVehicleTest()
+        Dim commonVehicleParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+            .VehicleAlias = "Ford Transit Test 6"
         }
 
-        ' Run the query
-        Dim errorString As String = ""
-        Dim vehicles As VehicleResponse() = route4Me.GetVehicles(vehicleParameters, errorString)
+        Dim commonVehicle As VehicleV4Response = createVehicle(commonVehicleParams)
+        Dim class6TruckParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+            .VehicleAlias = "GMC TopKick C5500",
+            .VehicleVin = "SAJXA01A06FN08012",
+            .VehicleLicensePlate = "CVH4561",
+            .VehicleModel = "TopKick C5500",
+            .VehicleModelYear = 1995,
+            .VehicleYearAcquired = 2008,
+            .VehicleRegCountryId = 223,
+            .VehicleMake = "GMC",
+            .VehicleTypeID = "pickup_truck",
+            .VehicleAxleCount = 2,
+            .MpgCity = 7,
+            .MpgHighway = 14,
+            .FuelType = "diesel",
+            .HeightInches = 97,
+            .HeightMetric = 243,
+            .WeightLb = 19000,
+            .MaxWeightPerAxleGroupInPounds = 9500,
+            .MaxWeightPerAxleGroupMetric = 4300,
+            .WidthInInches = 96,
+            .WidthMetric = 240,
+            .LengthInInches = 244,
+            .LengthMetric = 610,
+            .Use53FootTrailerRouting = "NO",
+            .UseTruckRestrictions = "NO",
+            .DividedHighwayAvoidPreference = "NEUTRAL",
+            .FreewayAvoidPreference = "NEUTRAL",
+            .TruckConfig = "FULLSIZEVAN"
+        }
 
-        Assert.IsInstanceOfType(vehicles, GetType(VehicleResponse()), Convert.ToString("VehiclesGroup failed... ") & errorString)
+        Dim class6Truck As VehicleV4Response = createVehicle(class6TruckParams)
+        Dim class7TruckParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+            .VehicleAlias = "FORD F750",
+            .VehicleVin = "1NPAX6EX2YD550743",
+            .VehicleLicensePlate = "FFV9547",
+            .VehicleModel = "F-750",
+            .VehicleModelYear = 2010,
+            .VehicleYearAcquired = 2018,
+            .VehicleRegCountryId = 223,
+            .VehicleMake = "Ford",
+            .VehicleTypeID = "livestock_carrier",
+            .VehicleAxleCount = 2,
+            .MpgCity = 8,
+            .MpgHighway = 15,
+            .FuelType = "diesel",
+            .HeightInches = 96,
+            .HeightMetric = 244,
+            .WeightLb = 26000,
+            .MaxWeightPerAxleGroupInPounds = 15000,
+            .MaxWeightPerAxleGroupMetric = 6800,
+            .WidthInInches = 96,
+            .WidthMetric = 240,
+            .LengthInInches = 312,
+            .LengthMetric = 793,
+            .Use53FootTrailerRouting = "NO",
+            .UseTruckRestrictions = "YES",
+            .DividedHighwayAvoidPreference = "FAVOR",
+            .FreewayAvoidPreference = "NEUTRAL",
+            .TruckConfig = "26_STRAIGHT_TRUCK",
+            .TollRoadUsage = "ALWAYS_AVOID",
+            .InternationalBordersOpen = "NO",
+            .PurchasedNew = True
+        }
+
+        Dim class7Truck As VehicleV4Response = createVehicle(class7TruckParams)
+        Dim class8TruckParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+            .VehicleAlias = "Peterbilt 579",
+            .VehicleVin = "1NP5DB9X93N507873",
+            .VehicleLicensePlate = "PPV7516",
+            .VehicleModel = "579",
+            .VehicleModelYear = 2015,
+            .VehicleYearAcquired = 2018,
+            .VehicleRegCountryId = 223,
+            .VehicleMake = "Peterbilt",
+            .VehicleTypeID = "tractor_trailer",
+            .VehicleAxleCount = 5,
+            .MpgCity = 6,
+            .MpgHighway = 12,
+            .FuelType = "diesel",
+            .HeightInches = 114,
+            .HeightMetric = 290,
+            .WeightLb = 50350,
+            .MaxWeightPerAxleGroupInPounds = 40000,
+            .MaxWeightPerAxleGroupMetric = 18000,
+            .WidthInInches = 102,
+            .WidthMetric = 258,
+            .LengthInInches = 640,
+            .LengthMetric = 1625,
+            .Use53FootTrailerRouting = "YES",
+            .UseTruckRestrictions = "YES",
+            .DividedHighwayAvoidPreference = "STRONG_FAVOR",
+            .FreewayAvoidPreference = "STRONG_AVOID",
+            .TruckConfig = "53_SEMI_TRAILER",
+            .TollRoadUsage = "ALWAYS_AVOID",
+            .InternationalBordersOpen = "YES",
+            .PurchasedNew = True
+        }
+
+        Dim class8Truck As VehicleV4Response = createVehicle(class8TruckParams)
+
     End Sub
+
+    <TestMethod>
+    Public Sub getVehicleTest()
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim vehicleParameters As VehicleParameters = New VehicleParameters With {
+            .VehicleId = lsVehicleIDs(lsVehicleIDs.Count - 1)
+        }
+
+        Dim errorString As String = ""
+        Dim vehicles As VehicleV4Response = route4Me.GetVehicle(vehicleParameters, errorString)
+
+        Assert.IsInstanceOfType(vehicles, GetType(VehicleV4Response), "getVehicleTest failed... " & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub updateVehicleTest()
+        If lsVehicleIDs.Count < 1 Then
+            Dim newVehicle As VehicleV4Parameters = New VehicleV4Parameters() With {
+                .VehicleAlias = "Ford Transit Test 6"
+            }
+            Dim vehicle As VehicleV4Response = createVehicle(newVehicle)
+            lsVehicleIDs.Add(vehicle.VehicleId)
+        End If
+
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim vehicleParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+            .VehicleId = lsVehicleIDs(lsVehicleIDs.Count - 1),
+            .VehicleAlias = "Ford Transit Test 4",
+            .VehicleModelYear = 1995,
+            .VehicleRegCountryId = 223,
+            .VehicleMake = "Ford",
+            .VehicleAxleCount = 2,
+            .MpgCity = 8,
+            .MpgHighway = 14,
+            .FuelType = "unleaded 93",
+            .HeightInches = 72,
+            .WeightLb = 2000
+        }
+
+        Dim errorString As String = ""
+        Dim vehicles As VehicleV4Response = route4Me.updateVehicle(vehicleParams, errorString)
+
+        Assert.IsInstanceOfType(vehicles, GetType(VehicleV4Response), "updateVehicleTest failed... " & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub deleteVehicleTest()
+        If lsVehicleIDs.Count < 1 Then
+            Dim newVehicle As VehicleV4Parameters = New VehicleV4Parameters() With {
+                .VehicleAlias = "Ford Transit Test 6"
+            }
+            Dim vehicle As VehicleV4Response = createVehicle(newVehicle)
+            lsVehicleIDs.Add(vehicle.VehicleId)
+        End If
+
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim vehicleParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+            .VehicleId = lsVehicleIDs(lsVehicleIDs.Count - 1)
+        }
+
+        Dim errorString As String = ""
+        Dim vehicles As VehicleV4Response = route4Me.deleteVehicle(vehicleParams, errorString)
+
+        Assert.IsInstanceOfType(vehicles, GetType(VehicleV4Response), "updateVehicleTest failed... " & errorString)
+        lsVehicleIDs.RemoveAt(lsVehicleIDs.Count - 1)
+    End Sub
+
 End Class
+
 
 <TestClass()> Public Class GeocodingGroup
     Shared c_ApiKey As String = "11111111111111111111111111111111"
@@ -5835,6 +6382,18 @@ End Class
         Dim result As String = route4Me.Geocoding(geoParams, errorString)
 
         Assert.IsNotNull(result, Convert.ToString("GeocodingForwardTest failed... ") & errorString)
+    End Sub
+
+    <TestMethod> _
+    Public Sub BatchGeocodingForwardTest()
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim geoParams As GeocodingParameters = New GeocodingParameters With {
+            .Addresses = "Los Angeles International Airport, CA" & vbLf & "3495 Purdue St, Cuyahoga Falls, OH 44221",
+            .Format = "json"
+        }
+        Dim errorString As String = ""
+        Dim result As String = route4Me.BatchGeocoding(geoParams, errorString)
+        Assert.IsNotNull(result, "GeocodingForwardTest failed... " & errorString)
     End Sub
 
     <TestMethod> _
@@ -6309,6 +6868,8 @@ End Class
             sqlDB.CloseConnection()
         End Try
     End Sub
+
+
 
 End Class
 
@@ -6890,6 +7451,9 @@ End Class
 Public Class TestDataRepository
     Private c_ApiKey As String = "11111111111111111111111111111111"
 
+    Public Sub New(Optional ByVal apiKey As String = "11111111111111111111111111111111")
+        c_ApiKey = apiKey
+    End Sub
 
     Public Sub New()
     End Sub
