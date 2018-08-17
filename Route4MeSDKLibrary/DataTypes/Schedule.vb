@@ -44,70 +44,22 @@ Namespace Route4MeSDK.DataTypes
         End Sub
 
         <DataMember(Name:="enabled")> _
-        Public Property enabled() As Boolean
-            Get
-                Return m_enabled
-            End Get
-            Set(value As Boolean)
-                m_enabled = value
-            End Set
-        End Property
-        Private m_enabled As Boolean
+        Public Property enabled As Boolean
 
         <DataMember(Name:="mode"), CustomValidation(GetType(PropertyValidation), "ValidateScheduleMode")> _
-        Public Property mode() As String
-            Get
-                Return m_mode
-            End Get
-            Set(value As String)
-                m_mode = value
-            End Set
-        End Property
-        Private m_mode As String
+        Public Property mode As String
 
         <DataMember(Name:="daily", EmitDefaultValue:=False, IsRequired:=False)> _
-        Public Property daily() As schedule_daily
-            Get
-                Return m_daily
-            End Get
-            Set(value As schedule_daily)
-                m_daily = value
-            End Set
-        End Property
-        Private m_daily As schedule_daily
+        Public Property daily As schedule_daily
 
         <DataMember(Name:="weekly", EmitDefaultValue:=False, IsRequired:=False)> _
-        Public Property weekly() As schedule_weekly
-            Get
-                Return m_weekly
-            End Get
-            Set(value As schedule_weekly)
-                m_weekly = value
-            End Set
-        End Property
-        Private m_weekly As schedule_weekly
+        Public Property weekly As schedule_weekly
 
         <DataMember(Name:="monthly", EmitDefaultValue:=False, IsRequired:=False)> _
-        Public Property monthly() As schedule_monthly
-            Get
-                Return m_monthly
-            End Get
-            Set(value As schedule_monthly)
-                m_monthly = value
-            End Set
-        End Property
-        Private m_monthly As schedule_monthly
+        Public Property monthly As schedule_monthly
 
         <DataMember(Name:="annually", EmitDefaultValue:=False, IsRequired:=False)> _
-        Public Property annually() As schedule_annually
-            Get
-                Return m_annually
-            End Get
-            Set(value As schedule_annually)
-                m_annually = value
-            End Set
-        End Property
-        Private m_annually As schedule_annually
+        Public Property annually As schedule_annually
 
         Public Function ValidateScheduleMode(ScheduleMode As Object) As Boolean
             If ScheduleMode Is Nothing Then
@@ -267,159 +219,108 @@ Namespace Route4MeSDK.DataTypes
 
     <DataContract> _
     Public Class schedule_daily
+
+        Public Sub New(ByVal _every As Integer)
+            every = _every
+        End Sub
+
+        Public Sub New()
+
+        End Sub
+
         <DataMember(Name:="every")> _
-        Public Property every() As Integer
-            Get
-                Return m_every
-            End Get
-            Set(value As Integer)
-                m_every = Value
-            End Set
-        End Property
-        Private m_every As Integer
+        Public Property every As Integer
+
     End Class
 
     <DataContract> _
     Public Class schedule_weekly
+
+        Public Sub New(ByVal _every As Integer, ByVal _weekdays As Integer())
+            every = _every
+            weekdays = _weekdays
+        End Sub
+
+        Public Sub New()
+
+        End Sub
+
         <DataMember(Name:="every")> _
-        Public Property every() As Integer
-            Get
-                Return m_every
-            End Get
-            Set(value As Integer)
-                m_every = Value
-            End Set
-        End Property
-        Private m_every As Integer
+        Public Property every As Integer
 
         <DataMember(Name:="weekdays", EmitDefaultValue:=False), Range(1, 7, ErrorMessage:="Weekday must be between 1 and 7")> _
-        Public Property weekdays() As Integer()
-            Get
-                Return m_weekdays
-            End Get
-            Set(value As Integer())
-                m_weekdays = Value
-            End Set
-        End Property
-        Private m_weekdays As Integer()
+        Public Property weekdays As Integer()
     End Class
 
     <DataContract> _
     Public Class schedule_monthly_nth
+        Public Sub New(Optional ByVal _n As Integer = 1, Optional ByVal _what As Integer = 1)
+            n = _n
+            what = _what
+        End Sub
+
+        Public Sub New()
+
+        End Sub
+
         <DataMember(Name:="n", EmitDefaultValue:=False), CustomValidation(GetType(PropertyValidation), "ValidateMonthlyNthN")> _
-        Public Property n() As Integer
-            Get
-                Return m_n
-            End Get
-            Set(value As Integer)
-                m_n = Value
-            End Set
-        End Property
-        Private m_n As Integer
+        Public Property n As Integer
 
         <DataMember(Name:="what", EmitDefaultValue:=False), Range(1, 10, ErrorMessage:="Wrong value for the What Time parameter")> _
-        Public Property what() As Integer
-            Get
-                Return m_what
-            End Get
-            Set(value As Integer)
-                m_what = Value
-            End Set
-        End Property
-        Private m_what As Integer
+        Public Property what As Integer
+
     End Class
 
     <DataContract> _
     Public Class schedule_monthly
+
+        Public Sub New(Optional ByVal _every As Integer = 1, Optional ByVal _mode As String = "dates", Optional ByVal _dates As Integer() = Nothing, Optional ByVal _nth As Dictionary(Of Integer, Integer) = Nothing)
+            every = _every
+            mode = _mode
+            If _dates IsNot Nothing Then dates = _dates
+
+            If _nth IsNot Nothing Then
+                Dim _n As Integer = -1
+                Dim _what As Integer = -1
+
+                For Each kv1 As KeyValuePair(Of Integer, Integer) In _nth
+                    _n = kv1.Key
+                    _what = kv1.Value
+                Next
+
+                If _n <> -1 AndAlso _what <> -1 Then
+                    Me.nth = New schedule_monthly_nth(_n, _what)
+                End If
+            End If
+        End Sub
+
         <DataMember(Name:="every")> _
-        Public Property every() As Integer
-            Get
-                Return m_every
-            End Get
-            Set(value As Integer)
-                m_every = Value
-            End Set
-        End Property
-        Private m_every As Integer
+        Public Property every As Integer
 
         <DataMember(Name:="mode"), CustomValidation(GetType(PropertyValidation), "ValidateScheduleMonthlyMode")> _
-        Public Property mode() As String
-            Get
-                Return m_mode
-            End Get
-            Set(value As String)
-                m_mode = Value
-            End Set
-        End Property
-        Private m_mode As String
+        Public Property mode As String
 
         <DataMember(Name:="dates", EmitDefaultValue:=False), Range(1, 31, ErrorMessage:="Month day must be between 1 and 31")> _
-        Public Property dates() As Integer()
-            Get
-                Return m_dates
-            End Get
-            Set(value As Integer())
-                m_dates = Value
-            End Set
-        End Property
-        Private m_dates As Integer()
+        Public Property dates As Integer()
 
         <DataMember(Name:="nth", EmitDefaultValue:=False)> _
-        Public Property nth() As schedule_monthly_nth
-            Get
-                Return m_nth
-            End Get
-            Set(value As schedule_monthly_nth)
-                m_nth = Value
-            End Set
-        End Property
-        Private m_nth As schedule_monthly_nth
+        Public Property nth As schedule_monthly_nth
+
     End Class
 
     <DataContract> _
     Public Class schedule_annually
         <DataMember(Name:="every")> _
-        Public Property every() As Integer
-            Get
-                Return m_every
-            End Get
-            Set(value As Integer)
-                m_every = Value
-            End Set
-        End Property
-        Private m_every As Integer
+        Public Property every As Integer
 
         <DataMember(Name:="use_nth")> _
-        Public Property use_nth() As Boolean
-            Get
-                Return m_use_nth
-            End Get
-            Set(value As Boolean)
-                m_use_nth = Value
-            End Set
-        End Property
-        Private m_use_nth As Boolean
+        Public Property use_nth As Boolean
 
         <DataMember(Name:="months", EmitDefaultValue:=False), Range(1, 12, ErrorMessage:="Month number must be between 1 and 12")> _
-        Public Property months() As Integer()
-            Get
-                Return m_months
-            End Get
-            Set(value As Integer())
-                m_months = Value
-            End Set
-        End Property
-        Private m_months As Integer()
+        Public Property months As Integer()
 
         <DataMember(Name:="nth", EmitDefaultValue:=False)> _
-        Public Property nth() As schedule_monthly_nth
-            Get
-                Return m_nth
-            End Get
-            Set(value As schedule_monthly_nth)
-                m_nth = Value
-            End Set
-        End Property
-        Private m_nth As schedule_monthly_nth
+        Public Property nth As schedule_monthly_nth
+
     End Class
 End Namespace

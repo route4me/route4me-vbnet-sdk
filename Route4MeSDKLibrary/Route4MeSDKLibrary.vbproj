@@ -59,6 +59,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -83,6 +84,7 @@
     <Compile Include="DataTypes\AddressNote.vb" />
     <Compile Include="DataTypes\AvoidanceZone.vb" />
     <Compile Include="DataTypes\cDatabase.vb" />
+    <Compile Include="DataTypes\CustomNoteType.vb" />
     <Compile Include="DataTypes\DataObject.vb" />
     <Compile Include="DataTypes\Direction.vb" />
     <Compile Include="DataTypes\EnumHelper.vb" />
@@ -108,6 +110,8 @@
     <Compile Include="DataTypes\TrackingHistory.vb" />
     <Compile Include="DataTypes\User.vb" />
     <Compile Include="DataTypes\VehicleResponse.vb" />
+    <Compile Include="DataTypes\VehiclesPaginated.vb" />
+    <Compile Include="DataTypes\VehicleV4Response.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -145,6 +149,7 @@
     <Compile Include="QueryTypes\RouteParametersQuery.vb" />
     <Compile Include="QueryTypes\TerritoryQuery.vb" />
     <Compile Include="QueryTypes\VehicleParameters.vb" />
+    <Compile Include="QueryTypes\VehicleV4Parameters.vb" />
     <Compile Include="Route4MeManager.vb" />
     <Compile Include="Types.vb" />
     <Compile Include="Utils.vb" />

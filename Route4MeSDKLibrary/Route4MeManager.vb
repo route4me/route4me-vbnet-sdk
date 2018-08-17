@@ -1,6 +1,9 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 'Imports Route4MeSDKLibrary.DataTypes
+Imports System
+Imports System.Collections
+Imports System.Web.Http
 Imports System.Collections.Generic
 Imports System.Net.Http
 Imports System.Net.Http.Headers
@@ -1045,9 +1048,14 @@ Namespace Route4MeSDK
 #End Region
 
 #Region "Users"
+        <DataContract>
+        Public NotInheritable Class GetUsersResponse
+            <DataMember(Name:="results")>
+            Public Property results As MemberResponseV4()
+        End Class
 
-        Public Function GetUsers(parameters As GenericParameters, ByRef errorString As String) As User()
-            Dim result = GetJsonObjectFromAPI(Of User())(parameters, R4MEInfrastructureSettings.GetUsersHost, HttpMethodType.[Get], errorString)
+        Public Function GetUsers(ByVal parameters As GenericParameters, ByRef errorString As String) As GetUsersResponse
+            Dim result = GetJsonObjectFromAPI(Of GetUsersResponse)(parameters, R4MEInfrastructureSettings.GetUsersHost, HttpMethodType.[Get], errorString)
 
             Return result
         End Function
@@ -1263,65 +1271,31 @@ Namespace Route4MeSDK
         <DataContract> _
         Private NotInheritable Class AddAddressNoteResponse
             <DataMember(Name:="status")> _
-            Public Property Status() As Boolean
-                Get
-                    Return m_Status
-                End Get
-                Set(value As Boolean)
-                    m_Status = value
-                End Set
-            End Property
-            Private m_Status As Boolean
+            Public Property Status As Boolean
 
             <DataMember(Name:="note")> _
-            Public Property Note() As AddressNote
-                Get
-                    Return m_Note
-                End Get
-                Set(value As AddressNote)
-                    m_Note = value
-                End Set
-            End Property
-            Private m_Note As AddressNote
+            Public Property Note As AddressNote
         End Class
 
-        Public Function AddAddressNote(noteParameters As NoteParameters, noteContents As String, ByRef errorString As String) As AddressNote
-            Dim keyValues = New List(Of KeyValuePair(Of String, String))()
-            Dim strUpdateType = "unclassified"
-            If noteParameters.ActivityType IsNot Nothing AndAlso noteParameters.ActivityType.Length > 0 Then
-                strUpdateType = noteParameters.ActivityType
-            End If
-            keyValues.Add(New KeyValuePair(Of String, String)("strUpdateType", strUpdateType))
-            keyValues.Add(New KeyValuePair(Of String, String)("strNoteContents", noteContents))
-            Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
-
-            Dim response As AddAddressNoteResponse = GetJsonObjectFromAPI(Of AddAddressNoteResponse)(noteParameters, R4MEInfrastructureSettings.AddRouteNotesHost, HttpMethodType.Post, httpContent, errorString)
-            If response IsNot Nothing Then
-                If response.Note IsNot Nothing Then
-                    Return response.Note
-                Else
-                    If response.Status = False Then
-                        errorString = "Note not added"
-                    End If
-                    Return Nothing
-                End If
-            Else
-                Return Nothing
-            End If
+        Public Function AddAddressNote(ByVal noteParameters As NoteParameters, ByVal noteContents As String, ByRef errorString As String) As AddressNote
+            Return Me.AddAddressNote(noteParameters, noteContents, Nothing, errorString)
         End Function
 
-        Public Function AddAddressNote(noteParameters As NoteParameters, noteContents As String, attachmentFilePath As String, ByRef errorString As String) As AddressNote
+        Public Function AddAddressNote(ByVal noteParameters As NoteParameters, ByVal noteContents As String, ByVal attachmentFilePath As String, ByRef errorString As String) As AddressNote
             Dim strUpdateType = "unclassified"
+
             If noteParameters.ActivityType IsNot Nothing AndAlso noteParameters.ActivityType.Length > 0 Then
                 strUpdateType = noteParameters.ActivityType
             End If
+
             Dim httpContent As HttpContent = Nothing
             Dim attachmentFileStream As FileStream = Nothing
             Dim attachmentStreamContent As StreamContent = Nothing
+
             If attachmentFilePath IsNot Nothing Then
                 attachmentFileStream = File.OpenRead(attachmentFilePath)
                 attachmentStreamContent = New StreamContent(attachmentFileStream)
-                Dim multipartFormDataContent As New MultipartFormDataContent()
+                Dim multipartFormDataContent As MultipartFormDataContent = New MultipartFormDataContent()
                 multipartFormDataContent.Add(attachmentStreamContent, "strFilename", Path.GetFileName(attachmentFilePath))
                 multipartFormDataContent.Add(New StringContent(strUpdateType), "strUpdateType")
                 multipartFormDataContent.Add(New StringContent(noteContents), "strNoteContents")
@@ -1332,24 +1306,121 @@ Namespace Route4MeSDK
                 keyValues.Add(New KeyValuePair(Of String, String)("strNoteContents", noteContents))
                 httpContent = New FormUrlEncodedContent(keyValues)
             End If
+
             Dim response As AddAddressNoteResponse = GetJsonObjectFromAPI(Of AddAddressNoteResponse)(noteParameters, R4MEInfrastructureSettings.AddRouteNotesHost, HttpMethodType.Post, httpContent, errorString)
+
             If attachmentStreamContent IsNot Nothing Then
                 attachmentStreamContent.Dispose()
             End If
+
             If attachmentFileStream IsNot Nothing Then
                 attachmentFileStream.Dispose()
             End If
+
             If response IsNot Nothing Then
+
                 If response.Note IsNot Nothing Then
                     Return response.Note
                 Else
+
                     If response.Status = False Then
                         errorString = "Note not added"
                     End If
+
                     Return Nothing
                 End If
             Else
                 Return Nothing
+            End If
+        End Function
+
+        Public Function addCustomNoteToRoute(ByVal noteParameters As NoteParameters, ByVal customNotes As Dictionary(Of String, String), ByRef errorString As String) As Object
+            Dim keyValues = New List(Of KeyValuePair(Of String, String))()
+
+            For Each kv1 As KeyValuePair(Of String, String) In customNotes
+                keyValues.Add(New KeyValuePair(Of String, String)(kv1.Key, kv1.Value))
+            Next
+
+            Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
+            Dim response As AddAddressNoteResponse = GetJsonObjectFromAPI(Of AddAddressNoteResponse)(noteParameters, R4MEInfrastructureSettings.AddRouteNotesHost, HttpMethodType.Post, httpContent, errorString)
+            If response Is Nothing Then Return errorString
+            If response.[GetType]() <> GetType(AddAddressNoteResponse) Then Return "Can not add custom note to the route"
+
+            If response.Status Then
+                Return response.Note
+            Else
+                Return "Can not add custom note to the route"
+            End If
+        End Function
+
+        <DataContract>
+        Private NotInheritable Class AddCustomNoteTypeRequest
+            Inherits GenericParameters
+
+            <DataMember(Name:="type", EmitDefaultValue:=False)>
+            Public Property Type As String
+
+            <DataMember(Name:="values", EmitDefaultValue:=False)>
+            Public Property Values As String()
+        End Class
+
+        <DataContract>
+        Private NotInheritable Class AddCustomNoteTypeResponse
+            <DataMember(Name:="result")>
+            Public Property Result As String
+
+            <DataMember(Name:="affected")>
+            Public Property Affected As Integer
+        End Class
+
+        Public Function AddCustomNoteType(ByVal customType As String, ByVal values As String(), ByRef errorString As String) As Object
+            Dim request As AddCustomNoteTypeRequest = New AddCustomNoteTypeRequest() With {
+                .Type = customType,
+                .Values = values
+            }
+            Dim response As AddCustomNoteTypeResponse = GetJsonObjectFromAPI(Of AddCustomNoteTypeResponse)(request, R4MEInfrastructureSettings.CustomNoteType, HttpMethodType.Post, errorString)
+
+            If response IsNot Nothing Then
+                Return If(response.Result = "OK", response.Affected, -1)
+            Else
+                Return errorString
+            End If
+        End Function
+
+        <DataContract>
+        Private NotInheritable Class getAllCustomNoteTypesRequest
+            Inherits GenericParameters
+        End Class
+
+        Public Function getAllCustomNoteTypes(ByRef errorString As String) As Object
+            Dim request As getAllCustomNoteTypesRequest = New getAllCustomNoteTypesRequest()
+            Dim response As CustomNoteType() = GetJsonObjectFromAPI(Of CustomNoteType())(request, R4MEInfrastructureSettings.CustomNoteType, HttpMethodType.[Get], errorString)
+
+            If response IsNot Nothing Then
+                Return response
+            Else
+                Return errorString
+            End If
+        End Function
+
+        <DataContract>
+        Private NotInheritable Class removeCustomNoteTypeRequest
+            Inherits GenericParameters
+
+            <DataMember(Name:="id", EmitDefaultValue:=False)>
+            Public Property id As Integer
+        End Class
+
+        Public Function removeCustomNoteType(ByVal customNoteId As Integer, ByRef errorString As String) As Object
+            Dim request As removeCustomNoteTypeRequest = New removeCustomNoteTypeRequest() With {
+                .id = customNoteId
+            }
+            Dim response As AddCustomNoteTypeResponse = GetJsonObjectFromAPI(Of AddCustomNoteTypeResponse)(request, R4MEInfrastructureSettings.CustomNoteType, HttpMethodType.Delete, errorString)
+
+            If response IsNot Nothing Then
+                Return If(response.Result = "OK", response.Affected, -1)
+            Else
+                Return errorString
             End If
         End Function
 
@@ -2550,26 +2621,10 @@ Namespace Route4MeSDK
             Inherits GenericParameters
 
             <HttpQueryMemberAttribute(Name:="addresses", EmitDefaultValue:=False)> _
-            Public Property Addresses() As String
-                Get
-                    Return m_Addresses
-                End Get
-                Set(value As String)
-                    m_Addresses = value
-                End Set
-            End Property
-            Private m_Addresses As String
+            Public Property Addresses As String
 
             <HttpQueryMemberAttribute(Name:="format", EmitDefaultValue:=False)> _
-            Public Property Format() As String
-                Get
-                    Return m_Format
-                End Get
-                Set(value As String)
-                    m_Format = value
-                End Set
-            End Property
-            Private m_Format As String
+            Public Property Format As String
 
         End Class
 
@@ -2578,27 +2633,12 @@ Namespace Route4MeSDK
         <DataContract> _
         Private NotInheritable Class RapidStreetResponse
             <DataMember(Name:="zipcode")> _
-            Public Property Zipcode() As String
-                Get
-                    Return m_Zipcode
-                End Get
-                Set(value As String)
-                    m_Zipcode = value
-                End Set
-            End Property
-            Private m_Zipcode As String
+            Public Property Zipcode As String
 
             <DataMember(Name:="street_name")> _
-            Public Property StreetName() As String
-                Get
-                    Return m_StreetName
-                End Get
-                Set(value As String)
-                    m_StreetName = value
-                End Set
-            End Property
-            Private m_StreetName As String
+            Public Property StreetName As String
         End Class
+
 
         Public Function Geocoding(geoParams As GeocodingParameters, ByRef errorString As String) As String
             Dim request As New GeocodingRequest With { _
@@ -2608,6 +2648,17 @@ Namespace Route4MeSDK
 
             Dim response As String = GetXmlObjectFromAPI(Of String)(request, R4MEInfrastructureSettings.Geocoder, HttpMethodType.Post, DirectCast(Nothing, HttpContent), False, errorString)
 
+            Return response.ToString()
+        End Function
+
+        Public Function BatchGeocoding(ByVal geoParams As GeocodingParameters, ByRef errorString As String) As String
+            Dim request As New GeocodingRequest 
+
+            Dim keyValues = New List(Of KeyValuePair(Of String, String))()
+            keyValues.Add(New KeyValuePair(Of String, String)("strExportFormat", geoParams.Format))
+            keyValues.Add(New KeyValuePair(Of String, String)("addresses", geoParams.Addresses))
+            Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
+            Dim response As String = GetJsonObjectFromAPI(Of String)(request, R4MEInfrastructureSettings.Geocoder, HttpMethodType.Post, httpContent, True, errorString)
             Return response.ToString()
         End Function
 
@@ -2724,12 +2775,34 @@ Namespace Route4MeSDK
         ''' <param name="vehParams"> Parameters for request </param>
         ''' <param name="errorString"> out: Error as string </param>
         ''' <returns> Vehicle object list </returns>
-        Public Function GetVehicles(vehParams As VehicleParameters, ByRef errorString As String) As VehicleResponse()
-
-            Dim response As VehicleResponse() = GetJsonObjectFromAPI(Of VehicleResponse())(vehParams, R4MEInfrastructureSettings.ViewVehicles, HttpMethodType.[Get], errorString)
+        Public Function GetVehicles(ByVal vehParams As VehicleParameters, ByRef errorString As String) As VehiclesPaginated
+            Dim response As VehiclesPaginated = GetJsonObjectFromAPI(Of VehiclesPaginated)(vehParams, R4MEInfrastructureSettings.Vehicle_V4, HttpMethodType.[Get], errorString)
 
             Return response
+        End Function
 
+        Public Function CreateVehicle(ByVal vehicle As VehicleV4Parameters, ByRef errorString As String) As VehicleV4Response
+            Dim newVehicle As VehicleV4Response = GetJsonObjectFromAPI(Of VehicleV4Response)(vehicle, R4MEInfrastructureSettings.Vehicle_V4, HttpMethodType.Post, errorString)
+
+            Return newVehicle
+        End Function
+
+        Public Function GetVehicle(ByVal vehParams As VehicleParameters, ByRef errorString As String) As VehicleV4Response
+            Dim response As VehicleV4Response = GetJsonObjectFromAPI(Of VehicleV4Response)(vehParams, R4MEInfrastructureSettings.Vehicle_V4, HttpMethodType.[Get], errorString)
+
+            Return response
+        End Function
+
+        Public Function updateVehicle(ByVal vehParams As VehicleV4Parameters, ByRef errorString As String) As VehicleV4Response
+            Dim response As VehicleV4Response = GetJsonObjectFromAPI(Of VehicleV4Response)(vehParams, R4MEInfrastructureSettings.Vehicle_V4 & "/" + vehParams.VehicleId, HttpMethodType.Put, errorString)
+
+            Return response
+        End Function
+
+        Public Function deleteVehicle(ByVal vehParams As VehicleV4Parameters, ByRef errorString As String) As VehicleV4Response
+            Dim response As VehicleV4Response = GetJsonObjectFromAPI(Of VehicleV4Response)(vehParams, R4MEInfrastructureSettings.Vehicle_V4 & "/" + vehParams.VehicleId, HttpMethodType.Delete, errorString)
+
+            Return response
         End Function
 
 #End Region
@@ -2760,123 +2833,95 @@ Namespace Route4MeSDK
             Return result
         End Function
 
-        Private Function GetJsonObjectFromAPI(Of T As Class)(optimizationParameters As GenericParameters, url As String, httpMethod__1 As HttpMethodType, httpContent As HttpContent, isString As Boolean, ByRef errorMessage As String) As T
+        Private Function GetJsonObjectFromAPI(Of T As Class)(ByVal optimizationParameters As GenericParameters, ByVal url As String, ByVal httpMethod1 As HttpMethodType, ByVal httpContent As HttpContent, ByVal isString As Boolean, ByRef errorMessage As String) As T
             Dim result As T = Nothing
             errorMessage = String.Empty
 
             Try
+
                 Using httpClient As HttpClient = CreateHttpClient(url)
-                    ' Get the parameters
                     Dim parametersURI As String = optimizationParameters.Serialize(m_ApiKey)
 
-                    Select Case httpMethod__1
+                    Select Case httpMethod1
                         Case HttpMethodType.[Get]
-                            If True Then
-                                Dim response = httpClient.GetStreamAsync(parametersURI)
-                                response.Wait()
+                            Dim response = httpClient.GetStreamAsync(parametersURI)
+                            response.Wait()
 
-                                If response.IsCompleted Then
-                                    'var test = m_isTestMode ? response.Result.ReadString() : null;
-                                    result = If(isString, response.Result.ReadString(), response.Result.ReadObject(Of T)())
-                                End If
-
-                                Exit Select
+                            If response.IsCompleted Then
+                                result = If(isString, TryCast(response.Result.ReadString(), T), response.Result.ReadObject(Of T)())
                             End If
-                        Case HttpMethodType.FileUpload
-                            If True Then
-                                Dim myWebClient As New System.Net.WebClient()
-                                Dim uriString As String
-                                Dim filename As String
-                                uriString = "https://www.route4me.com/actions/addRouteNotes.php?api_key=11111111111111111111111111111111&route_id=4728372005DE97EF9E4205852D690E34&address_id=182302891&dev_lat=29.452769&dev_lng=-95.845939&device_type=web&strUpdateType=ANY_FILE"
-                                filename = "notes.csv"
-                                Dim uri As System.Uri = New Uri(uriString)
 
-
-                                myWebClient.UploadFileAsync(uri, "POST", filename)
-
-                                'Console.WriteLine(ControlChars.Cr & "Response Received.The contents of the file uploaded are: " & _
-                                'ControlChars.Cr & "{0}", System.Text.Encoding.ASCII.GetString(responseArray))
-
-                            End If
+                            Exit Select
                         Case HttpMethodType.Post, HttpMethodType.Put, HttpMethodType.Delete
-                            If True Then
-                                Dim isPut As Boolean = httpMethod__1 = HttpMethodType.Put
-                                Dim isDelete As Boolean = httpMethod__1 = HttpMethodType.Delete
-                                Dim content As HttpContent = Nothing
-                                If httpContent IsNot Nothing Then
-                                    content = httpContent
-                                Else
-                                    Dim jsonString As String = R4MeUtils.SerializeObjectToJson(optimizationParameters)
-                                    content = New StringContent(jsonString)
-                                End If
+                            Dim isPut As Boolean = httpMethod1 = HttpMethodType.Put
+                            Dim isDelete As Boolean = httpMethod1 = HttpMethodType.Delete
+                            Dim content As HttpContent = Nothing
 
-                                Dim response As Task(Of HttpResponseMessage) = Nothing
-                                If isPut Then
-                                    response = httpClient.PutAsync(parametersURI, content)
-                                ElseIf isDelete Then
-                                    Dim request As New HttpRequestMessage() With { _
-                                        .Content = content, _
-                                        .Method = HttpMethod.Delete, _
-                                        .RequestUri = New Uri(parametersURI, UriKind.Relative) _
-                                    }
-                                    response = httpClient.SendAsync(request)
-                                Else
-                                    'Dim request As New HttpRequestMessage() With { _
-                                    '    .Content = content, _
-                                    '    .Method = HttpMethod.Post, _
-                                    '    .RequestUri = New Uri(parametersURI, UriKind.Relative) _
-                                    '}
-                                    'request.Headers.Add("User-agent", "Mozilla/5.0 (Windows NT 6.3; Trident/7.0; .NET4.0E; .NET4.0C; rv:11.0) like Gecko")
-                                    'response = httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead)
-
-                                    response = httpClient.PostAsync(parametersURI, content)
-
-                                End If
-
-                                ' Wait for response
-                                response.Wait()
-
-                                ' Check if successful
-                                If response.IsCompleted AndAlso response.Result.IsSuccessStatusCode AndAlso TypeOf response.Result.Content Is StreamContent Then
-                                    Dim streamTask = DirectCast(response.Result.Content, StreamContent).ReadAsStreamAsync()
-                                    streamTask.Wait()
-
-                                    If streamTask.IsCompleted Then
-                                        'var test = m_isTestMode ? streamTask.Result.ReadString() : null;
-                                        'Dim test As VariantType = streamTask.Result.ReadString()
-                                        result = If(isString, TryCast(streamTask.Result.ReadString(), T), streamTask.Result.ReadObject(Of T)())
-                                    End If
-                                Else
-                                    Dim streamTask = DirectCast(response.Result.Content, StreamContent).ReadAsStreamAsync()
-                                    streamTask.Wait()
-                                    Dim errorResponse As ErrorResponse = Nothing
-                                    Try
-                                        errorResponse = streamTask.Result.ReadObject(Of ErrorResponse)()
-                                    Catch
-                                        ' (Exception e)
-                                        errorResponse = Nothing
-                                    End Try
-                                    If errorResponse IsNot Nothing AndAlso errorResponse.Errors IsNot Nothing AndAlso errorResponse.Errors.Count > 0 Then
-                                        For Each [error] As [String] In errorResponse.Errors
-                                            If errorMessage.Length > 0 Then
-                                                errorMessage += "; "
-                                            End If
-                                            errorMessage += [error]
-                                        Next
-                                    Else
-                                        Dim responseStream = response.Result.Content.ReadAsStringAsync()
-                                        responseStream.Wait()
-                                        Dim responseString As [String] = responseStream.Result
-                                        If responseString IsNot Nothing Then
-                                            errorMessage = "Response: " + responseString
-                                        End If
-                                    End If
-                                End If
-
-                                Exit Select
+                            If httpContent IsNot Nothing Then
+                                content = httpContent
+                            Else
+                                Dim jsonString As String = R4MeUtils.SerializeObjectToJson(optimizationParameters)
+                                content = New StringContent(jsonString)
+                                content.Headers.ContentType = New MediaTypeHeaderValue("application/json")
                             End If
+
+                            Dim response As Task(Of HttpResponseMessage) = Nothing
+
+                            If isPut Then
+                                response = httpClient.PutAsync(parametersURI, content)
+                            ElseIf isDelete Then
+                                Dim request As HttpRequestMessage = New HttpRequestMessage With {
+                                    .Content = content,
+                                    .Method = HttpMethod.Delete,
+                                    .RequestUri = New Uri(parametersURI, UriKind.Relative)
+                                }
+                                response = httpClient.SendAsync(request)
+                            Else
+                                response = httpClient.PostAsync(parametersURI, content)
+                            End If
+
+                            response.Wait()
+
+                            If response.IsCompleted AndAlso response.Result.IsSuccessStatusCode AndAlso TypeOf response.Result.Content Is StreamContent Then
+                                Dim streamTask = (CType(response.Result.Content, StreamContent)).ReadAsStreamAsync()
+                                streamTask.Wait()
+
+                                If streamTask.IsCompleted Then
+                                    result = If(isString, TryCast(streamTask.Result.ReadString(), T), streamTask.Result.ReadObject(Of T)())
+                                End If
+                            Else
+                                Dim streamTask = (CType(response.Result.Content, StreamContent)).ReadAsStreamAsync()
+                                streamTask.Wait()
+                                Dim errorResponse As ErrorResponse = Nothing
+
+                                Try
+                                    errorResponse = streamTask.Result.ReadObject(Of ErrorResponse)()
+                                Catch
+                                    errorResponse = Nothing
+                                End Try
+
+                                If errorResponse IsNot Nothing AndAlso errorResponse.Errors IsNot Nothing AndAlso errorResponse.Errors.Count > 0 Then
+
+                                    For Each [error] As String In errorResponse.Errors
+                                        If errorMessage.Length > 0 Then errorMessage += "; "
+                                        errorMessage += [error]
+                                    Next
+                                Else
+                                    Dim responseStream = response.Result.Content.ReadAsStringAsync()
+                                    responseStream.Wait()
+                                    Dim responseString As String = responseStream.Result
+                                    If responseString IsNot Nothing Then errorMessage = "Response: " & responseString
+                                End If
+                            End If
+
+                            Exit Select
                     End Select
                 End Using
+
+            Catch e As HttpResponseException
+                'errorMessage = If(TypeOf e Is AggregateException, e.InnerException.Message, e.Message)
+                errorMessage = e.Response.ToString() & " --- " & errorMessage
+                result = Nothing
             Catch e As Exception
                 errorMessage = If(TypeOf e Is AggregateException, e.InnerException.Message, e.Message)
                 result = Nothing
