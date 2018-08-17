@@ -4,25 +4,21 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub GetVehicles()
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
-
-            Dim vehicleParameters As New VehicleParameters() With { _
-                .Limit = 10, _
-                .Offset = 0 _
+            Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+            Dim vehicleParameters As VehicleParameters = New VehicleParameters With {
+                .WithPagination = True,
+                .Page = 1,
+                .PerPage = 10
             }
-
-            ' Run the query
             Dim errorString As String = ""
-            Dim vehicles As VehicleResponse() = route4Me.GetVehicles(vehicleParameters, errorString)
-
+            Dim vehicles As VehiclesPaginated = route4Me.GetVehicles(vehicleParameters, errorString)
             Console.WriteLine("")
 
             If vehicles IsNot Nothing Then
-                Console.WriteLine("GetVehicles executed successfully, {0} vehicles returned", vehicles.Length)
+                Console.WriteLine("GetVehicles executed successfully, {0} vehicles returned", vehicles.Total)
                 Console.WriteLine("")
 
-                For Each vehicle As VehicleResponse In vehicles
+                For Each vehicle As VehicleV4Response In vehicles.Data
                     Console.WriteLine("Vehicle ID: {0}", vehicle.VehicleId)
                 Next
 

@@ -4,21 +4,20 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub GetUsers()
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
-
-            Dim parameters As New GenericParameters()
-
-            ' Run the query
-            Dim errorString As String = ""
-            Dim dataObjects As User() = route4Me.GetUsers(parameters, errorString)
-
+            Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+            Dim parameters As GenericParameters = New GenericParameters()
+            Dim errorString As String
+            Dim dataObjects As Route4MeManager.GetUsersResponse = route4Me.GetUsers(parameters, errorString)
             Console.WriteLine("")
 
             If dataObjects IsNot Nothing Then
-                Console.WriteLine("GetUsers executed successfully, {0} users returned", dataObjects.Length)
 
-                Console.WriteLine("")
+                If dataObjects.results IsNot Nothing Then
+                    Console.WriteLine("GetUsers executed successfully, {0} users returned", dataObjects.results.Length)
+                    Console.WriteLine("")
+                Else
+                    Console.WriteLine("GetUsers error: {0}", errorString)
+                End If
             Else
                 Console.WriteLine("GetUsers error: {0}", errorString)
             End If
