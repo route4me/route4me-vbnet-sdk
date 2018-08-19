@@ -1,7 +1,5 @@
 Route4Me Route Optimization Examples.sln
 Route4Me Route Optimization Examples/Route4Me Route Optimization Examples.vbproj
-shortTest.cs
-*.userprefs
 /**/obj/
 /packages/
 /TestResults/
