@@ -456,6 +456,8 @@ End Class
 
 <TestClass()> Public Class RouteTypesGroup
     Shared skip As String
+    ' The optimizations with the Trucking, Multiple Depots, Multiple Drivers allowed only for business and higher account types 
+    ' put in the parameter an appropriate API key
     Shared c_ApiKey As String = "11111111111111111111111111111111"
     Shared c_ApiKey_1 As String = "11111111111111111111111111111111"
     Shared tdr As New TestDataRepository()
@@ -3432,6 +3434,144 @@ End Class
         Dim result As Boolean = route4Me.MergeRoutes(mergeRoutesParameters, errorString)
 
         Assert.IsTrue(result, Convert.ToString("MergeRoutesTest failed... ") & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub TruckingSingleDriverMultipleTimeWindowsTest()
+        If skip = "yes" Then Return
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim addresses As Address() = New Address() {New Address() With { _
+            .AddressString = "455 S 4th St, Louisville, KY 40202", _
+            .IsDepot = True, _
+            .Latitude = 38.251698, _
+            .Longitude = -85.757308 _
+        }, New Address() With { _
+            .AddressString = "1604 PARKRIDGE PKWY, Louisville, KY, 40214", _
+            .Latitude = 38.141598, _
+            .Longitude = -85.7938461, _
+            .TimeWindowStart = 7 * 3600 + 30 * 60, _
+            .TimeWindowEnd = 7 * 3600 + 40 * 60, _
+            .TimeWindowStart2 = 8 * 3600 + 0 * 60, _
+            .TimeWindowEnd2 = 8 * 3600 + 10 * 60, _
+            .Time = 300 _
+        }, New Address() With { _
+            .AddressString = "1407 MCCOY, Louisville, KY, 40215", _
+            .Latitude = 38.202496, _
+            .Longitude = -85.786514, _
+            .TimeWindowStart = 8 * 3600 + 30 * 60, _
+            .TimeWindowEnd = 8 * 3600 + 40 * 60, _
+            .TimeWindowStart2 = 8 * 3600 + 50 * 60, _
+            .TimeWindowEnd2 = 9 * 3600 + 0 * 60, _
+            .Time = 300 _
+        }, New Address() With { _
+            .AddressString = "4805 BELLEVUE AVE, Louisville, KY, 40215", _
+            .Latitude = 38.178844, _
+            .Longitude = -85.774864, _
+            .TimeWindowStart = 9 * 3600 + 0 * 60, _
+            .TimeWindowEnd = 9 * 3600 + 15 * 60, _
+            .TimeWindowStart2 = 9 * 3600 + 30 * 60, _
+            .TimeWindowEnd2 = 9 * 3600 + 45 * 60, _
+            .Time = 100 _
+        }, New Address() With { _
+            .AddressString = "730 CECIL AVENUE, Louisville, KY, 40211", _
+            .Latitude = 38.248684, _
+            .Longitude = -85.821121, _
+            .TimeWindowStart = 10 * 3600 + 0 * 60, _
+            .TimeWindowEnd = 10 * 3600 + 15 * 60, _
+            .TimeWindowStart2 = 10 * 3600 + 30 * 60, _
+            .TimeWindowEnd2 = 10 * 3600 + 45 * 60, _
+            .Time = 300 _
+        }, New Address() With { _
+            .AddressString = "650 SOUTH 29TH ST UNIT 315, Louisville, KY, 40211", _
+            .Latitude = 38.251923, _
+            .Longitude = -85.800034, _
+            .TimeWindowStart = 11 * 3600 + 0 * 60, _
+            .TimeWindowEnd = 11 * 3600 + 15 * 60, _
+            .TimeWindowStart2 = 11 * 3600 + 30 * 60, _
+            .TimeWindowEnd2 = 11 * 3600 + 45 * 60, _
+            .Time = 300 _
+        }, New Address() With { _
+            .AddressString = "4629 HILLSIDE DRIVE, Louisville, KY, 40216", _
+            .Latitude = 38.176067, _
+            .Longitude = -85.824638, _
+            .TimeWindowStart = 12 * 3600 + 0 * 60, _
+            .TimeWindowEnd = 12 * 3600 + 15 * 60, _
+            .TimeWindowStart2 = 12 * 3600 + 30 * 60, _
+            .TimeWindowEnd2 = 12 * 3600 + 45 * 60, _
+            .Time = 300 _
+        }, New Address() With { _
+            .AddressString = "4738 BELLEVUE AVE, Louisville, KY, 40215", _
+            .Latitude = 38.179806, _
+            .Longitude = -85.775558, _
+            .TimeWindowStart = 13 * 3600 + 0 * 60, _
+            .TimeWindowEnd = 13 * 3600 + 15 * 60, _
+            .TimeWindowStart2 = 13 * 3600 + 30 * 60, _
+            .TimeWindowEnd2 = 13 * 3600 + 45 * 60, _
+            .Time = 300 _
+        }, New Address() With { _
+            .AddressString = "318 SO. 39TH STREET, Louisville, KY, 40212", _
+            .Latitude = 38.259335, _
+            .Longitude = -85.815094, _
+            .TimeWindowStart = 14 * 3600 + 0 * 60, _
+            .TimeWindowEnd = 14 * 3600 + 15 * 60, _
+            .TimeWindowStart2 = 14 * 3600 + 30 * 60, _
+            .TimeWindowEnd2 = 14 * 3600 + 45 * 60, _
+            .Time = 300 _
+        }, New Address() With { _
+            .AddressString = "1324 BLUEGRASS AVE, Louisville, KY, 40215", _
+            .Latitude = 38.179253, _
+            .Longitude = -85.785118, _
+            .TimeWindowStart = 15 * 3600 + 0 * 60, _
+            .TimeWindowEnd = 15 * 3600 + 15 * 60, _
+            .TimeWindowStart2 = 15 * 3600 + 30 * 60, _
+            .TimeWindowEnd2 = 15 * 3600 + 45 * 60, _
+            .Time = 300 _
+        }, New Address() With { _
+            .AddressString = "7305 ROYAL WOODS DR, Louisville, KY, 40214", _
+            .Latitude = 38.162472, _
+            .Longitude = -85.792854, _
+            .TimeWindowStart = 16 * 3600 + 0 * 60, _
+            .TimeWindowEnd = 16 * 3600 + 15 * 60, _
+            .TimeWindowStart2 = 16 * 3600 + 30 * 60, _
+            .TimeWindowEnd2 = 16 * 3600 + 45 * 60, _
+            .Time = 300 _
+        }}
+
+        Dim parameters As New RouteParameters() With { _
+            .AlgorithmType = AlgorithmType.CVRP_TW_SD, _
+            .RouteName = "Trucking SD Multiple TW 09-02-2018 from c# SDK " & DateTime.Now.ToString("yymMddHHmmss"), _
+            .OptimizationQuality = 3, _
+            .DeviceType = DeviceType.Web.GetEnumDescription(), _
+            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(), _
+            .Dirm = 3, _
+            .DM = 6, _
+            .Optimize = Optimize.TimeWithTraffic.GetEnumDescription(), _
+            .RouteMaxDuration = 8 * 3600 + 30 * 60, _
+            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.Date.AddDays(1)), _
+            .RouteTime = 7 * 3600 + 0 * 60, _
+            .StoreRoute = True, _
+            .TravelMode = TravelMode.Trucking.GetEnumDescription(), _
+            .VehicleMaxCargoVolume = 30, _
+            .VehicleCapacity = 10, _
+            .VehicleMaxDistanceMI = 10000, _
+            .TruckHeightMeters = 4, _
+            .TruckLengthMeters = 12, _
+            .TruckWidthMeters = 3, _
+            .TrailerWeightT = 10, _
+            .WeightPerAxleT = 10, _
+            .LimitedWeightT = 20, _
+            .RT = True _
+        }
+
+        Dim optimizationParameters As OptimizationParameters = New OptimizationParameters() With { _
+            .Addresses = addresses, _
+            .Parameters = parameters _
+        }
+        Dim errorString As String
+        dataObject = route4Me.RunOptimization(optimizationParameters, errorString)
+        Assert.IsNotNull(dataObject, "SingleDriverMultipleTimeWindowsTest failed... " & errorString)
+        tdr.RemoveOptimization(New String() {dataObject.OptimizationProblemId})
     End Sub
 
     <TestMethod> _
