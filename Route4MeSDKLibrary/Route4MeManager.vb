@@ -5,6 +5,7 @@ Imports System
 Imports System.Collections
 Imports System.Web.Http
 Imports System.Collections.Generic
+Imports System.Net
 Imports System.Net.Http
 Imports System.Net.Http.Headers
 Imports System.Runtime.Serialization
@@ -3032,6 +3033,8 @@ Namespace Route4MeSDK
         End Function
 
         Private Function CreateHttpClient(url As String) As HttpClient
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 Or CType(768, SecurityProtocolType) Or CType(3072, SecurityProtocolType)
+
             Dim result As New HttpClient() With { _
                 .BaseAddress = New Uri(url) _
             }
