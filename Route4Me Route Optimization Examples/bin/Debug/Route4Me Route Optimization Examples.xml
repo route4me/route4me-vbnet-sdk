@@ -2,253 +2,310 @@
 <doc>
 <assembly>
 <name>
-Route4MeRouteOptimizationExamples
+Route4Me Route Optimization Examples
 </name>
 </assembly>
 <members>
-<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MarkAddressAsMarkedAsDeparted(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AddressParameters)">
-	<summary>
- Mark Address As Marked As Departed
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RapidStreetServiceLimited">
-	<summary>
- Rapid Street Service Limited
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RapidStreetDataSingle">
-	<summary>
- Rapid Street Data Single
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ReverseGeocoding">
-	<summary>
- Reverse geocoding
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.DeleteUser">
-	<summary>
- Remove User
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RouteSharing(System.String,System.String)">
-	<summary>
- Sharing a Route with someone by email
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddRectAvoidanceZone">
-	<summary>
- Add Rectangular Avoidance Zone
- </summary>
-	<returns> Id of added territory </returns>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrders">
-	<summary>
- Get Orders
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveTerritory">
-	<summary>
- Remove Territory
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ValidateSession">
-	<summary>
- Validate Session
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MarkAddressDeparted(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AddressParameters)">
-	<summary>
- Mark Addressas  Departed
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddAvoidanceZone">
-	<summary>
- Add Avoidance Zone
- </summary>
-	<returns> Id of added territory </returns>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetAvoidanceZones">
-	<summary>
- Get Avoidance Zone list
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrderByID(System.Int32)">
-	<summary>
- Get single Order by order_id
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetUserById">
-	<summary>
- Get User By ID
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddOrder">
-	<summary>
- Add Order
- </summary>
-	<returns> Added Order </returns>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateOrder(Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order)">
-	<summary>
- Update Order
- </summary>
-	<param name="order"> Order with updated attributes </param>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetTerritory">
-	<summary>
- Get Territory
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateTerritory">
-	<summary>
- Update Territory
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateAvoidanceZone(System.String)">
-	<summary>
- Update Avoidance Zone
- </summary>
-	<param name="territoryId"> Avoidance Zone Id </param>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetSpecificConfigurationKeyData">
-	<summary>
- Get Specific Configuration Key Value (v4)
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateConfigurationKey">
-	<summary>
- Update a Configuration Key Value
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RapidStreetDataAll">
-	<summary>
- Rapid Street Data All
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveOrders(System.String[])">
-	<summary>
- Remove Orders
- </summary>
-	<param name="orderIds"> Order Ids </param>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ResequenceReoptimizeRoute(System.String)">
-	<summary>
- Resequence and Reoptimze a Route
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UserRegistration">
-	<summary>
- User Registration
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddPolygonAvoidanceZone">
-	<summary>
- Add Polygon Avoidance Zone
- </summary>
-	<returns> Id of added territory </returns>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetAvoidanceZone(System.String)">
-	<summary>
- Get Avoidance Zone
- </summary>
-	<param name="territoryId"> Avoidance Zone Id </param>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveOptimization(System.String[])">
-	<summary>
- Remove Optimization
- </summary>
-	<param name="optimizationProblemIDs"> Optimization Problem IDs </param>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GenericExample">
-	<summary>
- This example demonstares how to use the API in a generic way, not bounded to the proposed Route4MeManager shortcucts
- For the same functionality using shortcuts check the Route4MeExamples.GenericExampleShortcut()
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GeocodingForward(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GeocodingParameters)">
-	<summary>
- Forward geocoding
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveConfigurationKey">
-	<summary>
- Remove a Configuration Key
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RapidStreetServiceAll">
-	<summary>
- Rapid Street Service All
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.CreateUser">
-	<summary>
- User Registration (v4)
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrdersByCustomFields(System.String)">
-	<summary>
- Get Orders by Custom Fields
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrderByScheduledDate(System.String)">
-	<summary>
- Get Orders by Scheduled Date
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddNewConfigurationKey">
-	<summary>
- Create New Configuration Key
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetAllConfigurationData">
-	<summary>
- Get All Configuration Data
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.LogSpecificMessage">
-	<summary>
- Log Specific Message
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ResequenceRouteDestination(System.String,System.Int32)">
-	<summary>
- Resequence Route Destination
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetTerritories">
-	<summary>
- Get Territories
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MarkAddressVisited(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AddressParameters)">
-	<summary>
- Mark Address Visited
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.CreatePolygonTerritory">
-	<summary>
- Add Polygon Territory
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.FindAsset">
-	<summary>
- Find Asset (Asset tracking)
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateUser">
-	<summary>
- Update an User
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrderByInsertedDate(System.String)">
-	<summary>
- Get Orders by Inserted Date
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.CreateRectTerritory">
-	<summary>
- Add Rectangle Territory
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.DeleteAvoidanceZone(System.String)">
-	<summary>
- Delete Avoidance Zone
- </summary>
-	<param name="territoryId"> Avoidance Zone Id </param>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RapidStreetZipcodeLimited">
-	<summary>
- Rapid Street Zipcode Limited
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrdersBySpecifiedText(System.String)">
-	<summary>
- Get Orders by Specified Text
- </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.CreateTerritory">
-	<summary>
- Add Avoidance Zone
- </summary>
-</member><member name="P:Route4Me_Route_Optimization_Examples.My.Resources.Resources.ResourceManager">
-	<summary>
+<member name="T:Route4Me_Route_Optimization_Examples.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Route4Me_Route_Optimization_Examples.My.Resources.Resources.ResourceManager">
+<summary>
   Returns the cached ResourceManager instance used by this class.
 </summary>
-</member><member name="P:Route4Me_Route_Optimization_Examples.My.Resources.Resources.Culture">
-	<summary>
+</member>
+<member name="P:Route4Me_Route_Optimization_Examples.My.Resources.Resources.Culture">
+<summary>
   Overrides the current thread's CurrentUICulture property for all
   resource lookups using this strongly typed resource class.
 </summary>
-</member><member name="T:Route4Me_Route_Optimization_Examples.My.Resources.Resources">
-	<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MarkAddressAsMarkedAsVisited(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AddressParameters)">
-	<summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MarkAddressAsMarkedAsVisited(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AddressParameters)">
+ <summary>
  Mark Address As Marked As Visited
  </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RapidStreetDataLimited">
-	<summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MarkAddressAsMarkedAsDeparted(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AddressParameters)">
+ <summary>
+ Mark Address As Marked As Departed
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MarkAddressDeparted(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AddressParameters)">
+ <summary>
+ Mark Addressas  Departed
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MarkAddressVisited(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AddressParameters)">
+ <summary>
+ Mark Address Visited
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddAvoidanceZone">
+ <summary>
+ Add Avoidance Zone
+ </summary>
+ <returns> Id of added territory </returns>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddPolygonAvoidanceZone">
+ <summary>
+ Add Polygon Avoidance Zone
+ </summary>
+ <returns> Id of added territory </returns>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddRectAvoidanceZone">
+ <summary>
+ Add Rectangular Avoidance Zone
+ </summary>
+ <returns> Id of added territory </returns>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.DeleteAvoidanceZone(System.String)">
+ <summary>
+ Delete Avoidance Zone
+ </summary>
+ <param name="territoryId"> Avoidance Zone Id </param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GenericExample">
+ <summary>
+ This example demonstares how to use the API in a generic way, not bounded to the proposed Route4MeManager shortcucts
+ For the same functionality using shortcuts check the Route4MeExamples.GenericExampleShortcut()
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetAvoidanceZone(System.String)">
+ <summary>
+ Get Avoidance Zone
+ </summary>
+ <param name="territoryId"> Avoidance Zone Id </param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetAvoidanceZones">
+ <summary>
+ Get Avoidance Zone list
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GeocodingForward(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GeocodingParameters)">
+ <summary>
+ Forward geocoding
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RapidStreetDataAll">
+ <summary>
+ Rapid Street Data All
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RapidStreetDataLimited">
+ <summary>
  Rapid Street Data Limited
  </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RapidStreetZipcodeAll">
-	<summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RapidStreetDataSingle">
+ <summary>
+ Rapid Street Data Single
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RapidStreetServiceAll">
+ <summary>
+ Rapid Street Service All
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RapidStreetServiceLimited">
+ <summary>
+ Rapid Street Service Limited
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RapidStreetZipcodeAll">
+ <summary>
  Rapid Street Zipcode All
  </summary>
-</member><member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UserAuthentication">
-	<summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RapidStreetZipcodeLimited">
+ <summary>
+ Rapid Street Zipcode Limited
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ReverseGeocoding">
+ <summary>
+ Reverse geocoding
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddNewConfigurationKey">
+ <summary>
+ Create New Configuration Key
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetAllConfigurationData">
+ <summary>
+ Get All Configuration Data
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetSpecificConfigurationKeyData">
+ <summary>
+ Get Specific Configuration Key Value (v4)
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveConfigurationKey">
+ <summary>
+ Remove a Configuration Key
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateConfigurationKey">
+ <summary>
+ Update a Configuration Key Value
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.CreateUser">
+ <summary>
+ User Registration (v4)
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.DeleteUser">
+ <summary>
+ Remove User
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetUserById">
+ <summary>
+ Get User By ID
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.LogSpecificMessage">
+ <summary>
+ Log Specific Message
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateUser">
+ <summary>
+ Update an User
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveOptimization(System.String[])">
+ <summary>
+ Remove Optimization
+ </summary>
+ <param name="optimizationProblemIDs"> Optimization Problem IDs </param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddOrder">
+ <summary>
+ Add Order
+ </summary>
+ <returns> Added Order </returns>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrders">
+ <summary>
+ Get Orders
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrderByID(System.Int32)">
+ <summary>
+ Get single Order by order_id
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrderByInsertedDate(System.String)">
+ <summary>
+ Get Orders by Inserted Date
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrdersByCustomFields(System.String)">
+ <summary>
+ Get Orders by Custom Fields
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrderByScheduledDate(System.String)">
+ <summary>
+ Get Orders by Scheduled Date
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrdersBySpecifiedText(System.String)">
+ <summary>
+ Get Orders by Specified Text
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveOrders(System.String[])">
+ <summary>
+ Remove Orders
+ </summary>
+ <param name="orderIds"> Order Ids </param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateOrder(Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order)">
+ <summary>
+ Update Order
+ </summary>
+ <param name="order"> Order with updated attributes </param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ResequenceReoptimizeRoute(System.String)">
+ <summary>
+ Resequence and Reoptimze a Route
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ResequenceRouteDestination(System.String,System.Int32)">
+ <summary>
+ Resequence Route Destination
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RouteSharing(System.String,System.String)">
+ <summary>
+ Sharing a Route with someone by email
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.CreatePolygonTerritory">
+ <summary>
+ Add Polygon Territory
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.CreateRectTerritory">
+ <summary>
+ Add Rectangle Territory
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.CreateTerritory">
+ <summary>
+ Add Avoidance Zone
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetTerritories">
+ <summary>
+ Get Territories
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetTerritory">
+ <summary>
+ Get Territory
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveTerritory">
+ <summary>
+ Remove Territory
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateTerritory">
+ <summary>
+ Update Territory
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateAvoidanceZone(System.String)">
+ <summary>
+ Update Avoidance Zone
+ </summary>
+ <param name="territoryId"> Avoidance Zone Id </param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UserAuthentication">
+ <summary>
  User Authetntication
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UserRegistration">
+ <summary>
+ User Registration
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ValidateSession">
+ <summary>
+ Validate Session
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.FindAsset">
+ <summary>
+ Find Asset (Asset tracking)
  </summary>
 </member>
 </members>
