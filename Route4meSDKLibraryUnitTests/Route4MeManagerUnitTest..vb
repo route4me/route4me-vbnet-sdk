@@ -7183,6 +7183,8 @@ End Class
                     Continue While
                 End If
 
+                sched0.from = DateTime.Now.ToString("yyyy-MM-dd")
+
                 Dim blNth As Boolean = False
                 If sched0.ValidateScheduleMonthlyMode(sched_monthly_mode) Then
                     If sched_monthly_mode = "nth" Then

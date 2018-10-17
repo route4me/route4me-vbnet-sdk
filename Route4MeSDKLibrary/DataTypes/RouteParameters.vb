@@ -187,18 +187,18 @@ Namespace Route4MeSDK.DataTypes
 
         'for routes that have trucking directions enabled, directions generated
         'will ensure compliance of this maximum height of truck when generating road network driving directions
-        <DataMember(Name:="truck_height", EmitDefaultValue:=False)> _
-        Public Property TruckHeightMeters As System.Nullable(Of Integer)
+        <DataMember(Name:="truck_height", EmitDefaultValue:=False)>
+        Public Property TruckHeightMeters As System.Nullable(Of Double)
 
         'for routes that have trucking directions enabled, directions generated
         'will ensure compliance of this width of the truck when generating road network driving directions
-        <DataMember(Name:="truck_width", EmitDefaultValue:=False)> _
-        Public Property TruckWidthMeters As System.Nullable(Of Integer)
+        <DataMember(Name:="truck_width", EmitDefaultValue:=False)>
+        Public Property TruckWidthMeters As System.Nullable(Of Double)
 
         'for routes that have trucking directions enabled, directions generated
         'will ensure compliance of this length of the truck when generating road network driving directions
-        <DataMember(Name:="truck_length", EmitDefaultValue:=False)> _
-        Public Property TruckLengthMeters As System.Nullable(Of Integer)
+        <DataMember(Name:="truck_length", EmitDefaultValue:=False)>
+        Public Property TruckLengthMeters As System.Nullable(Of Double)
 
         'the minimum number of stops permitted per created subroute
         <DataMember(Name:="min_tour_size", EmitDefaultValue:=False)> _

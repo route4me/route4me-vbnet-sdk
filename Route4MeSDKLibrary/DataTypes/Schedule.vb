@@ -1,4 +1,5 @@
 ﻿Imports System.Collections.Generic
+Imports System.Globalization
 Imports System.Runtime.Serialization
 Imports System.ComponentModel.DataAnnotations
 
@@ -43,8 +44,11 @@ Namespace Route4MeSDK.DataTypes
             End Select
         End Sub
 
-        <DataMember(Name:="enabled")> _
+        <DataMember(Name:="enabled")>
         Public Property enabled As Boolean
+
+        <DataMember(Name:="from"), CustomValidation(GetType(PropertyValidation), "ValidateScheduleFrom")>
+        Public Property from As String
 
         <DataMember(Name:="mode"), CustomValidation(GetType(PropertyValidation), "ValidateScheduleMode")> _
         Public Property mode As String
@@ -74,6 +78,17 @@ Namespace Route4MeSDK.DataTypes
         Public Function ValidateScheduleEnabled(ScheduleEnabled As Object) As Boolean
             Dim blValid As Boolean = False
             If Boolean.TryParse(ScheduleEnabled.ToString(), blValid) Then
+                Return True
+            Else
+                Return False
+            End If
+        End Function
+
+        Public Function ValidateScheduleFrom(ByVal ScheduleFrom As Object) As Boolean
+            Dim blValid As Boolean = False
+            Dim dtOut As DateTime = DateTime.MinValue
+
+            If DateTime.TryParseExact(ScheduleFrom.ToString(), "yyyy-MM-dd", New CultureInfo("fr-FR"), DateTimeStyles.None, dtOut) Then
                 Return True
             Else
                 Return False
