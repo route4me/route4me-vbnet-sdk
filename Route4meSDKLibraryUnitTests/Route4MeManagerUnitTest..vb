@@ -6281,7 +6281,7 @@ End Class
 
         Dim vehicleGroup As VehiclesGroup = New VehiclesGroup()
 
-        Dim vehicles As VehiclesPaginated = vehicleGroup.getVehilesList()
+        Dim vehicles As VehiclesPaginated = vehicleGroup.getVehiclesList()
 
         If vehicles.Total < 1 Then
             Dim newVehicle As VehicleV4Parameters = New VehicleV4Parameters() With {
@@ -6299,10 +6299,10 @@ End Class
 
     <TestMethod>
     Public Sub GetVehiclesListTest()
-        Dim vehicles As VehiclesPaginated = getVehilesList()
+        Dim vehicles As VehiclesPaginated = getVehiclesList()
     End Sub
 
-    Public Function getVehilesList() As VehiclesPaginated
+    Public Function getVehiclesList() As VehiclesPaginated
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
         Dim vehicleParameters As VehicleParameters = New VehicleParameters With {
             .WithPagination = True,
