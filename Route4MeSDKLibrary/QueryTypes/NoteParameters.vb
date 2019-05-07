@@ -1,7 +1,13 @@
-﻿Namespace Route4MeSDK.QueryTypes
+﻿Imports System.Runtime.Serialization
+Namespace Route4MeSDK.QueryTypes
 
     Public NotInheritable Class NoteParameters
         Inherits GenericParameters
+
+        Public Sub New()
+            Format = "json"
+        End Sub
+
         <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
         Public Property RouteId As String
 
