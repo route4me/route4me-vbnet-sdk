@@ -48,7 +48,23 @@
       <HintPath>..\packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="fastJSON">
+      <HintPath>..\packages\fastJSON.2.2.0.1\lib\net40\fastJSON.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SocketIoClientDotNet">
+      <HintPath>lib\SocketIoClientDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine">
+      <HintPath>lib\SuperSocket.ClientEngine.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -64,6 +80,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="WebSocket4Net">
+      <HintPath>lib\WebSocket4Net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -82,6 +101,8 @@
     <Compile Include="DataTypes\Address.vb" />
     <Compile Include="DataTypes\AddressBookContact.vb" />
     <Compile Include="DataTypes\AddressBookContactsResponse.vb" />
+    <Compile Include="DataTypes\AddressForGeocoding.vb" />
+    <Compile Include="DataTypes\AddressGeocoded.vb" />
     <Compile Include="DataTypes\AddressNote.vb" />
     <Compile Include="DataTypes\AvoidanceZone.vb" />
     <Compile Include="DataTypes\cDatabase.vb" />
@@ -113,6 +134,11 @@
     <Compile Include="DataTypes\VehicleResponse.vb" />
     <Compile Include="DataTypes\VehiclesPaginated.vb" />
     <Compile Include="DataTypes\VehicleV4Response.vb" />
+    <Compile Include="FastProcessing\Connection.vb" />
+    <Compile Include="FastProcessing\ConnectionConstants.vb" />
+    <Compile Include="FastProcessing\FastBulkGeocoding.vb" />
+    <Compile Include="FastProcessing\FastFileReading.vb" />
+    <Compile Include="FastProcessing\Options.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
