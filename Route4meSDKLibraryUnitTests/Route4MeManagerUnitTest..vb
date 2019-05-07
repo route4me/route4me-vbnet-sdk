@@ -178,7 +178,7 @@ End Class
         Dim errorString As String = ""
         Dim dataObject As DataObjectRoute = route4Me.UpdateRoute(routeParameters, errorString)
 
-        Assert.IsNotNull(dataObject, Convert.ToString("UpdateRouteTest failed... ") & errorString)
+        Assert.IsNotNull(dataObject, "UpdateRouteTest failed... " & errorString)
     End Sub
 
     <TestMethod> _
