@@ -10,7 +10,7 @@
 
         Public Const ApiVersion As String = "4"
 
-        Public Const MainHost As String = "https://www.route4me.com"
+        Public Const MainHost As String = "https://api.route4me.com"
         Public Const ApiHost As String = MainHost + "/api.v4/optimization_problem.php"
         Public Const ShowRouteHost As String = MainHost + "/route4me.php"
         Public Const RouteHost As String = MainHost + "/api.v4/route.php"
@@ -25,7 +25,7 @@
 
         Public Const AddRouteNotesHost As String = MainHost + "/actions/addRouteNotes.php"
 
-        Public Const GetActivitiesHost As String = MainHost + "/api/get_activities.php"
+        'Public Const GetActivitiesHost As String = MainHost + "/api/get_activities.php"
         Public Const ActivityFeed As String = MainHost + "/api.v4/activity_feed.php"
 
         Public Const GetAddress As String = MainHost + "/api.v4/address.php"
@@ -40,15 +40,22 @@
         Public Const MergeRoutes As String = MainHost + "/actions/merge_routes.php"
         Public Const MarkAddressDeparted As String = MainHost + "/api/route/mark_address_departed.php"
         Public Const MarkAddressVisited As String = MainHost + "/actions/address/update_address_visited.php"
+
+
         Public Const Geocoder As String = MainHost + "/api/geocoder.php"
+        Public Const FastGeocoder As String = MainHost + "/actions/upload/json-geocode.php"
+        Public Const r4meValidator As String = "https://validator.route4me.com:443/"
         Public Const RapidStreetData As String = "https://rapid.route4me.com/street_data"
         Public Const RapidStreetZipcode As String = "https://rapid.route4me.com/street_data/zipcode"
         Public Const RapidStreetService As String = "https://rapid.route4me.com/street_data/service"
+
         'Public Const AssetTracking As String = MainHost + "/api/asset/find_route.php"
         Public Const AssetTracking As String = MainHost + "/api.v4/status.php"
+        Public Const DeviceLocation As String = MainHost + "/api/track/get_device_location.php"
 
         Public Const ViewVehicles As String = MainHost + "/api/vehicles/view_vehicles.php"
         Public Const Vehicle_V4 As String = "https://wh.route4me.com/modules/api/vehicles"
+        'Public Const Vehicle_V4 As String = MainHost + "/api.v4/vehicle.php"
 
         Public Const HybridOptimization As String = MainHost + "/api.v4/hybrid_date_optimization.php"
 
