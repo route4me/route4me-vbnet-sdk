@@ -13,6 +13,9 @@ Imports System.IO
 Imports System.Text
 Imports System.Xml
 Imports System.Threading.Tasks
+Imports System.Threading
+
+
 
 Namespace Route4MeSDK
     ''' <summary>
@@ -51,6 +54,14 @@ Namespace Route4MeSDK
             Dim result = GetJsonObjectFromAPI(Of DataObject)(optimizationParameters, R4MEInfrastructureSettings.ApiHost, HttpMethodType.Post, False, errorString)
 
             Return result
+        End Function
+
+        Public Function RunAsyncOptimization(ByVal optimizationParameters As OptimizationParameters, ByRef errorString As String) As DataObject
+            Dim result As Task(Of Tuple(Of DataObject, String)) = GetJsonObjectFromAPIAsync(Of DataObject)(optimizationParameters, R4MEInfrastructureSettings.ApiHost, HttpMethodType.Post, False)
+            result.Wait()
+            errorString = ""
+            If result.IsFaulted OrElse result.IsCanceled Then errorString = result.Result.Item2
+            Return result.Result.Item1
         End Function
 
         Public Function GetOptimization(optimizationParameters As OptimizationParameters, ByRef errorString As String) As DataObject
@@ -1440,7 +1451,7 @@ Namespace Route4MeSDK
         End Class
 
         Public Function GetActivityFeed(activityParameters As ActivityParameters, ByRef errorString As String) As Activity()
-            Dim response As GetActivitiesResponse = GetJsonObjectFromAPI(Of GetActivitiesResponse)(activityParameters, R4MEInfrastructureSettings.GetActivitiesHost, HttpMethodType.[Get], errorString)
+            Dim response As GetActivitiesResponse = GetJsonObjectFromAPI(Of GetActivitiesResponse)(activityParameters, R4MEInfrastructureSettings.ActivityFeed, HttpMethodType.[Get], errorString)
             Dim result As Activity() = Nothing
             If response IsNot Nothing Then
                 result = response.Results
@@ -2663,6 +2674,45 @@ Namespace Route4MeSDK
             Return response.ToString()
         End Function
 
+        Public Function BatchGeocodingAsync(ByVal geoParams As GeocodingParameters, ByRef errorString As String) As String
+            Dim request As New GeocodingRequest
+
+            Dim keyValues = New List(Of KeyValuePair(Of String, String))()
+            keyValues.Add(New KeyValuePair(Of String, String)("strExportFormat", geoParams.Format))
+            keyValues.Add(New KeyValuePair(Of String, String)("addresses", geoParams.Addresses))
+            Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
+            Dim result As Task(Of Tuple(Of String, String)) = GetJsonObjectFromAPIAsync(Of String)(request, R4MEInfrastructureSettings.Geocoder, HttpMethodType.Post, httpContent, True)
+            result.Wait()
+            errorString = ""
+            If result.IsFaulted OrElse result.IsCanceled Then errorString = result.Result.Item2
+            Return result.Result.Item1
+        End Function
+
+        <DataContract>
+        Public NotInheritable Class uploadAddressesToTemporarryStorageResponse
+            Inherits GenericParameters
+
+            <DataMember(Name:="optimization_problem_id", IsRequired:=False)>
+            Public Property optimization_problem_id As String
+            <DataMember(Name:="temporary_addresses_storage_id", IsRequired:=False)>
+            Public Property temporary_addresses_storage_id As String
+            <DataMember(Name:="address_count", IsRequired:=False)>
+            Public Property address_count As UInteger
+            <DataMember(Name:="status", IsRequired:=False)>
+            Public Property status As Boolean
+        End Class
+
+        Public Function uploadAddressesToTemporarryStorage(ByVal jsonAddresses As String, ByRef errorString As String) As uploadAddressesToTemporarryStorageResponse
+            Dim request As New GeocodingRequest
+
+            Dim content As HttpContent = New StringContent(jsonAddresses)
+            content.Headers.ContentType = New MediaTypeHeaderValue("application/json")
+            Dim result As Tuple(Of uploadAddressesToTemporarryStorageResponse, String) = GetJsonObjectFromAPIAsync(Of uploadAddressesToTemporarryStorageResponse)(request, R4MEInfrastructureSettings.FastGeocoder, HttpMethodType.Post, content, False).GetAwaiter().GetResult()
+            Thread.SpinWait(5000)
+            errorString = result.Item2
+            Return result.Item1
+        End Function
+
         Public Function RapidStreetData(geoParams As GeocodingParameters, ByRef errorString As String) As ArrayList
             Dim request As New GeocodingRequest With { _
                 .Addresses = geoParams.Addresses, _
@@ -2832,6 +2882,98 @@ Namespace Route4MeSDK
             Dim result As T = GetJsonObjectFromAPI(Of T)(optimizationParameters, url, httpMethod, DirectCast(Nothing, HttpContent), isString, errorMessage)
 
             Return result
+        End Function
+
+        Private Async Function GetJsonObjectFromAPIAsync(Of T As Class)(ByVal optimizationParameters As GenericParameters, ByVal url As String, ByVal httpMethod As HttpMethodType, ByVal isString As Boolean) As Task(Of Tuple(Of T, String))
+            Return Await Task.Run(Function()
+                                      Dim result As Task(Of Tuple(Of T, String)) = GetJsonObjectFromAPIAsync(Of T)(optimizationParameters, url, httpMethod, CType(Nothing, HttpContent), isString)
+                                      Return result
+                                  End Function)
+        End Function
+
+        Private Async Function GetJsonObjectFromAPIAsync(Of T As Class)(ByVal optimizationParameters As GenericParameters, ByVal url As String, ByVal httpMethod As HttpMethodType, ByVal httpContent As HttpContent, ByVal isString As Boolean) As Task(Of Tuple(Of T, String))
+            Dim result As T = Nothing
+            Dim errorMessage As String = String.Empty
+
+            Try
+
+                Using httpClient As HttpClient = CreateAsyncHttpClient(url)
+                    Dim parametersURI As String = optimizationParameters.Serialize(m_ApiKey)
+
+                    Select Case httpMethod
+                        Case HttpMethodType.[Get]
+                            Dim response = Await httpClient.GetStreamAsync(parametersURI)
+                            result = If(isString, TryCast(response.ReadString(), T), response.ReadObject(Of T)())
+                            Exit Select
+                        Case HttpMethodType.Post, HttpMethodType.Put, HttpMethodType.Delete
+                            Dim isPut As Boolean = httpMethod = HttpMethodType.Put
+                            Dim isDelete As Boolean = httpMethod = HttpMethodType.Delete
+                            Dim content As HttpContent = Nothing
+
+                            If httpContent IsNot Nothing Then
+                                content = httpContent
+                            Else
+                                Dim jsonString As String = R4MeUtils.SerializeObjectToJson(optimizationParameters)
+                                content = New StringContent(jsonString)
+                                content.Headers.ContentType = New MediaTypeHeaderValue("application/json")
+                            End If
+
+                            Dim response As HttpResponseMessage = Nothing
+
+                            If isPut Then
+                                response = Await httpClient.PutAsync(parametersURI, content)
+                            ElseIf isDelete Then
+                                Dim request As HttpRequestMessage = New HttpRequestMessage With {
+                                    .Content = content,
+                                    .Method = System.Net.Http.HttpMethod.Delete,
+                                    .RequestUri = New Uri(parametersURI, UriKind.Relative)
+                                }
+                                response = Await httpClient.SendAsync(request)
+                            Else
+                                Dim request = New HttpRequestMessage()
+                                response = Await httpClient.PostAsync(parametersURI, content).ConfigureAwait(True)
+                            End If
+
+                            If TypeOf response.Content Is StreamContent Then
+                                Dim streamTask = Await (CType(response.Content, StreamContent)).ReadAsStreamAsync()
+                                result = If(isString, TryCast(streamTask.ReadString(), T), streamTask.ReadObject(Of T)())
+                            Else
+                                Dim streamTask = Await (CType(response.Content, StreamContent)).ReadAsStreamAsync()
+                                Dim errorResponse As ErrorResponse = Nothing
+
+                                Try
+                                    errorResponse = streamTask.ReadObject(Of ErrorResponse)()
+                                Catch
+                                    errorResponse = Nothing
+                                End Try
+
+                                If errorResponse IsNot Nothing AndAlso errorResponse.Errors IsNot Nothing AndAlso errorResponse.Errors.Count > 0 Then
+
+                                    For Each [error] As String In errorResponse.Errors
+                                        If errorMessage.Length > 0 Then errorMessage += "; "
+                                        errorMessage += [error]
+                                    Next
+                                Else
+                                    Dim responseStream = Await response.Content.ReadAsStringAsync()
+                                    Dim responseString As String = responseStream
+                                    If responseString IsNot Nothing Then errorMessage = "Response: " & responseString
+                                End If
+                            End If
+
+                            Exit Select
+                    End Select
+                End Using
+
+            Catch e As HttpResponseException
+                'errorMessage = If(TypeOf e Is AggregateException, e.InnerException.Message, e.Message)
+                errorMessage = e.Response.ToString() & " --- " & errorMessage
+                result = Nothing
+            Catch e As Exception
+                errorMessage = If(TypeOf e Is AggregateException, e.InnerException.Message, e.Message)
+                result = Nothing
+            End Try
+
+            Return New Tuple(Of T, String)(result, errorMessage)
         End Function
 
         Private Function GetJsonObjectFromAPI(Of T As Class)(ByVal optimizationParameters As GenericParameters, ByVal url As String, ByVal httpMethod1 As HttpMethodType, ByVal httpContent As HttpContent, ByVal isString As Boolean, ByRef errorMessage As String) As T
@@ -3029,6 +3171,21 @@ Namespace Route4MeSDK
                 result = Nothing
             End Try
 
+            Return result
+        End Function
+
+        Private Function CreateAsyncHttpClient(ByVal url As String) As HttpClient
+            Dim handler = New HttpClientHandler() With {
+                .AllowAutoRedirect = False
+            }
+            Dim supprotsAutoRdirect = handler.SupportsAutomaticDecompression
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 Or CType(768, SecurityProtocolType) Or CType(3072, SecurityProtocolType)
+            Dim result As HttpClient = New HttpClient(handler) With {
+                .BaseAddress = New Uri(url)
+            }
+            result.Timeout = m_DefaultTimeOut
+            result.DefaultRequestHeaders.Accept.Clear()
+            result.DefaultRequestHeaders.Accept.Add(New MediaTypeWithQualityHeaderValue("application/json"))
             Return result
         End Function
 
