@@ -6716,6 +6716,8 @@ End Class
         Dim result As Boolean = route4Me.DeleteAvoidanceZone(avoidanceZoneQuery, errorString)
 
         Assert.IsTrue(result, Convert.ToString("RemoveAvoidanceZoneTest failed... ") & errorString)
+
+        If result Then lsAvoidanceZones.RemoveAt(0)
     End Sub
 
     <ClassCleanup> _
