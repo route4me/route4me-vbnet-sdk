@@ -8699,7 +8699,7 @@ End Class
         Dim errorString As String = ""
         Dim result As String = route4Me.Geocoding(geoParams, errorString)
 
-        Assert.IsNotNull(result, Convert.ToString("GeocodingForwardTest failed... ") & errorString)
+        Assert.IsNotNull(result, Convert.ToString("GeocodingForwardTest failed. ") & errorString)
     End Sub
 
     <TestMethod> _
