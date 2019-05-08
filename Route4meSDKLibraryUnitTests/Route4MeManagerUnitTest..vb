@@ -178,7 +178,7 @@ End Class
         Dim errorString As String = ""
         Dim dataObject As DataObjectRoute = route4Me.UpdateRoute(routeParameters, errorString)
 
-        Assert.IsNotNull(dataObject, "UpdateRouteTest failed... " & errorString)
+        Assert.IsNotNull(dataObject, Convert.ToString("UpdateRouteTest failed... ") & errorString)
     End Sub
 
     <TestMethod> _
@@ -6165,6 +6165,8 @@ End Class
 
 <TestClass()> Public Class AddressbookContactsGroup
     Shared c_ApiKey As String = ApiKeys.actualApiKey
+    Shared c_ApiKey_1 As String = ApiKeys.demoApiKey
+    Shared skip As String
 
     Shared contact1 As AddressBookContact, contact2 As AddressBookContact
 
@@ -6180,6 +6182,12 @@ End Class
     <ClassInitialize> _
     Public Shared Sub AddAddressBookContactsTest(context As TestContext)
         Dim route4Me As New Route4MeManager(c_ApiKey)
+
+        If c_ApiKey = c_ApiKey_1 Then
+            skip = "yes"
+        Else
+            skip = "no"
+        End If
 
         Dim contact As New AddressBookContact() With { _
             .first_name = "Test FirstName " + (New Random()).[Next]().ToString(), _
@@ -6507,6 +6515,8 @@ End Class
     <TestMethod> _
     Public Sub SearchRoutedLocationsTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
+
+        If skip = "yes" Then Return
 
         Dim addressBookParameters As New AddressBookParameters() With { _
             .Display = "routed", _
