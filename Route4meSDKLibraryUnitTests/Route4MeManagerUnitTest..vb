@@ -29,7 +29,7 @@ End Class
         tdr = New TestDataRepository()
         Dim result As Boolean = tdr.RunOptimizationSingleDriverRoute10Stops()
 
-        Assert.IsTrue(result, "Single Driver 10 Stops generation failed...")
+        Assert.IsTrue(result, "Single Driver 10 Stops generation failed.")
 
         Assert.IsTrue(tdr.SD10Stops_route.Addresses.Length > 0, "The route has no addresses...")
 
