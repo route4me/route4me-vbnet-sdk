@@ -29,7 +29,7 @@ End Class
         tdr = New TestDataRepository()
         Dim result As Boolean = tdr.RunOptimizationSingleDriverRoute10Stops()
 
-        Assert.IsTrue(result, "Single Driver 10 Stops generation failed.")
+        Assert.IsTrue(result, "Single Driver 10 Stops generation failed...")
 
         Assert.IsTrue(tdr.SD10Stops_route.Addresses.Length > 0, "The route has no addresses...")
 
@@ -7437,6 +7437,31 @@ End Class
     End Sub
 
     <TestMethod> _
+    Public Sub GetLastActivitiesTest()
+        Dim route4Me As New Route4MeManager(c_ApiKey)
+
+        Dim activitiesAfterTime As DateTime = DateTime.Now - (New TimeSpan(7, 0, 0, 0))
+        activitiesAfterTime = New DateTime(activitiesAfterTime.Year, activitiesAfterTime.Month, activitiesAfterTime.Day, 0, 0, 0)
+        Dim uiActivitiesAfterTime As UInteger = CUInt(Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ConvertToUnixTimestamp(activitiesAfterTime))
+
+        Dim activityParameters As New ActivityParameters() With { _
+            .Limit = 10, _
+            .Offset = 0, _
+            .Start = 0 _
+        }
+
+        ' Run the query
+        Dim errorString As String = ""
+        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+
+        For Each activity As Activity In activities
+            Dim activityTime As UInteger = If(activity.ActivityTimestamp IsNot Nothing, CUInt(activity.ActivityTimestamp), 0)
+            Assert.IsTrue(activityTime >= uiActivitiesAfterTime, "GetLastActivities failed. " & errorString)
+        Next
+
+    End Sub
+
+    <TestMethod> _
     Public Sub SearchAreaUpdatedTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -7953,6 +7978,33 @@ End Class
     End Sub
 
     <TestMethod> _
+    Public Sub AddRouteDestinationInSpecificPositionTest()
+        Dim route4Me As New Route4MeManager(c_ApiKey)
+
+        Dim route_id As String = tdr.SDRT_route_id
+
+        Assert.IsNotNull(route_id, "rote_id is null...")
+
+        ' Prepare the addresses
+
+        Dim addresses As Address() = New Address() {New Address() With { _
+            .AddressString = "146 Bill Johnson Rd NE Milledgeville GA 31061", _
+            .Latitude = 33.143526, _
+            .Longitude = -83.240354, _
+            .SequenceNo = 3, _
+            .Time = 0 _
+        }}
+
+        ' Run the query
+        Dim optimalPosition As Boolean = False
+        Dim errorString As String = ""
+        Dim destinationIds As Integer() = route4Me.AddRouteDestinations(route_id, addresses, errorString)
+
+        Assert.IsInstanceOfType(destinationIds, GetType(System.Int32()), "AddRouteDestinationsTest failed...")
+
+    End Sub
+
+    <TestMethod> _
     Public Sub RemoveRouteDestinationTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -8218,6 +8270,55 @@ End Class
         Assert.IsTrue(rightResponse = "ok", "CreateUserTest failed... " & errorString)
 
         lsMembers.Add(Convert.ToInt32(result.member_id))
+    End Sub
+
+    <TestMethod>
+    Public Sub AddEditCustomDataToUserTest()
+        If skip = "yes" Then Return
+
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim params As MemberParametersV4 = New MemberParametersV4 With {
+            .HIDE_ROUTED_ADDRESSES = "FALSE",
+            .member_phone = "571-259-5939",
+            .member_zipcode = "22102",
+            .member_email = "regression.autotests+" & DateTime.Now.ToString("yyyyMMddHHmmss") & "@gmail.com",
+            .HIDE_VISITED_ADDRESSES = "FALSE",
+            .READONLY_USER = "FALSE",
+            .member_type = "SUB_ACCOUNT_DISPATCHER",
+            .date_of_birth = "2010",
+            .member_first_name = "Clay",
+            .member_password = "123456",
+            .HIDE_NONFUTURE_ROUTES = "FALSE",
+            .member_last_name = "Abraham",
+            .SHOW_ALL_VEHICLES = "FALSE",
+            .SHOW_ALL_DRIVERS = "FALSE"
+        }
+
+        Dim errorString As String = ""
+        Dim result = route4Me.CreateUser(params, errorString)
+        Dim rightResponse As String = If(result IsNot Nothing, "ok", (If((errorString = "Email is used in system" OrElse errorString = "Registration: The e-mail address is missing or invalid."), "ok", "")))
+
+        Assert.IsTrue(rightResponse = "ok", "CreateUserTest failed... " & errorString)
+
+        lsMembers.Add(Convert.ToInt32(result.member_id))
+
+        Dim customParams As MemberParametersV4 = New MemberParametersV4 With {
+        .member_id = If(result.member_id IsNot Nothing, Convert.ToInt32(result.member_id), -1),
+        .custom_data = New Dictionary(Of String, String)() From {
+            {"Custom Key 2", "Custom Value 2"}
+            }
+        }
+
+        errorString = ""
+        Dim result2 As MemberResponseV4 = route4Me.UserUpdate(customParams, errorString)
+
+        Assert.IsTrue(result2 IsNot Nothing, "UpdateUserTest failed... " & errorString)
+
+        Dim customData As Dictionary(Of String, String) = result2.custom_data
+
+        Assert.IsTrue(customData.Keys.ElementAt(0) = "Custom Key 2", "Custom Key is not 'Custom Key 2'")
+        Assert.IsTrue(customData("Custom Key 2") = "Custom Value 2", "Custom Value is not 'Custom Value 2'")
     End Sub
 
     <TestMethod>
