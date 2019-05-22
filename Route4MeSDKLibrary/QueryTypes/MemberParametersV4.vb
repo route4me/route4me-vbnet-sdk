@@ -181,6 +181,21 @@ Namespace Route4MeSDK.QueryTypes
         End Property
         Private m_member_last_name As String
 
+        <DataMember(Name:="custom_data", EmitDefaultValue:=False)> _
+        Public Property custom_data() As Object
+            Get
+                Return _custom_data
+            End Get
+            Set(value As Object)
+                If value.[GetType]().ToString() = "System.Collections.Generic.Dictionary" Then
+                    _custom_data = value
+                Else
+                    _custom_data = Nothing
+                End If
+            End Set
+        End Property
+        Private _custom_data As Object
+
     End Class
 End Namespace
 
