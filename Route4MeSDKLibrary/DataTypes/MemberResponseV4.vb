@@ -1,7 +1,7 @@
-﻿Imports System.Runtime.Serialization
+﻿Imports System.Collections.Generic
+Imports System.Runtime.Serialization
 
 Namespace Route4MeSDK.DataTypes
-
     <DataContract> _
     Public NotInheritable Class MemberResponseV4
 
@@ -69,18 +69,56 @@ Namespace Route4MeSDK.DataTypes
         Public Property user_reg_state_id As String
 
         <DataMember(Name:="custom_data", EmitDefaultValue:=False)> _
-        Public Property custom_data() As Object
+        Public Property custom_data() As Dictionary(Of String, String)
             Get
-                Return _custom_data
-            End Get
-            Set(value As Object)
-                If value.[GetType]().ToString() = "System.Collections.Generic.Dictionary" Then
-                    _custom_data = value
+                If _custom_data Is Nothing Then
+                    Return Nothing
                 Else
+                    Dim v1 = CType(_custom_data, Dictionary(Of String, String))
+                    Dim v2 As Dictionary(Of String, String) = New Dictionary(Of String, String)()
+
+                    For Each kv1 As KeyValuePair(Of String, String) In v1
+
+                        If kv1.Key IsNot Nothing Then
+
+                            If kv1.Value IsNot Nothing Then
+                                v2.Add(kv1.Key, kv1.Value.ToString())
+                            Else
+                                v2.Add(kv1.Key, "")
+                            End If
+                        Else
+                            Continue For
+                        End If
+                    Next
+                    Return v2
+                End If
+            End Get
+
+            Set(value As Dictionary(Of String, String))
+                If value Is Nothing Then
                     _custom_data = Nothing
+                Else
+                    Dim v1 = CType(value, Dictionary(Of String, String))
+                    Dim v2 As Dictionary(Of String, String) = New Dictionary(Of String, String)()
+
+                    For Each kv1 As KeyValuePair(Of String, String) In v1
+
+                        If kv1.Key IsNot Nothing Then
+
+                            If kv1.Value IsNot Nothing Then
+                                v2.Add(kv1.Key, kv1.Value.ToString())
+                            Else
+                                v2.Add(kv1.Key, "")
+                            End If
+                        Else
+                            Continue For
+                        End If
+                    Next
+                    _custom_data = v2
                 End If
             End Set
         End Property
-        Private _custom_data As Object
+        Private _custom_data As Dictionary(Of String, String)
+
     End Class
 End Namespace
