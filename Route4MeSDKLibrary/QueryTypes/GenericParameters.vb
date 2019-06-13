@@ -22,11 +22,14 @@ Namespace Route4MeSDK.QueryTypes
     <KnownType(GetType(AddressParameters))> _
     <KnownType(GetType(GPSParameters))> _
     <KnownType(GetType(NoteParameters))> _
+    <KnownType(GetType(RouteParameters))> _
     <KnownType(GetType(RouteParametersQuery))> _
     <KnownType(GetType(AvoidanceZoneParameters))> _
     <KnownType(GetType(AvoidanceZoneQuery))> _
     <KnownType(GetType(GeocodingParameters))> _
     <KnownType(GetType(MemberParameters))> _
+    <KnownType(GetType(VehicleV4Parameters))> _
+    <KnownType(GetType(VehicleV4Response))> _
     Public Class GenericParameters
 #Region "Fields"
 
