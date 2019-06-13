@@ -1,6 +1,5 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
-'Imports Route4MeSDKLibrary.DataTypes
 Imports System
 Imports System.Collections
 Imports System.Web.Http
@@ -2856,6 +2855,23 @@ Namespace Route4MeSDK
             Return response
         End Function
 
+#End Region
+
+#Region "Telematics Vendors"
+        Public Function GetAllTelematicsVendors(ByVal vendorParams As TelematicsVendorParameters, ByRef errorString As String) As TelematicsVendorsResponse
+            Dim response As TelematicsVendorsResponse = GetJsonObjectFromAPI(Of TelematicsVendorsResponse)(vendorParams, R4MEInfrastructureSettings.TeleamticsVendorsHost, HttpMethodType.[Get], errorString)
+            Return response
+        End Function
+
+        Public Function GetTelematicsVendor(ByVal vendorParams As TelematicsVendorParameters, ByRef errorString As String) As TelematicsVendorResponse
+            Dim response As TelematicsVendorResponse = GetJsonObjectFromAPI(Of TelematicsVendorResponse)(vendorParams, R4MEInfrastructureSettings.TeleamticsVendorsHost, HttpMethodType.[Get], errorString)
+            Return response
+        End Function
+
+        Public Function SearchTelematicsVendors(ByVal vendorParams As TelematicsVendorParameters, ByRef errorString As String) As TelematicsVendorsSearchResponse
+            Dim response As TelematicsVendorsSearchResponse = GetJsonObjectFromAPI(Of TelematicsVendorsSearchResponse)(vendorParams, R4MEInfrastructureSettings.TeleamticsVendorsHost, HttpMethodType.[Get], errorString)
+            Return response
+        End Function
 #End Region
 
 #Region "Generic Methods"

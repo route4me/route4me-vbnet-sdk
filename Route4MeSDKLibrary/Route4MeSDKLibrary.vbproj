@@ -106,6 +106,7 @@
     <Compile Include="DataTypes\AddressNote.vb" />
     <Compile Include="DataTypes\AvoidanceZone.vb" />
     <Compile Include="DataTypes\cDatabase.vb" />
+    <Compile Include="DataTypes\Country.vb" />
     <Compile Include="DataTypes\CustomNoteType.vb" />
     <Compile Include="DataTypes\DataObject.vb" />
     <Compile Include="DataTypes\Direction.vb" />
@@ -127,6 +128,12 @@
     <Compile Include="DataTypes\RouteResponse.vb" />
     <Compile Include="DataTypes\Schedule.vb" />
     <Compile Include="DataTypes\Step.vb" />
+    <Compile Include="DataTypes\TelematicsVendor.vb" />
+    <Compile Include="DataTypes\TelematicsVendorFeature.vb" />
+    <Compile Include="DataTypes\TelematicsVendorResponse.vb" />
+    <Compile Include="DataTypes\TelematicsVendors.vb" />
+    <Compile Include="DataTypes\TelematicsVendorsResponse.vb" />
+    <Compile Include="DataTypes\TelematicsVendorsSearchResponse.vb" />
     <Compile Include="DataTypes\Territory.vb" />
     <Compile Include="DataTypes\TerritoryZone.vb" />
     <Compile Include="DataTypes\TrackingHistory.vb" />
@@ -174,6 +181,7 @@
     <Compile Include="QueryTypes\OptimizationParameters.vb" />
     <Compile Include="QueryTypes\OrderParameters.vb" />
     <Compile Include="QueryTypes\RouteParametersQuery.vb" />
+    <Compile Include="QueryTypes\TelematicsVendorParameters.vb" />
     <Compile Include="QueryTypes\TerritoryQuery.vb" />
     <Compile Include="QueryTypes\VehicleParameters.vb" />
     <Compile Include="QueryTypes\VehicleV4Parameters.vb" />
@@ -199,9 +207,7 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
