@@ -155,6 +155,7 @@
     <Compile Include="Examples\Notes\GetAddressNotes.vb" />
     <Compile Include="Examples\Optimizations\GetOptimization.vb" />
     <Compile Include="Examples\Optimizations\GetOptimizations.vb" />
+    <Compile Include="Examples\Optimizations\OptimizationWithCallbackUrl.vb" />
     <Compile Include="Examples\Optimizations\RemoveOptimization.vb" />
     <Compile Include="Examples\Optimizations\ReOptimization.vb" />
     <Compile Include="Examples\Orders\AddOrder.vb" />
