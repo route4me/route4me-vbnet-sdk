@@ -50,9 +50,17 @@ Namespace Route4MeSDK.QueryTypes
         ''' <summary>
         ''' The page number for route listing pagination. Increment the offset by the limit number to move to the next page.
         ''' </summary>
-        <IgnoreDataMember> _
-        <HttpQueryMemberAttribute(Name:="offset", EmitDefaultValue:=False)> _
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="offset", EmitDefaultValue:=False)>
         Public Property Offset As System.Nullable(Of UInteger)
+
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="start_date", EmitDefaultValue:=False)>
+        Public Property StartDate As String
+
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="end_date", EmitDefaultValue:=False)>
+        Public Property EndtDate As String
 
         ''' <summary>
         ''' Output addresses and directions in the original optimization request sequence.

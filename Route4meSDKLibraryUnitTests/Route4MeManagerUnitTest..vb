@@ -36,13 +36,13 @@ End Class
         lsOptimizationIDs.Add(tdr.SD10Stops_optimization_problem_id)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetRoutesTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim routeParameters As New RouteParametersQuery() With { _
-            .Limit = 10, _
-            .Offset = 5 _
+        Dim routeParameters As New RouteParametersQuery() With {
+            .Limit = 10,
+            .Offset = 5
         }
 
         ' Run the query
@@ -50,6 +50,22 @@ End Class
         Dim dataObjects As DataObjectRoute() = route4Me.GetRoutes(routeParameters, errorString)
 
         Assert.IsInstanceOfType(dataObjects, GetType(DataObjectRoute()), Convert.ToString("GetRoutesTest failed... ") & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub GetRoutesFromDateRangeTest()
+        Dim route4Me As New Route4MeManager(c_ApiKey)
+
+        Dim routeParameters As New RouteParametersQuery() With {
+            .StartDate = "2019-08-01",
+            .EndtDate = "2019-08-05"
+        }
+
+        ' Run the query
+        Dim errorString As String = ""
+        Dim dataObjects As DataObjectRoute() = route4Me.GetRoutes(routeParameters, errorString)
+
+        Assert.IsInstanceOfType(dataObjects, GetType(DataObjectRoute()), Convert.ToString("GetRoutesFromDateRangeTest failed... ") & errorString)
     End Sub
 
     <TestMethod> _
@@ -9355,13 +9371,13 @@ End Class
         lsOptimizationIDs.Add(tdr.dataObjectSD10Stops.OptimizationProblemId)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetOptimizationsTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim queryParameters As New RouteParametersQuery() With { _
-            .Limit = 10, _
-            .Offset = 5 _
+        Dim queryParameters As New RouteParametersQuery() With {
+            .Limit = 10,
+            .Offset = 5
         }
 
         ' Run the query
@@ -9369,6 +9385,22 @@ End Class
         Dim dataObjects As DataObject() = route4Me.GetOptimizations(queryParameters, errorString)
 
         Assert.IsInstanceOfType(dataObjects, GetType(DataObject()), "GetOptimizationsTest failed... " & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub GetOptimizationsFromDateRangeTest()
+        Dim route4Me As New Route4MeManager(c_ApiKey)
+
+        Dim queryParameters As New RouteParametersQuery() With {
+            .StartDate = "2019-09-15",
+            .EndtDate = "2019-09-20"
+        }
+
+        ' Run the query
+        Dim errorString As String = ""
+        Dim dataObjects As DataObject() = route4Me.GetOptimizations(queryParameters, errorString)
+
+        Assert.IsInstanceOfType(dataObjects, GetType(DataObject()), "GetOptimizationsFromDateRangeTest failed... " & errorString)
     End Sub
 
     <TestMethod> _

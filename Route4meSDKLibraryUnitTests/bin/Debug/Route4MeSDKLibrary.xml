@@ -6,12 +6,456 @@ Route4MeSDKLibrary
 </name>
 </assembly>
 <members>
-<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.MergeRoutesQuery">
-	<summary>
- Route parameters accepted by endpoints
+<member name="T:Route4MeSDKLibrary.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Route4MeSDKLibrary.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Route4MeSDKLibrary.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.R4MEInfrastructureSettings">
+ <summary>
+ Route4Me infrastructure settings
+ Api version 4 hosts constants
  </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GenericParameters">
-	<summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity.ActivityId">
+ <summary>
+ Activity Id
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity.ActivityType">
+ <summary>
+ Activity type
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity.ActivityTimestamp">
+ <summary>
+ Activity timestamp
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity.ActivityMessage">
+ <summary>
+ Activity message
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity.MemberId">
+ <summary>
+ Member Id
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity.RouteId">
+ <summary>
+ Route Id
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity.RouteDestinationId">
+ <summary>
+ Destination Id
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AvoidanceZone">
+ <summary>
+ Avoidance Zone
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AvoidanceZone.TerritoryId">
+<summary>
+ Avoidance zone id
+</summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AvoidanceZone.TerritoryName">
+<summary>
+ Territory name
+</summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AvoidanceZone.TerritoryColor">
+<summary>
+ Territory color 
+</summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AvoidanceZone.MemberId">
+<summary>
+ Member Id
+</summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AvoidanceZone.Territory">
+<summary>
+ Territory parameters
+</summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.DataObject">
+ <summary>
+ Main data object data-structure
+ See https://www.assembla.com/spaces/route4me_api/wiki/Optimization_Problem_V4
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Direction">
+ <summary>
+ Direction
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Direction.Location">
+ <summary>
+ Direction location
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Direction.Step1">
+ <summary>
+ Maneuver steps
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryType">
+ <summary>
+ Territory type (circle, rectangle, polygon)
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ErrorResponse">
+ <summary>
+ Errors data-structure
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location">
+ <summary>
+ Direction location parameters
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location.Time">
+ <summary>
+ Time (location)
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location.SegmentDistance">
+ <summary>
+ Current segment length
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location.Name">
+ <summary>
+ Direction name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location.StartLocation">
+ <summary>
+ Start location name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location.EndLocation">
+ <summary>
+ End location name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location.DircetionsError">
+ <summary>
+ Directions error message
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location.ErrorCode">
+ <summary>
+ Error code
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.order_id">
+ <summary>
+ Order ID.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.address_1">
+ <summary>
+ Address 1 field. Required
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.address_2">
+ <summary>
+ Address 2 field
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.cached_lat">
+ <summary>
+ Geo latitude. Required
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.cached_lng">
+ <summary>
+ Geo longitude. Required
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.curbside_lat">
+ <summary>
+ Generate optimal routes and driving directions to this curbside latitude
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.curbside_lng">
+ <summary>
+ Generate optimal routes and driving directions to the curbside langitude
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.day_scheduled_for_YYMMDD">
+ <summary>
+ Scheduled day
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.address_alias">
+ <summary>
+ Address Alias. Required
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.local_time_window_start">
+ <summary>
+ Local time window start
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.local_time_window_end">
+ <summary>
+ Local time window end
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.local_time_window_start_2">
+ <summary>
+ Second Local time window start
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.local_time_window_end_2">
+ <summary>
+ Second local time window end
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.service_time">
+ <summary>
+ Second time
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.address_city">
+ <summary>
+ Address City
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.address_state_id">
+ <summary>
+ Address state ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.address_country_id">
+ <summary>
+ Address country ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.address_zip">
+ <summary>
+ Address ZIP
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.order_status_id">
+ <summary>
+ Order status ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.member_id">
+ <summary>
+ The id of the member inside the route4me system
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.EXT_FIELD_first_name">
+ <summary>
+ First name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.EXT_FIELD_last_name">
+ <summary>
+ Last name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.EXT_FIELD_email">
+ <summary>
+ Email
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.EXT_FIELD_phone">
+ <summary>
+ Phone number
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.EXT_FIELD_custom_data">
+ <summary>
+ Custom data
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.local_timezone_string">
+ <summary>
+ Local timezone string
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.order_icon">
+ <summary>
+ Order icon
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteResponse.UserRouteRating">
+ <summary>
+ Route rating by user [0 - 5]
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Schedule">
+ <summary>
+ A trip schedule to a location
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1">
+ <summary>
+ Direction step parameters
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1.Directions">
+ <summary>
+ Directions of movement
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1.Direction">
+ <summary>
+ Text for current direction
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1.Distance">
+ <summary>
+ Step distance
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1.DistanceUnit">
+ <summary>
+ Distance unit - 'mi' or 'km'
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1.ManeuverType">
+ <summary>
+ Maneuver type
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1.CompassDirection">
+ <summary>
+ Compass direction
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1.ManeuverPoint">
+ <summary>
+ Maneuver point
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1.DurationSec">
+ <summary>
+ Step duration (sec)
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Territory">
+ <summary>
+ Territory parameters
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Territory.Type">
+ <summary>
+ Territory type (circle, rectangle, polygon)
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Territory.Data">
+ <summary>
+ Territory figure data
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone">
+ <summary>
+ Avoidance Zone
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone.TerritoryId">
+<summary>
+ Avoidance zone id
+</summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone.TerritoryName">
+<summary>
+ Territory name
+</summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone.TerritoryColor">
+<summary>
+ Territory color 
+</summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone.addresses">
+<summary>
+ Territory addresses 
+</summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone.MemberId">
+<summary>
+ Member Id
+</summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone.Territory">
+<summary>
+ Territory parameters
+</summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters">
+ <summary>
+ Avoidance zone parameters
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters.DeviceID">
+ <summary>
+ Device Id
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters.TerritoryId">
+ <summary>
+ Territory Id
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters.TerritoryName">
+ <summary>
+ Territory name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters.TerritoryColor">
+ <summary>
+ Territory color
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters.MemberId">
+ <summary>
+ Member Id
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters.Territory">
+ <summary>
+ Territory parameters
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneQuery">
+ <summary>
+ Avoidance zone query
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneQuery.DeviceID">
+ <summary>
+ Device Id
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneQuery.TerritoryId">
+ <summary>
+ Territory Id
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GenericParameters">
+ <summary>
  Helper class, for easy REST query parameters string generation
  1. Use GenericParameters.Serialize() to generate the query string
  2. Use GenericParameters.ParametersCollection for adding query parameters
@@ -20,591 +464,203 @@ Route4MeSDKLibrary
  4. Modify ConvertBooleansToInteger.GenericParameters to serialize bool and bool? as "0" and "1"
  Important: You have to add here all derived classes, that are serealized as json as a KnownType
  </summary>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ReadObject``1(System.IO.Stream)">
-	<summary>
- Reads JSON object for a stream
- Any DataContractJsonSerializer can be thrown
- </summary>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ReadString(System.IO.Stream)">
-	<summary>
- Reads a stream to a string
- </summary>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.SerializeObjectToJson(System.Object)">
-	<summary>
- Serialized an object to a string as JSON
- Any DataContractJsonSerializer can be thrown
- </summary>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.Description(System.Enum)">
-	<summary>
- Returns the DescriptionAttribute of a enum value
- </summary>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
-	<summary>
- IEnumerable extension method, performs 'action' for each IEnumerable item
- source value can be null
- </summary>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ConvertToUnixTimestamp(System.DateTime)">
-	<summary>
- Convert DateTime to Unix epoch time
- </summary>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ConvertFromUnixTimestamp(System.Int64)">
-	<summary>
- Convert DateTime from Unix epoch time
- </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils">
-	<summary>
- Route4Me C# SDK helper methods
- </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ErrorResponse">
-	<summary>
- Errors data-structure
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Territory.Type">
-	<summary>
- Territory type (circle, rectangle, polygon)
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Territory.Data">
-	<summary>
- Territory figure data
- </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Territory">
-	<summary>
- Territory parameters
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery.DeviceID">
-	<summary>
- Device Id
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery.TerritoryId">
-	<summary>
- Territory Id
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery.addresses">
-	<summary>
- Territory Id
- </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery">
-	<summary>
- Avoidance zone query
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1.Directions">
-	<summary>
- Directions of movement
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1.Direction">
-	<summary>
- Text for current direction
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1.Distance">
-	<summary>
- Step distance
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1.DistanceUnit">
-	<summary>
- Distance unit - 'mi' or 'km'
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1.ManeuverType">
-	<summary>
- Maneuver type
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1.CompassDirection">
-	<summary>
- Compass direction
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1.ManeuverPoint">
-	<summary>
- Maneuver point
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1.DurationSec">
-	<summary>
- Step duration (sec)
- </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Step1">
-	<summary>
- Direction step parameters
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneQuery.DeviceID">
-	<summary>
- Device Id
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneQuery.TerritoryId">
-	<summary>
- Territory Id
- </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneQuery">
-	<summary>
- Avoidance zone query
- </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GPSParameters">
-	<summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GPSParameters">
+ <summary>
  Helper class, for setting GPS data
  Used to create the suitable query string
  See example in Route4MeExamples.SetGPSPosition()
  </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.PropertyValidation">
-	<summary>
- Validation of the class properties
- </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Schedule">
-	<summary>
- A trip schedule to a location
- </summary>
-</member><member name="P:Route4MeSDKLibrary.My.Resources.Resources.ResourceManager">
-	<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member><member name="P:Route4MeSDKLibrary.My.Resources.Resources.Culture">
-	<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
-</member><member name="T:Route4MeSDKLibrary.My.Resources.Resources">
-	<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OptimizationParameters.Redirect">
-	<summary>
- If true will be redirected
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteResponse.UserRouteRating">
-	<summary>
- Route rating by user [0 - 5]
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.HttpQueryMemberAttribute.Name">
-	<summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.HttpQueryMemberAttribute.Name">
+ <summary>
  The serialized argument name, if specifed overrides the property name
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.HttpQueryMemberAttribute.EmitDefaultValue">
-	<summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.HttpQueryMemberAttribute.EmitDefaultValue">
+ <summary>
  Specifies whether to emit the property value, if its value is a default value
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.HttpQueryMemberAttribute.DefaultValue">
-	<summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.HttpQueryMemberAttribute.DefaultValue">
+ <summary>
  Specifies the default value, that is used when emiting the property value
  If not specified null is used as a default value
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Direction.Location">
-	<summary>
- Direction location
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.MergeRoutesQuery">
+ <summary>
+ Route parameters accepted by endpoints
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Direction.Step1">
-	<summary>
- Maneuver steps
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OptimizationParameters.Limit">
+ <summary>
+ The number of existing optimizations that should be returned per response when looking at a list of all the optimizations.
  </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Direction">
-	<summary>
- Direction
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OptimizationParameters.Offset">
+ <summary>
+ The page number for optimization listing pagination. Increment the offset by the limit number to move to the next page.
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.RouteId">
-	<summary>
- Route Identifier
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Directions">
-	<summary>
-  	Pass True to return directions and the route path
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.RoutePathOutput">
-	<summary>
- "None" - no path output. "Points" - points path output
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.DeviceTrackingHistory">
-	<summary>
- Output route tracking data in response
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Limit">
-	<summary>
- The number of existing routes that should be returned per response when looking at a list of all the routes.
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Offset">
-	<summary>
- The page number for route listing pagination. Increment the offset by the limit number to move to the next page.
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Original">
-	<summary>
- Output addresses and directions in the original optimization request sequence.
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Notes">
-	<summary>
- Output route and stop-specific notes. The notes will have timestamps, note types, and geospatial information if available
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Query">
-	<summary>
- Search query
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.ReOptimize">
-	<summary>
- Updating a route supports the reoptimize=1 parameter, which reoptimizes only that route. Also supports the parameters from GET.
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.DisableOptimization">
-	<summary>
- For /api.v3/route/reoptimize_2.php endpoint. If equal to 0, optimization is enabled
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Redirect">
-	<summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OptimizationParameters.Redirect">
+ <summary>
  If true will be redirected
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Optimize">
-	<summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.limit">
+ <summary>
+ Limit per page, if you use 0 you will get all records
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.offset">
+ <summary>
+ Offset
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.query">
+ <summary>
+ if query is array search engine will search by fields, if query is string will search by all text fields. Array / string.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.fields">
+ <summary>
+ Use it for get specific fields. String / coma separated
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.display">
+ <summary>
+ filter routed/unrouted. enum(all,routed,unrouted)
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.order_id">
+ <summary>
+ Order ID.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.day_added_YYMMDD">
+ <summary>
+ Date an order was inserted
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.scheduled_for_YYMMDD">
+ <summary>
+ Date an order was scheduled for
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery">
+ <summary>
+ Route parameters accepted by endpoints
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.RouteId">
+ <summary>
+ Route Identifier
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Directions">
+ <summary>
+  	Pass True to return directions and the route path
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.RoutePathOutput">
+ <summary>
+ "None" - no path output. "Points" - points path output
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.DeviceTrackingHistory">
+ <summary>
+ Output route tracking data in response
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Limit">
+ <summary>
+ The number of existing routes that should be returned per response when looking at a list of all the routes.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Offset">
+ <summary>
+ The page number for route listing pagination. Increment the offset by the limit number to move to the next page.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Original">
+ <summary>
+ Output addresses and directions in the original optimization request sequence.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Notes">
+ <summary>
+ Output route and stop-specific notes. The notes will have timestamps, note types, and geospatial information if available
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Query">
+ <summary>
+ Search query
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.ReOptimize">
+ <summary>
+ Updating a route supports the reoptimize=1 parameter, which reoptimizes only that route. Also supports the parameters from GET.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.DisableOptimization">
+ <summary>
+ For /api.v3/route/reoptimize_2.php endpoint. If equal to 0, optimization is enabled
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Redirect">
+ <summary>
+ If true will be redirected
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Optimize">
+ <summary>
  For /api.v3/route/reoptimize_2.php endpoint. "Distance", "Time"
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.ResponseFormat">
-	<summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.ResponseFormat">
+ <summary>
  For /actions/route/share_route.php endpoint. "json", "xml"
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.RecomputeDirections">
-	<summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.RecomputeDirections">
+ <summary>
  By sending recompute_directions=1 we request that the route directions be recomputed (note that this does happen automatically if certain properties of the route are updated, such as stop sequence_no changes or round-tripness)
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Parameters">
-	<summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Parameters">
+ <summary>
  Route Parameters to update.
  (After a PUT there is no guarantee that the route_destination_id values are preserved! It may create copies resulting in new destination IDs, especially when dealing with multiple depots.)
  </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery">
-	<summary>
- Route parameters accepted by endpoints
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery">
+ <summary>
+ Avoidance zone query
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AvoidanceZone.TerritoryId">
-	<summary>
- Avoidance zone id
-</summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AvoidanceZone.TerritoryName">
-	<summary>
- Territory name
-</summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AvoidanceZone.TerritoryColor">
-	<summary>
- Territory color 
-</summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AvoidanceZone.MemberId">
-	<summary>
- Member Id
-</summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AvoidanceZone.Territory">
-	<summary>
- Territory parameters
-</summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AvoidanceZone">
-	<summary>
- Avoidance Zone
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery.DeviceID">
+ <summary>
+ Device Id
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.order_id">
-	<summary>
- Order ID.
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery.TerritoryId">
+ <summary>
+ Territory Id
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.address_1">
-	<summary>
- Address 1 field. Required
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery.addresses">
+ <summary>
+ Territory Id
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.address_2">
-	<summary>
- Address 2 field
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.PropertyValidation">
+ <summary>
+ Validation of the class properties
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.cached_lat">
-	<summary>
- Geo latitude. Required
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.cached_lng">
-	<summary>
- Geo longitude. Required
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.curbside_lat">
-	<summary>
- Generate optimal routes and driving directions to this curbside latitude
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.curbside_lng">
-	<summary>
- Generate optimal routes and driving directions to the curbside langitude
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.day_scheduled_for_YYMMDD">
-	<summary>
- Scheduled day
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.address_alias">
-	<summary>
- Address Alias. Required
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.local_time_window_start">
-	<summary>
- Local time window start
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.local_time_window_end">
-	<summary>
- Local time window end
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.local_time_window_start_2">
-	<summary>
- Second Local time window start
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.local_time_window_end_2">
-	<summary>
- Second local time window end
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.service_time">
-	<summary>
- Second time
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.address_city">
-	<summary>
- Address City
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.address_state_id">
-	<summary>
- Address state ID
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.address_country_id">
-	<summary>
- Address country ID
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.address_zip">
-	<summary>
- Address ZIP
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.order_status_id">
-	<summary>
- Order status ID
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.member_id">
-	<summary>
- The id of the member inside the route4me system
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.EXT_FIELD_first_name">
-	<summary>
- First name
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.EXT_FIELD_last_name">
-	<summary>
- Last name
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.EXT_FIELD_email">
-	<summary>
- Email
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.EXT_FIELD_phone">
-	<summary>
- Phone number
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.EXT_FIELD_custom_data">
-	<summary>
- Custom data
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.local_timezone_string">
-	<summary>
- Local timezone string
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.order_icon">
-	<summary>
- Order icon
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity.ActivityId">
-	<summary>
- Activity Id
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity.ActivityType">
-	<summary>
- Activity type
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity.ActivityTimestamp">
-	<summary>
- Activity timestamp
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity.ActivityMessage">
-	<summary>
- Activity message
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity.MemberId">
-	<summary>
- Member Id
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity.RouteId">
-	<summary>
- Route Id
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity.RouteDestinationId">
-	<summary>
- Destination Id
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone.TerritoryId">
-	<summary>
- Avoidance zone id
-</summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone.TerritoryName">
-	<summary>
- Territory name
-</summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone.TerritoryColor">
-	<summary>
- Territory color 
-</summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone.addresses">
-	<summary>
- Territory addresses 
-</summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone.MemberId">
-	<summary>
- Member Id
-</summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone.Territory">
-	<summary>
- Territory parameters
-</summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone">
-	<summary>
- Avoidance Zone
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.limit">
-	<summary>
- Limit per page, if you use 0 you will get all records
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.offset">
-	<summary>
- Offset
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.query">
-	<summary>
- if query is array search engine will search by fields, if query is string will search by all text fields. Array / string.
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.fields">
-	<summary>
- Use it for get specific fields. String / coma separated
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.display">
-	<summary>
- filter routed/unrouted. enum(all,routed,unrouted)
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.order_id">
-	<summary>
- Order ID.
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.day_added_YYMMDD">
-	<summary>
- Date an order was inserted
- </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.scheduled_for_YYMMDD">
-	<summary>
- Date an order was scheduled for
- </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.DataObjectOptimizations">
-	<summary>
-	</summary>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.LogCustomActivity(Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity,System.String@)">
-	<summary>
- Create User Activity. Send custom message to Activity Stream.
- </summary>
-	<param name="activity"> Input Activity object to add </param>
-	<param name="errorString"> Error string </param>
-	<returns> True/False </returns>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddAvoidanceZone(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters,System.String@)">
-	<summary>
- Create avoidance zone
- </summary>
-	<param name="avoidanceZoneParameters"> Parameters for request </param>
-	<param name="errorString"> out: Error as string </param>
-	<returns> Avoidance zone Object </returns>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetAvoidanceZones(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneQuery,System.String@)">
-	<summary>
- Get avoidance zones
- </summary>
-	<param name="avoidanceZoneQuery"> Parameters for request </param>
-	<param name="errorString"> out: Error as string </param>
-	<returns> Avoidance zone Object list </returns>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetAvoidanceZone(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneQuery,System.String@)">
-	<summary>
- Get avoidance zone by parameters (territory id, device id)
- </summary>
-	<param name="avoidanceZoneQuery"> Parameters for request </param>
-	<param name="errorString"> out: Error as string </param>
-	<returns> Avoidance zone Object </returns>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateAvoidanceZone(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters,System.String@)">
-	<summary>
- Update avoidance zone (by territory id, device id)
- </summary>
-	<param name="avoidanceZoneParameters"> Parameters for request </param>
-	<param name="errorString"> out: Error as string </param>
-	<returns> Avoidance zone Object </returns>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.DeleteAvoidanceZone(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneQuery,System.String@)">
-	<summary>
- Delete avoidance zone (by territory id, device id)
- </summary>
-	<param name="avoidanceZoneQuery"> Parameters for request </param>
-	<param name="errorString"> out: Error as string </param>
-	<returns> Result status true/false </returns>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.CreateTerritory(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters,System.String@)">
-	<summary>
- Create territory
- </summary>
-	<param name="avoidanceZoneParameters"> Parameters for request </param>
-	<param name="errorString"> out: Error as string </param>
-	<returns> Territory Object </returns>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetTerritory(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery,System.String@)">
-	<summary>
- Get territory by parameters (territory id, device id, addresses)
- </summary>
-	<param name="territoryQuery"> Parameters for request </param>
-	<param name="errorString"> out: Error as string </param>
-	<returns> Territory zone Object </returns>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetTerritories(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneQuery,System.String@)">
-	<summary>
- Get territories by parameters
- </summary>
-	<param name="avoidanceZoneQuery"> Parameters for request </param>
-	<param name="errorString"> out: Error as string </param>
-	<returns> Territory zone Objects </returns>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.RemoveTerritory(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery,System.String@)">
-	<summary>
- Remove Territory (by territory id, device id)
- </summary>
-	<param name="territoryQuery"> Parameters for request </param>
-	<param name="errorString"> out: Error as string </param>
-	<returns> Result status true/false </returns>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateTerritory(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters,System.String@)">
-	<summary>
- Update Territory (by territory id, device id)
- </summary>
-	<param name="tereritoryParameters"> Parameters for request </param>
-	<param name="errorString"> out: Error as string </param>
-	<returns> Territory Object </returns>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetOrders(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters,System.UInt32@,System.String@)">
-	<summary>
- Get Orders
- </summary>
-	<param name="ordersQuery"> Parameters for request </param>
-	<param name="total"> out: Total number of orders </param>
-	<param name="errorString"> out: Error as string </param>
-	<returns> Order object list </returns>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddOrder(Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order,System.String@)">
-	<summary>
- Create Order
- </summary>
-	<param name="order"> Parameters for request </param>
-	<param name="errorString"> out: Error as string </param>
-	<returns> Order object </returns>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateOrder(Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order,System.String@)">
-	<summary>
- Update Order
- </summary>
-	<param name="order"> Parameters for request </param>
-	<param name="errorString"> out: Error as string </param>
-	<returns> Order Object </returns>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.RemoveOrders(System.String[],System.String@)">
-	<summary>
- Remove Orders
- </summary>
-	<param name="orderIds"> Order IDs </param>
-	<param name="errorString"> out: Error as string </param>
-	<returns> Result status true/false </returns>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.RapidStreetResponse">
-	<summary>
-	</summary>
-</member><member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetVehicles(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.VehicleParameters,System.String@)">
-	<summary>
- Get Vehicles
- </summary>
-	<param name="vehParams"> Parameters for request </param>
-	<param name="errorString"> out: Error as string </param>
-	<returns> Vehicle object list </returns>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager">
-	<summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager">
+ <summary>
  This class encapsulates the Route4Me REST API
  1. Create an instance of Route4MeManager with the api_key
  1. Shortcut methods: Use shortcuts methods (for example Route4MeManager.GetOptimization()) to access the most popular functionality.
@@ -613,79 +669,185 @@ Route4MeSDKLibrary
     to access any availaible functionality.
     See examples Route4MeExamples.GenericExample(), Route4MeExamples.SingleDriverRoundTripGeneric()
  </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.R4MEInfrastructureSettings">
-	<summary>
- Route4Me infrastructure settings
- Api version 4 hosts constants
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.DataObjectOptimizations">
+ <summary>
  </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.DataObject">
-	<summary>
- Main data object data-structure
- See https://www.assembla.com/spaces/route4me_api/wiki/Optimization_Problem_V4
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.LogCustomActivity(Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity,System.String@)">
+ <summary>
+ Create User Activity. Send custom message to Activity Stream.
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters.DeviceID">
-	<summary>
- Device Id
+ <param name="activity"> Input Activity object to add </param>
+ <param name="errorString"> Error string </param>
+ <returns> True/False </returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddAvoidanceZone(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters,System.String@)">
+ <summary>
+ Create avoidance zone
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters.TerritoryId">
-	<summary>
- Territory Id
+ <param name="avoidanceZoneParameters"> Parameters for request </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns> Avoidance zone Object </returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetAvoidanceZones(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneQuery,System.String@)">
+ <summary>
+ Get avoidance zones
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters.TerritoryName">
-	<summary>
- Territory name
+ <param name="avoidanceZoneQuery"> Parameters for request </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns> Avoidance zone Object list </returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetAvoidanceZone(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneQuery,System.String@)">
+ <summary>
+ Get avoidance zone by parameters (territory id, device id)
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters.TerritoryColor">
-	<summary>
- Territory color
+ <param name="avoidanceZoneQuery"> Parameters for request </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns> Avoidance zone Object </returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateAvoidanceZone(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters,System.String@)">
+ <summary>
+ Update avoidance zone (by territory id, device id)
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters.MemberId">
-	<summary>
- Member Id
+ <param name="avoidanceZoneParameters"> Parameters for request </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns> Avoidance zone Object </returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.DeleteAvoidanceZone(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneQuery,System.String@)">
+ <summary>
+ Delete avoidance zone (by territory id, device id)
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters.Territory">
-	<summary>
- Territory parameters
+ <param name="avoidanceZoneQuery"> Parameters for request </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns> Result status true/false </returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.CreateTerritory(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters,System.String@)">
+ <summary>
+ Create territory
  </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters">
-	<summary>
- Avoidance zone parameters
+ <param name="avoidanceZoneParameters"> Parameters for request </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns> Territory Object </returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetTerritory(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery,System.String@)">
+ <summary>
+ Get territory by parameters (territory id, device id, addresses)
  </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryType">
-	<summary>
- Territory type (circle, rectangle, polygon)
+ <param name="territoryQuery"> Parameters for request </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns> Territory zone Object </returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetTerritories(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneQuery,System.String@)">
+ <summary>
+ Get territories by parameters
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location.Time">
-	<summary>
- Time (location)
+ <param name="avoidanceZoneQuery"> Parameters for request </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns> Territory zone Objects </returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.RemoveTerritory(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery,System.String@)">
+ <summary>
+ Remove Territory (by territory id, device id)
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location.SegmentDistance">
-	<summary>
- Current segment length
+ <param name="territoryQuery"> Parameters for request </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns> Result status true/false </returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateTerritory(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters,System.String@)">
+ <summary>
+ Update Territory (by territory id, device id)
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location.Name">
-	<summary>
- Direction name
+ <param name="tereritoryParameters"> Parameters for request </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns> Territory Object </returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetOrders(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters,System.UInt32@,System.String@)">
+ <summary>
+ Get Orders
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location.StartLocation">
-	<summary>
- Start location name
+ <param name="ordersQuery"> Parameters for request </param>
+ <param name="total"> out: Total number of orders </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns> Order object list </returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddOrder(Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order,System.String@)">
+ <summary>
+ Create Order
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location.EndLocation">
-	<summary>
- End location name
+ <param name="order"> Parameters for request </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns> Order object </returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateOrder(Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order,System.String@)">
+ <summary>
+ Update Order
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location.DircetionsError">
-	<summary>
- Directions error message
+ <param name="order"> Parameters for request </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns> Order Object </returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.RemoveOrders(System.String[],System.String@)">
+ <summary>
+ Remove Orders
  </summary>
-</member><member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location.ErrorCode">
-	<summary>
- Error code
+ <param name="orderIds"> Order IDs </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns> Result status true/false </returns>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.RapidStreetResponse">
+ <summary>
  </summary>
-</member><member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location">
-	<summary>
- Direction location parameters
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetVehicles(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.VehicleParameters,System.String@)">
+ <summary>
+ Get Vehicles
+ </summary>
+ <param name="vehParams"> Parameters for request </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns> Vehicle object list </returns>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils">
+ <summary>
+ Route4Me C# SDK helper methods
+ </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ReadObject``1(System.IO.Stream)">
+ <summary>
+ Reads JSON object for a stream
+ Any DataContractJsonSerializer can be thrown
+ </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ReadString(System.IO.Stream)">
+ <summary>
+ Reads a stream to a string
+ </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.SerializeObjectToJson(System.Object)">
+ <summary>
+ Serialized an object to a string as JSON
+ Any DataContractJsonSerializer can be thrown
+ </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.Description(System.Enum)">
+ <summary>
+ Returns the DescriptionAttribute of a enum value
+ </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+ <summary>
+ IEnumerable extension method, performs 'action' for each IEnumerable item
+ source value can be null
+ </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ConvertToUnixTimestamp(System.DateTime)">
+ <summary>
+ Convert DateTime to Unix epoch time
+ </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ConvertFromUnixTimestamp(System.Int64)">
+ <summary>
+ Convert DateTime from Unix epoch time
  </summary>
 </member>
 </members>

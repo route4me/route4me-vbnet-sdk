@@ -13,9 +13,31 @@ Namespace Route4MeSDK.QueryTypes
         Public Property OptimizationProblemID() As String
 
         ' Don't serialize as JSON
-        <IgnoreDataMember> _
-        <HttpQueryMemberAttribute(Name:="reoptimize", EmitDefaultValue:=False)> _
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="reoptimize", EmitDefaultValue:=False)>
         Public Property ReOptimize() As System.Nullable(Of Boolean)
+
+        ''' <summary>
+        ''' The number of existing optimizations that should be returned per response when looking at a list of all the optimizations.
+        ''' </summary>
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="limit", EmitDefaultValue:=False)>
+        Public Property Limit As System.Nullable(Of UInteger)
+
+        ''' <summary>
+        ''' The page number for optimization listing pagination. Increment the offset by the limit number to move to the next page.
+        ''' </summary>
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="offset", EmitDefaultValue:=False)>
+        Public Property Offset As System.Nullable(Of UInteger)
+
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="start_date", EmitDefaultValue:=False)>
+        Public Property StartDate As String
+
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="end_date", EmitDefaultValue:=False)>
+        Public Property EndtDate As String
 
         ''' <summary>
         ''' If true will be redirected
