@@ -2,80 +2,56 @@
 
 Namespace Route4MeSDK.DataTypes
 
-    <DataContract> _
+    <DataContract>
     Public NotInheritable Class TrackingHistory
-        ' tracking data key names are shortened to reduce bandwidth usage (even with compression on) 
 
-        ' speed at the time of the location transaction event
-        <DataMember(Name:="s")> _
-        Public Property Speed() As System.Nullable(Of Double)
-            Get
-                Return m_Speed
-            End Get
-            Set(value As System.Nullable(Of Double))
-                m_Speed = Value
-            End Set
-        End Property
-        Private m_Speed As System.Nullable(Of Double)
+        ''' <summary>
+        ''' Speed at the time of the location transaction event.
+        ''' </summary>
+        <DataMember(Name:="s")>
+        Public Property Speed As String
 
-        ' latitude at the time of the location transaction event
-        <DataMember(Name:="lt")> _
-        Public Property Latitude() As System.Nullable(Of Double)
-            Get
-                Return m_Latitude
-            End Get
-            Set(value As System.Nullable(Of Double))
-                m_Latitude = Value
-            End Set
-        End Property
-        Private m_Latitude As System.Nullable(Of Double)
+        ''' <summary>
+        ''' Latitude at the time of the location transaction event.
+        ''' </summary>
+        <DataMember(Name:="lt")>
+        Public Property Latitude As String
 
-        ' longitude at the time of the location transaction event
-        <DataMember(Name:="lg")> _
-        Public Property Longitude() As System.Nullable(Of Double)
-            Get
-                Return m_Longitude
-            End Get
-            Set(value As System.Nullable(Of Double))
-                m_Longitude = Value
-            End Set
-        End Property
-        Private m_Longitude As System.Nullable(Of Double)
+        ''' <summary>
+        ''' Member ID.
+        ''' </summary>
+        <DataMember(Name:="m")>
+        Public Property MemberId As Integer?
 
-        ' direction/heading at the time of the location transaction event
-        <DataMember(Name:="d")> _
-        Public Property D() As String
-            Get
-                Return m_D
-            End Get
-            Set(value As String)
-                m_D = Value
-            End Set
-        End Property
-        Private m_D As String
+        ''' <summary>
+        ''' Longitude at the time of the location transaction event.
+        ''' </summary>
+        <DataMember(Name:="lg")>
+        Public Property Longitude As String
 
-        ' the original timestamp in unix timestamp format at the moment location transaction event
-        <DataMember(Name:="ts")> _
-        Public Property TimeStamp() As String
-            Get
-                Return m_TimeStamp
-            End Get
-            Set(value As String)
-                m_TimeStamp = Value
-            End Set
-        End Property
-        Private m_TimeStamp As String
+        ''' <summary>
+        ''' Direction/Heading at the time of the location transaction event.
+        ''' </summary>
+        <DataMember(Name:="d")>
+        Public Property D As Integer?
 
-        ' the original timestamp in a human readable timestamp format at the moment location transaction event
-        <DataMember(Name:="ts_friendly")> _
-        Public Property TimeStampFriendly() As String
-            Get
-                Return m_TimeStampFriendly
-            End Get
-            Set(value As String)
-                m_TimeStampFriendly = Value
-            End Set
-        End Property
-        Private m_TimeStampFriendly As String
+        ''' <summary>
+        ''' The original timestamp in unix timestamp format at the moment location transaction event.
+        ''' </summary>
+        <DataMember(Name:="ts")>
+        Public Property TimeStamp As String
+
+        ''' <summary>
+        ''' The original timestamp in a human readable timestamp format at the moment location transaction event.
+        ''' </summary>
+        <DataMember(Name:="ts_friendly")>
+        Public Property TimeStampFriendly As String
+
+        ''' <summary>
+        ''' Package src (e.g. 'R4M').
+        ''' </summary>
+        <DataMember(Name:="src")>
+        Public Property Src As String
+
     End Class
 End Namespace

@@ -1458,6 +1458,15 @@ Namespace Route4MeSDK
             Return result
         End Function
 
+        Public Function GetActivities(activityParameters As ActivityParameters, ByRef errorString As String) As Activity()
+            Dim response As GetActivitiesResponse = GetJsonObjectFromAPI(Of GetActivitiesResponse)(activityParameters, R4MEInfrastructureSettings.GetActivitiesHost, HttpMethodType.[Get], errorString)
+            Dim result As Activity() = Nothing
+            If response IsNot Nothing Then
+                result = response.Results
+            End If
+            Return result
+        End Function
+
         <DataContract> _
         Private NotInheritable Class LogCustomActivityResponse
             <DataMember(Name:="status")> _
@@ -2622,6 +2631,28 @@ Namespace Route4MeSDK
             Dim response As DataObject = GetJsonObjectFromAPI(Of DataObject)(request, R4MEInfrastructureSettings.ApiHost, HttpMethodType.Put, False, errorString)
 
             Return response
+        End Function
+#End Region
+
+#Region "Order Custom User Fields"
+        Public Function GetOrderCustomUserFields(ByRef errorString As String) As OrderCustomField()
+            Dim genParams = New GenericParameters()
+            Dim response As OrderCustomField() = GetJsonObjectFromAPI(Of OrderCustomField())(genParams, R4MEInfrastructureSettings.OrderCustomField, HttpMethodType.[Get], errorString)
+            Return response
+        End Function
+
+        Public Function CreateOrderCustomUserField(ByVal orderCustomUserField As OrderCustomFieldParameters, ByRef errorString As String) As OrderCustomFieldCreateResponse
+            Return GetJsonObjectFromAPI(Of OrderCustomFieldCreateResponse)(orderCustomUserField, R4MEInfrastructureSettings.OrderCustomField, HttpMethodType.Post, False, errorString)
+        End Function
+
+        Public Function RemoveOrderCustomUserField(ByVal orderCustomUserField As OrderCustomFieldParameters, ByRef errorString As String) As OrderCustomFieldCreateResponse
+            Return GetJsonObjectFromAPI(Of OrderCustomFieldCreateResponse)(orderCustomUserField, R4MEInfrastructureSettings.OrderCustomField, HttpMethodType.Delete, False, errorString)
+        End Function
+
+        Public Function UpdateOrderCustomUserField(ByVal orderCustomUserFieldParams As OrderCustomFieldParameters, ByRef errorString As String) As OrderCustomFieldCreateResponse
+            orderCustomUserFieldParams.PrepareForSerialization()
+            Dim orderCustomField = GetJsonObjectFromAPI(Of OrderCustomFieldCreateResponse)(orderCustomUserFieldParams, R4MEInfrastructureSettings.OrderCustomField, HttpMethodType.Put, False, errorString)
+            Return orderCustomField
         End Function
 #End Region
 

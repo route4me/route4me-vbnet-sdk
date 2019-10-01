@@ -2,152 +2,129 @@
 
 Namespace Route4MeSDK.DataTypes
 
-
     <DataContract> _
     Public NotInheritable Class DataObjectRoute
         Inherits DataObject
-        <DataMember(Name:="route_id")> _
-        Public Property RouteID() As String
-            Get
-                Return m_RouteID
-            End Get
-            Set(value As String)
-                m_RouteID = Value
-            End Set
-        End Property
-        Private m_RouteID As String
 
-        <DataMember(Name:="member_id")> _
-        Public Property MemberId() As String
-            Get
-                Return m_MemberId
-            End Get
-            Set(value As String)
-                m_MemberId = Value
-            End Set
-        End Property
-        Private m_MemberId As String
+        <DataMember(Name:="route_id", EmitDefaultValue:=False)>
+        Public Property RouteID As String
 
-        <DataMember(Name:="member_email")> _
-        Public Property MemberEmail() As String
-            Get
-                Return m_MemberEmail
-            End Get
-            Set(value As String)
-                m_MemberEmail = Value
-            End Set
-        End Property
-        Private m_MemberEmail As String
+        <DataMember(Name:="user_route_rating", EmitDefaultValue:=False)>
+        Public Property UserRouteRating As Integer?
 
-        <DataMember(Name:="vehicle_alias")> _
-        Public Property VehicleAlias() As String
-            Get
-                Return m_VehicleAlias
-            End Get
-            Set(value As String)
-                m_VehicleAlias = Value
-            End Set
-        End Property
-        Private m_VehicleAlias As String
+        <DataMember(Name:="member_id", EmitDefaultValue:=False)>
+        Public Property MemberId As String
 
-        <DataMember(Name:="driver_alias")> _
-        Public Property DriverAlias() As String
-            Get
-                Return m_DriverAlias
-            End Get
-            Set(value As String)
-                m_DriverAlias = Value
-            End Set
-        End Property
-        Private m_DriverAlias As String
+        <DataMember(Name:="member_email", EmitDefaultValue:=False)>
+        Public Property MemberEmail As String
 
-        <DataMember(Name:="route_cost")> _
-        Public Property RouteCost() As System.Nullable(Of Double)
-            Get
-                Return m_RouteCost
-            End Get
-            Set(value As System.Nullable(Of Double))
-                m_RouteCost = Value
-            End Set
-        End Property
-        Private m_RouteCost As System.Nullable(Of Double)
+        <DataMember(Name:="member_first_name", EmitDefaultValue:=False)>
+        Public Property MemberFirstName As String
 
-        <DataMember(Name:="route_revenue")> _
-        Public Property RouteRevenue() As System.Nullable(Of Double)
-            Get
-                Return m_RouteRevenue
-            End Get
-            Set(value As System.Nullable(Of Double))
-                m_RouteRevenue = Value
-            End Set
-        End Property
-        Private m_RouteRevenue As System.Nullable(Of Double)
+        <DataMember(Name:="member_last_name", EmitDefaultValue:=False)>
+        Public Property MemberLastName As String
 
-        <DataMember(Name:="net_revenue_per_distance_unit")> _
-        Public Property NetRevenuePerDistanceUnit() As System.Nullable(Of Double)
-            Get
-                Return m_NetRevenuePerDistanceUnit
-            End Get
-            Set(value As System.Nullable(Of Double))
-                m_NetRevenuePerDistanceUnit = Value
-            End Set
-        End Property
-        Private m_NetRevenuePerDistanceUnit As System.Nullable(Of Double)
+        <DataMember(Name:="channel_name", EmitDefaultValue:=False)>
+        Public Property ChannelName As String
 
-        <DataMember(Name:="created_timestamp")> _
-        Public Property CreatedTimestamp() As System.Nullable(Of Integer)
-            Get
-                Return m_CreatedTimestamp
-            End Get
-            Set(value As System.Nullable(Of Integer))
-                m_CreatedTimestamp = Value
-            End Set
-        End Property
-        Private m_CreatedTimestamp As System.Nullable(Of Integer)
+        <DataMember(Name:="member_picture", EmitDefaultValue:=False)>
+        Public Property MemberPicture As String
 
-        <DataMember(Name:="mpg")> _
-        Public Property mpg() As String
-            Get
-                Return m_mpg
-            End Get
-            Set(value As String)
-                m_mpg = Value
-            End Set
-        End Property
-        Private m_mpg As String
+        <DataMember(Name:="member_tracking_subheadline", EmitDefaultValue:=False)>
+        Public Property MemberTrackingSubheadline As String
 
-        <DataMember(Name:="trip_distance")> _
-        Public Property TripDistance() As System.Nullable(Of Double)
-            Get
-                Return m_TripDistance
-            End Get
-            Set(value As System.Nullable(Of Double))
-                m_TripDistance = Value
-            End Set
-        End Property
-        Private m_TripDistance As System.Nullable(Of Double)
+        <DataMember(Name:="approved_for_execution")>
+        Public Property ApprovedForExecution As Boolean
 
-        <DataMember(Name:="gas_price")> _
-        Public Property GasPrice() As System.Nullable(Of Double)
-            Get
-                Return m_GasPrice
-            End Get
-            Set(value As System.Nullable(Of Double))
-                m_GasPrice = value
-            End Set
-        End Property
-        Private m_GasPrice As System.Nullable(Of Double)
+        <DataMember(Name:="approved_revisions_counter", EmitDefaultValue:=False)>
+        Public Property ApprovedRevisionsCounter As Integer?
 
-        <DataMember(Name:="route_duration_sec")> _
-        Public Property RouteDurationSec() As System.Nullable(Of Integer)
-            Get
-                Return m_RouteDurationSec
-            End Get
-            Set(value As System.Nullable(Of Integer))
-                m_RouteDurationSec = Value
-            End Set
-        End Property
-        Private m_RouteDurationSec As System.Nullable(Of Integer)
+        <DataMember(Name:="vehicle_alias", EmitDefaultValue:=False)>
+        Public Property VehicleAlias As String
+
+        <DataMember(Name:="driver_alias", EmitDefaultValue:=False)>
+        Public Property DriverAlias As String
+
+        <DataMember(Name:="route_cost", EmitDefaultValue:=False)>
+        Public Property RouteCost As Double?
+
+        <DataMember(Name:="route_revenue", EmitDefaultValue:=False)>
+        Public Property RouteRevenue As Double?
+
+        <DataMember(Name:="net_revenue_per_distance_unit", EmitDefaultValue:=False)>
+        Public Property NetRevenuePerDistanceUnit As Double?
+
+        <DataMember(Name:="mpg", EmitDefaultValue:=False)>
+        Public Property mpg As String
+
+        <DataMember(Name:="trip_distance", EmitDefaultValue:=False)>
+        Public Property TripDistance As Double?
+
+        <DataMember(Name:="udu_distance_unit", EmitDefaultValue:=False)>
+        Public Property UduDistanceUnit As String
+
+        <DataMember(Name:="udu_trip_distance", EmitDefaultValue:=False)>
+        Public Property UduTripDistance As Double?
+
+        <DataMember(Name:="is_unrouted", EmitDefaultValue:=False)>
+        Public Property IsUnrouted As Boolean?
+
+        <DataMember(Name:="gas_price", EmitDefaultValue:=False)>
+        Public Property GasPrice As Double?
+
+        <DataMember(Name:="route_duration_sec", EmitDefaultValue:=False)>
+        Public Property RouteDurationSec As Integer?
+
+        <DataMember(Name:="planned_total_route_duration", EmitDefaultValue:=False)>
+        Public Property PlannedTotalRrouteDuration As Integer?
+
+        <DataMember(Name:="total_wait_time", EmitDefaultValue:=False)>
+        Public Property TotalWaitTime As Integer?
+
+        <DataMember(Name:="udu_actual_travel_distance", EmitDefaultValue:=False)>
+        Public Property UduActualTravelDistance As Decimal?
+
+        <DataMember(Name:="actual_travel_distance", EmitDefaultValue:=False)>
+        Public Property ActualTravelDistance As Decimal?
+
+        <DataMember(Name:="actual_travel_time", EmitDefaultValue:=False)>
+        Public Property ActualTravelTime As Integer?
+
+        <DataMember(Name:="actual_footsteps", EmitDefaultValue:=False)>
+        Public Property ActualFootsteps As Integer?
+
+        <DataMember(Name:="working_time", EmitDefaultValue:=False)>
+        Public Property WorkingTime As Integer?
+
+        <DataMember(Name:="driving_time", EmitDefaultValue:=False)>
+        Public Property DrivingTime As Integer?
+
+        <DataMember(Name:="idling_time", EmitDefaultValue:=False)>
+        Public Property IdlingTime As Integer?
+
+        <DataMember(Name:="paying_miles", EmitDefaultValue:=False)>
+        Public Property PayingMiles As Decimal?
+
+        <DataMember(Name:="geofence_polygon_type", EmitDefaultValue:=False)>
+        Public Property GeofencePolygonType As String
+
+        <DataMember(Name:="geofence_polygon_size", EmitDefaultValue:=False)>
+        Public Property GeofencePolygonSize As Integer?
+
+        <DataMember(Name:="destination_count", EmitDefaultValue:=False)>
+        Public Property DestinationCount As Integer?
+
+        <DataMember(Name:="notes_count", EmitDefaultValue:=False)>
+        Public Property NotesCount As Integer?
+
+        <DataMember(Name:="notes", EmitDefaultValue:=False)>
+        Public Property Notes As AddressNote()
+
+        <DataMember(Name:="vehicle", EmitDefaultValue:=False)>
+        Public Property Vehilce As VehicleV4Response
+
+        <DataMember(Name:="member_config_storage", EmitDefaultValue:=False)>
+        Public Property MemberConfigStorage As Dictionary(Of String, String)
 
     End Class
 End Namespace

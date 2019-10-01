@@ -41,7 +41,7 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim routeParameters As New RouteParametersQuery() With {
-            .Limit = 10,
+            .Limit = 20,
             .Offset = 5
         }
 
@@ -7373,6 +7373,127 @@ End Class
 
 End Class
 
+<TestClass>
+Public Class OrderCustomUserFieldsGroup
+    Shared skip As String
+    Shared c_ApiKey As String = ApiKeys.actualApiKey
+    Shared c_ApiKey_1 As String = ApiKeys.demoApiKey
+    Shared lsOrderCustomUserFieldIDs As List(Of Integer) = New List(Of Integer)()
+
+    <ClassInitialize()>
+    Public Shared Sub OrderCustomUserFieldsInitialize(ByVal context As TestContext)
+
+        If c_ApiKey = c_ApiKey_1 Then
+            skip = "yes"
+        Else
+            skip = "no"
+        End If
+
+        If skip = "yes" Then Return
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim orderCustomFieldParams = New OrderCustomFieldParameters() With {
+            .OrderCustomFieldName = "CustomField33",
+            .OrderCustomFieldLabel = "Custom Field 33",
+            .OrderCustomFieldType = "checkbox",
+            .OrderCustomFieldTypeInfo = New Dictionary(Of String, Object)() From {
+                {"short_label", "cFl33"},
+                {"description", "This is test order custom field"},
+                {"custom field no", 10}
+            }
+        }
+
+        Dim errorString As String = Nothing
+        Dim createdCustomField = route4Me.CreateOrderCustomUserField(orderCustomFieldParams, errorString)
+        Assert.IsInstanceOfType(createdCustomField, GetType(OrderCustomFieldCreateResponse), "Cannot initialize the class OrderCustomUserFieldsGroup. " & errorString)
+
+        lsOrderCustomUserFieldIDs = New List(Of Integer)() From {
+            createdCustomField.Data.OrderCustomFieldId
+        }
+
+    End Sub
+
+    <TestMethod>
+    Public Sub GetOrderCustomUserFieldsTest()
+        If skip = "yes" Then Return
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim errorString As String
+        Dim orderCustomUserFields = route4Me.GetOrderCustomUserFields(errorString)
+        Assert.IsInstanceOfType(orderCustomUserFields, GetType(OrderCustomField()), "GetOrderCustomUserFieldsTest failed. " & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub CreateOrderCustomUserFieldTest()
+        If skip = "yes" Then Return
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim orderCustomFieldParams = New OrderCustomFieldParameters() With {
+            .OrderCustomFieldName = "CustomField44",
+            .OrderCustomFieldLabel = "Custom Field 44",
+            .OrderCustomFieldType = "checkbox",
+            .OrderCustomFieldTypeInfo = New Dictionary(Of String, Object)() From {
+                {"short_label", "cFl44"},
+                {"description", "This is test order custom field"},
+                {"custom field no", 11}
+            }
+        }
+        Dim errorString As String = Nothing
+        Dim orderCustomUserField = route4Me.CreateOrderCustomUserField(orderCustomFieldParams, errorString)
+        Assert.IsInstanceOfType(orderCustomUserField, GetType(OrderCustomFieldCreateResponse), "CreateOrderCustomUserFieldTest failed. " & errorString)
+        lsOrderCustomUserFieldIDs.Add(orderCustomUserField.Data.OrderCustomFieldId)
+    End Sub
+
+    <TestMethod>
+    Public Sub UpdateOrderCustomUserFieldTest()
+        If skip = "yes" Then Return
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim orderCustomFieldParams = New OrderCustomFieldParameters() With {
+            .OrderCustomFieldId = lsOrderCustomUserFieldIDs(lsOrderCustomUserFieldIDs.Count - 1),
+            .OrderCustomFieldLabel = "Custom Field 55",
+            .OrderCustomFieldType = "checkbox",
+            .OrderCustomFieldTypeInfo = New Dictionary(Of String, Object)() From {
+                {"short_label", "cFl55"},
+                {"description", "This is updated test order custom field"},
+                {"custom field no", 12}
+            }
+        }
+        Dim errorString As String = Nothing
+        Dim orderCustomUserField = route4Me.UpdateOrderCustomUserField(orderCustomFieldParams, errorString)
+        Assert.IsInstanceOfType(orderCustomUserField, GetType(OrderCustomFieldCreateResponse), "UpdateOrderCustomUserFieldTest failed. " & errorString)
+        Assert.AreEqual("Custom Field 55", orderCustomUserField.Data.OrderCustomFieldLabel, "UpdateOrderCustomUserFieldTest failed. " & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub RemoveOrderCustomUserFieldTest()
+        If skip = "yes" Then Return
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim orderCustomFieldId As Integer = lsOrderCustomUserFieldIDs(lsOrderCustomUserFieldIDs.Count - 1)
+        Dim orderCustomFieldParams = New OrderCustomFieldParameters() With {
+            .OrderCustomFieldId = orderCustomFieldId
+        }
+        Dim errorString As String = Nothing
+        Dim response = route4Me.RemoveOrderCustomUserField(orderCustomFieldParams, errorString)
+        Assert.IsTrue(response.Affected = 1, "RemoveOrderCustomUserFieldTest failed. " & errorString)
+        lsOrderCustomUserFieldIDs.Remove(orderCustomFieldId)
+    End Sub
+
+    <ClassCleanup>
+    Public Shared Sub RemoveOrderCustomUserFields()
+        If skip = "yes" Then Return
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim errorString As String = Nothing
+
+        For Each customFieldId In lsOrderCustomUserFieldIDs
+            Dim customFieldParam = New OrderCustomFieldParameters() With {
+                .OrderCustomFieldId = customFieldId
+            }
+            Dim removeResult = route4Me.RemoveOrderCustomUserField(customFieldParam, errorString)
+            Assert.IsTrue(removeResult.Affected = 1, "Cannot remove order customuser field with id=" & customFieldId & ". " & errorString)
+        Next
+
+        lsOrderCustomUserFieldIDs.Clear()
+    End Sub
+End Class
+
 <TestClass()> Public Class ActivitiesGroup
     Shared c_ApiKey As String = ApiKeys.actualApiKey
 
@@ -7436,18 +7557,45 @@ End Class
         Assert.IsInstanceOfType(activities, GetType(Activity()), Convert.ToString("GetActivitiesTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetActivitiesTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim activityParameters As New ActivityParameters() With { _
-            .Limit = 10, _
-            .Offset = 0 _
+        Dim activityParameters As New ActivityParameters() With {
+            .Limit = 10,
+            .Offset = 0
         }
 
         ' Run the query
         Dim errorString As String = ""
         Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+
+        Assert.IsInstanceOfType(activities, GetType(Activity()), Convert.ToString("GetActivitiesTest failed... ") & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub GetActivitiesByMemberTest()
+        If c_ApiKey = ApiKeys.demoApiKey Then Return
+
+        Dim route4Me As New Route4MeManager(c_ApiKey)
+
+        Dim parameters As New GenericParameters()
+
+        Dim userErrorString As String
+        Dim response = route4Me.GetUsers(parameters, userErrorString)
+
+        Assert.IsInstanceOfType(response.results, GetType(MemberResponseV4()), "GetActivitiesByMemberTest failed - cannot get users")
+        Assert.IsTrue(response.results.Length > 1, "Cannot retrieve more than 1 users")
+
+        Dim activityParameters As New ActivityParameters() With {
+            .MemberId = If(response.results(1).member_id IsNot Nothing, Convert.ToInt32(response.results(1).member_id), -1),
+            .Limit = 10,
+            .Offset = 0
+        }
+
+        ' Run the query
+        Dim errorString As String = ""
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(activities, GetType(Activity()), Convert.ToString("GetActivitiesTest failed... ") & errorString)
     End Sub
@@ -8248,45 +8396,77 @@ End Class
         Dim parameters As GenericParameters = New GenericParameters()
 
         Dim errorString As String
-        Dim dataObjects As Route4MeManager.GetUsersResponse = route4Me.GetUsers(parameters, errorString)
-        Assert.IsInstanceOfType(dataObjects, GetType(Route4MeManager.GetUsersResponse), errorString)
+        'Dim dataObjects As Route4MeManager.GetUsersResponse = route4Me.GetUsers(parameters, errorString)
+        'Assert.IsInstanceOfType(dataObjects, GetType(Route4MeManager.GetUsersResponse), errorString)
 
-        For Each member As MemberResponseV4 In dataObjects.results
-            lsMembers.Add(Convert.ToInt32(member.member_id))
-        Next
+        'For Each member As MemberResponseV4 In dataObjects.results
+        'lsMembers.Add(Convert.ToInt32(member.member_id))
+        'Next
+        Dim dispetcher As MemberResponseV4 = (New UsersGroup()).CreateUser("SUB_ACCOUNT_DISPATCHER", errorString)
+        Assert.IsInstanceOfType(dispetcher, GetType(MemberResponseV4), "Cannot create dispetcher")
+        lsMembers.Add(dispetcher.member_id)
+
+        Dim driver As MemberResponseV4 = (New UsersGroup()).CreateUser("SUB_ACCOUNT_DRIVER", errorString)
+        Assert.IsInstanceOfType(driver, GetType(MemberResponseV4), "Cannot create driver")
+        lsMembers.Add(dispetcher.member_id)
     End Sub
 
     <TestMethod>
     Public Sub CreateUserTest()
         If skip = "yes" Then Return
 
+        Dim errorString As String
+        Dim dispetcher As MemberResponseV4 = CreateUser("SUB_ACCOUNT_DISPATCHER", errorString)
+
+        Dim rightResponse As String = If(dispetcher IsNot Nothing, "ok", (If((errorString = "Email is used in system" OrElse errorString = "Registration: The e-mail address is missing or invalid."), "ok", "")))
+
+        Assert.IsTrue(rightResponse = "ok", "CreateUserTest failed... " & errorString)
+
+        lsMembers.Add(Convert.ToInt32(dispetcher.member_id))
+    End Sub
+
+    Public Function CreateUser(ByRef memberType As String, ByVal errorString As String)
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim userFirstName As String
+        Dim userLastName As String
+        Dim userPhone As String
+
+        Select Case memberType
+            Case "SUB_ACCOUNT_DISPATCHER"
+                userFirstName = "Clay"
+                userLastName = "Abraham"
+                userPhone = "571-259-5939"
+            Case "SUB_ACCOUNT_DRIVER"
+                userFirstName = "Driver"
+                userLastName = "Driverson"
+                userPhone = "577-222-5555"
+        End Select
+
 
         Dim params As MemberParametersV4 = New MemberParametersV4 With {
             .HIDE_ROUTED_ADDRESSES = "FALSE",
-            .member_phone = "571-259-5939",
+            .member_phone = userPhone,
             .member_zipcode = "22102",
             .member_email = "regression.autotests+" & DateTime.Now.ToString("yyyyMMddHHmmss") & "@gmail.com",
             .HIDE_VISITED_ADDRESSES = "FALSE",
             .READONLY_USER = "FALSE",
-            .member_type = "SUB_ACCOUNT_DISPATCHER",
+            .member_type = memberType,
             .date_of_birth = "2010",
-            .member_first_name = "Clay",
+            .member_first_name = userFirstName,
             .member_password = "123456",
             .HIDE_NONFUTURE_ROUTES = "FALSE",
-            .member_last_name = "Abraham",
+            .member_last_name = userLastName,
             .SHOW_ALL_VEHICLES = "FALSE",
             .SHOW_ALL_DRIVERS = "FALSE"
         }
 
-        Dim errorString As String = ""
+        'Dim errorString As String = ""
         Dim result = route4Me.CreateUser(params, errorString)
-        Dim rightResponse As String = If(result IsNot Nothing, "ok", (If((errorString = "Email is used in system" OrElse errorString = "Registration: The e-mail address is missing or invalid."), "ok", "")))
 
-        Assert.IsTrue(rightResponse = "ok", "CreateUserTest failed... " & errorString)
+        CreateUser = result
 
-        lsMembers.Add(Convert.ToInt32(result.member_id))
-    End Sub
+    End Function
 
     <TestMethod>
     Public Sub AddEditCustomDataToUserTest()
@@ -8440,7 +8620,7 @@ End Class
         Assert.IsNotNull(result, Convert.ToString("ValidateSessionTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub DeleteUserTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -8453,6 +8633,21 @@ End Class
         Dim result As Boolean = route4Me.UserDelete(params, errorString)
 
         Assert.IsNotNull(result, Convert.ToString("DeleteUserTest failed... ") & errorString)
+
+        lsMembers.Remove(params.member_id)
+    End Sub
+
+    <ClassCleanup>
+    Public Shared Sub UsersGroupCleanup()
+        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim params As New MemberParametersV4()
+        Dim errorString As String = ""
+        Dim result As Boolean
+
+        For Each memberId In lsMembers
+            params.member_id = lsMembers(lsMembers.Count - 1)
+            result = route4Me.UserDelete(params, errorString)
+        Next
     End Sub
 
 End Class

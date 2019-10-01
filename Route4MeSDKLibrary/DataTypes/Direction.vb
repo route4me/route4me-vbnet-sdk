@@ -15,7 +15,7 @@ Namespace Route4MeSDK.DataTypes
         ''' <summary>
         ''' Maneuver steps
         ''' </summary>
-        <DataMember(Name:="steps")> _
-        Public Property Step1 As Step1()
+        <DataMember(Name:="steps")>
+        Public Property Step1 As DirectionStep()
     End Class
 End Namespace

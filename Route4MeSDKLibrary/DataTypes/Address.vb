@@ -206,8 +206,17 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="custom_fields", EmitDefaultValue:=False)> _
         Public Property CustomFields As Dictionary(Of String, String)
 
-        <DataMember(Name:="tracking_number", EmitDefaultValue:=False)> _
+        <DataMember(Name:="tracking_number", EmitDefaultValue:=False)>
         Public Property tracking_number As String
+
+        <DataMember(Name:="wait_time_to_next_destination", EmitDefaultValue:=False)>
+        Public Property WaitTimeToNextDestination As System.Nullable(Of Integer)
+
+        <DataMember(Name:="udu_distance_to_next_destination", EmitDefaultValue:=False)>
+        Public Property UduDistanceToNextDestination As System.Nullable(Of Double)
+
+        <DataMember(Name:="manifest", EmitDefaultValue:=False)>
+        Public Property Manifest As AddressManifest
 
     End Class
 End Namespace
