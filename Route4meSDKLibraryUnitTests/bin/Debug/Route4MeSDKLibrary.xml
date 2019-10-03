@@ -299,6 +299,11 @@ Route4MeSDKLibrary
  Order icon
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.custom_user_fields">
+ <summary>
+ Order icon
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.OrderCustomField">
  <summary>
  The class for the response from the order custom field query request.
@@ -322,6 +327,11 @@ Route4MeSDKLibrary
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.OrderCustomField.OrderCustomFieldType">
  <summary>
  Custom order field type.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.OrderCustomField.OrderCustomFieldValue">
+ <summary>
+ Custom order field value.
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.OrderCustomField.RootOwnerMemberId">

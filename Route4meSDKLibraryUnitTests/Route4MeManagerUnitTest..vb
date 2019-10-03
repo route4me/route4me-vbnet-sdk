@@ -12,7 +12,7 @@ Imports System.Threading
 Imports CsvHelper
 
 Public Class ApiKeys
-    Public Const actualApiKey As String = "51d0c0701ce83855c9f62d0440096e7c"
+    Public Const actualApiKey As String = "11111111111111111111111111111111"
     Public Const demoApiKey As String = "11111111111111111111111111111111"
 End Class
 
@@ -54,6 +54,8 @@ End Class
 
     <TestMethod>
     Public Sub GetRoutesFromDateRangeTest()
+        If c_ApiKey = ApiKeys.demoApiKey Then Return
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim routeParameters As New RouteParametersQuery() With {
@@ -6949,7 +6951,8 @@ End Class
     Shared c_ApiKey_1 As String = ApiKeys.demoApiKey
     Shared tdr As TestDataRepository
     Shared lsOptimizationIDs As List(Of String)
-    Shared lsOrders As New List(Of String)()
+    Shared lsOrderiDs As New List(Of String)()
+    Shared lsOrders As New List(Of Order)()
 
     <ClassInitialize()>
     Public Shared Sub CreateOrderTest(ByVal context As TestContext)
@@ -6981,7 +6984,8 @@ End Class
             Dim errorString As String
             Dim resultOrder As Order = route4Me.AddOrder(order, errorString)
             Assert.IsNotNull(resultOrder, "CreateOrderTest failed... " & errorString)
-            lsOrders.Add(resultOrder.order_id.ToString())
+            lsOrderiDs.Add(resultOrder.order_id.ToString())
+            lsOrders.Add(resultOrder)
         Else
             Assert.AreEqual(c_ApiKey_1, c_ApiKey)
         End If
@@ -7012,7 +7016,7 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim orderIds As String = ""
-        For Each ord1 As String In lsOrders
+        For Each ord1 As String In lsOrderiDs
             orderIds += ord1 & Convert.ToString(",")
         Next
         orderIds = orderIds.TrimEnd(",")
@@ -7110,7 +7114,7 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim order As Order = Nothing
-        Dim orderId As String = If(lsOrders.Count > 0, lsOrders(0), "")
+        Dim orderId As String = If(lsOrderiDs.Count > 0, lsOrderiDs(0), "")
 
         Assert.IsFalse(orderId = "", "There is no order for updating...")
 
@@ -7280,6 +7284,49 @@ End Class
     End Sub
 
     <TestMethod>
+    Public Sub CreateOrderWithCustomFieldTest()
+        If skip = "yes" Then Return
+
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        Dim orderParams = New Order() With {
+            .address_1 = "1358 E Luzerne St, Philadelphia, PA 19124, US",
+            .cached_lat = 48.335991,
+            .cached_lng = 31.18287,
+            .day_scheduled_for_YYMMDD = "2019-10-11",
+            .address_alias = "Auto test address",
+            .custom_user_fields = New OrderCustomField() {New OrderCustomField() With {
+                .OrderCustomFieldId = 93,
+                .OrderCustomFieldValue = "false"
+            }}
+        }
+
+        Dim errorString As String = Nothing
+        Dim result = route4Me.AddOrder(orderParams, errorString)
+
+        Assert.IsNotNull(result, "AddOrdersToRouteTest failed... " & errorString)
+
+        lsOrderiDs.Add(result.order_id.ToString())
+        lsOrders.Add(result)
+    End Sub
+
+    <TestMethod>
+    Public Sub UpdateOrderWithCustomFieldTest()
+        If skip = "yes" Then Return
+
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+        Dim order = lsOrders(lsOrders.Count - 1)
+
+        order.custom_user_fields = New OrderCustomField() {New OrderCustomField() With {
+        .OrderCustomFieldId = 93,
+        .OrderCustomFieldValue = "true"
+    }}
+        Dim errorString As String = Nothing
+        Dim result = route4Me.UpdateOrder(order, errorString)
+        Assert.IsNotNull(result, "AddOrdersToRouteTest failed... " & errorString)
+    End Sub
+
+    <TestMethod>
     Public Sub AddOrdersToRouteTest()
         If skip = "yes" Then Return
 
@@ -7358,17 +7405,21 @@ End Class
     Public Shared Sub RemoveOrdersTest()
         If skip = "yes" Then Return
 
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me = New Route4MeManager(c_ApiKey)
 
-        ' Run the query
-        Dim errorString As String = ""
-        Dim removed As Boolean = route4Me.RemoveOrders(lsOrders.ToArray(), errorString)
+        Dim errorString As String
+        Dim removed As Boolean = route4Me.RemoveOrders(lsOrderiDs.ToArray(), errorString)
 
-        Assert.IsTrue(removed, Convert.ToString("RemoveOrdersTest failed... ") & errorString)
+        lsOrders.Clear()
+        lsOrderiDs.Clear()
+
+        Assert.IsTrue(removed, "RemoveOrdersTest failed... " & errorString)
 
         Dim result As Boolean = tdr.RemoveOptimization(lsOptimizationIDs.ToArray())
 
         Assert.IsTrue(result, "Removing of the testing optimization problem failed...")
+
+        lsOptimizationIDs.Clear()
     End Sub
 
 End Class
@@ -8521,6 +8572,8 @@ End Class
 
     <TestMethod>
     Public Sub GetUserByIdTest()
+        If c_ApiKey = ApiKeys.demoApiKey Then Return
+
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
         Dim memberID As Integer = lsMembers(0)
@@ -8548,6 +8601,8 @@ End Class
 
     <TestMethod>
     Public Sub UpdateUserTest()
+        If c_ApiKey = ApiKeys.demoApiKey Then Return
+
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
         Dim params As MemberParametersV4 = New MemberParametersV4 With {
@@ -8820,6 +8875,8 @@ End Class
 
     <TestMethod>
     Public Sub CreatetVehicleTest()
+        If c_ApiKey = ApiKeys.demoApiKey Then Return
+
         Dim commonVehicleParams As VehicleV4Parameters = New VehicleV4Parameters() With {
             .VehicleAlias = "Ford Transit Test 6"
         }
@@ -8943,6 +9000,8 @@ End Class
 
     <TestMethod>
     Public Sub updateVehicleTest()
+        If c_ApiKey = ApiKeys.demoApiKey Then Return
+
         If lsVehicleIDs.Count < 1 Then
             Dim newVehicle As VehicleV4Parameters = New VehicleV4Parameters() With {
                 .VehicleAlias = "Ford Transit Test 6"

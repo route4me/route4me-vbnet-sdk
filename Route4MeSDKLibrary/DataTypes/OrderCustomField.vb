@@ -31,6 +31,12 @@ Namespace Route4MeSDK.DataTypes
         Public Property OrderCustomFieldType As String
 
         ''' <summary>
+        ''' Custom order field value.
+        ''' </summary>
+        <DataMember(Name:="order_custom_field_value", EmitDefaultValue:=False)>
+        Public Property OrderCustomFieldValue As String
+
+        ''' <summary>
         ''' Account owner member ID.
         ''' </summary>
         <DataMember(Name:="root_owner_member_id", EmitDefaultValue:=False)>
