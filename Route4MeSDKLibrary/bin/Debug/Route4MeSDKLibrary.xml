@@ -881,9 +881,14 @@ Route4MeSDKLibrary
  Territory color 
 </summary>
 </member>
-<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone.addresses">
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone.Addresses">
 <summary>
- Territory addresses 
+ Enclosed territory addresses 
+</summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone.Orders">
+<summary>
+ Enclosed territory orders 
 </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryZone.MemberId">
@@ -1209,9 +1214,14 @@ Route4MeSDKLibrary
  Territory Id
  </summary>
 </member>
-<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery.addresses">
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery.Addresses">
  <summary>
- Territory Id
+ Id equal to 1, the enclosed addresses will be inserted in the response.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery.Orders">
+ <summary>
+ Id equal to 1, the enclosed orders will be inserted in the response.
  </summary>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.PropertyValidation">

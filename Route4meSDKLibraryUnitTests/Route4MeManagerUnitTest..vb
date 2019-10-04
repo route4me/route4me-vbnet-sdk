@@ -6864,11 +6864,15 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim territoryId As String = ""
+
         If lsTerritories.Count > 1 Then
             territoryId = lsTerritories(1)
         End If
-        Dim territoryQuery As New TerritoryQuery() With { _
-            .TerritoryId = territoryId _
+
+        Dim territoryQuery As New TerritoryQuery() With {
+            .TerritoryId = territoryId,
+            .Addresses = 1,
+            .Orders = 1
         }
 
         ' Run the query
@@ -8447,19 +8451,14 @@ End Class
         Dim parameters As GenericParameters = New GenericParameters()
 
         Dim errorString As String
-        'Dim dataObjects As Route4MeManager.GetUsersResponse = route4Me.GetUsers(parameters, errorString)
-        'Assert.IsInstanceOfType(dataObjects, GetType(Route4MeManager.GetUsersResponse), errorString)
 
-        'For Each member As MemberResponseV4 In dataObjects.results
-        'lsMembers.Add(Convert.ToInt32(member.member_id))
-        'Next
         Dim dispetcher As MemberResponseV4 = (New UsersGroup()).CreateUser("SUB_ACCOUNT_DISPATCHER", errorString)
         Assert.IsInstanceOfType(dispetcher, GetType(MemberResponseV4), "Cannot create dispetcher")
         lsMembers.Add(dispetcher.member_id)
 
         Dim driver As MemberResponseV4 = (New UsersGroup()).CreateUser("SUB_ACCOUNT_DRIVER", errorString)
         Assert.IsInstanceOfType(driver, GetType(MemberResponseV4), "Cannot create driver")
-        lsMembers.Add(dispetcher.member_id)
+        lsMembers.Add(driver.member_id)
     End Sub
 
     <TestMethod>
@@ -8494,7 +8493,6 @@ End Class
                 userPhone = "577-222-5555"
         End Select
 
-
         Dim params As MemberParametersV4 = New MemberParametersV4 With {
             .HIDE_ROUTED_ADDRESSES = "FALSE",
             .member_phone = userPhone,
@@ -8512,7 +8510,6 @@ End Class
             .SHOW_ALL_DRIVERS = "FALSE"
         }
 
-        'Dim errorString As String = ""
         Dim result = route4Me.CreateUser(params, errorString)
 
         CreateUser = result
@@ -8525,41 +8522,18 @@ End Class
 
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
-        Dim params As MemberParametersV4 = New MemberParametersV4 With {
-            .HIDE_ROUTED_ADDRESSES = "FALSE",
-            .member_phone = "571-259-5939",
-            .member_zipcode = "22102",
-            .member_email = "regression.autotests+" & DateTime.Now.ToString("yyyyMMddHHmmss") & "@gmail.com",
-            .HIDE_VISITED_ADDRESSES = "FALSE",
-            .READONLY_USER = "FALSE",
-            .member_type = "SUB_ACCOUNT_DISPATCHER",
-            .date_of_birth = "2010",
-            .member_first_name = "Clay",
-            .member_password = "123456",
-            .HIDE_NONFUTURE_ROUTES = "FALSE",
-            .member_last_name = "Abraham",
-            .SHOW_ALL_VEHICLES = "FALSE",
-            .SHOW_ALL_DRIVERS = "FALSE"
+        Dim memberId = lsMembers(lsMembers.Count - 1)
+
+        Dim customPair As Dictionary(Of String, Object) = New Dictionary(Of String, Object)() From {
+            {"Custom Key 2", "Custom Value 2"}
+        }
+
+        Dim customParams As MemberParametersV4 = New MemberParametersV4 With {
+            .member_id = memberId,
+            .custom_data = customPair
         }
 
         Dim errorString As String = ""
-        Dim result = route4Me.CreateUser(params, errorString)
-        Dim rightResponse As String = If(result IsNot Nothing, "ok", (If((errorString = "Email is used in system" OrElse errorString = "Registration: The e-mail address is missing or invalid."), "ok", "")))
-
-        Assert.IsTrue(rightResponse = "ok", "CreateUserTest failed... " & errorString)
-
-        lsMembers.Add(Convert.ToInt32(result.member_id))
-
-        Dim customPair As Dictionary(Of String, Object) = New Dictionary(Of String, Object)() From { _
-            {"Custom Key 2", "Custom Value 2"} _
-            }
-
-        Dim customParams As MemberParametersV4 = New MemberParametersV4 With {
-        .member_id = If(result.member_id IsNot Nothing, Convert.ToInt32(result.member_id), -1),
-        .custom_data = customPair
-        }
-
-        errorString = ""
         Dim result2 As MemberResponseV4 = route4Me.UserUpdate(customParams, errorString)
 
         Assert.IsTrue(result2 IsNot Nothing, "UpdateUserTest failed... " & errorString)
@@ -8700,7 +8674,7 @@ End Class
         Dim result As Boolean
 
         For Each memberId In lsMembers
-            params.member_id = lsMembers(lsMembers.Count - 1)
+            params.member_id = memberId
             result = route4Me.UserDelete(params, errorString)
         Next
     End Sub
