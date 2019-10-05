@@ -941,6 +941,121 @@ Route4MeSDKLibrary
  Package src (e.g. 'R4M').
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserLocation.MemberData">
+ <summary>
+ Member data.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserLocation.UserTracking">
+ <summary>
+ User tracking.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserLocation.FromCache">
+ <summary>
+ If true, getting a location from the cache enabled.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.PositionLongitude">
+ <summary>
+ Position longitude
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.PositionLatitude">
+ <summary>
+ Position latitude
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.Direction">
+ <summary>
+ Movement direction in the degrees (north = 0, clockwise).
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.DataSourceName">
+ <summary>
+ Data source name.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.ActivityTimestamp">
+ <summary>
+ Activity timestamp (EPOCH).
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.DeviceTimestamp">
+ <summary>
+ Device timestamp (EPOCH).
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.RouteId">
+ <summary>
+ Route ID.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.DeviceId">
+ <summary>
+ Device ID.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.Speed">
+ <summary>
+ Vehicle movement speed.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.Altitude">
+ <summary>
+ Vehicle movement speed.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.Footsteps">
+ <summary>
+ Footsteps.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.CustomData">
+ <summary>
+User email.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.DeviceTimezone">
+ <summary>
+ Device timezone (e.g. 'America/New_York').
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.DeviceTimezoneOffset">
+ <summary>
+ Device timezone offset.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.VehicleId">
+ <summary>
+ Vehicle ID.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.DayId">
+ <summary>
+ Day ID.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.DeviceType">
+ <summary>
+ Device type.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.MemberId">
+ <summary>
+ Unique ID of the member inside the Route4Me system.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.ActivityTimestampFriendly">
+ <summary>
+ Activity timestamp friendly.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.LastKnown">
+ <summary>
+ Timestamp of a last known location.
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters">
  <summary>
  Avoidance zone parameters
@@ -1243,6 +1358,14 @@ Route4MeSDKLibrary
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.DataObjectOptimizations">
  <summary>
  </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetUserLocations(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GenericParameters,System.String@)">
+ <summary>
+ Get user locations
+ </summary>
+ <param name="parameters"></param>
+ <param name="errorString"></param>
+ <returns></returns>
 </member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.LogCustomActivity(Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity,System.String@)">
  <summary>

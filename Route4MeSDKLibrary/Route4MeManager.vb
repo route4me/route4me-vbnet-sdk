@@ -1047,13 +1047,25 @@ Namespace Route4MeSDK
 
         Public Function FindAsset(tracking As String, ByRef errorString As String) As FindAssetResponse
 
-            Dim request As New FindAssetRequest With { _
-               .Tracking = tracking _
+            Dim request As New FindAssetRequest With {
+               .Tracking = tracking
             }
 
             Dim result As FindAssetResponse = GetJsonObjectFromAPI(Of FindAssetResponse)(request, R4MEInfrastructureSettings.AssetTracking, HttpMethodType.[Get], False, errorString)
 
             Return result
+        End Function
+
+        ''' <summary>
+        ''' Get user locations
+        ''' </summary>
+        ''' <param name="parameters"></param>
+        ''' <param name="errorString"></param>
+        ''' <returns></returns>
+        Public Function GetUserLocations(ByVal parameters As GenericParameters, ByRef errorString As String) As Dictionary(Of String, UserLocation)
+            Dim userLocations = GetJsonObjectFromAPI(Of Dictionary(Of String, UserLocation))(parameters, R4MEInfrastructureSettings.UserLocation, HttpMethodType.[Get], False, errorString)
+
+            Return userLocations
         End Function
 
 #End Region

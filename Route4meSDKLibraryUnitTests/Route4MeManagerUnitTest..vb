@@ -1,15 +1,11 @@
-﻿Imports System.Text
-Imports Microsoft.VisualStudio.TestTools.UnitTesting
-Imports Route4MeSDKLibrary.Route4MeSDK
+﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.FastProcessing
 Imports System.IO
 Imports System.Runtime.Serialization
-Imports System.Reflection
 Imports System.CodeDom.Compiler
 Imports System.Threading
-Imports CsvHelper
 
 Public Class ApiKeys
     Public Const actualApiKey As String = "11111111111111111111111111111111"
@@ -8408,7 +8404,7 @@ End Class
         Assert.IsNotNull(response, Convert.ToString("GetDeviceHistoryTimeRangeTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub TrackDeviceLastLocationHistoryTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -8420,6 +8416,43 @@ End Class
         Dim dataObject = route4Me.GetLastLocation(genericParameters, errorString)
 
         Assert.IsNotNull(dataObject, Convert.ToString("TrackDeviceLastLocationHistoryTest failed... ") & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub GetAllUserLocationsTest()
+        Dim route4Me = New Route4MeManager(ApiKeys.actualApiKey)
+
+        Dim genericParameters = New GenericParameters()
+
+        Dim errorString As String = Nothing
+        Dim userLocations = route4Me.GetUserLocations(genericParameters, errorString)
+
+        Assert.IsNotNull(userLocations, "GetAllUserLocationsTest failed... " & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub QueryUserLocationsTest()
+        Dim route4Me = New Route4MeManager(ApiKeys.actualApiKey)
+
+        Dim genericParameters = New GenericParameters()
+
+        Dim errorString As String = Nothing
+        Dim userLocations = route4Me.GetUserLocations(genericParameters, errorString)
+
+        Assert.IsNotNull(userLocations, "GetAllUserLocationsTest failed... " & errorString)
+
+        Dim userLocation = userLocations.Where(Function(x) x.Value.UserTracking IsNot Nothing).FirstOrDefault().Value
+
+        If userLocation Is Nothing Then userLocation = userLocations(userLocations.Keys.First())
+
+        Dim email As String = userLocation.MemberData.MemberEmail
+
+        genericParameters.ParametersCollection.Add("query", email)
+
+        Dim queriedUserLocations = route4Me.GetUserLocations(genericParameters, errorString)
+
+        Assert.IsNotNull(queriedUserLocations, "QueryUserLocationsTest failed... " & errorString)
+        Assert.IsTrue(queriedUserLocations.Count() = 1, "QueryUserLocationsTest failed... " & errorString)
     End Sub
 
     <ClassCleanup> _

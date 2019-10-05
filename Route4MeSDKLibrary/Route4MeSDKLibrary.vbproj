@@ -148,6 +148,7 @@
     <Compile Include="DataTypes\TerritoryZone.vb" />
     <Compile Include="DataTypes\TrackingHistory.vb" />
     <Compile Include="DataTypes\User.vb" />
+    <Compile Include="DataTypes\UserLocation.vb" />
     <Compile Include="DataTypes\VehicleResponse.vb" />
     <Compile Include="DataTypes\VehiclesPaginated.vb" />
     <Compile Include="DataTypes\VehicleV4Response.vb" />
