@@ -1,11 +1,15 @@
-﻿Imports Route4MeSDKLibrary.Route4MeSDK
+﻿Imports System.Text
+Imports Microsoft.VisualStudio.TestTools.UnitTesting
+Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.FastProcessing
 Imports System.IO
 Imports System.Runtime.Serialization
+Imports System.Reflection
 Imports System.CodeDom.Compiler
 Imports System.Threading
+Imports CsvHelper
 
 Public Class ApiKeys
     Public Const actualApiKey As String = "11111111111111111111111111111111"
@@ -9637,8 +9641,8 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim queryParameters As New RouteParametersQuery() With {
-            .Limit = 10,
-            .Offset = 5
+            .Limit = 1,
+            .Offset = 6
         }
 
         ' Run the query
