@@ -8478,6 +8478,7 @@ End Class
     Public Shared Sub UserGroupInitialize(ByVal context As TestContext)
         If c_ApiKey = c_ApiKey_1 Then
             skip = "yes"
+            Return
         Else
             skip = "no"
         End If
@@ -8583,7 +8584,7 @@ End Class
 
     <TestMethod>
     Public Sub GetUserByIdTest()
-        If c_ApiKey = ApiKeys.demoApiKey Then Return
+        If skip = "yes" Then Return
 
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
@@ -8600,6 +8601,8 @@ End Class
 
     <TestMethod>
     Public Sub GetUsersTest()
+        If skip = "yes" Then Return
+
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
         Dim parameters As GenericParameters = New GenericParameters()
@@ -8612,7 +8615,7 @@ End Class
 
     <TestMethod>
     Public Sub UpdateUserTest()
-        If c_ApiKey = ApiKeys.demoApiKey Then Return
+        If skip = "yes" Then Return
 
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
@@ -8627,14 +8630,16 @@ End Class
         Assert.IsNotNull(result, "UpdateUserTest failed... " & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub UserAuthenticationTest()
+        If skip = "yes" Then Return
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim params As New MemberParameters() With { _
-            .StrEmail = "aaaaaaaa@gmail.com", _
-            .StrPassword = "11111111111", _
-            .Format = "json" _
+        Dim params As New MemberParameters() With {
+            .StrEmail = "aaaaaaaa@gmail.com",
+            .StrPassword = "11111111111",
+            .Format = "json"
         }
         ' Run the query
         Dim errorString As String = ""
@@ -8644,22 +8649,24 @@ End Class
         Assert.IsNotNull(result, Convert.ToString("UserAuthenticationTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub UserRegistrationTest()
+        If skip = "yes" Then Return
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim params As New MemberParameters() With { _
-            .StrEmail = "thewelco@gmail.com", _
-            .StrPassword_1 = "11111111", _
-            .StrPassword_2 = "11111111", _
-            .StrFirstName = "Olman", _
-            .StrLastName = "Progman", _
-            .StrIndustry = "Transportation", _
-            .Format = "json", _
-            .ChkTerms = 1, _
-            .DeviceType = "web", _
-            .Plan = "free", _
-            .MemberType = 5 _
+        Dim params As New MemberParameters() With {
+            .StrEmail = "thewelco@gmail.com",
+            .StrPassword_1 = "11111111",
+            .StrPassword_2 = "11111111",
+            .StrFirstName = "Olman",
+            .StrLastName = "Progman",
+            .StrIndustry = "Transportation",
+            .Format = "json",
+            .ChkTerms = 1,
+            .DeviceType = "web",
+            .Plan = "free",
+            .MemberType = 5
         }
         ' Run the query
         Dim errorString As String = ""
@@ -8669,14 +8676,16 @@ End Class
         Assert.IsNotNull(result, Convert.ToString("UserRegistrationTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub ValidateSessionTest()
+        If skip = "yes" Then Return
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim params As New MemberParameters() With { _
-            .SessionGuid = "ad9001f33ed6875b5f0e75bce52cbc34", _
-            .MemberId = 1, _
-            .Format = "json" _
+        Dim params As New MemberParameters() With {
+            .SessionGuid = "ad9001f33ed6875b5f0e75bce52cbc34",
+            .MemberId = 1,
+            .Format = "json"
         }
         ' Run the query
         Dim errorString As String = ""
@@ -8688,6 +8697,8 @@ End Class
 
     <TestMethod>
     Public Sub DeleteUserTest()
+        If skip = "yes" Then Return
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim params As New MemberParametersV4() With {
@@ -8705,6 +8716,8 @@ End Class
 
     <ClassCleanup>
     Public Shared Sub UsersGroupCleanup()
+        If skip = "yes" Then Return
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
         Dim params As New MemberParametersV4()
         Dim errorString As String = ""
