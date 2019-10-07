@@ -1,85 +1,29 @@
-﻿Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
-Imports System.Runtime.Serialization
+﻿Imports System.Runtime.Serialization
 
 Namespace Route4MeSDK.QueryTypes
     Public NotInheritable Class AddressBookParameters
         Inherits GenericParameters
-        <HttpQueryMemberAttribute(Name:="address_id", EmitDefaultValue:=False)> _
-        Public Property AddressId() As String
-            Get
-                Return m_AddressId
-            End Get
-            Set(value As String)
-                m_AddressId = value
-            End Set
-        End Property
-        Private m_AddressId As String
 
-        <HttpQueryMemberAttribute(Name:="limit", EmitDefaultValue:=False)> _
-        Public Property Limit() As System.Nullable(Of UInteger)
-            Get
-                Return m_Limit
-            End Get
-            Set(value As System.Nullable(Of UInteger))
-                m_Limit = value
-            End Set
-        End Property
-        Private m_Limit As System.Nullable(Of UInteger)
+        <HttpQueryMemberAttribute(Name:="address_id", EmitDefaultValue:=False)>
+        Public Property AddressId As String
 
-        <HttpQueryMemberAttribute(Name:="offset", EmitDefaultValue:=False)> _
-        Public Property Offset() As System.Nullable(Of UInteger)
-            Get
-                Return m_Offset
-            End Get
-            Set(value As System.Nullable(Of UInteger))
-                m_Offset = value
-            End Set
-        End Property
-        Private m_Offset As System.Nullable(Of UInteger)
+        <HttpQueryMemberAttribute(Name:="limit", EmitDefaultValue:=False)>
+        Public Property Limit As UInteger?
 
-        <HttpQueryMemberAttribute(Name:="start", EmitDefaultValue:=False)> _
-        Public Property Start() As System.Nullable(Of UInteger)
-            Get
-                Return m_Start
-            End Get
-            Set(value As System.Nullable(Of UInteger))
-                m_Start = value
-            End Set
-        End Property
-        Private m_Start As System.Nullable(Of UInteger)
+        <HttpQueryMemberAttribute(Name:="offset", EmitDefaultValue:=False)>
+        Public Property Offset As UInteger?
 
-        <HttpQueryMemberAttribute(Name:="query", EmitDefaultValue:=False)> _
-        Public Property Query() As String
-            Get
-                Return m_Query
-            End Get
-            Set(value As String)
-                m_Query = value
-            End Set
-        End Property
-        Private m_Query As String
+        <HttpQueryMemberAttribute(Name:="start", EmitDefaultValue:=False)>
+        Public Property Start As UInteger?
 
-        <DataMember(Name:="fields", EmitDefaultValue:=False)> _
-        Public Property Fields() As String
-            Get
-                Return m_Fields
-            End Get
-            Set(value As String)
-                m_Fields = value
-            End Set
-        End Property
-        Private m_Fields As String
+        <HttpQueryMemberAttribute(Name:="query", EmitDefaultValue:=False)>
+        Public Property Query As String
 
-        <HttpQueryMemberAttribute(Name:="display", EmitDefaultValue:=False)> _
-        Public Property Display() As String
-            Get
-                Return m_Display
-            End Get
-            Set(value As String)
-                m_Display = value
-            End Set
-        End Property
-        Private m_Display As String
+        <DataMember(Name:="fields", EmitDefaultValue:=False)>
+        Public Property Fields As String
+
+        <HttpQueryMemberAttribute(Name:="display", EmitDefaultValue:=False)>
+        Public Property Display As String
 
     End Class
 End Namespace

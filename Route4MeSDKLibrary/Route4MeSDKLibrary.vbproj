@@ -101,6 +101,9 @@
     <Compile Include="DataTypes\Address.vb" />
     <Compile Include="DataTypes\AddressBookContact.vb" />
     <Compile Include="DataTypes\AddressBookContactsResponse.vb" />
+    <Compile Include="DataTypes\AddressBookGroup.vb" />
+    <Compile Include="DataTypes\AddressBookGroupFilter.vb" />
+    <Compile Include="DataTypes\AddressBookGroupRule.vb" />
     <Compile Include="DataTypes\AddressForGeocoding.vb" />
     <Compile Include="DataTypes\AddressGeocoded.vb" />
     <Compile Include="DataTypes\AddressManifest.vb" />
@@ -138,6 +141,7 @@
     <Compile Include="DataTypes\RouteResponse.vb" />
     <Compile Include="DataTypes\Schedule.vb" />
     <Compile Include="DataTypes\DirectionStep.vb" />
+    <Compile Include="DataTypes\StatusResponse.vb" />
     <Compile Include="DataTypes\TelematicsVendor.vb" />
     <Compile Include="DataTypes\TelematicsVendorFeature.vb" />
     <Compile Include="DataTypes\TelematicsVendorResponse.vb" />
@@ -174,6 +178,7 @@
     </Compile>
     <Compile Include="PropertyValidation.vb" />
     <Compile Include="QueryTypes\ActivityParameters.vb" />
+    <Compile Include="QueryTypes\AddressBookGroupParameters.vb" />
     <Compile Include="QueryTypes\AddressBookParameters.vb" />
     <Compile Include="QueryTypes\AddressParameters.vb" />
     <Compile Include="QueryTypes\AvoidanceZoneParameters.vb" />
@@ -191,6 +196,7 @@
     <Compile Include="QueryTypes\MemberParametersV4.vb" />
     <Compile Include="QueryTypes\OptimizationParameters.vb" />
     <Compile Include="QueryTypes\OrderCustomFieldParameters.vb" />
+    <Compile Include="QueryTypes\OrderFilterParameters.vb" />
     <Compile Include="QueryTypes\OrderParameters.vb" />
     <Compile Include="QueryTypes\RouteParametersQuery.vb" />
     <Compile Include="QueryTypes\TelematicsVendorParameters.vb" />

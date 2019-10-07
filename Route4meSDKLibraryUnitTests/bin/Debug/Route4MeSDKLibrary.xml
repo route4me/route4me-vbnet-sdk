@@ -1188,6 +1188,32 @@ User email.
  in the orders table in the page: https://route4me.com/orders
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderFilterParameters">
+ <summary>
+ Available values: "all", "routed", "unrouted"
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.FilterDetails.Display">
+ <summary>
+ Available values: "all", "routed", "unrouted"
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.FilterDetails.Scheduled_for_YYMMDD">
+ <summary>
+ Start and end dates for filter the orders by schedule.
+ e.g. ["2019-06-01", "2019-06-18"]
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.FilterDetails.Limit">
+ <summary>
+ Limit per page, if you use 0 you will get all records
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.FilterDetails.Offset">
+ <summary>
+ Offset.
+ </summary>
+</member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.limit">
  <summary>
  Limit per page, if you use 0 you will get all records
@@ -1454,6 +1480,14 @@ User email.
  <param name="tereritoryParameters"> Parameters for request </param>
  <param name="errorString"> out: Error as string </param>
  <returns> Territory Object </returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.FilterOrders(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderFilterParameters,System.String@)">
+ <summary>
+ Filter for the orders filtering
+ </summary>
+ <param name="orderFilter">>The OrderFilterParameters object as a HTTP request payload</param>
+ <param name="errorString">out: Error as string</param>
+ <returns>Array of the Order type objects</returns>
 </member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetOrders(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters,System.UInt32@,System.String@)">
  <summary>

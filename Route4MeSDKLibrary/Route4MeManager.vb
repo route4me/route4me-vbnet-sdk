@@ -2208,6 +2208,50 @@ Namespace Route4MeSDK
 
 #End Region
 
+#Region "Address Book Groups"
+        Public Function GetAddressBookGroups(ByVal addressBookGroupParameters As AddressBookGroupParameters, ByRef errorString As String) As AddressBookGroup()
+            Dim response = GetJsonObjectFromAPI(Of AddressBookGroup())(addressBookGroupParameters, R4MEInfrastructureSettings.AddressBookGroup, HttpMethodType.[Get], errorString)
+            Return response
+        End Function
+
+        Public Function GetAddressBookGroup(ByVal addressBookGroupParameters As AddressBookGroupParameters, ByRef errorString As String) As AddressBookGroup
+            addressBookGroupParameters.PrepareForSerialization()
+            Dim response = GetJsonObjectFromAPI(Of AddressBookGroup)(addressBookGroupParameters, R4MEInfrastructureSettings.AddressBookGroup, HttpMethodType.[Get], errorString)
+            Return response
+        End Function
+
+        Public Function GetAddressBookContactsByGroup(ByVal addressBookGroupParameters As AddressBookGroupParameters, ByRef errorString As String) As AddressBookContactsResponse
+            addressBookGroupParameters.PrepareForSerialization()
+            Dim response = GetJsonObjectFromAPI(Of AddressBookContactsResponse)(addressBookGroupParameters, R4MEInfrastructureSettings.AddressBookGroupSearch, HttpMethodType.Post, errorString)
+            Return response
+        End Function
+
+        Public Function SearchAddressBookContactsByFilter(ByVal addressBookGroupParameters As AddressBookGroupParameters, ByRef errorString As String) As AddressBookContactsResponse
+            addressBookGroupParameters.PrepareForSerialization()
+            Dim response = GetJsonObjectFromAPI(Of AddressBookContactsResponse)(addressBookGroupParameters, R4MEInfrastructureSettings.AddressBook, HttpMethodType.Post, errorString)
+            Return response
+        End Function
+
+        Public Function AddAddressBookGroup(ByVal group As AddressBookGroup, ByRef errorString As String) As AddressBookGroup
+            group.PrepareForSerialization()
+            Dim result As AddressBookGroup = GetJsonObjectFromAPI(Of AddressBookGroup)(group, R4MEInfrastructureSettings.AddressBookGroup, HttpMethodType.Post, errorString)
+            Return result
+        End Function
+
+        Public Function UpdateAddressBookGroup(ByVal group As AddressBookGroup, ByRef errorString As String) As AddressBookGroup
+            group.PrepareForSerialization()
+            Dim result As AddressBookGroup = GetJsonObjectFromAPI(Of AddressBookGroup)(group, R4MEInfrastructureSettings.AddressBookGroup, HttpMethodType.Put, errorString)
+            Return result
+        End Function
+
+        Public Function RemoveAddressBookGroup(ByVal groupID As AddressBookGroupParameters, ByRef errorString As String) As StatusResponse
+            groupID.PrepareForSerialization()
+            Dim result As StatusResponse = GetJsonObjectFromAPI(Of StatusResponse)(groupID, R4MEInfrastructureSettings.AddressBookGroup, HttpMethodType.Delete, errorString)
+            Return result
+        End Function
+
+#End Region
+
 #Region "Avoidance Zones"
 
         ''' <summary>
@@ -2358,6 +2402,18 @@ Namespace Route4MeSDK
                 result = response.Results
             End If
             Return result
+        End Function
+
+        ''' <summary>
+        ''' Filter for the orders filtering
+        ''' </summary>
+        ''' <param name="orderFilter">>The OrderFilterParameters object as a HTTP request payload</param>
+        ''' <param name="errorString">out: Error as string</param>
+        ''' <returns>Array of the Order type objects</returns>
+        Public Function FilterOrders(ByVal orderFilter As OrderFilterParameters, ByRef errorString As String) As Order()
+            Dim response As GetOrdersResponse = GetJsonObjectFromAPI(Of GetOrdersResponse)(orderFilter, R4MEInfrastructureSettings.Order, HttpMethodType.Post, errorString)
+
+            Return If((response IsNot Nothing), response.Results, Nothing)
         End Function
 
         <DataContract> _

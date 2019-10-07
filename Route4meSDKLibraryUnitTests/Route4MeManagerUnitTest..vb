@@ -6181,7 +6181,8 @@ End Class
 
 End Class
 
-<TestClass()> Public Class AddressbookContactsGroup
+<TestClass()>
+Public Class AddressbookContactsGroup
     Shared c_ApiKey As String = ApiKeys.actualApiKey
     Shared c_ApiKey_1 As String = ApiKeys.demoApiKey
     Shared skip As String
@@ -6197,7 +6198,7 @@ End Class
 
     Shared lsRemoveContacts As New List(Of Integer)()
 
-    <ClassInitialize> _
+    <ClassInitialize>
     Public Shared Sub AddAddressBookContactsTest(context As TestContext)
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -6207,11 +6208,11 @@ End Class
             skip = "no"
         End If
 
-        Dim contact As New AddressBookContact() With { _
-            .first_name = "Test FirstName " + (New Random()).[Next]().ToString(), _
-            .address_1 = "Test Address1 " + (New Random()).[Next]().ToString(), _
-            .cached_lat = 38.024654, _
-            .cached_lng = -77.338814 _
+        Dim contact As New AddressBookContact() With {
+            .first_name = "Test FirstName " + (New Random()).[Next]().ToString(),
+            .address_1 = "Test Address1 " + (New Random()).[Next]().ToString(),
+            .cached_lat = 38.024654,
+            .cached_lng = -77.338814
         }
 
         ' Run the query
@@ -6230,12 +6231,12 @@ End Class
             {"FirstFieldName2", "FirstFieldValue2"}
         }
 
-        contact = New AddressBookContact() With { _
-            .first_name = "Test FirstName " + (New Random()).[Next]().ToString(), _
-            .address_1 = "Test Address1 " + (New Random()).[Next]().ToString(), _
-            .cached_lat = 38.024654, _
-            .cached_lng = -77.338814, _
-            .address_custom_data = dCustom _
+        contact = New AddressBookContact() With {
+            .first_name = "Test FirstName " + (New Random()).[Next]().ToString(),
+            .address_1 = "Test Address1 " + (New Random()).[Next]().ToString(),
+            .cached_lat = 38.024654,
+            .cached_lng = -77.338814,
+            .address_custom_data = dCustom
         }
 
         contact2 = route4Me.AddAddressBookContact(contact, errorString)
@@ -6248,7 +6249,7 @@ End Class
         End If
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub AddScheduledAddressBookContactsTest()
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
@@ -6406,7 +6407,7 @@ End Class
         If location5 > 0 Then lsRemoveContacts.Add(location5)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub UpdateAddressBookContactTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -6420,14 +6421,14 @@ End Class
         Assert.IsNotNull(updatedContact, Convert.ToString("UpdateAddressBookContactTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub SearchLocationsByTextTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim addressBookParameters As New AddressBookParameters() With { _
-            .Query = "Test Address1", _
-            .Offset = 0, _
-            .Limit = 20 _
+        Dim addressBookParameters As New AddressBookParameters() With {
+            .Query = "Test Address1",
+            .Offset = 0,
+            .Limit = 20
         }
 
         ' Run the query
@@ -6438,7 +6439,7 @@ End Class
         Assert.IsInstanceOfType(contacts, GetType(AddressBookContact()), Convert.ToString("SearchLocationsByTextTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub SearchLocationsByIDsTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -6447,8 +6448,8 @@ End Class
 
         Dim addresses As String = contact1.address_id & "," & contact2.address_id
 
-        Dim addressBookParameters As New AddressBookParameters() With { _
-            .AddressId = addresses _
+        Dim addressBookParameters As New AddressBookParameters() With {
+            .AddressId = addresses
         }
 
         ' Run the query
@@ -6459,15 +6460,15 @@ End Class
         Assert.IsInstanceOfType(contacts, GetType(AddressBookContact()), Convert.ToString("SearchLocationsByIDsTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetSpecifiedFieldsSearchTextTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim addressBookParameters As New AddressBookParameters() With { _
-            .Query = "Test Address1", _
-            .Fields = "first_name,address_email", _
-            .Offset = 0, _
-            .Limit = 20 _
+        Dim addressBookParameters As New AddressBookParameters() With {
+            .Query = "Test Address1",
+            .Fields = "first_name,address_email",
+            .Offset = 0,
+            .Limit = 20
         }
 
         ' Run the query
@@ -6478,13 +6479,13 @@ End Class
         Assert.IsInstanceOfType(contacts, GetType(AddressBookContact()), Convert.ToString("GetSpecifiedFieldsSearchTextTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetAddressBookContactsTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim addressBookParameters As New AddressBookParameters() With { _
-            .Limit = 10, _
-            .Offset = 0 _
+        Dim addressBookParameters As New AddressBookParameters() With {
+            .Limit = 10,
+            .Offset = 0
         }
 
         ' Run the query
@@ -6507,9 +6508,9 @@ End Class
         Dim lsAddresses As New List(Of String)()
 
         While blContinue
-            Dim addressBookParameters As New AddressBookParameters() With { _
-                .Limit = 40, _
-                .Offset = CUInt(iCurOffset) _
+            Dim addressBookParameters As New AddressBookParameters() With {
+                .Limit = 40,
+                .Offset = CUInt(iCurOffset)
             }
 
             Dim total As UInteger
@@ -6530,16 +6531,16 @@ End Class
         End While
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub SearchRoutedLocationsTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         If skip = "yes" Then Return
 
-        Dim addressBookParameters As New AddressBookParameters() With { _
-            .Display = "routed", _
-            .Offset = 0, _
-            .Limit = 20 _
+        Dim addressBookParameters As New AddressBookParameters() With {
+            .Display = "routed",
+            .Offset = 0,
+            .Limit = 20
         }
 
         ' Run the query
@@ -6550,7 +6551,7 @@ End Class
         Assert.IsInstanceOfType(contacts, GetType(AddressBookContact()), Convert.ToString("SearchRoutedLocationsTest failed... ") & errorString)
     End Sub
 
-    <ClassCleanup> _
+    <ClassCleanup>
     Public Shared Sub RemoveAddressBookContactsTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -6565,6 +6566,184 @@ End Class
 
             Assert.IsTrue(removed, Convert.ToString("RemoveAddressBookContactsTest failed... ") & errorString)
         End If
+    End Sub
+
+End Class
+
+<TestClass()>
+Public Class AddressbookGroupsGroup
+    Shared c_ApiKey As String = ApiKeys.actualApiKey
+    Shared group1, group2 As AddressBookGroup
+    Shared lsGroups As List(Of String) = New List(Of String)()
+
+    <ClassInitialize>
+    Public Shared Sub AddressBookGroupsInitialize(ByVal context As TestContext)
+        Dim errorString As String
+
+        group1 = CreateAddreessBookGroup(errorString)
+        Assert.IsNotNull(group1, "AddressBookGroupsInitialize failed... " & errorString)
+
+        group2 = CreateAddreessBookGroup(errorString)
+        Assert.IsNotNull(group2, "AddressBookGroupsInitialize failed... " & errorString)
+        lsGroups.Add(group2.groupID)
+    End Sub
+
+    <TestMethod>
+    Public Sub GetAddressBookGroupsTest()
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+        Dim addressBookGroupParameters As AddressBookGroupParameters = New AddressBookGroupParameters() With {
+            .Limit = 10,
+            .Offset = 0
+        }
+        Dim errorString As String
+        Dim groups As AddressBookGroup() = route4Me.GetAddressBookGroups(addressBookGroupParameters, errorString)
+        Assert.IsInstanceOfType(groups, GetType(AddressBookGroup()), "GetAddressBookGroupsTest failed... " & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub GetAddressBookGroupTest()
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim addressBookGroupParameters As AddressBookGroupParameters = New AddressBookGroupParameters() With {
+            .GroupId = group2.groupID
+        }
+
+        Dim errorString As String
+        Dim addressBookGroup As AddressBookGroup = route4Me.GetAddressBookGroup(addressBookGroupParameters, errorString)
+
+        Assert.IsInstanceOfType(addressBookGroup, GetType(AddressBookGroup), "GetAddressBookGroupTest failed... " & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub GetAddressBookContactsByGroupTest()
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim addressBookGroupParameters As AddressBookGroupParameters = New AddressBookGroupParameters() With {
+            .GroupId_ = group2.groupID
+        }
+
+        Dim errorString As String
+        Dim addressBookGroup As AddressBookContactsResponse = route4Me.GetAddressBookContactsByGroup(addressBookGroupParameters, errorString)
+
+        Assert.IsInstanceOfType(addressBookGroup, GetType(AddressBookContactsResponse), "GetAddressBookContactsByGroupTest failed... " & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub SearchAddressBookContactsByFilterTest()
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim filterParam As AddressBookGroupFilterParameter = New AddressBookGroupFilterParameter() With {
+            .Query = "Louisville",
+            .Display = "all"
+        }
+
+        Dim addressBookGroupParameters As AddressBookGroupParameters = New AddressBookGroupParameters() With {
+            .Fields = New String() {"address_id", "address_1", "address_group"},
+            .Offset = 0,
+            .Limit = 10,
+            .filter = filterParam
+        }
+
+        Dim errorString As String
+        Dim results As AddressBookContactsResponse = route4Me.SearchAddressBookContactsByFilter(addressBookGroupParameters, errorString)
+
+        Assert.IsInstanceOfType(results, GetType(AddressBookContactsResponse), "GetAddressBookContactsByGroupTest failed... " & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub UpdateAddressBookGroupTest()
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim addressBookGroupRule As AddressBookGroupRule = New AddressBookGroupRule() With {
+            .ID = "address_1",
+            .Field = "address_1",
+            .[Operator] = "not_equal",
+            .Value = "qwerty1234567"
+        }
+
+        Dim addressBookGroupFilter As AddressBookGroupFilter = New AddressBookGroupFilter() With {
+            .Condition = "AND",
+            .Rules = New AddressBookGroupRule() {addressBookGroupRule}
+        }
+
+        Dim addressBookGroupParameters As AddressBookGroup = New AddressBookGroup() With {
+            .groupID = group2.groupID,
+            .groupColor = "cd74e6",
+            .Filter = addressBookGroupFilter
+        }
+
+        Dim errorString As String
+        Dim addressBookGroup As AddressBookGroup = route4Me.UpdateAddressBookGroup(addressBookGroupParameters, errorString)
+
+        Assert.IsNotNull(addressBookGroup, "UpdateAddressBookGroupTest failed... " & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub AddAddressBookGroupTest()
+        Dim errorString As String
+        Dim addressBookGroup As AddressBookGroup = CreateAddreessBookGroup(errorString)
+
+        Assert.IsNotNull(addressBookGroup, "AddAddreessBookGroupTest failed... " & errorString)
+
+        lsGroups.Add(addressBookGroup.groupID)
+    End Sub
+
+    Private Shared Function CreateAddreessBookGroup(ByRef errorString As String) As AddressBookGroup
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim addressBookGroupRule As AddressBookGroupRule = New AddressBookGroupRule() With {
+            .ID = "address_1",
+            .Field = "address_1",
+            .[Operator] = "not_equal",
+            .Value = "qwerty123456"
+        }
+
+        Dim addressBookGroupFilter As AddressBookGroupFilter = New AddressBookGroupFilter() With {
+            .Condition = "AND",
+            .Rules = New AddressBookGroupRule() {addressBookGroupRule}
+        }
+
+        Dim addressBookGroupParameters As AddressBookGroup = New AddressBookGroup() With {
+            .groupName = "All Group",
+            .groupColor = "92e1c0",
+            .Filter = addressBookGroupFilter
+        }
+
+        Dim addressBookGroup As AddressBookGroup = route4Me.AddAddressBookGroup(addressBookGroupParameters, errorString)
+
+        Return addressBookGroup
+    End Function
+
+    Private Shared Function DeleteAddreessBookGroup(ByVal remeoveGroupID As String, ByRef errorString As String) As StatusResponse
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim addressGroupParams As AddressBookGroupParameters = New AddressBookGroupParameters() With {
+            .GroupId_ = remeoveGroupID ' Payload parameter is GroupId_, url query parameter: GroupId
+        }
+
+        errorString = ""
+        Dim status As StatusResponse = route4Me.RemoveAddressBookGroup(addressGroupParams, errorString)
+
+        Return status
+    End Function
+
+    <TestMethod>
+    Public Sub RemoveAddressBookGroupTest()
+        Dim errorString As String = ""
+        Dim response As StatusResponse = DeleteAddreessBookGroup(group1.groupID, errorString)
+
+        Assert.IsTrue(response.Status, "RemoveAddressBookGroupTest failed... " & errorString)
+    End Sub
+
+    <ClassCleanup>
+    Public Shared Sub AddressBookGroupsGroupCleanup()
+        Dim errorString As String = ""
+
+        For Each curGroupID As String In lsGroups
+            Dim resposne As StatusResponse = DeleteAddreessBookGroup(curGroupID, errorString)
+            Assert.IsTrue(resposne.Status, "Removing of the address book group with group ID = " & curGroupID & " failed.")
+        Next
+
     End Sub
 
 End Class
@@ -7053,7 +7232,7 @@ End Class
         Assert.IsInstanceOfType(orders, GetType(Order()), Convert.ToString("GetOrderByInsertedDateTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetOrderByScheduledDateTest()
         If skip = "yes" Then Return
 
@@ -7061,14 +7240,37 @@ End Class
 
         Dim dtTomorrow As DateTime = DateTime.Now + (New TimeSpan(1, 0, 0, 0))
 
-        Dim oParams As New OrderParameters() With { _
-            .scheduled_for_YYMMDD = dtTomorrow.ToString("yyyy-MM-dd") _
+        Dim oParams As New OrderParameters() With {
+            .scheduled_for_YYMMDD = dtTomorrow.ToString("yyyy-MM-dd")
         }
 
         Dim errorString As String = ""
         Dim orders As Order() = route4Me.SearchOrders(oParams, errorString)
 
         Assert.IsInstanceOfType(orders, GetType(Order()), Convert.ToString("GetOrderByScheduledDateTest failed... ") & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub GetOrdersByScheduleFilterTest()
+        If skip = "yes" Then Return
+
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim startDate As String = (DateTime.Now + (New TimeSpan(1, 0, 0, 0))).ToString("yyyy-MM-dd")
+        Dim endDate As String = (DateTime.Now + (New TimeSpan(31, 0, 0, 0))).ToString("yyyy-MM-dd")
+
+        Dim oParams = New OrderFilterParameters() With {
+            .Filter = New FilterDetails() With {
+                .Display = "all",
+                .Limit = 10,
+                .Scheduled_for_YYMMDD = New String() {startDate, endDate}
+            }
+        }
+
+        Dim errorString As String = Nothing
+        Dim orders As Order() = route4Me.FilterOrders(oParams, errorString)
+
+        Assert.IsInstanceOfType(orders, GetType(Order()), "GetOrdersByScheduleFilter failed... " & errorString)
     End Sub
 
     <TestMethod> _
@@ -8478,7 +8680,6 @@ End Class
     Public Shared Sub UserGroupInitialize(ByVal context As TestContext)
         If c_ApiKey = c_ApiKey_1 Then
             skip = "yes"
-            Return
         Else
             skip = "no"
         End If
@@ -8584,7 +8785,7 @@ End Class
 
     <TestMethod>
     Public Sub GetUserByIdTest()
-        If skip = "yes" Then Return
+        If c_ApiKey = ApiKeys.demoApiKey Then Return
 
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
@@ -8601,8 +8802,6 @@ End Class
 
     <TestMethod>
     Public Sub GetUsersTest()
-        If skip = "yes" Then Return
-
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
         Dim parameters As GenericParameters = New GenericParameters()
@@ -8615,7 +8814,7 @@ End Class
 
     <TestMethod>
     Public Sub UpdateUserTest()
-        If skip = "yes" Then Return
+        If c_ApiKey = ApiKeys.demoApiKey Then Return
 
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
@@ -8630,16 +8829,14 @@ End Class
         Assert.IsNotNull(result, "UpdateUserTest failed... " & errorString)
     End Sub
 
-    <TestMethod>
+    <TestMethod> _
     Public Sub UserAuthenticationTest()
-        If skip = "yes" Then Return
-
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim params As New MemberParameters() With {
-            .StrEmail = "aaaaaaaa@gmail.com",
-            .StrPassword = "11111111111",
-            .Format = "json"
+        Dim params As New MemberParameters() With { _
+            .StrEmail = "aaaaaaaa@gmail.com", _
+            .StrPassword = "11111111111", _
+            .Format = "json" _
         }
         ' Run the query
         Dim errorString As String = ""
@@ -8649,24 +8846,22 @@ End Class
         Assert.IsNotNull(result, Convert.ToString("UserAuthenticationTest failed... ") & errorString)
     End Sub
 
-    <TestMethod>
+    <TestMethod> _
     Public Sub UserRegistrationTest()
-        If skip = "yes" Then Return
-
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim params As New MemberParameters() With {
-            .StrEmail = "thewelco@gmail.com",
-            .StrPassword_1 = "11111111",
-            .StrPassword_2 = "11111111",
-            .StrFirstName = "Olman",
-            .StrLastName = "Progman",
-            .StrIndustry = "Transportation",
-            .Format = "json",
-            .ChkTerms = 1,
-            .DeviceType = "web",
-            .Plan = "free",
-            .MemberType = 5
+        Dim params As New MemberParameters() With { _
+            .StrEmail = "thewelco@gmail.com", _
+            .StrPassword_1 = "11111111", _
+            .StrPassword_2 = "11111111", _
+            .StrFirstName = "Olman", _
+            .StrLastName = "Progman", _
+            .StrIndustry = "Transportation", _
+            .Format = "json", _
+            .ChkTerms = 1, _
+            .DeviceType = "web", _
+            .Plan = "free", _
+            .MemberType = 5 _
         }
         ' Run the query
         Dim errorString As String = ""
@@ -8676,16 +8871,14 @@ End Class
         Assert.IsNotNull(result, Convert.ToString("UserRegistrationTest failed... ") & errorString)
     End Sub
 
-    <TestMethod>
+    <TestMethod> _
     Public Sub ValidateSessionTest()
-        If skip = "yes" Then Return
-
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim params As New MemberParameters() With {
-            .SessionGuid = "ad9001f33ed6875b5f0e75bce52cbc34",
-            .MemberId = 1,
-            .Format = "json"
+        Dim params As New MemberParameters() With { _
+            .SessionGuid = "ad9001f33ed6875b5f0e75bce52cbc34", _
+            .MemberId = 1, _
+            .Format = "json" _
         }
         ' Run the query
         Dim errorString As String = ""
@@ -8697,8 +8890,6 @@ End Class
 
     <TestMethod>
     Public Sub DeleteUserTest()
-        If skip = "yes" Then Return
-
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim params As New MemberParametersV4() With {
@@ -8716,8 +8907,6 @@ End Class
 
     <ClassCleanup>
     Public Shared Sub UsersGroupCleanup()
-        If skip = "yes" Then Return
-
         Dim route4Me As New Route4MeManager(c_ApiKey)
         Dim params As New MemberParametersV4()
         Dim errorString As String = ""
@@ -9654,8 +9843,8 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim queryParameters As New RouteParametersQuery() With {
-            .Limit = 1,
-            .Offset = 6
+            .Limit = 10,
+            .Offset = 5
         }
 
         ' Run the query

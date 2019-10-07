@@ -32,7 +32,11 @@
         Public Const GetAddress As String = MainHost + "/api.v4/address.php"
         Public Const DuplicateRoute As String = MainHost + "/actions/duplicate_route.php"
         Public Const MoveRouteDestination As String = MainHost + "/actions/route/move_route_destination.php"
+
         Public Const AddressBook As String = MainHost + "/api.v4/address_book.php"
+        Public Const AddressBookGroup As String = MainHost + "/api.v4/address_book_group.php"
+        Public Const AddressBookGroupSearch As String = MainHost + "/api/address_book/get_search_group_addresses.php"
+
         Public Const Avoidance As String = MainHost + "/api.v4/avoidance.php"
         Public Const Territory As String = MainHost + "/api.v4/territory.php"
         Public Const Order As String = MainHost + "/api.v4/order.php"
