@@ -7642,30 +7642,39 @@ Public Class OrderCustomUserFieldsGroup
 
         If c_ApiKey = c_ApiKey_1 Then
             skip = "yes"
+            Return
         Else
             skip = "no"
         End If
 
-        If skip = "yes" Then Return
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
-
-        Dim orderCustomFieldParams = New OrderCustomFieldParameters() With {
-            .OrderCustomFieldName = "CustomField33",
-            .OrderCustomFieldLabel = "Custom Field 33",
-            .OrderCustomFieldType = "checkbox",
-            .OrderCustomFieldTypeInfo = New Dictionary(Of String, Object)() From {
-                {"short_label", "cFl33"},
-                {"description", "This is test order custom field"},
-                {"custom field no", 10}
-            }
-        }
-
         Dim errorString As String = Nothing
-        Dim createdCustomField = route4Me.CreateOrderCustomUserField(orderCustomFieldParams, errorString)
-        Assert.IsInstanceOfType(createdCustomField, GetType(OrderCustomFieldCreateResponse), "Cannot initialize the class OrderCustomUserFieldsGroup. " & errorString)
+        Dim orderCustomUserFields = route4Me.GetOrderCustomUserFields(errorString)
+        Dim customFieldId As Integer
+
+        If orderCustomUserFields.Where(Function(x) x.OrderCustomFieldName = "CustomField33").Count() > 0 Then
+            customFieldId = orderCustomUserFields.Where(Function(x) x.OrderCustomFieldName = "CustomField33").FirstOrDefault().OrderCustomFieldId
+        Else
+            Dim orderCustomFieldParams = New OrderCustomFieldParameters() With {
+                .OrderCustomFieldName = "CustomField33",
+                .OrderCustomFieldLabel = "Custom Field 33",
+                .OrderCustomFieldType = "checkbox",
+                .OrderCustomFieldTypeInfo = New Dictionary(Of String, Object)() From {
+                    {"short_label", "cFl33"},
+                    {"description", "This is test order custom field"},
+                    {"custom field no", 10}
+                }
+            }
+
+            Dim createdCustomField = route4Me.CreateOrderCustomUserField(orderCustomFieldParams, errorString)
+
+            Assert.IsInstanceOfType(createdCustomField, GetType(OrderCustomFieldCreateResponse), "Cannot initialize the class OrderCustomUserFieldsGroup. " & errorString)
+
+            customFieldId = createdCustomField.Data.OrderCustomFieldId
+        End If
 
         lsOrderCustomUserFieldIDs = New List(Of Integer)() From {
-            createdCustomField.Data.OrderCustomFieldId
+            customFieldId
         }
 
     End Sub
@@ -8922,37 +8931,77 @@ End Class
 
 <TestClass()> Public Class MemberConfigurationGroup
     Shared c_ApiKey As String = ApiKeys.actualApiKey
+    Shared lsConfigurationKeys As List(Of String)
 
     <ClassInitialize> _
     Public Shared Sub MemberConfigurationGroupInitialize(context As TestContext)
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
-        Dim params As New MemberConfigurationParameters() With { _
-            .config_key = "My height", _
-            .config_value = "value" _
+        lsConfigurationKeys = New List(Of String)()
+
+        Dim params As MemberConfigurationParameters = New MemberConfigurationParameters With {
+            .config_key = "Test My height",
+            .config_value = "180"
         }
 
-        ' Run the query
-        Dim errorString As String = ""
-        Dim result As MemberConfigurationResponse = route4Me.CreateNewConfigurationKey(params, errorString)
+        Dim errorString As String = Nothing
+        Dim result = route4Me.CreateNewConfigurationKey(params, errorString)
 
-        Assert.IsNotNull(result, Convert.ToString("AddNewConfigurationKeyTest failed... ") & errorString)
+        Assert.IsNotNull(result, "AddNewConfigurationKeyTest failed... " & errorString)
+
+        lsConfigurationKeys.Add("Test My height")
+
+        Dim keyrParams As MemberConfigurationParameters = New MemberConfigurationParameters With {
+            .config_key = "Test Remove Key",
+            .config_value = "remove"
+        }
+
+        Dim result2 = route4Me.CreateNewConfigurationKey(keyrParams, errorString)
+
+        Assert.IsNotNull(result2, "AddNewConfigurationKeyTest failed... " & errorString)
+
+        lsConfigurationKeys.Add("Test Remove Key")
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub AddNewConfigurationKeyTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
-        Dim params As New MemberConfigurationParameters() With { _
-            .config_key = "destination_icon_uri", _
-            .config_value = "value" _
+        Dim params As MemberConfigurationParameters = New MemberConfigurationParameters With {
+            .config_key = "Test My weight",
+            .config_value = "100"
         }
 
-        ' Run the query
-        Dim errorString As String = ""
-        Dim result As MemberConfigurationResponse = route4Me.CreateNewConfigurationKey(params, errorString)
+        Dim errorString As String = Nothing
+        Dim result = route4Me.CreateNewConfigurationKey(params, errorString)
 
-        Assert.IsNotNull(result, Convert.ToString("AddNewConfigurationKeyTest failed... ") & errorString)
+        Assert.IsNotNull(result, "AddNewConfigurationKeyTest failed... " & errorString)
+
+        lsConfigurationKeys.Add("Test My weight")
+    End Sub
+
+    <TestMethod>
+    Public Sub AddConfigurationKeyArrayTest()
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim parametersArray As MemberConfigurationParameters() = New MemberConfigurationParameters() _
+        {
+            New MemberConfigurationParameters With {
+            .config_key = "Test My Height",
+            .config_value = "185"
+        },
+        New MemberConfigurationParameters With {
+            .config_key = "Test My Weight",
+            .config_value = "110"
+        }}
+
+        Dim errorString As String = Nothing
+        Dim result = route4Me.CreateNewConfigurationKey(parametersArray, errorString)
+
+        Assert.IsNotNull(result, "AddNewConfigurationKeyTest failed... " & errorString)
+
+        lsConfigurationKeys.Add("Test My Height")
+        lsConfigurationKeys.Add("Test My Weight")
     End Sub
 
     <TestMethod> _
@@ -8970,63 +9019,64 @@ End Class
 
     <TestMethod> _
     Public Sub GetSpecificConfigurationKeyDataTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
-        Dim params As New MemberConfigurationParameters() With { _
-            .config_key = "destination_icon_uri" _
+        Dim params = New MemberConfigurationParameters With {
+            .config_key = "Test My height"
         }
 
-        ' Run the query
-        Dim errorString As String = ""
-        Dim result As MemberConfigurationDataRersponse = route4Me.GetConfigurationData(params, errorString)
+        Dim errorString As String = Nothing
+        Dim result = route4Me.GetConfigurationData(params, errorString)
 
-        Assert.IsNotNull(result, Convert.ToString("GetSpecificConfigurationKeyDataTest failed... ") & errorString)
+        Assert.IsNotNull(result, "GetSpecificConfigurationKeyDataTest failed... " & errorString)
     End Sub
 
     <TestMethod> _
     Public Sub UpdateConfigurationKeyTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
-        Dim params As New MemberConfigurationParameters() With { _
-            .config_key = "destination_icon_uri", _
-            .config_value = "444" _
+        Dim params As MemberConfigurationParameters = New MemberConfigurationParameters With {
+            .config_key = "Test My height",
+            .config_value = "190"
         }
 
-        ' Run the query
-        Dim errorString As String = ""
-        Dim result As MemberConfigurationResponse = route4Me.UpdateConfigurationKey(params, errorString)
+        Dim errorString As String = Nothing
+        Dim result = route4Me.UpdateConfigurationKey(params, errorString)
 
-        Assert.IsNotNull(result, Convert.ToString("UpdateConfigurationKeyTest failed... ") & errorString)
+        Assert.IsNotNull(result, "UpdateConfigurationKeyTest failed... " & errorString)
     End Sub
 
     <TestMethod> _
     Public Sub RemoveConfigurationKeyTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
-        Dim params As New MemberConfigurationParameters() With { _
-            .config_key = "My height" _
+        Dim params = New MemberConfigurationParameters With {
+            .config_key = "Test Remove Key"
         }
 
-        ' Run the query
-        Dim errorString As String = ""
-        Dim result As MemberConfigurationResponse = route4Me.RemoveConfigurationKey(params, errorString)
+        Dim errorString As String = Nothing
+        Dim result = route4Me.RemoveConfigurationKey(params, errorString)
 
-        Assert.IsNotNull(result, Convert.ToString("RemoveConfigurationKeyTest failed... ") & errorString)
+        Assert.IsNotNull(result, "RemoveConfigurationKeyTest failed... " & errorString)
+
+        lsConfigurationKeys.Remove("Test Remove Key")
     End Sub
 
     <ClassCleanup> _
     Public Shared Sub MemberConfigurationGroupCleanup()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
-        Dim params As New MemberConfigurationParameters() With { _
-            .config_key = "destination_icon_uri" _
-        }
+        Dim errorString As String = Nothing
 
-        ' Run the query
-        Dim errorString As String = ""
-        Dim result As MemberConfigurationResponse = route4Me.RemoveConfigurationKey(params, errorString)
+        For Each testKey In lsConfigurationKeys
+            Dim params = New MemberConfigurationParameters With {
+                .config_key = testKey
+            }
 
-        Assert.IsNotNull(result, "MemberConfigurationGroupCleanup failed...")
+            Dim result = route4Me.RemoveConfigurationKey(params, errorString)
+
+            Assert.IsNotNull(result, "MemberConfigurationGroupCleanup failed...")
+        Next
     End Sub
 
 End Class

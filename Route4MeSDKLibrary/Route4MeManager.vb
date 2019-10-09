@@ -1229,6 +1229,15 @@ Namespace Route4MeSDK
 
         End Function
 
+        Public Function CreateNewConfigurationKey(ByVal confParams As MemberConfigurationParameters(), ByRef errorString As String) As MemberConfigurationResponse
+            Dim genParams As GenericParameters = New GenericParameters()
+            Dim httpContent = New StringContent(fastJSON.JSON.ToJSON(confParams), System.Text.Encoding.UTF8, "application/json")
+
+            Dim response = GetJsonObjectFromAPI(Of MemberConfigurationResponse)(genParams, R4MEInfrastructureSettings.UserConfiguration, HttpMethodType.Post, httpContent, errorString)
+
+            Return response
+        End Function
+
         Public Function RemoveConfigurationKey(confParams As MemberConfigurationParameters, ByRef errorString As String) As MemberConfigurationResponse
             Dim response As MemberConfigurationResponse = GetJsonObjectFromAPI(Of MemberConfigurationResponse)(confParams, R4MEInfrastructureSettings.UserConfiguration, HttpMethodType.Delete, errorString)
 
