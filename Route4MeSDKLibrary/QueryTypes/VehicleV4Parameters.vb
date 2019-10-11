@@ -1,6 +1,4 @@
-﻿Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
-Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
-Imports System.Runtime.Serialization
+﻿Imports System.Runtime.Serialization
 
 Namespace Route4MeSDK.QueryTypes
     <DataContract>
@@ -15,7 +13,7 @@ Namespace Route4MeSDK.QueryTypes
         Public Property MemberId As String
 
         <DataMember(Name:="is_deleted", EmitDefaultValue:=False)>
-        Public Property IsDeleted As System.Nullable(Of Boolean)
+        Public Property IsDeleted As Boolean?
 
         <DataMember(Name:="vehicle_alias", EmitDefaultValue:=False)>
         Public Property VehicleAlias As String
@@ -30,7 +28,7 @@ Namespace Route4MeSDK.QueryTypes
         Public Property VehicleRegStateId As String
 
         <DataMember(Name:="vehicle_reg_country_id", EmitDefaultValue:=False)>
-        Public Property VehicleRegCountryId As System.Nullable(Of Integer)
+        Public Property VehicleRegCountryId As Integer?
 
         <DataMember(Name:="vehicle_license_plate", EmitDefaultValue:=False)>
         Public Property VehicleLicensePlate As String
@@ -45,19 +43,19 @@ Namespace Route4MeSDK.QueryTypes
         Public Property VehicleMake As String
 
         <DataMember(Name:="vehicle_model_year", EmitDefaultValue:=False)>
-        Public Property VehicleModelYear As System.Nullable(Of Integer)
+        Public Property VehicleModelYear As Integer?
 
         <DataMember(Name:="vehicle_model", EmitDefaultValue:=False)>
         Public Property VehicleModel As String
 
         <DataMember(Name:="vehicle_year_acquired", EmitDefaultValue:=False)>
-        Public Property VehicleYearAcquired As System.Nullable(Of Integer)
+        Public Property VehicleYearAcquired As Integer?
 
         <DataMember(Name:="vehicle_cost_new", EmitDefaultValue:=False)>
-        Public Property VehicleCostNew As System.Nullable(Of Double)
+        Public Property VehicleCostNew As Double?
 
         <DataMember(Name:="purchased_new", EmitDefaultValue:=False)>
-        Public Property PurchasedNew As System.Nullable(Of Boolean)
+        Public Property PurchasedNew As Boolean?
 
         <DataMember(Name:="license_start_date", EmitDefaultValue:=False)>
         Public Property LicenseStartDate As String
@@ -66,25 +64,25 @@ Namespace Route4MeSDK.QueryTypes
         Public Property LicenseEndDate As String
 
         <DataMember(Name:="vehicle_axle_count", EmitDefaultValue:=False)>
-        Public Property VehicleAxleCount As System.Nullable(Of Integer)
+        Public Property VehicleAxleCount As Integer?
 
         <DataMember(Name:="mpg_city", EmitDefaultValue:=False)>
-        Public Property MpgCity As System.Nullable(Of Integer)
+        Public Property MpgCity As Integer?
 
         <DataMember(Name:="mpg_highway", EmitDefaultValue:=False)>
-        Public Property MpgHighway As System.Nullable(Of Integer)
+        Public Property MpgHighway As Integer?
 
         <DataMember(Name:="fuel_type", EmitDefaultValue:=False)>
         Public Property FuelType As String
 
         <DataMember(Name:="height_inches", EmitDefaultValue:=False)>
-        Public Property HeightInches As System.Nullable(Of Integer)
+        Public Property HeightInches As Integer?
 
         <DataMember(Name:="weight_lb", EmitDefaultValue:=False)>
-        Public Property WeightLb As System.Nullable(Of Integer)
+        Public Property WeightLb As Integer?
 
         <DataMember(Name:="is_operational", EmitDefaultValue:=False)>
-        Public Property IsOperational As System.Nullable(Of Boolean)
+        Public Property IsOperational As Boolean?
 
         <DataMember(Name:="external_telematics_vehicle_id", EmitDefaultValue:=False)>
         Public Property ExternalTelematicsVehicleID As String
@@ -96,19 +94,19 @@ Namespace Route4MeSDK.QueryTypes
         Public Property HeightInInches As String
 
         <DataMember(Name:="lengthInInches", EmitDefaultValue:=False)>
-        Public Property LengthInInches As System.Nullable(Of Integer)
+        Public Property LengthInInches As Integer?
 
         <DataMember(Name:="widthInInches", EmitDefaultValue:=False)>
-        Public Property WidthInInches As System.Nullable(Of Integer)
+        Public Property WidthInInches As Integer?
 
         <DataMember(Name:="maxWeightPerAxleGroupInPounds", EmitDefaultValue:=False)>
-        Public Property MaxWeightPerAxleGroupInPounds As System.Nullable(Of Integer)
+        Public Property MaxWeightPerAxleGroupInPounds As Integer?
 
         <DataMember(Name:="numAxles", EmitDefaultValue:=False)>
-        Public Property NumAxles As System.Nullable(Of Integer)
+        Public Property NumAxles As Integer?
 
         <DataMember(Name:="weightInPounds", EmitDefaultValue:=False)>
-        Public Property WeightInPounds As System.Nullable(Of Integer)
+        Public Property WeightInPounds As Integer?
 
         <DataMember(Name:="HazmatType", EmitDefaultValue:=False)>
         Public Property HazmatType As String
@@ -156,19 +154,19 @@ Namespace Route4MeSDK.QueryTypes
         Public Property TruckConfig As String
 
         <DataMember(Name:="height_metric", EmitDefaultValue:=False)>
-        Public Property HeightMetric As System.Nullable(Of Single)
+        Public Property HeightMetric As Single?
 
         <DataMember(Name:="length_metric", EmitDefaultValue:=False)>
-        Public Property LengthMetric As System.Nullable(Of Single)
+        Public Property LengthMetric As Single?
 
         <DataMember(Name:="width_metric", EmitDefaultValue:=False)>
-        Public Property WidthMetric As System.Nullable(Of Single)
+        Public Property WidthMetric As Single?
 
         <DataMember(Name:="weight_metric", EmitDefaultValue:=False)>
-        Public Property WeightMetric As System.Nullable(Of Single)
+        Public Property WeightMetric As Single?
 
         <DataMember(Name:="max_weight_per_axle_group_metric", EmitDefaultValue:=False)>
-        Public Property MaxWeightPerAxleGroupMetric As System.Nullable(Of Single)
+        Public Property MaxWeightPerAxleGroupMetric As Single?
 
         <DataMember(Name:="timestamp_removed", EmitDefaultValue:=False)>
         Public Property TimestampRemoved As String

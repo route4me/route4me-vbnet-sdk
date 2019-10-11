@@ -177,26 +177,71 @@ End Class
         Assert.IsTrue(result, "ResequenceReoptimizeRouteTest failed...")
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub UpdateRouteTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim routeId As String = tdr.SD10Stops_route_id
         Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null...")
 
-        Dim parametersNew As New RouteParameters() With { _
-            .RouteName = "New name of the route" _
+        Dim parametersNew As New RouteParameters() With {
+            .RouteName = "New name of the route"
         }
 
-        Dim routeParameters As New RouteParametersQuery() With { _
-            .RouteId = routeId, _
-            .Parameters = parametersNew _
+        Dim routeParameters As New RouteParametersQuery() With {
+            .RouteId = routeId,
+            .Parameters = parametersNew
         }
 
         Dim errorString As String = ""
         Dim dataObject As DataObjectRoute = route4Me.UpdateRoute(routeParameters, errorString)
 
         Assert.IsNotNull(dataObject, Convert.ToString("UpdateRouteTest failed... ") & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub UpdateRouteCustomDataTest()
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim routeId As String = tdr.SD10Stops_route_id
+        Dim routeDestionationId = tdr.SD10Stops_route.Addresses(3).RouteDestinationId
+
+        Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null...")
+
+        Dim parameters = New RouteParametersQuery() With {
+            .RouteId = routeId,
+            .RouteDestinationId = routeDestionationId
+        }
+
+        Dim customData = New Dictionary(Of String, String)() From {
+            {"animal", "lion"},
+            {"bird", "budgie"}
+        }
+
+        Dim errorString As String
+        Dim result = route4Me.UpdateRouteCustomData(parameters, customData, errorString)
+
+        Assert.IsNotNull(result, "UpdateRouteCustomDataTest failed... " & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub RouteOriginParameterTest()
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
+        Dim routeId As String = tdr.SD10Stops_route_id
+        Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null...")
+
+        Dim routeParameters = New RouteParametersQuery() With {
+            .RouteId = routeId,
+            .Original = True
+        }
+
+        Dim errorString As String
+        Dim route = route4Me.GetRoute(routeParameters, errorString)
+
+        Assert.IsNotNull(route, "RouteOriginParameterTest failed. " & errorString)
+        Assert.IsNotNull(route.OriginalRoute, "RouteOriginParameterTest failed. " & errorString)
+        Assert.IsInstanceOfType(route.OriginalRoute, GetType(DataObjectRoute), "RouteOriginParameterTest failed. " & errorString)
     End Sub
 
     <TestMethod> _
@@ -218,15 +263,15 @@ End Class
         Assert.IsNotNull(dataObject, Convert.ToString("ReoptimizeRouteTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub DuplicateRouteTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim routeId As String = tdr.SD10Stops_route_id
         Assert.IsNotNull(routeId, "routeId is null...")
 
-        Dim routeParameters As New RouteParametersQuery() With { _
-            .RouteId = routeId _
+        Dim routeParameters As New RouteParametersQuery() With {
+            .RouteId = routeId
         }
 
         ' Run the query
@@ -234,6 +279,26 @@ End Class
         Dim routeId_DuplicateRoute As String = route4Me.DuplicateRoute(routeParameters, errorString)
 
         Assert.IsNotNull(routeId_DuplicateRoute, Convert.ToString("DuplicateRouteTest failed... ") & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub ShareRouteTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+        Dim routeId As String = tdr.SD10Stops_route_id
+
+        Assert.IsNotNull(routeId, "routeId is null...")
+
+        Dim routeParameters = New RouteParametersQuery() With {
+            .RouteId = routeId,
+            .ResponseFormat = "json"
+        }
+
+        Dim email As String = "regression.autotests+testcsharp123@gmail.com"
+
+        Dim errorString As String
+        Dim result = route4Me.RouteSharing(routeParameters, email, errorString)
+
+        Assert.IsTrue(result, "ShareRouteTest failed... " & errorString)
     End Sub
 
     <TestMethod> _

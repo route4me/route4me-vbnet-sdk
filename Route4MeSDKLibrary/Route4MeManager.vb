@@ -799,7 +799,7 @@ Namespace Route4MeSDK
 
             Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
 
-            Dim response As ResequenceReoptimizeRouteResponse = GetJsonObjectFromAPI(Of ResequenceReoptimizeRouteResponse)(roParames, R4MEInfrastructureSettings.MergeRoutes, HttpMethodType.Post, httpContent, errorString)
+            Dim response As StatusResponse = GetJsonObjectFromAPI(Of StatusResponse)(roParames, R4MEInfrastructureSettings.MergeRoutes, HttpMethodType.Post, httpContent, errorString)
 
             If response IsNot Nothing AndAlso response.Status Then
                 Return True
@@ -808,28 +808,14 @@ Namespace Route4MeSDK
             End If
         End Function
 
-        <DataContract> _
-        Private NotInheritable Class ResequenceReoptimizeRouteResponse
-            <DataMember(Name:="status")> _
-            Public Property Status() As [Boolean]
-                Get
-                    Return m_Status
-                End Get
-                Set(value As [Boolean])
-                    m_Status = value
-                End Set
-            End Property
-            Private m_Status As [Boolean]
-        End Class
-
         Public Function ResequenceReoptimizeRoute(roParames As Dictionary(Of String, String), ByRef errorString As String) As Boolean
-            Dim request As New RouteParametersQuery With { _
-               .RouteId = roParames.Item("route_id"), _
-               .DisableOptimization = Val(roParames.Item("route_id")), _
+            Dim request As New RouteParametersQuery With {
+               .RouteId = roParames.Item("route_id"),
+               .DisableOptimization = Val(roParames.Item("route_id")),
                .Optimize = roParames.Item("optimize")
             }
 
-            Dim response As ResequenceReoptimizeRouteResponse = GetJsonObjectFromAPI(Of ResequenceReoptimizeRouteResponse)(request, R4MEInfrastructureSettings.RouteReoptimize, HttpMethodType.[Get], errorString)
+            Dim response As StatusResponse = GetJsonObjectFromAPI(Of StatusResponse)(request, R4MEInfrastructureSettings.RouteReoptimize, HttpMethodType.[Get], errorString)
 
             If response IsNot Nothing AndAlso response.Status Then
                 Return True
@@ -843,7 +829,7 @@ Namespace Route4MeSDK
             keyValues.Add(New KeyValuePair(Of String, String)("recipient_email", Email))
             Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
 
-            Dim response As ResequenceReoptimizeRouteResponse = GetJsonObjectFromAPI(Of ResequenceReoptimizeRouteResponse)(roParames, R4MEInfrastructureSettings.RouteSharing, HttpMethodType.Post, httpContent, errorString)
+            Dim response As StatusResponse = GetJsonObjectFromAPI(Of StatusResponse)(roParames, R4MEInfrastructureSettings.RouteSharing, HttpMethodType.Post, httpContent, errorString)
 
             If response IsNot Nothing AndAlso response.Status Then
                 Return True

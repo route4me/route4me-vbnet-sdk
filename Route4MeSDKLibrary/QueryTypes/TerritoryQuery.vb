@@ -1,7 +1,4 @@
-﻿Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
-Imports System.Runtime.Serialization
-
-Namespace Route4MeSDK.QueryTypes
+﻿Namespace Route4MeSDK.QueryTypes
     ''' <summary>
     ''' Avoidance zone query
     ''' </summary>

@@ -9,29 +9,14 @@ Namespace Route4MeSDK.DataTypes
         ''' <summary>
         ''' Territory type (circle, rectangle, polygon)
         ''' </summary>
-        <DataMember(Name:="type")> _
-        Public Property Type() As String
-            Get
-                Return m_Type
-            End Get
-            Set(value As String)
-                m_Type = Value
-            End Set
-        End Property
-        Private m_Type As String
+        <DataMember(Name:="type")>
+        Public Property Type As String
 
         ''' <summary>
         ''' Territory figure data
         ''' </summary>
-        <DataMember(Name:="data")> _
-        Public Property Data() As String()
-            Get
-                Return m_Data
-            End Get
-            Set(value As String())
-                m_Data = Value
-            End Set
-        End Property
-        Private m_Data As String()
+        <DataMember(Name:="data")>
+        Public Property Data As String()
+
     End Class
 End Namespace

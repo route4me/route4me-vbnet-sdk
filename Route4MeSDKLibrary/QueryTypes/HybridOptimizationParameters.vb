@@ -6,6 +6,7 @@ Namespace Route4MeSDK.QueryTypes
     <DataContract> _
     Public NotInheritable Class HybridOptimizationParameters
         Inherits GenericParameters
+
         ' Don't serialize as JSON
         <IgnoreDataMember> _
         <HttpQueryMemberAttribute(Name:="target_date_string", EmitDefaultValue:=False)> _

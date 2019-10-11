@@ -1,6 +1,5 @@
-﻿Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
-Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
-Imports System.Runtime.Serialization
+﻿Imports System.Runtime.Serialization
+
 Namespace Route4MeSDK.QueryTypes
     Public NotInheritable Class VehicleParameters
         Inherits GenericParameters
@@ -9,10 +8,10 @@ Namespace Route4MeSDK.QueryTypes
         Public Property WithPagination As Boolean
 
         <HttpQueryMemberAttribute(Name:="page", EmitDefaultValue:=False)>
-        Public Property Page As System.Nullable(Of UInteger)
+        Public Property Page As UInteger?
 
         <HttpQueryMemberAttribute(Name:="perPage", EmitDefaultValue:=False)>
-        Public Property PerPage As System.Nullable(Of UInteger)
+        Public Property PerPage As UInteger?
 
         <DataMember(Name:="vehicle_id", EmitDefaultValue:=False)>
         Public Property VehicleId As String

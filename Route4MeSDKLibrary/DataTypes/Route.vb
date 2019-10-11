@@ -126,5 +126,8 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="member_config_storage", EmitDefaultValue:=False)>
         Public Property MemberConfigStorage As Dictionary(Of String, String)
 
+        <DataMember(Name:="original_route", EmitDefaultValue:=False)>
+        Public Property OriginalRoute As DataObjectRoute
+
     End Class
 End Namespace
