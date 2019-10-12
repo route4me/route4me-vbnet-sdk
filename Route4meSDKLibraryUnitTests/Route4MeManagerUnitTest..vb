@@ -125,34 +125,29 @@ End Class
         Assert.IsNotNull(dataObject, Convert.ToString("GetRoutePathPointsTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub ResequenceRouteDestinationsTest()
         Dim route As DataObjectRoute = tdr.SD10Stops_route
         Assert.IsNotNull(route, "Route for the test Route Destinations Resequence is null...")
 
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
-        Dim addressesOrderInfo As New AddressesOrderInfo()
-        addressesOrderInfo.RouteId = route.RouteID
-        addressesOrderInfo.Addresses = New AddressInfo(-1) {}
-        For i As Integer = 0 To route.Addresses.Length - 1
-            Dim address As Address = route.Addresses(i)
-            Dim addressInfo As New AddressInfo()
-            addressInfo.DestinationId = address.RouteDestinationId.Value
-            addressInfo.SequenceNo = i
-            If i = 1 Then
-                addressInfo.SequenceNo = 2
-            ElseIf i = 2 Then
-                addressInfo.SequenceNo = 1
-            End If
-            addressInfo.IsDepot = (addressInfo.SequenceNo = 0)
-            Dim addressesList As New List(Of AddressInfo)(addressesOrderInfo.Addresses)
-            addressesList.Add(addressInfo)
-            addressesOrderInfo.Addresses = addressesList.ToArray()
-        Next
+        Dim rParams As RouteParametersQuery = New RouteParametersQuery() With {
+            .RouteId = route.RouteID
+        }
 
-        Dim errorString1 As String = ""
-        Dim route1 As DataObjectRoute = route4Me.GetJsonObjectFromAPI(Of DataObjectRoute)(addressesOrderInfo, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, errorString1)
+        Dim lsAddresses As List(Of Address) = New List(Of Address)()
+
+        Dim address1 As Address = route.Addresses(2)
+        Dim address2 As Address = route.Addresses(3)
+
+        address1.SequenceNo = 4
+        address2.SequenceNo = 3
+        lsAddresses.Add(address1)
+        lsAddresses.Add(address2)
+        Dim errorString As String = ""
+        Dim route1 As DataObjectRoute = route4Me.ManuallyResequenceRoute(rParams, lsAddresses.ToArray(), errorString)
+
         Assert.IsNotNull(route1, "ResequenceRouteDestinationsTest failed...")
     End Sub
 
@@ -197,6 +192,64 @@ End Class
         Dim dataObject As DataObjectRoute = route4Me.UpdateRoute(routeParameters, errorString)
 
         Assert.IsNotNull(dataObject, Convert.ToString("UpdateRouteTest failed... ") & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub AssignVehicleToRouteTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        Dim vehicleGroup = New VehiclesGroup()
+        Dim vehicles = vehicleGroup.getVehiclesList()
+
+        Dim randomNumber As Integer = (New Random()).[Next](0, vehicles.PerPage - 1)
+        Dim vehicleId = vehicles.Data(randomNumber).VehicleId
+
+        Dim routeId As String = tdr.SD10Stops_route_id
+        Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null...")
+
+        Dim routeParameters = New RouteParametersQuery() With {
+            .RouteId = routeId,
+            .Parameters = New RouteParameters() With {
+                .VehicleId = vehicleId
+            }
+        }
+        Dim errorString As String
+        route4Me.UpdateRoute(routeParameters, errorString)
+
+        Dim route = route4Me.GetRoute(New RouteParametersQuery() With {
+            .RouteId = routeId
+        }, errorString)
+
+        Assert.IsInstanceOfType(route.Vehilce, GetType(VehicleV4Response), "AssignVehicleToRouteTest failed... " & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub AssignMemberToRouteTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        Dim errorString As String
+        Dim members = route4Me.GetUsers(New GenericParameters(), errorString)
+
+        Dim randomNumber As Integer = (New Random()).[Next](0, members.results.Length - 1)
+        Dim memberId = members.results(randomNumber).member_id
+
+        Dim routeId As String = tdr.SD10Stops_route_id
+        Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null...")
+
+        Dim routeParameters = New RouteParametersQuery() With {
+            .RouteId = routeId,
+            .Parameters = New RouteParameters() With {
+                .MemberId = memberId
+            }
+        }
+
+        route4Me.UpdateRoute(routeParameters, errorString)
+
+        Dim route = route4Me.GetRoute(New RouteParametersQuery() With {
+            .RouteId = routeId
+        }, errorString)
+
+        Assert.IsTrue(route.MemberId = memberId, "AssignMemberToRouteTest failed... " & errorString)
     End Sub
 
     <TestMethod>
@@ -9217,11 +9270,14 @@ End Class
         If c_ApiKey = ApiKeys.demoApiKey Then Return
 
         Dim commonVehicleParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+            .VehicleName = "Ford Transit Test 6",
             .VehicleAlias = "Ford Transit Test 6"
         }
 
         Dim commonVehicle As VehicleV4Response = createVehicle(commonVehicleParams)
+
         Dim class6TruckParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+            .VehicleName = "GMC TopKick C5500",
             .VehicleAlias = "GMC TopKick C5500",
             .VehicleVin = "SAJXA01A06FN08012",
             .VehicleLicensePlate = "CVH4561",
@@ -9252,7 +9308,9 @@ End Class
         }
 
         Dim class6Truck As VehicleV4Response = createVehicle(class6TruckParams)
+
         Dim class7TruckParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+            .VehicleName = "FORD F750",
             .VehicleAlias = "FORD F750",
             .VehicleVin = "1NPAX6EX2YD550743",
             .VehicleLicensePlate = "FFV9547",
@@ -9286,7 +9344,9 @@ End Class
         }
 
         Dim class7Truck As VehicleV4Response = createVehicle(class7TruckParams)
+
         Dim class8TruckParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+            .VehicleName = "Peterbilt 579",
             .VehicleAlias = "Peterbilt 579",
             .VehicleVin = "1NP5DB9X93N507873",
             .VehicleLicensePlate = "PPV7516",
@@ -9296,7 +9356,7 @@ End Class
             .VehicleRegCountryId = 223,
             .VehicleMake = "Peterbilt",
             .VehicleTypeID = "tractor_trailer",
-            .VehicleAxleCount = 5,
+            .VehicleAxleCount = 4,
             .MpgCity = 6,
             .MpgHighway = 12,
             .FuelType = "diesel",
@@ -9351,21 +9411,18 @@ End Class
 
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
         Dim vehicleParams As VehicleV4Parameters = New VehicleV4Parameters() With {
-            .VehicleId = lsVehicleIDs(lsVehicleIDs.Count - 1),
             .VehicleAlias = "Ford Transit Test 4",
             .VehicleModelYear = 1995,
             .VehicleRegCountryId = 223,
             .VehicleMake = "Ford",
             .VehicleAxleCount = 2,
-            .MpgCity = 8,
-            .MpgHighway = 14,
             .FuelType = "unleaded 93",
             .HeightInches = 72,
             .WeightLb = 2000
         }
 
         Dim errorString As String = ""
-        Dim vehicles As VehicleV4Response = route4Me.updateVehicle(vehicleParams, errorString)
+        Dim vehicles As VehicleV4Response = route4Me.updateVehicle(vehicleParams, lsVehicleIDs(lsVehicleIDs.Count - 1), errorString)
 
         Assert.IsInstanceOfType(vehicles, GetType(VehicleV4Response), "updateVehicleTest failed... " & errorString)
     End Sub

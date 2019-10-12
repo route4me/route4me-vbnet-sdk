@@ -1365,6 +1365,19 @@ User email.
  Id equal to 1, the enclosed orders will be inserted in the response.
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.VehicleV4Parameters.VehicleName">
+ <summary>
+ Required for a vehicle creating.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.VehicleV4Parameters.VehicleAxleCount">
+ <summary>
+ Vehicle axle count.
+ Available values: 2,3,4
+ </summary>
+ <returns></returns>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.PropertyValidation">
  <summary>
  Validation of the class properties

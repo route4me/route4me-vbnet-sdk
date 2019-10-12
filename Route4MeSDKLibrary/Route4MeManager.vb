@@ -824,6 +824,55 @@ Namespace Route4MeSDK
             End If
         End Function
 
+        <DataContract()>
+        Private NotInheritable Class ManuallyResequenceRouteRequest
+            Inherits GenericParameters
+
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
+            Public Property RouteId As String
+
+            <DataMember(Name:="addresses")>
+            Public Property Addresses As AddressInfo()
+        End Class
+
+        <DataContract>
+        Class AddressInfo
+            Inherits GenericParameters
+
+            <DataMember(Name:="route_destination_id")>
+            Public Property DestinationId As Integer
+
+            <DataMember(Name:="sequence_no")>
+            Public Property SequenceNo As Integer
+
+            <DataMember(Name:="is_depot")>
+            Public Property IsDepot As Boolean
+        End Class
+
+        Public Function ManuallyResequenceRoute(ByVal rParams As RouteParametersQuery, ByVal addresses As Address(), ByRef errorString As String) As DataObjectRoute
+            Dim request As ManuallyResequenceRouteRequest = New ManuallyResequenceRouteRequest() With {
+                .RouteId = rParams.RouteId
+            }
+
+            Dim lsAddresses As List(Of AddressInfo) = New List(Of AddressInfo)()
+            Dim iMaxSequenceNumber As Integer = 0
+
+            For Each address In addresses
+                Dim aInfo As AddressInfo = New AddressInfo() With {
+                    .DestinationId = If(address.RouteDestinationId IsNot Nothing, CInt(address.RouteDestinationId), -1),
+                    .SequenceNo = If(address.SequenceNo IsNot Nothing, CInt(address.SequenceNo), iMaxSequenceNumber)
+                }
+
+                lsAddresses.Add(aInfo)
+                iMaxSequenceNumber += 1
+            Next
+
+            request.Addresses = lsAddresses.ToArray()
+            Dim route1 As DataObjectRoute = GetJsonObjectFromAPI(Of DataObjectRoute)(request, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, errorString)
+
+            Return route1
+        End Function
+
         Public Function RouteSharing(roParames As RouteParametersQuery, Email As String, ByRef errorString As String) As Boolean
             Dim keyValues = New List(Of KeyValuePair(Of String, String))()
             keyValues.Add(New KeyValuePair(Of String, String)("recipient_email", Email))
@@ -2926,7 +2975,7 @@ Namespace Route4MeSDK
         End Function
 
         Public Function CreateVehicle(ByVal vehicle As VehicleV4Parameters, ByRef errorString As String) As VehicleV4Response
-            Dim newVehicle As VehicleV4Response = GetJsonObjectFromAPI(Of VehicleV4Response)(vehicle, R4MEInfrastructureSettings.Vehicle_V4, HttpMethodType.Post, errorString)
+            Dim newVehicle As VehicleV4Response = GetJsonObjectFromAPI(Of VehicleV4Response)(vehicle, R4MEInfrastructureSettings.Vehicle_V4_API, HttpMethodType.Post, errorString)
 
             Return newVehicle
         End Function
@@ -2937,8 +2986,8 @@ Namespace Route4MeSDK
             Return response
         End Function
 
-        Public Function updateVehicle(ByVal vehParams As VehicleV4Parameters, ByRef errorString As String) As VehicleV4Response
-            Dim response As VehicleV4Response = GetJsonObjectFromAPI(Of VehicleV4Response)(vehParams, R4MEInfrastructureSettings.Vehicle_V4 & "/" + vehParams.VehicleId, HttpMethodType.Put, errorString)
+        Public Function updateVehicle(ByVal vehParams As VehicleV4Parameters, ByVal vehicleId As String, ByRef errorString As String) As VehicleV4Response
+            Dim response As VehicleV4Response = GetJsonObjectFromAPI(Of VehicleV4Response)(vehParams, R4MEInfrastructureSettings.Vehicle_V4 & "/" + vehicleId, HttpMethodType.Put, errorString)
 
             Return response
         End Function
