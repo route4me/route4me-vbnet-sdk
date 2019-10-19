@@ -1,15 +1,11 @@
-﻿Imports System.Text
-Imports Microsoft.VisualStudio.TestTools.UnitTesting
-Imports Route4MeSDKLibrary.Route4MeSDK
+﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.FastProcessing
 Imports System.IO
 Imports System.Runtime.Serialization
-Imports System.Reflection
 Imports System.CodeDom.Compiler
 Imports System.Threading
-Imports CsvHelper
 
 Public Class ApiKeys
     Public Const actualApiKey As String = "11111111111111111111111111111111"
@@ -6590,11 +6586,10 @@ Public Class AddressbookContactsGroup
         }
 
         ' Run the query
-        Dim total As UInteger = 0
         Dim errorString As String = ""
-        Dim contacts As AddressBookContact() = route4Me.GetAddressBookLocation(addressBookParameters, total, errorString)
+        Dim response As Route4MeManager.SearchAddressBookLocationResponse = route4Me.SearchAddressBookLocation(addressBookParameters, errorString)
 
-        Assert.IsInstanceOfType(contacts, GetType(AddressBookContact()), Convert.ToString("GetSpecifiedFieldsSearchTextTest failed... ") & errorString)
+        Assert.IsInstanceOfType(response.Total, GetType(UInt32), Convert.ToString("GetSpecifiedFieldsSearchTextTest failed... ") & errorString)
     End Sub
 
     <TestMethod>
@@ -8402,6 +8397,7 @@ End Class
     Shared c_ApiKey As String = ApiKeys.actualApiKey
     Shared tdr As TestDataRepository
     Shared lsOptimizationIDs As List(Of String)
+    Shared removdAddressId As Int32
 
     <ClassInitialize> _
     Public Shared Sub AddressGroupInitialize(context As TestContext)
@@ -8415,6 +8411,8 @@ End Class
         Assert.IsTrue(tdr.SDRT_route.Addresses.Length > 0, "The route has no addresses...")
 
         lsOptimizationIDs.Add(tdr.SDRT_optimization_problem_id)
+
+        removdAddressId = -1
     End Sub
 
     <TestMethod> _
@@ -8485,13 +8483,17 @@ End Class
         Dim OptimizationProblemId As String = tdr.SDRT_optimization_problem_id
         Assert.IsNotNull(OptimizationProblemId, "OptimizationProblemId is null...")
 
-        Dim destinationId As Integer = If(destinationToRemove.RouteDestinationId IsNot Nothing, Convert.ToInt32(destinationToRemove.RouteDestinationId), -1)
+        Dim delta As Integer = If(removdAddressId = destinationToRemove.RouteDestinationId, 2, 1)
+
+        Dim destinationId As Integer = If(destinationToRemove.RouteDestinationId IsNot Nothing, Convert.ToInt32(destinationToRemove.RouteDestinationId), -delta)
         Assert.AreNotEqual(-1, "destinationId is null...")
         ' Run the query
         Dim errorString As String = ""
         Dim removed As Boolean = route4Me.RemoveAddressFromOptimization(OptimizationProblemId, destinationId, errorString)
 
         Assert.IsTrue(removed, Convert.ToString("RemoveDestinationFromOptimizationTest failed... ") & errorString)
+
+        removdAddressId = destinationId
     End Sub
 
     <TestMethod> _
@@ -8560,16 +8562,20 @@ End Class
 
         Assert.IsNotNull(route_id, "rote_id is null...")
 
-        Dim oDestinationId As Object = tdr.SDRT_route.Addresses(tdr.SDRT_route.Addresses.Length - 1).RouteDestinationId
+        Dim delta As Integer = If(removdAddressId = tdr.SDRT_route.Addresses(tdr.SDRT_route.Addresses.Length - 1).RouteDestinationId, 2, 1)
+
+        Dim oDestinationId As Object = tdr.SDRT_route.Addresses(tdr.SDRT_route.Addresses.Length - delta).RouteDestinationId
 
         Dim destination_id As Integer = If(oDestinationId IsNot Nothing, Convert.ToInt32(oDestinationId), -1)
         Assert.IsNotNull(oDestinationId, "destination_id is null...")
 
         ' Run the query
         Dim errorString As String = ""
-        Dim deleted As Boolean = route4Me.RemoveRouteDestination(route_id, destination_id, errorString)
+        Dim deleted As Boolean = route4Me.RemoveRouteDestination(tdr.SDRT_route.RouteID, destination_id, errorString)
 
         Assert.IsTrue(deleted, "RemoveRouteDestinationTest")
+
+        removdAddressId = destination_id
     End Sub
 
     <TestMethod> _
