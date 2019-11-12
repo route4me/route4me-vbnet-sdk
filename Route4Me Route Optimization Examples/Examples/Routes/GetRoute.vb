@@ -21,12 +21,6 @@ Namespace Route4MeSDKTest.Examples
                 Console.WriteLine("GetRoute executed successfully")
 
                 Console.WriteLine("Route ID: {0}", dataObject.RouteID)
-                'foreach (Address a in dataObject.Addresses)
-                '        {
-                '          Console.WriteLine("addr: {0}, {1}, {2}, {3}, {4}", a.RouteDestinationId, a.Latitude, a.Longitude, a.Alias, a.AddressString);
-                '        }
-
-                Console.WriteLine("State: {0}", dataObject.State)
             Else
                 Console.WriteLine("GetRoute error: {0}", errorString)
             End If

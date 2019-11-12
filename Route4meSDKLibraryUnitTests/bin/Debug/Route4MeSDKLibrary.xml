@@ -99,6 +99,29 @@ Route4MeSDKLibrary
  See https://www.assembla.com/spaces/route4me_api/wiki/Optimization_Problem_V4
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.DataObject.TotalAddresses">
+ <summary>
+ Total number of the addresses included in the optimization
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.DataObject.ScheduledFor">
+ <summary>
+ An Unix Timestamp the Optimization Problem was scheduled for
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.DataObjectBase">
+ <summary>
+ Base class for the DataObject and DataObjectRoute classes
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.DataObjectBase.CreatedTimestamp">
+ <summary>
+ When the optimization problem was created
+ </summary>
+ <returns></returns>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Direction">
  <summary>
  Direction
@@ -366,6 +389,24 @@ Route4MeSDKLibrary
  <summary>
  Created/updated custom order field.
  </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.DataObjectRoute.Directions">
+ <summary>
+ Edge by edge turn-by-turn directions. See <see cref="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Direction"/>
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.DataObjectRoute.Path">
+ <summary>
+ Edge-wise path to be drawn on the map See <see cref="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.GeoPoint"/>
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.DataObjectRoute.TrackingHistory">
+ <summary>
+ A collection of device tracking data with coordinates, speed, and timestamps.
+ </summary>
+ <returns></returns>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters">
  <summary>
@@ -1364,6 +1405,19 @@ User email.
  <summary>
  Id equal to 1, the enclosed orders will be inserted in the response.
  </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.VehicleV4Parameters.VehicleName">
+ <summary>
+ Required for a vehicle creating.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.VehicleV4Parameters.VehicleAxleCount">
+ <summary>
+ Vehicle axle count.
+ Available values: 2,3,4
+ </summary>
+ <returns></returns>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.PropertyValidation">
  <summary>

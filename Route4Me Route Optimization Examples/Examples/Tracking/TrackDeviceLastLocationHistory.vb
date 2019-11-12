@@ -44,7 +44,6 @@ Namespace Route4MeSDKTest.Examples
                 Console.WriteLine("")
 
                 Console.WriteLine("Optimization Problem ID: {0}", dataObject.OptimizationProblemId)
-                Console.WriteLine("State: {0}", dataObject.State)
                 Console.WriteLine("")
                 For Each th As TrackingHistory In dataObject.TrackingHistory
                     Console.WriteLine("Speed: {0}", th.Speed)

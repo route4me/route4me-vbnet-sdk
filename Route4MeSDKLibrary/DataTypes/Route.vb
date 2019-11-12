@@ -4,7 +4,7 @@ Namespace Route4MeSDK.DataTypes
 
     <DataContract> _
     Public NotInheritable Class DataObjectRoute
-        Inherits DataObject
+        Inherits DataObjectBase
 
         <DataMember(Name:="route_id", EmitDefaultValue:=False)>
         Public Property RouteID As String
@@ -13,7 +13,7 @@ Namespace Route4MeSDK.DataTypes
         Public Property UserRouteRating As Integer?
 
         <DataMember(Name:="member_id", EmitDefaultValue:=False)>
-        Public Property MemberId As String
+        Public Property MemberId As Integer?
 
         <DataMember(Name:="member_email", EmitDefaultValue:=False)>
         Public Property MemberEmail As String
@@ -76,7 +76,7 @@ Namespace Route4MeSDK.DataTypes
         Public Property RouteDurationSec As Integer?
 
         <DataMember(Name:="planned_total_route_duration", EmitDefaultValue:=False)>
-        Public Property PlannedTotalRrouteDuration As Integer?
+        Public Property PlannedTotalRouteDuration As Integer?
 
         <DataMember(Name:="total_wait_time", EmitDefaultValue:=False)>
         Public Property TotalWaitTime As Integer?
@@ -129,5 +129,25 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="original_route", EmitDefaultValue:=False)>
         Public Property OriginalRoute As DataObjectRoute
 
+        ''' <summary>
+        ''' Edge by edge turn-by-turn directions. See <see cref="Direction"/>
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="directions", EmitDefaultValue:=False)>
+        Public Property Directions As Direction()
+
+        ''' <summary>
+        ''' Edge-wise path to be drawn on the map See <see cref="GeoPoint"/>
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="path", EmitDefaultValue:=False)>
+        Public Property Path As GeoPoint()
+
+        ''' <summary>
+        ''' A collection of device tracking data with coordinates, speed, and timestamps.
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="tracking_history", EmitDefaultValue:=False)>
+        Public Property TrackingHistory As TrackingHistory()
     End Class
 End Namespace

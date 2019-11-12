@@ -22,62 +22,62 @@ Namespace Route4MeSDKTest.Examples
             'input as many custom fields as needed, custom data is passed through to mobile devices and to the manifest
 
             '#End Region
-            Dim addresses As Address() = New Address() {New Address() With { _
-                .AddressString = "151 Arbor Way Milledgeville GA 31061", _
-                .IsDepot = True, _
-                .Latitude = 33.132675170898, _
-                .Longitude = -83.244743347168, _
-                .Time = 0, _
-                .CustomFields = New Dictionary(Of String, String)() From { _
-                    {"color", "red"}, _
-                    {"size", "huge"} _
-                } _
-            }, New Address() With { _
-                .AddressString = "230 Arbor Way Milledgeville GA 31061", _
-                .Latitude = 33.129695892334, _
-                .Longitude = -83.24577331543, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "148 Bass Rd NE Milledgeville GA 31061", _
-                .Latitude = 33.143497, _
-                .Longitude = -83.224487, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "117 Bill Johnson Rd NE Milledgeville GA 31061", _
-                .Latitude = 33.141784667969, _
-                .Longitude = -83.237518310547, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "119 Bill Johnson Rd NE Milledgeville GA 31061", _
-                .Latitude = 33.141086578369, _
-                .Longitude = -83.238258361816, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "131 Bill Johnson Rd NE Milledgeville GA 31061", _
-                .Latitude = 33.142036437988, _
-                .Longitude = -83.238845825195, _
-                .Time = 0 _
-            }, _
-                New Address() With { _
-                .AddressString = "138 Bill Johnson Rd NE Milledgeville GA 31061", _
-                .Latitude = 33.14307, _
-                .Longitude = -83.239334, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "139 Bill Johnson Rd NE Milledgeville GA 31061", _
-                .Latitude = 33.142734527588, _
-                .Longitude = -83.237442016602, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "145 Bill Johnson Rd NE Milledgeville GA 31061", _
-                .Latitude = 33.143871307373, _
-                .Longitude = -83.237342834473, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "221 Blake Cir Milledgeville GA 31061", _
-                .Latitude = 33.081462860107, _
-                .Longitude = -83.208511352539, _
-                .Time = 0 _
+            Dim addresses As Address() = New Address() {New Address() With {
+                .AddressString = "151 Arbor Way Milledgeville GA 31061",
+                .IsDepot = True,
+                .Latitude = 33.132675170898,
+                .Longitude = -83.244743347168,
+                .Time = 0,
+                .CustomFields = New Dictionary(Of String, Object)() From {
+                    {"color", "red"},
+                    {"size", "huge"}
+                }
+            }, New Address() With {
+                .AddressString = "230 Arbor Way Milledgeville GA 31061",
+                .Latitude = 33.129695892334,
+                .Longitude = -83.24577331543,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "148 Bass Rd NE Milledgeville GA 31061",
+                .Latitude = 33.143497,
+                .Longitude = -83.224487,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "117 Bill Johnson Rd NE Milledgeville GA 31061",
+                .Latitude = 33.141784667969,
+                .Longitude = -83.237518310547,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "119 Bill Johnson Rd NE Milledgeville GA 31061",
+                .Latitude = 33.141086578369,
+                .Longitude = -83.238258361816,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "131 Bill Johnson Rd NE Milledgeville GA 31061",
+                .Latitude = 33.142036437988,
+                .Longitude = -83.238845825195,
+                .Time = 0
+            },
+                New Address() With {
+                .AddressString = "138 Bill Johnson Rd NE Milledgeville GA 31061",
+                .Latitude = 33.14307,
+                .Longitude = -83.239334,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "139 Bill Johnson Rd NE Milledgeville GA 31061",
+                .Latitude = 33.142734527588,
+                .Longitude = -83.237442016602,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "145 Bill Johnson Rd NE Milledgeville GA 31061",
+                .Latitude = 33.143871307373,
+                .Longitude = -83.237342834473,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "221 Blake Cir Milledgeville GA 31061",
+                .Latitude = 33.081462860107,
+                .Longitude = -83.208511352539,
+                .Time = 0
             }}
 
             ' Set parameters

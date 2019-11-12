@@ -203,8 +203,8 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="time_window_end_2", EmitDefaultValue:=False)> _
         Public Property TimeWindowEnd2 As System.Nullable(Of Integer)
 
-        <DataMember(Name:="custom_fields", EmitDefaultValue:=False)> _
-        Public Property CustomFields As Dictionary(Of String, String)
+        <DataMember(Name:="custom_fields", EmitDefaultValue:=False)>
+        Public Property CustomFields As Dictionary(Of String, Object)
 
         <DataMember(Name:="tracking_number", EmitDefaultValue:=False)>
         Public Property tracking_number As String

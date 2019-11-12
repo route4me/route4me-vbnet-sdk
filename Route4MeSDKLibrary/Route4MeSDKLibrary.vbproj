@@ -113,6 +113,7 @@
     <Compile Include="DataTypes\Country.vb" />
     <Compile Include="DataTypes\CustomNoteType.vb" />
     <Compile Include="DataTypes\DataObject.vb" />
+    <Compile Include="DataTypes\DataObjectBase.vb" />
     <Compile Include="DataTypes\DeviceLocationGap.vb" />
     <Compile Include="DataTypes\DeviceLocationHistoryResponse.vb" />
     <Compile Include="DataTypes\DeviceLocationLeg.vb" />

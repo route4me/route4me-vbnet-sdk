@@ -28,7 +28,6 @@ Namespace Route4MeSDKTest.Examples
                 Console.WriteLine("UpdateRoute executed successfully")
 
                 Console.WriteLine("Route ID: {0}", dataObject.RouteID)
-                Console.WriteLine("State: {0}", dataObject.State)
             Else
                 Console.WriteLine("UpdateRoute error: {0}", errorString)
             End If

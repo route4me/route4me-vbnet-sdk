@@ -658,16 +658,16 @@ Namespace Route4MeSDK
             End Property
             Private m_TimeWindowEnd2 As System.Nullable(Of Integer)
 
-            <DataMember(Name:="custom_fields", EmitDefaultValue:=False)> _
-            Public Property CustomFields() As Dictionary(Of String, String)
+            <DataMember(Name:="custom_fields", EmitDefaultValue:=False)>
+            Public Property CustomFields() As Dictionary(Of String, Object)
                 Get
                     Return m_CustomFields
                 End Get
-                Set(value As Dictionary(Of String, String))
+                Set(value As Dictionary(Of String, Object))
                     m_CustomFields = value
                 End Set
             End Property
-            Private m_CustomFields As Dictionary(Of String, String)
+            Private m_CustomFields As Dictionary(Of String, Object)
         End Class
 
         Public Function UpdateRouteDestination(addressParameters As Address, ByRef errorString As String) As Address
@@ -822,6 +822,55 @@ Namespace Route4MeSDK
             Else
                 Return False
             End If
+        End Function
+
+        <DataContract()>
+        Private NotInheritable Class ManuallyResequenceRouteRequest
+            Inherits GenericParameters
+
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
+            Public Property RouteId As String
+
+            <DataMember(Name:="addresses")>
+            Public Property Addresses As AddressInfo()
+        End Class
+
+        <DataContract>
+        Class AddressInfo
+            Inherits GenericParameters
+
+            <DataMember(Name:="route_destination_id")>
+            Public Property DestinationId As Integer
+
+            <DataMember(Name:="sequence_no")>
+            Public Property SequenceNo As Integer
+
+            <DataMember(Name:="is_depot")>
+            Public Property IsDepot As Boolean
+        End Class
+
+        Public Function ManuallyResequenceRoute(ByVal rParams As RouteParametersQuery, ByVal addresses As Address(), ByRef errorString As String) As DataObjectRoute
+            Dim request As ManuallyResequenceRouteRequest = New ManuallyResequenceRouteRequest() With {
+                .RouteId = rParams.RouteId
+            }
+
+            Dim lsAddresses As List(Of AddressInfo) = New List(Of AddressInfo)()
+            Dim iMaxSequenceNumber As Integer = 0
+
+            For Each address In addresses
+                Dim aInfo As AddressInfo = New AddressInfo() With {
+                    .DestinationId = If(address.RouteDestinationId IsNot Nothing, CInt(address.RouteDestinationId), -1),
+                    .SequenceNo = If(address.SequenceNo IsNot Nothing, CInt(address.SequenceNo), iMaxSequenceNumber)
+                }
+
+                lsAddresses.Add(aInfo)
+                iMaxSequenceNumber += 1
+            Next
+
+            request.Addresses = lsAddresses.ToArray()
+            Dim route1 As DataObjectRoute = GetJsonObjectFromAPI(Of DataObjectRoute)(request, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, errorString)
+
+            Return route1
         End Function
 
         Public Function RouteSharing(roParames As RouteParametersQuery, Email As String, ByRef errorString As String) As Boolean
@@ -1002,8 +1051,8 @@ Namespace Route4MeSDK
 
 #Region "Tracking"
 
-        Public Function GetLastLocation(parameters As GenericParameters, ByRef errorString As String) As DataObject
-            Dim result = GetJsonObjectFromAPI(Of DataObject)(parameters, R4MEInfrastructureSettings.RouteHost, HttpMethodType.[Get], False, errorString)
+        Public Function GetLastLocation(parameters As GenericParameters, ByRef errorString As String) As DataObjectRoute
+            Dim result = GetJsonObjectFromAPI(Of DataObjectRoute)(parameters, R4MEInfrastructureSettings.RouteHost, HttpMethodType.[Get], False, errorString)
 
             Return result
         End Function
@@ -2091,9 +2140,9 @@ Namespace Route4MeSDK
 
         End Class
 
-        <DataContract> _
-        Private NotInheritable Class SearchAddressBookLocationResponse
-            <DataMember(Name:="results")> _
+        <DataContract>
+        Public NotInheritable Class SearchAddressBookLocationResponse
+            <DataMember(Name:="results")>
             Public Property Results() As List(Of String())
                 Get
                     Return m_Results
@@ -2104,7 +2153,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Results As List(Of String())
 
-            <DataMember(Name:="total")> _
+            <DataMember(Name:="total")>
             Public Property Total() As UInteger
                 Get
                     Return m_Total
@@ -2115,7 +2164,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Total As UInteger
 
-            <DataMember(Name:="fields")> _
+            <DataMember(Name:="fields")>
             Public Property Fields() As String()
                 Get
                     Return m_Fields
@@ -2127,23 +2176,17 @@ Namespace Route4MeSDK
             Private m_Fields As String()
         End Class
 
-        Public Function SearchAddressBookLocation(addressBookParameters As AddressBookParameters, ByRef total As UInteger, ByRef errorString As String) As List(Of String())
-            total = 0
-
-            Dim request As SearchAddressBookLocationRequest = New SearchAddressBookLocationRequest() With { _
-                .Query = addressBookParameters.Query, _
-                .Fields = addressBookParameters.Fields, _
-                .Offset = addressBookParameters.Offset, _
-                .Limit = addressBookParameters.Limit _
+        Public Function SearchAddressBookLocation(addressBookParameters As AddressBookParameters, ByRef errorString As String) As SearchAddressBookLocationResponse
+            Dim request As SearchAddressBookLocationRequest = New SearchAddressBookLocationRequest() With {
+                .Query = addressBookParameters.Query,
+                .Fields = addressBookParameters.Fields,
+                .Offset = addressBookParameters.Offset,
+                .Limit = addressBookParameters.Limit
             }
 
             Dim response = GetJsonObjectFromAPI(Of SearchAddressBookLocationResponse)(request, R4MEInfrastructureSettings.AddressBook, HttpMethodType.[Get], errorString)
-            Dim result As List(Of String()) = Nothing
-            If response IsNot Nothing Then
-                result = response.Results
-                total = response.Total
-            End If
-            Return result
+
+            Return response
         End Function
 
         Public Function AddAddressBookContact(contact As AddressBookContact, ByRef errorString As String) As AddressBookContact
@@ -2926,7 +2969,7 @@ Namespace Route4MeSDK
         End Function
 
         Public Function CreateVehicle(ByVal vehicle As VehicleV4Parameters, ByRef errorString As String) As VehicleV4Response
-            Dim newVehicle As VehicleV4Response = GetJsonObjectFromAPI(Of VehicleV4Response)(vehicle, R4MEInfrastructureSettings.Vehicle_V4, HttpMethodType.Post, errorString)
+            Dim newVehicle As VehicleV4Response = GetJsonObjectFromAPI(Of VehicleV4Response)(vehicle, R4MEInfrastructureSettings.Vehicle_V4_API, HttpMethodType.Post, errorString)
 
             Return newVehicle
         End Function
@@ -2937,8 +2980,8 @@ Namespace Route4MeSDK
             Return response
         End Function
 
-        Public Function updateVehicle(ByVal vehParams As VehicleV4Parameters, ByRef errorString As String) As VehicleV4Response
-            Dim response As VehicleV4Response = GetJsonObjectFromAPI(Of VehicleV4Response)(vehParams, R4MEInfrastructureSettings.Vehicle_V4 & "/" + vehParams.VehicleId, HttpMethodType.Put, errorString)
+        Public Function updateVehicle(ByVal vehParams As VehicleV4Parameters, ByVal vehicleId As String, ByRef errorString As String) As VehicleV4Response
+            Dim response As VehicleV4Response = GetJsonObjectFromAPI(Of VehicleV4Response)(vehParams, R4MEInfrastructureSettings.Vehicle_V4 & "/" + vehicleId, HttpMethodType.Put, errorString)
 
             Return response
         End Function
@@ -3074,9 +3117,9 @@ Namespace Route4MeSDK
                     End Select
                 End Using
 
-            Catch e As HttpResponseException
+            Catch e As HttpListenerException
                 'errorMessage = If(TypeOf e Is AggregateException, e.InnerException.Message, e.Message)
-                errorMessage = e.Response.ToString() & " --- " & errorMessage
+                errorMessage = e.Message & " --- " & errorMessage
                 result = Nothing
             Catch e As Exception
                 errorMessage = If(TypeOf e Is AggregateException, e.InnerException.Message, e.Message)
@@ -3171,9 +3214,9 @@ Namespace Route4MeSDK
                     End Select
                 End Using
 
-            Catch e As HttpResponseException
+            Catch e As HttpListenerException
                 'errorMessage = If(TypeOf e Is AggregateException, e.InnerException.Message, e.Message)
-                errorMessage = e.Response.ToString() & " --- " & errorMessage
+                errorMessage = e.Message & " --- " & errorMessage
                 result = Nothing
             Catch e As Exception
                 errorMessage = If(TypeOf e Is AggregateException, e.InnerException.Message, e.Message)

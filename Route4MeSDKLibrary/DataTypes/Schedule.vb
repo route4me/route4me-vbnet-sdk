@@ -309,6 +309,10 @@ Namespace Route4MeSDK.DataTypes
             End If
         End Sub
 
+        Public Sub New()
+
+        End Sub
+
         <DataMember(Name:="every")> _
         Public Property every As Integer
 
@@ -323,18 +327,22 @@ Namespace Route4MeSDK.DataTypes
 
     End Class
 
-    <DataContract> _
+    <DataContract>
     Public Class schedule_annually
-        <DataMember(Name:="every")> _
+        Public Sub New()
+
+        End Sub
+
+        <DataMember(Name:="every")>
         Public Property every As Integer
 
-        <DataMember(Name:="use_nth")> _
+        <DataMember(Name:="use_nth")>
         Public Property use_nth As Boolean
 
-        <DataMember(Name:="months", EmitDefaultValue:=False), Range(1, 12, ErrorMessage:="Month number must be between 1 and 12")> _
+        <DataMember(Name:="months", EmitDefaultValue:=False), Range(1, 12, ErrorMessage:="Month number must be between 1 and 12")>
         Public Property months As Integer()
 
-        <DataMember(Name:="nth", EmitDefaultValue:=False)> _
+        <DataMember(Name:="nth", EmitDefaultValue:=False)>
         Public Property nth As schedule_monthly_nth
 
     End Class

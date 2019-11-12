@@ -76,6 +76,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -101,6 +103,7 @@
     <Compile Include="Examples\Activities\SearchNoteInserted.vb" />
     <Compile Include="Examples\Activities\SearchRouteOwnerChanged.vb" />
     <Compile Include="Examples\Addressbook\AddAddressBookContact.vb" />
+    <Compile Include="Examples\Addressbook\DeserializeDictionaryExample.vb" />
     <Compile Include="Examples\Addresses\AddDestinationToOptimization.vb" />
     <Compile Include="Examples\Addresses\AddRouteDestinations.vb" />
     <Compile Include="Examples\Addresses\GetAddress.vb" />
@@ -112,6 +115,7 @@
     <Compile Include="Examples\Addresses\MoveDestinationToRoute.vb" />
     <Compile Include="Examples\Addresses\RemoveAddressFromOptimization.vb" />
     <Compile Include="Examples\Addresses\RemoveRouteDestination.vb" />
+    <Compile Include="Examples\AsyncMultipleDepotMultipleDriver.vb" />
     <Compile Include="Examples\AvoidanceZone\AddAvoidanceZone.vb" />
     <Compile Include="Examples\Addressbook\GetAddressbookLocation.vb" />
     <Compile Include="Examples\Addressbook\GetSpecifiedFieldsSearchText.vb" />

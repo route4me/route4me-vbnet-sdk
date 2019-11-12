@@ -3,6 +3,7 @@
 Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Function MultipleDepotMultipleDriver() As DataObject
@@ -21,12 +22,6 @@ Namespace Route4MeSDKTest.Examples
             'seconds offset relative to the route start time for the open availability of a destination
 
             'seconds offset relative to the route end time for the open availability of a destination
-
-
-
-
-
-
 
             '#End Region
             Dim addresses As Address() = New Address() {New Address() With { _

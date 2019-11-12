@@ -14,29 +14,31 @@ Namespace Route4MeSDK.QueryTypes
     ''' 4. Modify ConvertBooleansToInteger.GenericParameters to serialize bool and bool? as "0" and "1"
     ''' Important: You have to add here all derived classes, that are serealized as json as a KnownType
     ''' </summary>
-    <DataContract> _
-    <KnownType(GetType(OptimizationParameters))> _
-    <KnownType(GetType(AddressBookContact))> _
-    <KnownType(GetType(ActivityParameters))> _
-    <KnownType(GetType(AddressBookParameters))> _
-    <KnownType(GetType(AddressParameters))> _
-    <KnownType(GetType(GPSParameters))> _
-    <KnownType(GetType(NoteParameters))> _
-    <KnownType(GetType(RouteParameters))> _
-    <KnownType(GetType(RouteParametersQuery))> _
-    <KnownType(GetType(AvoidanceZoneParameters))> _
-    <KnownType(GetType(AvoidanceZoneQuery))> _
-    <KnownType(GetType(GeocodingParameters))> _
-    <KnownType(GetType(MemberParameters))> _
-    <KnownType(GetType(VehicleV4Parameters))> _
-    <KnownType(GetType(VehicleV4Response))> _
+    <DataContract>
+    <KnownType(GetType(OptimizationParameters))>
+    <KnownType(GetType(AddressBookContact))>
+    <KnownType(GetType(ActivityParameters))>
+    <KnownType(GetType(AddressBookParameters))>
+    <KnownType(GetType(AddressParameters))>
+    <KnownType(GetType(GPSParameters))>
+    <KnownType(GetType(NoteParameters))>
+    <KnownType(GetType(RouteParameters))>
+    <KnownType(GetType(RouteParametersQuery))>
+    <KnownType(GetType(AvoidanceZoneParameters))>
+    <KnownType(GetType(AvoidanceZoneQuery))>
+    <KnownType(GetType(GeocodingParameters))>
+    <KnownType(GetType(MemberParameters))>
+    <KnownType(GetType(VehicleV4Parameters))>
+    <KnownType(GetType(VehicleV4Response))>
+    <KnownType(GetType(OrderCustomFieldParameters))>
+    <KnownType(GetType(OrderFilterParameters))>
     Public Class GenericParameters
 #Region "Fields"
 
-        <IgnoreDataMember> _
+        <IgnoreDataMember>
         Public ParametersCollection As New NameValueCollection()
 
-        <IgnoreDataMember> _
+        <IgnoreDataMember>
         Public Property ConvertBooleansToInteger() As Boolean
             Get
                 Return m_ConvertBooleansToInteger

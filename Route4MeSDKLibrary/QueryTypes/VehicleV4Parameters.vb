@@ -15,6 +15,13 @@ Namespace Route4MeSDK.QueryTypes
         <DataMember(Name:="is_deleted", EmitDefaultValue:=False)>
         Public Property IsDeleted As Boolean?
 
+        ''' <summary>
+        ''' Required for a vehicle creating.
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="vehicle_name", EmitDefaultValue:=False)>
+        Public Property VehicleName As String
+
         <DataMember(Name:="vehicle_alias", EmitDefaultValue:=False)>
         Public Property VehicleAlias As String
 
@@ -63,6 +70,11 @@ Namespace Route4MeSDK.QueryTypes
         <DataMember(Name:="license_end_date", EmitDefaultValue:=False)>
         Public Property LicenseEndDate As String
 
+        ''' <summary>
+        ''' Vehicle axle count.
+        ''' Available values: 2,3,4
+        ''' </summary>
+        ''' <returns></returns>
         <DataMember(Name:="vehicle_axle_count", EmitDefaultValue:=False)>
         Public Property VehicleAxleCount As Integer?
 

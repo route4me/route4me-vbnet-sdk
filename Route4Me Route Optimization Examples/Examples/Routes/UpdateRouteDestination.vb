@@ -14,7 +14,7 @@ Namespace Route4MeSDKTest.Examples
             Dim routeId As String = "824CA521E3A8DE9F1C684C8BAE90CF07"
             Dim routeDestionationId As Integer = 217393034
 
-            Dim CustomData As New Dictionary(Of String, String)()
+            Dim CustomData As New Dictionary(Of String, Object)()
             CustomData.Add("BatchId", "e7c672b1-a356-4a97-803e-97db88fdcf99")
             CustomData.Add("CustomerNumber", "2718500")
             CustomData.Add("DeliveryId", "2c71f6d9-c1aa-4672-a682-3e9f12badac9")
@@ -52,7 +52,7 @@ Namespace Route4MeSDKTest.Examples
                         Console.WriteLine("Alias {0}", address.[Alias])
                         Console.WriteLine("Cost {0}", address.Cost)
                         Console.WriteLine("InvoiceNo {0}", address.InvoiceNo)
-                        For Each kvpair As KeyValuePair(Of String, String) In address.CustomFields
+                        For Each kvpair As KeyValuePair(Of String, Object) In address.CustomFields
                             Console.WriteLine(kvpair.Key & ": " & kvpair.Value)
                         Next
                     Else

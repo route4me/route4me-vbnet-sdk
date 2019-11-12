@@ -125,34 +125,29 @@ End Class
         Assert.IsNotNull(dataObject, Convert.ToString("GetRoutePathPointsTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub ResequenceRouteDestinationsTest()
         Dim route As DataObjectRoute = tdr.SD10Stops_route
         Assert.IsNotNull(route, "Route for the test Route Destinations Resequence is null...")
 
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
-        Dim addressesOrderInfo As New AddressesOrderInfo()
-        addressesOrderInfo.RouteId = route.RouteID
-        addressesOrderInfo.Addresses = New AddressInfo(-1) {}
-        For i As Integer = 0 To route.Addresses.Length - 1
-            Dim address As Address = route.Addresses(i)
-            Dim addressInfo As New AddressInfo()
-            addressInfo.DestinationId = address.RouteDestinationId.Value
-            addressInfo.SequenceNo = i
-            If i = 1 Then
-                addressInfo.SequenceNo = 2
-            ElseIf i = 2 Then
-                addressInfo.SequenceNo = 1
-            End If
-            addressInfo.IsDepot = (addressInfo.SequenceNo = 0)
-            Dim addressesList As New List(Of AddressInfo)(addressesOrderInfo.Addresses)
-            addressesList.Add(addressInfo)
-            addressesOrderInfo.Addresses = addressesList.ToArray()
-        Next
+        Dim rParams As RouteParametersQuery = New RouteParametersQuery() With {
+            .RouteId = route.RouteID
+        }
 
-        Dim errorString1 As String = ""
-        Dim route1 As DataObjectRoute = route4Me.GetJsonObjectFromAPI(Of DataObjectRoute)(addressesOrderInfo, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, errorString1)
+        Dim lsAddresses As List(Of Address) = New List(Of Address)()
+
+        Dim address1 As Address = route.Addresses(2)
+        Dim address2 As Address = route.Addresses(3)
+
+        address1.SequenceNo = 4
+        address2.SequenceNo = 3
+        lsAddresses.Add(address1)
+        lsAddresses.Add(address2)
+        Dim errorString As String = ""
+        Dim route1 As DataObjectRoute = route4Me.ManuallyResequenceRoute(rParams, lsAddresses.ToArray(), errorString)
+
         Assert.IsNotNull(route1, "ResequenceRouteDestinationsTest failed...")
     End Sub
 
@@ -197,6 +192,64 @@ End Class
         Dim dataObject As DataObjectRoute = route4Me.UpdateRoute(routeParameters, errorString)
 
         Assert.IsNotNull(dataObject, Convert.ToString("UpdateRouteTest failed... ") & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub AssignVehicleToRouteTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        Dim vehicleGroup = New VehiclesGroup()
+        Dim vehicles = vehicleGroup.getVehiclesList()
+
+        Dim randomNumber As Integer = (New Random()).[Next](0, vehicles.PerPage - 1)
+        Dim vehicleId = vehicles.Data(randomNumber).VehicleId
+
+        Dim routeId As String = tdr.SD10Stops_route_id
+        Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null...")
+
+        Dim routeParameters = New RouteParametersQuery() With {
+            .RouteId = routeId,
+            .Parameters = New RouteParameters() With {
+                .VehicleId = vehicleId
+            }
+        }
+        Dim errorString As String
+        route4Me.UpdateRoute(routeParameters, errorString)
+
+        Dim route = route4Me.GetRoute(New RouteParametersQuery() With {
+            .RouteId = routeId
+        }, errorString)
+
+        Assert.IsInstanceOfType(route.Vehilce, GetType(VehicleV4Response), "AssignVehicleToRouteTest failed... " & errorString)
+    End Sub
+
+    <TestMethod>
+    Public Sub AssignMemberToRouteTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        Dim errorString As String
+        Dim members = route4Me.GetUsers(New GenericParameters(), errorString)
+
+        Dim randomNumber As Integer = (New Random()).[Next](0, members.results.Length - 1)
+        Dim memberId = members.results(randomNumber).member_id
+
+        Dim routeId As String = tdr.SD10Stops_route_id
+        Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null...")
+
+        Dim routeParameters = New RouteParametersQuery() With {
+            .RouteId = routeId,
+            .Parameters = New RouteParameters() With {
+                .MemberId = memberId
+            }
+        }
+
+        route4Me.UpdateRoute(routeParameters, errorString)
+
+        Dim route = route4Me.GetRoute(New RouteParametersQuery() With {
+            .RouteId = routeId
+        }, errorString)
+
+        Assert.IsTrue(route.MemberId = memberId, "AssignMemberToRouteTest failed... " & errorString)
     End Sub
 
     <TestMethod>
@@ -4009,62 +4062,62 @@ End Class
 
         ' Prepare the addresses
 
-        Dim addresses As Address() = New Address() {New Address() With { _
-            .AddressString = "151 Arbor Way Milledgeville GA 31061", _
-            .IsDepot = True, _
-            .Latitude = 33.132675170898, _
-            .Longitude = -83.244743347168, _
-            .Time = 0, _
-            .CustomFields = New Dictionary(Of String, String)() From { _
-                {"color", "red"}, _
-                {"size", "huge"} _
-            } _
-        }, New Address() With { _
-            .AddressString = "230 Arbor Way Milledgeville GA 31061", _
-            .Latitude = 33.129695892334, _
-            .Longitude = -83.24577331543, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "148 Bass Rd NE Milledgeville GA 31061", _
-            .Latitude = 33.143497, _
-            .Longitude = -83.224487, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "117 Bill Johnson Rd NE Milledgeville GA 31061", _
-            .Latitude = 33.141784667969, _
-            .Longitude = -83.237518310547, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "119 Bill Johnson Rd NE Milledgeville GA 31061", _
-            .Latitude = 33.141086578369, _
-            .Longitude = -83.238258361816, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "131 Bill Johnson Rd NE Milledgeville GA 31061", _
-            .Latitude = 33.142036437988, _
-            .Longitude = -83.238845825195, _
-            .Time = 0 _
-        }, _
-            New Address() With { _
-            .AddressString = "138 Bill Johnson Rd NE Milledgeville GA 31061", _
-            .Latitude = 33.14307, _
-            .Longitude = -83.239334, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "139 Bill Johnson Rd NE Milledgeville GA 31061", _
-            .Latitude = 33.142734527588, _
-            .Longitude = -83.237442016602, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "145 Bill Johnson Rd NE Milledgeville GA 31061", _
-            .Latitude = 33.143871307373, _
-            .Longitude = -83.237342834473, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "221 Blake Cir Milledgeville GA 31061", _
-            .Latitude = 33.081462860107, _
-            .Longitude = -83.208511352539, _
-            .Time = 0 _
+        Dim addresses As Address() = New Address() {New Address() With {
+            .AddressString = "151 Arbor Way Milledgeville GA 31061",
+            .IsDepot = True,
+            .Latitude = 33.132675170898,
+            .Longitude = -83.244743347168,
+            .Time = 0,
+            .CustomFields = New Dictionary(Of String, Object)() From {
+                {"color", "red"},
+                {"size", "huge"}
+            }
+        }, New Address() With {
+            .AddressString = "230 Arbor Way Milledgeville GA 31061",
+            .Latitude = 33.129695892334,
+            .Longitude = -83.24577331543,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "148 Bass Rd NE Milledgeville GA 31061",
+            .Latitude = 33.143497,
+            .Longitude = -83.224487,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "117 Bill Johnson Rd NE Milledgeville GA 31061",
+            .Latitude = 33.141784667969,
+            .Longitude = -83.237518310547,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "119 Bill Johnson Rd NE Milledgeville GA 31061",
+            .Latitude = 33.141086578369,
+            .Longitude = -83.238258361816,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "131 Bill Johnson Rd NE Milledgeville GA 31061",
+            .Latitude = 33.142036437988,
+            .Longitude = -83.238845825195,
+            .Time = 0
+        },
+            New Address() With {
+            .AddressString = "138 Bill Johnson Rd NE Milledgeville GA 31061",
+            .Latitude = 33.14307,
+            .Longitude = -83.239334,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "139 Bill Johnson Rd NE Milledgeville GA 31061",
+            .Latitude = 33.142734527588,
+            .Longitude = -83.237442016602,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "145 Bill Johnson Rd NE Milledgeville GA 31061",
+            .Latitude = 33.143871307373,
+            .Longitude = -83.237342834473,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "221 Blake Cir Milledgeville GA 31061",
+            .Latitude = 33.081462860107,
+            .Longitude = -83.208511352539,
+            .Time = 0
         }}
 
         ' Set parameters
@@ -6291,7 +6344,7 @@ Public Class AddressbookContactsGroup
             lsRemoveContacts.Add(location1)
         End If
 
-        Dim dCustom As Dictionary(Of String, String) = New Dictionary(Of String, String)() From {
+        Dim dCustom As Dictionary(Of String, Object) = New Dictionary(Of String, Object)() From {
             {"FirstFieldName1", "FirstFieldValue1"},
             {"FirstFieldName2", "FirstFieldValue2"}
         }
@@ -6315,6 +6368,22 @@ Public Class AddressbookContactsGroup
     End Sub
 
     <TestMethod>
+    Public Sub AddCustomDataToContactTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        contact1.address_custom_data = New Dictionary(Of String, Object)() From {
+            {"Service type", "publishing"},
+            {"Facilities", "storage"},
+            {"Parking", "temporarry"}
+        }
+
+        Dim errorString As String
+        Dim updatedContact = route4Me.UpdateAddressBookContact(contact1, errorString)
+
+        Assert.IsNotNull(updatedContact.address_custom_data, "AddCustomDataToContactTest failed... " & errorString)
+    End Sub
+
+    <TestMethod>
     Public Sub AddScheduledAddressBookContactsTest()
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
@@ -6335,7 +6404,7 @@ Public Class AddressbookContactsGroup
             .cached_lat = 38.141598,
             .cached_lng = -85.793846,
             .address_city = "Louisville",
-            .address_custom_data = New Dictionary(Of String, String)() From {
+            .address_custom_data = New Dictionary(Of String, Object)() From {
                 {"scheduled", "yes"},
                 {"service type", "publishing"}
             },
@@ -6425,7 +6494,7 @@ Public Class AddressbookContactsGroup
             .cached_lng = -85.821121,
             .address_city = "Louisville",
             .service_time = 450,
-            .address_custom_data = New Dictionary(Of String, String)() From {
+            .address_custom_data = New Dictionary(Of String, Object)() From {
                 {"scheduled", "yes"},
                 {"service type", "library"}
             },
@@ -6456,7 +6525,7 @@ Public Class AddressbookContactsGroup
             .cached_lat = 38.176067,
             .cached_lng = -85.824638,
             .address_city = "Louisville",
-            .address_custom_data = New Dictionary(Of String, String)() From {
+            .address_custom_data = New Dictionary(Of String, Object)() From {
                 {"scheduled", "yes"},
                 {"service type", "appliance"}
             },
@@ -6537,11 +6606,10 @@ Public Class AddressbookContactsGroup
         }
 
         ' Run the query
-        Dim total As UInteger = 0
         Dim errorString As String = ""
-        Dim contacts As AddressBookContact() = route4Me.GetAddressBookLocation(addressBookParameters, total, errorString)
+        Dim response As Route4MeManager.SearchAddressBookLocationResponse = route4Me.SearchAddressBookLocation(addressBookParameters, errorString)
 
-        Assert.IsInstanceOfType(contacts, GetType(AddressBookContact()), Convert.ToString("GetSpecifiedFieldsSearchTextTest failed... ") & errorString)
+        Assert.IsInstanceOfType(response.Total, GetType(UInt32), Convert.ToString("GetSpecifiedFieldsSearchTextTest failed... ") & errorString)
     End Sub
 
     <TestMethod>
@@ -7487,7 +7555,7 @@ End Class
                 .Phone = "(917) 338-1887",
                 .FirstName = "",
                 .LastName = "",
-                .CustomFields = New Dictionary(Of String, String) From {
+                .CustomFields = New Dictionary(Of String, Object) From {
                     {"icon", Nothing}
                 },
                 .Time = 0,
@@ -7506,7 +7574,7 @@ End Class
                 .Phone = "(212) 227-7535",
                 .FirstName = "",
                 .LastName = "",
-                .CustomFields = New Dictionary(Of String, String) From {
+                .CustomFields = New Dictionary(Of String, Object) From {
                     {"icon", Nothing}
                 },
                 .Time = 0,
@@ -7525,7 +7593,7 @@ End Class
                 .Phone = "(212) 566-5132",
                 .FirstName = "",
                 .LastName = "",
-                .CustomFields = New Dictionary(Of String, String) From {
+                .CustomFields = New Dictionary(Of String, Object) From {
                     {"icon", Nothing}
                 },
                 .Time = 0,
@@ -7628,7 +7696,7 @@ End Class
                 .Phone = "(917) 338-1887",
                 .FirstName = "",
                 .LastName = "",
-                .CustomFields = New Dictionary(Of String, String) From {
+                .CustomFields = New Dictionary(Of String, Object) From {
                     {"icon", Nothing}
                 },
                 .Time = 0,
@@ -7645,7 +7713,7 @@ End Class
                 .Phone = "(212) 566-5132",
                 .FirstName = "",
                 .LastName = "",
-                .CustomFields = New Dictionary(Of String, String) From {
+                .CustomFields = New Dictionary(Of String, Object) From {
                     {"icon", Nothing}
                 },
                 .Time = 0,
@@ -8349,6 +8417,7 @@ End Class
     Shared c_ApiKey As String = ApiKeys.actualApiKey
     Shared tdr As TestDataRepository
     Shared lsOptimizationIDs As List(Of String)
+    Shared removdAddressId As Int32
 
     <ClassInitialize> _
     Public Shared Sub AddressGroupInitialize(context As TestContext)
@@ -8362,6 +8431,8 @@ End Class
         Assert.IsTrue(tdr.SDRT_route.Addresses.Length > 0, "The route has no addresses...")
 
         lsOptimizationIDs.Add(tdr.SDRT_optimization_problem_id)
+
+        removdAddressId = -1
     End Sub
 
     <TestMethod> _
@@ -8432,13 +8503,17 @@ End Class
         Dim OptimizationProblemId As String = tdr.SDRT_optimization_problem_id
         Assert.IsNotNull(OptimizationProblemId, "OptimizationProblemId is null...")
 
-        Dim destinationId As Integer = If(destinationToRemove.RouteDestinationId IsNot Nothing, Convert.ToInt32(destinationToRemove.RouteDestinationId), -1)
+        Dim delta As Integer = If(removdAddressId = destinationToRemove.RouteDestinationId, 2, 1)
+
+        Dim destinationId As Integer = If(destinationToRemove.RouteDestinationId IsNot Nothing, Convert.ToInt32(destinationToRemove.RouteDestinationId), -delta)
         Assert.AreNotEqual(-1, "destinationId is null...")
         ' Run the query
         Dim errorString As String = ""
         Dim removed As Boolean = route4Me.RemoveAddressFromOptimization(OptimizationProblemId, destinationId, errorString)
 
         Assert.IsTrue(removed, Convert.ToString("RemoveDestinationFromOptimizationTest failed... ") & errorString)
+
+        removdAddressId = destinationId
     End Sub
 
     <TestMethod> _
@@ -8507,16 +8582,20 @@ End Class
 
         Assert.IsNotNull(route_id, "rote_id is null...")
 
-        Dim oDestinationId As Object = tdr.SDRT_route.Addresses(tdr.SDRT_route.Addresses.Length - 1).RouteDestinationId
+        Dim delta As Integer = If(removdAddressId = tdr.SDRT_route.Addresses(tdr.SDRT_route.Addresses.Length - 1).RouteDestinationId, 2, 1)
+
+        Dim oDestinationId As Object = tdr.SDRT_route.Addresses(tdr.SDRT_route.Addresses.Length - delta).RouteDestinationId
 
         Dim destination_id As Integer = If(oDestinationId IsNot Nothing, Convert.ToInt32(oDestinationId), -1)
         Assert.IsNotNull(oDestinationId, "destination_id is null...")
 
         ' Run the query
         Dim errorString As String = ""
-        Dim deleted As Boolean = route4Me.RemoveRouteDestination(route_id, destination_id, errorString)
+        Dim deleted As Boolean = route4Me.RemoveRouteDestination(tdr.SDRT_route.RouteID, destination_id, errorString)
 
         Assert.IsTrue(deleted, "RemoveRouteDestinationTest")
+
+        removdAddressId = destination_id
     End Sub
 
     <TestMethod> _
@@ -9217,11 +9296,14 @@ End Class
         If c_ApiKey = ApiKeys.demoApiKey Then Return
 
         Dim commonVehicleParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+            .VehicleName = "Ford Transit Test 6",
             .VehicleAlias = "Ford Transit Test 6"
         }
 
         Dim commonVehicle As VehicleV4Response = createVehicle(commonVehicleParams)
+
         Dim class6TruckParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+            .VehicleName = "GMC TopKick C5500",
             .VehicleAlias = "GMC TopKick C5500",
             .VehicleVin = "SAJXA01A06FN08012",
             .VehicleLicensePlate = "CVH4561",
@@ -9252,7 +9334,9 @@ End Class
         }
 
         Dim class6Truck As VehicleV4Response = createVehicle(class6TruckParams)
+
         Dim class7TruckParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+            .VehicleName = "FORD F750",
             .VehicleAlias = "FORD F750",
             .VehicleVin = "1NPAX6EX2YD550743",
             .VehicleLicensePlate = "FFV9547",
@@ -9286,7 +9370,9 @@ End Class
         }
 
         Dim class7Truck As VehicleV4Response = createVehicle(class7TruckParams)
+
         Dim class8TruckParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+            .VehicleName = "Peterbilt 579",
             .VehicleAlias = "Peterbilt 579",
             .VehicleVin = "1NP5DB9X93N507873",
             .VehicleLicensePlate = "PPV7516",
@@ -9296,7 +9382,7 @@ End Class
             .VehicleRegCountryId = 223,
             .VehicleMake = "Peterbilt",
             .VehicleTypeID = "tractor_trailer",
-            .VehicleAxleCount = 5,
+            .VehicleAxleCount = 4,
             .MpgCity = 6,
             .MpgHighway = 12,
             .FuelType = "diesel",
@@ -9351,21 +9437,18 @@ End Class
 
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
         Dim vehicleParams As VehicleV4Parameters = New VehicleV4Parameters() With {
-            .VehicleId = lsVehicleIDs(lsVehicleIDs.Count - 1),
             .VehicleAlias = "Ford Transit Test 4",
             .VehicleModelYear = 1995,
             .VehicleRegCountryId = 223,
             .VehicleMake = "Ford",
             .VehicleAxleCount = 2,
-            .MpgCity = 8,
-            .MpgHighway = 14,
             .FuelType = "unleaded 93",
             .HeightInches = 72,
             .WeightLb = 2000
         }
 
         Dim errorString As String = ""
-        Dim vehicles As VehicleV4Response = route4Me.updateVehicle(vehicleParams, errorString)
+        Dim vehicles As VehicleV4Response = route4Me.updateVehicle(vehicleParams, lsVehicleIDs(lsVehicleIDs.Count - 1), errorString)
 
         Assert.IsInstanceOfType(vehicles, GetType(VehicleV4Response), "updateVehicleTest failed... " & errorString)
     End Sub
@@ -9866,8 +9949,8 @@ End Class
 
             Assert.IsTrue(1 > 0, "")
         Catch ex As Exception
-            Console.WriteLine("Uploading of the JSON file to the SQL server failed!.. " + ex.Message)
-            Assert.IsTrue(0 > 1, "UploadAddressbookJSONtoSQLTest failed... " + ex.Message)
+            Console.WriteLine("Uploading of the JSON file to the SQL server failed!.. " & ex.Message)
+            Assert.IsTrue(0 > 1, "UploadAddressbookJSONtoSQLTest failed... " & ex.Message)
         Finally
             sqlDB.CloseConnection()
         End Try
@@ -10639,62 +10722,62 @@ Public Class TestDataRepository
         ' Prepare the addresses
         '
 
-        Dim addresses As Address() = New Address() {New Address() With { _
-            .AddressString = "151 Arbor Way Milledgeville GA 31061", _
-            .IsDepot = True, _
-            .Latitude = 33.132675170898, _
-            .Longitude = -83.244743347168, _
-            .Time = 0, _
-            .CustomFields = New Dictionary(Of String, String)() From { _
-                {"color", "red"}, _
-                {"size", "huge"} _
-            } _
-        }, New Address() With { _
-            .AddressString = "230 Arbor Way Milledgeville GA 31061", _
-            .Latitude = 33.129695892334, _
-            .Longitude = -83.24577331543, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "148 Bass Rd NE Milledgeville GA 31061", _
-            .Latitude = 33.143497, _
-            .Longitude = -83.224487, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "117 Bill Johnson Rd NE Milledgeville GA 31061", _
-            .Latitude = 33.141784667969, _
-            .Longitude = -83.237518310547, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "119 Bill Johnson Rd NE Milledgeville GA 31061", _
-            .Latitude = 33.141086578369, _
-            .Longitude = -83.238258361816, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "131 Bill Johnson Rd NE Milledgeville GA 31061", _
-            .Latitude = 33.142036437988, _
-            .Longitude = -83.238845825195, _
-            .Time = 0 _
-        }, _
-            New Address() With { _
-            .AddressString = "138 Bill Johnson Rd NE Milledgeville GA 31061", _
-            .Latitude = 33.14307, _
-            .Longitude = -83.239334, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "139 Bill Johnson Rd NE Milledgeville GA 31061", _
-            .Latitude = 33.142734527588, _
-            .Longitude = -83.237442016602, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "145 Bill Johnson Rd NE Milledgeville GA 31061", _
-            .Latitude = 33.143871307373, _
-            .Longitude = -83.237342834473, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "221 Blake Cir Milledgeville GA 31061", _
-            .Latitude = 33.081462860107, _
-            .Longitude = -83.208511352539, _
-            .Time = 0 _
+        Dim addresses As Address() = New Address() {New Address() With {
+            .AddressString = "151 Arbor Way Milledgeville GA 31061",
+            .IsDepot = True,
+            .Latitude = 33.132675170898,
+            .Longitude = -83.244743347168,
+            .Time = 0,
+            .CustomFields = New Dictionary(Of String, Object)() From {
+                {"color", "red"},
+                {"size", "huge"}
+            }
+        }, New Address() With {
+            .AddressString = "230 Arbor Way Milledgeville GA 31061",
+            .Latitude = 33.129695892334,
+            .Longitude = -83.24577331543,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "148 Bass Rd NE Milledgeville GA 31061",
+            .Latitude = 33.143497,
+            .Longitude = -83.224487,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "117 Bill Johnson Rd NE Milledgeville GA 31061",
+            .Latitude = 33.141784667969,
+            .Longitude = -83.237518310547,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "119 Bill Johnson Rd NE Milledgeville GA 31061",
+            .Latitude = 33.141086578369,
+            .Longitude = -83.238258361816,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "131 Bill Johnson Rd NE Milledgeville GA 31061",
+            .Latitude = 33.142036437988,
+            .Longitude = -83.238845825195,
+            .Time = 0
+        },
+            New Address() With {
+            .AddressString = "138 Bill Johnson Rd NE Milledgeville GA 31061",
+            .Latitude = 33.14307,
+            .Longitude = -83.239334,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "139 Bill Johnson Rd NE Milledgeville GA 31061",
+            .Latitude = 33.142734527588,
+            .Longitude = -83.237442016602,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "145 Bill Johnson Rd NE Milledgeville GA 31061",
+            .Latitude = 33.143871307373,
+            .Longitude = -83.237342834473,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "221 Blake Cir Milledgeville GA 31061",
+            .Latitude = 33.081462860107,
+            .Longitude = -83.208511352539,
+            .Time = 0
         }}
 
         ' Set parameters

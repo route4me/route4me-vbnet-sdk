@@ -31,6 +31,18 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="channel_name")>
         Public Property ChannelName As String
 
+        <DataMember(Name:="member_picture", EmitDefaultValue:=False)>
+        Public Property MemberPicture As String
+
+        <DataMember(Name:="member_tracking_subheadline", EmitDefaultValue:=False)>
+        Public Property MemberTrackingSubheadline As String
+
+        <DataMember(Name:="approved_for_execution")>
+        Public Property ApprovedForExecution As Boolean
+
+        <DataMember(Name:="approved_revisions_counter", EmitDefaultValue:=False)>
+        Public Property ApprovedRevisionsCounter As Integer?
+
         <DataMember(Name:="vehicle_alias")>
         Public Property VehicleAlias As String
 
@@ -39,6 +51,12 @@ Namespace Route4MeSDK.DataTypes
 
         <DataMember(Name:="trip_distance")>
         Public Property TripDistance As Double?
+
+        <DataMember(Name:="udu_distance_unit", EmitDefaultValue:=False)>
+        Public Property UduDistanceUnit As String
+
+        <DataMember(Name:="udu_trip_distance", EmitDefaultValue:=False)>
+        Public Property UduTripDistance As Double?
 
         <DataMember(Name:="is_unrouted")>
         Public Property IsUnrouted As Boolean
@@ -67,6 +85,12 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="planned_total_route_duration")>
         Public Property PlannedTotalRouteDuration As Integer?
 
+        <DataMember(Name:="total_wait_time", EmitDefaultValue:=False)>
+        Public Property TotalWaitTime As Integer?
+
+        <DataMember(Name:="udu_actual_travel_distance", EmitDefaultValue:=False)>
+        Public Property UduActualTravelDistance As Decimal?
+
         <DataMember(Name:="actual_travel_distance")>
         Public Property ActualTravelDistance As Double?
 
@@ -94,6 +118,12 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="geofence_polygon_size")>
         Public Property GeofencePolygonSize As Integer?
 
+        <DataMember(Name:="destination_count", EmitDefaultValue:=False)>
+        Public Property DestinationCount As Integer?
+
+        <DataMember(Name:="notes_count", EmitDefaultValue:=False)>
+        Public Property NotesCount As Integer?
+
         <DataMember(Name:="parameters")>
         Public Property Parameters As RouteParameters
 
@@ -105,6 +135,15 @@ Namespace Route4MeSDK.DataTypes
 
         <DataMember(Name:="notes")>
         Public Property Notes As AddressNote()
+
+        <DataMember(Name:="vehicle", EmitDefaultValue:=False)>
+        Public Property Vehilce As VehicleV4Response
+
+        <DataMember(Name:="member_config_storage", EmitDefaultValue:=False)>
+        Public Property MemberConfigStorage As Dictionary(Of String, String)
+
+        <DataMember(Name:="original_route", EmitDefaultValue:=False)>
+        Public Property OriginalRoute As DataObjectRoute
 
         <DataMember(Name:="path")>
         Public Property Path As GeoPoint()

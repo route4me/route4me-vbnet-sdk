@@ -51,7 +51,6 @@ Namespace Route4MeSDK.DataTypes
             For i As Integer = 0 To ConfigurationManager.ConnectionStrings.Count - 1
                 Dim sConn As String = ConfigurationManager.ConnectionStrings(i).ConnectionString
                 Console.WriteLine(sConn)
-
             Next
 
             Select Case db_type__1
@@ -710,6 +709,7 @@ Namespace Route4MeSDK.DataTypes
                 Case R4M_DataType.Addressbook
                     'var jsSerializer = new System.Runtime.Serialization.Json.DataContractJsonSerializer(typeof(AddressBookContactsResponse));
                     Dim Data As AddressBookContactsResponse = jsSerializer.Deserialize(Of AddressBookContactsResponse)(jsonContent)
+
                     If Data.total = 0 Then
                         Exit Select
                     End If

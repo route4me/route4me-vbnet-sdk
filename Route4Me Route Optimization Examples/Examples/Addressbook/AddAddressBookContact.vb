@@ -1,17 +1,21 @@
-﻿Imports Route4MeSDKLibrary.Route4MeSDK
-Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
-Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+﻿Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Function AddAddressBookContact() As AddressBookContact
             ' Create the manager with the api key
             Dim route4Me As New Route4MeSDKLibrary.Route4MeSDK.Route4MeManager(c_ApiKey)
 
-            Dim contact As New AddressBookContact() With { _
-                 .first_name = "Test FirstName " + (New Random()).[Next]().ToString(), _
-                 .address_1 = "Test Address1 " + (New Random()).[Next]().ToString(), _
-                 .cached_lat = 38.024654, _
-                 .cached_lng = -77.338814 _
+            Dim contact As New AddressBookContact() With {
+                 .first_name = "Test FirstName " + (New Random()).[Next]().ToString(),
+                 .address_1 = "Test Address1 " + (New Random()).[Next]().ToString(),
+                 .cached_lat = 38.024654,
+                 .cached_lng = -77.338814,
+                 .address_custom_data = New Dictionary(Of String, Object)() From {
+                        {"Service type", "publishing"},
+                        {"Facilities", "storage"},
+                        {"Parking", "temporarry"}
+                    }
             }
 
             ' Run the query
@@ -24,6 +28,10 @@ Namespace Route4MeSDKTest.Examples
                 Console.WriteLine("AddAddressBookContact executed successfully")
 
                 Console.WriteLine("AddressId: {0}", resultContact.address_id)
+
+                For Each cdata In resultContact.address_custom_data
+                    Console.WriteLine(cdata.Key & ": " + cdata.Value)
+                Next
 
                 Return resultContact
             Else

@@ -26,9 +26,9 @@ Namespace Route4MeSDKTest.Examples
             Console.WriteLine("")
 
             If result Then
-                Console.WriteLine("ReoptimizeRoute executed successfully")
+                Console.WriteLine("ResequenceReoptimizeRoute executed successfully")
             Else
-                Console.WriteLine("ReoptimizeRoute error: {0}", errorString)
+                Console.WriteLine("ResequenceReoptimizeRoute error: {0}", errorString)
             End If
         End Sub
     End Class

@@ -12,14 +12,17 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="created_timestamp", EmitDefaultValue:=False)> _
         Public Property created_timestamp As Integer
 
-        <DataMember(Name:="address_id", EmitDefaultValue:=False)> _
-        Public Property address_id As System.Nullable(Of Integer)
+        <DataMember(Name:="address_id", EmitDefaultValue:=False)>
+        Public Property address_id As Integer?
 
         <DataMember(Name:="address_1")> _
         Public Property address_1 As String
 
-        <DataMember(Name:="address_2", EmitDefaultValue:=False)> _
+        <DataMember(Name:="address_2", EmitDefaultValue:=False)>
         Public Property address_2 As String
+
+        <DataMember(Name:="member_id", EmitDefaultValue:=False)>
+        Public Property member_id As Integer?
 
         <DataMember(Name:="address_alias", EmitDefaultValue:=False)> _
         Public Property address_alias As String
@@ -45,11 +48,11 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="cached_lng")> _
         Public Property cached_lng As Double
 
-        <DataMember(Name:="curbside_lat")> _
-        Public Property curbside_lat As System.Nullable(Of Double)
+        <DataMember(Name:="curbside_lat")>
+        Public Property curbside_lat As Double?
 
-        <DataMember(Name:="curbside_lng")> _
-        Public Property curbside_lng As System.Nullable(Of Double)
+        <DataMember(Name:="curbside_lng")>
+        Public Property curbside_lng As Double?
 
         <DataMember(Name:="address_city", EmitDefaultValue:=False)> _
         Public Property address_city As String
@@ -63,20 +66,8 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="address_zip", EmitDefaultValue:=False)> _
         Public Property address_zip As String
 
-        <DataMember(Name:="address_custom_data", EmitDefaultValue:=False)> _
-        Public Property address_custom_data() As Object
-            Get
-                Return _address_custom_data
-            End Get
-            Set(value As Object)
-                If value.[GetType]().ToString() = "System.Collections.Generic.Dictionary" Then
-                    _address_custom_data = value
-                Else
-                    _address_custom_data = Nothing
-                End If
-            End Set
-        End Property
-        Private _address_custom_data As Object
+        <DataMember(Name:="address_custom_data", EmitDefaultValue:=False)>
+        Public Property address_custom_data As Dictionary(Of String, Object)
 
         <DataMember(Name:="schedule", EmitDefaultValue:=False)> _
         Public Property schedule As IList(Of Schedule)
@@ -84,8 +75,20 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="schedule_blacklist", EmitDefaultValue:=False)> _
         Public Property schedule_blacklist As String()
 
-        <DataMember(Name:="service_time", EmitDefaultValue:=False)> _
-        Public Property service_time As System.Nullable(Of Integer)
+        <DataMember(Name:="in_route_count", EmitDefaultValue:=False)>
+        Public Property in_route_count As Integer?
+
+        <DataMember(Name:="visited_count", EmitDefaultValue:=False)>
+        Public Property visited_count As Integer?
+
+        <DataMember(Name:="last_visited_timestamp", EmitDefaultValue:=False)>
+        Public Property last_visited_timestamp As Integer?
+
+        <DataMember(Name:="last_routed_timestamp", EmitDefaultValue:=False)>
+        Public Property last_routed_timestamp As Integer?
+
+        <DataMember(Name:="service_time", EmitDefaultValue:=False)>
+        Public Property service_time As Integer?
 
         <DataMember(Name:="color", EmitDefaultValue:=False)> _
         Public Property color As String

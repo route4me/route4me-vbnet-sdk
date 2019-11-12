@@ -5,11 +5,9 @@ Namespace Route4MeSDK.DataTypes
     ''' Main data object data-structure
     ''' See https://www.assembla.com/spaces/route4me_api/wiki/Optimization_Problem_V4
     ''' </summary>
-    <DataContract> _
-    <KnownType(GetType(DataObjectRoute))> _
+    <DataContract>
     Public Class DataObject
-        <DataMember(Name:="optimization_problem_id")> _
-        Public Property OptimizationProblemId As String
+        Inherits DataObjectBase
 
         <DataMember(Name:="state")> _
         Public Property State As OptimizationState
@@ -20,19 +18,21 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="sent_to_background")> _
         Public Property IsSentToBackground As Boolean
 
-        <DataMember(Name:="parameters")> _
-        Public Property Parameters As RouteParameters
-
-        <DataMember(Name:="addresses")> _
-        Public Property Addresses As Address()
-
-        <DataMember(Name:="routes")> _
+        <DataMember(Name:="routes")>
         Public Property Routes As DataObjectRoute()
 
-        <DataMember(Name:="links")> _
-        Public Property Links As Links
+        ''' <summary>
+        ''' Total number of the addresses included in the optimization
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="total_addresses")>
+        Public Property TotalAddresses As Integer?
 
-        <DataMember(Name:="tracking_history")> _
-        Public Property TrackingHistory As TrackingHistory()
+        ''' <summary>
+        ''' An Unix Timestamp the Optimization Problem was scheduled for
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="scheduled_for")>
+        Public Property ScheduledFor As Long?
     End Class
 End Namespace

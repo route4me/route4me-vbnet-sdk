@@ -218,7 +218,7 @@ Namespace Route4MeSDK.DataTypes
         ''' </remarks>
         ''' </summary>
         <DataMember(Name:="member_id", EmitDefaultValue:=False)>
-        Public Property MemberId As String
+        Public Property MemberId As Integer?
 
         ''' <summary>
         ''' Specify the ip address of the remote user making this optimization request.

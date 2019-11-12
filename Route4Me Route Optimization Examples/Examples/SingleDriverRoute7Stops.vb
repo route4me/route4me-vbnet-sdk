@@ -13,47 +13,47 @@ Namespace Route4MeSDKTest.Examples
             'input as many custom fields as needed, custom data is passed through to mobile devices and to the manifest
 
             '#End Region
-            Dim addresses As Address() = New Address() {New Address() With { _
-                .AddressString = "דיזנגוף 229 תל אביב-יפו, 63,116, ישראל", _
-                .IsDepot = True, _
-                .Latitude = 32.090734, _
-                .Longitude = 34.775779, _
-                .Time = 0, _
-                .CustomFields = New Dictionary(Of String, String)() From { _
-                    {"color", "red"}, _
-                    {"size", "huge"} _
-                } _
-            }, New Address() With { _
-                .AddressString = "דיזנגוף 213 תל אביב-יפו, ישראל", _
-                .Latitude = 32.088689, _
-                .Longitude = 34.775371, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "שדרות בן גוריון 68 תל אביב-יפו, ישראל", _
-                .Latitude = 32.08308, _
-                .Longitude = 34.776894, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "מלכי Yisra'el רחוב תל אביב-יפו, ישראל", _
-                .Latitude = 32.081417, _
-                .Longitude = 34.779909, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "נצח ישראל רחוב 9 תל אביב-יפו, ישראל", _
-                .Latitude = 32.075644, _
-                .Longitude = 34.78331, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "שאול שדרות המלך 1-13 תל אביב-יפו, ישראל", _
-                .Latitude = 32.075644, _
-                .Longitude = 34.78331, _
-                .Time = 0 _
-            }, _
-                New Address() With { _
-                .AddressString = "ארלוזורוב 88 תל אביב-יפו, ישראל", _
-                .Latitude = 32.085298, _
-                .Longitude = 34.781916, _
-                .Time = 0 _
+            Dim addresses As Address() = New Address() {New Address() With {
+                .AddressString = "דיזנגוף 229 תל אביב-יפו, 63,116, ישראל",
+                .IsDepot = True,
+                .Latitude = 32.090734,
+                .Longitude = 34.775779,
+                .Time = 0,
+                .CustomFields = New Dictionary(Of String, Object)() From {
+                    {"color", "red"},
+                    {"size", "huge"}
+                }
+            }, New Address() With {
+                .AddressString = "דיזנגוף 213 תל אביב-יפו, ישראל",
+                .Latitude = 32.088689,
+                .Longitude = 34.775371,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "שדרות בן גוריון 68 תל אביב-יפו, ישראל",
+                .Latitude = 32.08308,
+                .Longitude = 34.776894,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "מלכי Yisra'el רחוב תל אביב-יפו, ישראל",
+                .Latitude = 32.081417,
+                .Longitude = 34.779909,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "נצח ישראל רחוב 9 תל אביב-יפו, ישראל",
+                .Latitude = 32.075644,
+                .Longitude = 34.78331,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "שאול שדרות המלך 1-13 תל אביב-יפו, ישראל",
+                .Latitude = 32.075644,
+                .Longitude = 34.78331,
+                .Time = 0
+            },
+                New Address() With {
+                .AddressString = "ארלוזורוב 88 תל אביב-יפו, ישראל",
+                .Latitude = 32.085298,
+                .Longitude = 34.781916,
+                .Time = 0
             }}
 
             ' Set parameters
