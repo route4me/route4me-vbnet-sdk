@@ -73,13 +73,13 @@ Namespace Route4MeSDK.DataTypes
         Public Property GasPrice As Double?
 
         <DataMember(Name:="route_duration_sec", EmitDefaultValue:=False)>
-        Public Property RouteDurationSec As Integer?
+        Public Property RouteDurationSec As Long?
 
         <DataMember(Name:="planned_total_route_duration", EmitDefaultValue:=False)>
-        Public Property PlannedTotalRouteDuration As Integer?
+        Public Property PlannedTotalRouteDuration As Long?
 
         <DataMember(Name:="total_wait_time", EmitDefaultValue:=False)>
-        Public Property TotalWaitTime As Integer?
+        Public Property TotalWaitTime As Long?
 
         <DataMember(Name:="udu_actual_travel_distance", EmitDefaultValue:=False)>
         Public Property UduActualTravelDistance As Decimal?
@@ -88,19 +88,19 @@ Namespace Route4MeSDK.DataTypes
         Public Property ActualTravelDistance As Decimal?
 
         <DataMember(Name:="actual_travel_time", EmitDefaultValue:=False)>
-        Public Property ActualTravelTime As Integer?
+        Public Property ActualTravelTime As Long?
 
         <DataMember(Name:="actual_footsteps", EmitDefaultValue:=False)>
         Public Property ActualFootsteps As Integer?
 
         <DataMember(Name:="working_time", EmitDefaultValue:=False)>
-        Public Property WorkingTime As Integer?
+        Public Property WorkingTime As Long?
 
         <DataMember(Name:="driving_time", EmitDefaultValue:=False)>
-        Public Property DrivingTime As Integer?
+        Public Property DrivingTime As Long?
 
         <DataMember(Name:="idling_time", EmitDefaultValue:=False)>
-        Public Property IdlingTime As Integer?
+        Public Property IdlingTime As Long?
 
         <DataMember(Name:="paying_miles", EmitDefaultValue:=False)>
         Public Property PayingMiles As Decimal?

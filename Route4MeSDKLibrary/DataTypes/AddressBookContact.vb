@@ -9,8 +9,8 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="territory_name", EmitDefaultValue:=False)> _
         Public Property territory_name As String
 
-        <DataMember(Name:="created_timestamp", EmitDefaultValue:=False)> _
-        Public Property created_timestamp As Integer
+        <DataMember(Name:="created_timestamp", EmitDefaultValue:=False)>
+        Public Property created_timestamp As Long?
 
         <DataMember(Name:="address_id", EmitDefaultValue:=False)>
         Public Property address_id As Integer?
@@ -82,13 +82,13 @@ Namespace Route4MeSDK.DataTypes
         Public Property visited_count As Integer?
 
         <DataMember(Name:="last_visited_timestamp", EmitDefaultValue:=False)>
-        Public Property last_visited_timestamp As Integer?
+        Public Property last_visited_timestamp As Long?
 
         <DataMember(Name:="last_routed_timestamp", EmitDefaultValue:=False)>
-        Public Property last_routed_timestamp As Integer?
+        Public Property last_routed_timestamp As Long?
 
         <DataMember(Name:="service_time", EmitDefaultValue:=False)>
-        Public Property service_time As Integer?
+        Public Property service_time As Long?
 
         <DataMember(Name:="color", EmitDefaultValue:=False)> _
         Public Property color As String

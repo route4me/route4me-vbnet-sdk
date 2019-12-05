@@ -59,7 +59,7 @@ Namespace Route4MeSDK.DataTypes
         ''' Step duration (sec)
         ''' </summary>
         <DataMember(Name:="duration_sec")>
-        Public Property DurationSec As System.Nullable(Of Integer)
+        Public Property DurationSec As Long?
 
     End Class
 End Namespace

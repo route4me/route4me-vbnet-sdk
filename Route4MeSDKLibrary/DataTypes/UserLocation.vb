@@ -145,7 +145,7 @@ Namespace Route4MeSDK.DataTypes
         ''' Timestamp of a last known location.
         ''' </summary>
         <DataMember(Name:="LAST_KNOWN", EmitDefaultValue:=False)>
-        Public Property LastKnown As Integer?
+        Public Property LastKnown As Long?
     End Class
 
 End Namespace

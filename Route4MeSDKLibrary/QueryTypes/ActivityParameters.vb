@@ -21,10 +21,10 @@
         Public Property team As String
 
         <HttpQueryMemberAttribute(Name:="start", EmitDefaultValue:=False)>
-        Public Property Start() As UInteger?
+        Public Property Start() As Long?
 
         <HttpQueryMemberAttribute(Name:="end", EmitDefaultValue:=False)>
-        Public Property [End]() As UInteger?
+        Public Property [End]() As Long?
 
         <HttpQueryMemberAttribute(Name:="activity_type", EmitDefaultValue:=False)>
         Public Property ActivityType As String

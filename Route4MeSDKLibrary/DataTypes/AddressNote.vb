@@ -15,8 +15,8 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="upload_id")> _
         Public Property UploadId As String
 
-        <DataMember(Name:="ts_added", EmitDefaultValue:=False)> _
-        Public Property TimestampAdded As System.Nullable(Of UInteger)
+        <DataMember(Name:="ts_added", EmitDefaultValue:=False)>
+        Public Property TimestampAdded As Long?
 
         <DataMember(Name:="lat")> _
         Public Property Latitude As Double

@@ -64,10 +64,10 @@ Namespace Route4MeSDK.DataTypes
         Public Property Delivered As Boolean?
 
         <DataMember(Name:="timestamp_geofence_visited")>
-        Public Property TimestampGeofenceVisited As Integer?
+        Public Property TimestampGeofenceVisited As Long?
 
         <DataMember(Name:="timestamp_last_visited")>
-        Public Property TimestampLastVisited As Integer?
+        Public Property TimestampLastVisited As Long?
     End Class
 
     <DataContract> _
@@ -103,16 +103,16 @@ Namespace Route4MeSDK.DataTypes
     <DataContract>
     Public NotInheritable Class FindAssetResponseArrival
         <DataMember(Name:="from_unix_timestamp")>
-        Public Property FromUnixTimestamp As System.Nullable(Of Integer)
+        Public Property FromUnixTimestamp As Long?
 
         <DataMember(Name:="to_unix_timestamp")>
-        Public Property ToUnixTimestamp As System.Nullable(Of Integer)
+        Public Property ToUnixTimestamp As Long?
     End Class
 
     <DataContract()>
     Public NotInheritable Class AssetStatusHistory
         <DataMember(Name:="unix_timestamp")>
-        Public Property UnixTimestamp As Integer?
+        Public Property UnixTimestamp As Long?
         <DataMember(Name:="info")>
         Public Property Info As String
     End Class

@@ -6,14 +6,14 @@ Namespace Route4MeSDK.QueryTypes
         ''' <summary>
         ''' Limit per page, if you use 0 you will get all records
         ''' </summary>
-        <HttpQueryMemberAttribute(Name:="limit", EmitDefaultValue:=False)> _
-        Public Property limit As System.Nullable(Of UInteger)
+        <HttpQueryMemberAttribute(Name:="limit", EmitDefaultValue:=False)>
+        Public Property limit As UInteger?
 
         ''' <summary>
         ''' Offset
         ''' </summary>
-        <HttpQueryMemberAttribute(Name:="offset", EmitDefaultValue:=False)> _
-        Public Property offset As System.Nullable(Of UInteger)
+        <HttpQueryMemberAttribute(Name:="offset", EmitDefaultValue:=False)>
+        Public Property offset As UInteger?
 
         ''' <summary>
         ''' if query is array search engine will search by fields, if query is string will search by all text fields. Array / string.

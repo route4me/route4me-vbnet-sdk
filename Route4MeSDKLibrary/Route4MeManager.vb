@@ -223,11 +223,26 @@ Namespace Route4MeSDK
             Return result
         End Function
 
-        <DataContract> _
+        Public Function UpdateRoute(ByVal route As DataObjectRoute, ByRef errorString As String) As DataObjectRoute
+
+            Dim routeParameters = New RouteParametersQuery() With {
+                .RouteId = route.RouteID,
+                .ApprovedForExecution = route.ApprovedForExecution,
+                .Parameters = route.Parameters,
+                .Addresses = route.Addresses
+            }
+
+            routeParameters.PrepareForSerialization()
+            Dim result = GetJsonObjectFromAPI(Of DataObjectRoute)(routeParameters, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, errorString)
+
+            Return result
+        End Function
+
+        <DataContract>
         Private NotInheritable Class UpdateRouteCustomDataRequest
             Inherits GenericParameters
 
-            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
             Public Property RouteId() As String
                 Get
                     Return m_RouteId
@@ -238,7 +253,7 @@ Namespace Route4MeSDK
             End Property
             Private m_RouteId As String
 
-            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)>
             Public Property RouteDestinationId() As System.Nullable(Of Integer)
                 Get
                     Return m_RouteDestinationId
@@ -249,7 +264,7 @@ Namespace Route4MeSDK
             End Property
             Private m_RouteDestinationId As System.Nullable(Of Integer)
 
-            <DataMember(Name:="custom_fields", EmitDefaultValue:=False)> _
+            <DataMember(Name:="custom_fields", EmitDefaultValue:=False)>
             Public Property CustomFields() As Dictionary(Of String, String)
                 Get
                     Return m_CustomFields
@@ -262,9 +277,9 @@ Namespace Route4MeSDK
         End Class
 
         Public Function UpdateRouteCustomData(routeParameters As RouteParametersQuery, customData As Dictionary(Of String, String), errorString As String) As Address
-            Dim request As New UpdateRouteCustomDataRequest With { _
-                .RouteId = routeParameters.RouteId, _
-                .RouteDestinationId = routeParameters.RouteDestinationId, _
+            Dim request As New UpdateRouteCustomDataRequest With {
+                .RouteId = routeParameters.RouteId,
+                .RouteDestinationId = routeParameters.RouteDestinationId,
                 .CustomFields = customData
             }
 
@@ -273,19 +288,19 @@ Namespace Route4MeSDK
             Return result
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class UpdateRouteDestinationRequest
             Inherits GenericParameters
-            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
             Public Property RouteId As String
 
-            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)>
             Public Property RouteDestinationId As System.Nullable(Of Integer)
 
-            <DataMember(Name:="alias", EmitDefaultValue:=False)> _
+            <DataMember(Name:="alias", EmitDefaultValue:=False)>
             Public Property [Alias] As String
 
-            <DataMember(Name:="first_name", EmitDefaultValue:=False)> _
+            <DataMember(Name:="first_name", EmitDefaultValue:=False)>
             Public Property FirstName() As String
                 Get
                     Return m_FirstName
@@ -296,7 +311,7 @@ Namespace Route4MeSDK
             End Property
             Private m_FirstName As String
 
-            <DataMember(Name:="last_name", EmitDefaultValue:=False)> _
+            <DataMember(Name:="last_name", EmitDefaultValue:=False)>
             Public Property LastName() As String
                 Get
                     Return m_LastName
@@ -307,7 +322,7 @@ Namespace Route4MeSDK
             End Property
             Private m_LastName As String
 
-            <DataMember(Name:="address", EmitDefaultValue:=False)> _
+            <DataMember(Name:="address", EmitDefaultValue:=False)>
             Public Property AddressString() As String
                 Get
                     Return m_AddressString
@@ -318,10 +333,10 @@ Namespace Route4MeSDK
             End Property
             Private m_AddressString As String
 
-            <DataMember(Name:="address_stop_type", EmitDefaultValue:=False)> _
+            <DataMember(Name:="address_stop_type", EmitDefaultValue:=False)>
             Public Property AddressStopType As String
 
-            <DataMember(Name:="is_depot", EmitDefaultValue:=False)> _
+            <DataMember(Name:="is_depot", EmitDefaultValue:=False)>
             Public Property IsDepot() As System.Nullable(Of Boolean)
                 Get
                     Return m_IsDepot
@@ -333,11 +348,11 @@ Namespace Route4MeSDK
             Private m_IsDepot As System.Nullable(Of Boolean)
 
             'the latitude of this address
-            <DataMember(Name:="lat", EmitDefaultValue:=False)> _
+            <DataMember(Name:="lat", EmitDefaultValue:=False)>
             Public Property Latitude As System.Nullable(Of Double)
 
             'the longitude of this address
-            <DataMember(Name:="lng", EmitDefaultValue:=False)> _
+            <DataMember(Name:="lng", EmitDefaultValue:=False)>
             Public Property Longitude() As System.Nullable(Of Double)
                 Get
                     Return m_Longitude
@@ -348,7 +363,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Longitude As System.Nullable(Of Double)
 
-            <DataMember(Name:="sequence_no", EmitDefaultValue:=False)> _
+            <DataMember(Name:="sequence_no", EmitDefaultValue:=False)>
             Public Property SequenceNo() As System.Nullable(Of Integer)
                 Get
                     Return m_SequenceNo
@@ -360,7 +375,7 @@ Namespace Route4MeSDK
             Private m_SequenceNo As System.Nullable(Of Integer)
 
             'status flag to mark an address as visited (aka check in)
-            <DataMember(Name:="is_visited", EmitDefaultValue:=False)> _
+            <DataMember(Name:="is_visited", EmitDefaultValue:=False)>
             Public Property IsVisited() As System.Nullable(Of Boolean)
                 Get
                     Return m_IsVisited
@@ -372,7 +387,7 @@ Namespace Route4MeSDK
             Private m_IsVisited As System.Nullable(Of Boolean)
 
             'status flag to mark an address as departed (aka check out)
-            <DataMember(Name:="is_departed", EmitDefaultValue:=False)> _
+            <DataMember(Name:="is_departed", EmitDefaultValue:=False)>
             Public Property IsDeparted() As System.Nullable(Of Boolean)
                 Get
                     Return m_IsDeparted
@@ -384,7 +399,7 @@ Namespace Route4MeSDK
             Private m_IsDeparted As System.Nullable(Of Boolean)
 
             'the last known visited timestamp of this address
-            <DataMember(Name:="timestamp_last_visited", EmitDefaultValue:=False)> _
+            <DataMember(Name:="timestamp_last_visited", EmitDefaultValue:=False)>
             Public Property TimestampLastVisited() As System.Nullable(Of UInteger)
                 Get
                     Return m_TimestampLastVisited
@@ -396,7 +411,7 @@ Namespace Route4MeSDK
             Private m_TimestampLastVisited As System.Nullable(Of UInteger)
 
             'the last known departed timestamp of this address
-            <DataMember(Name:="timestamp_last_departed", EmitDefaultValue:=False)> _
+            <DataMember(Name:="timestamp_last_departed", EmitDefaultValue:=False)>
             Public Property TimestampLastDeparted() As System.Nullable(Of UInteger)
                 Get
                     Return m_TimestampLastDeparted
@@ -407,12 +422,12 @@ Namespace Route4MeSDK
             End Property
             Private m_TimestampLastDeparted As System.Nullable(Of UInteger)
 
-            <DataMember(Name:="group", EmitDefaultValue:=False)> _
+            <DataMember(Name:="group", EmitDefaultValue:=False)>
             Public Property Group As String
 
             'pass-through data about this route destination
             'the data will be visible on the manifest, website, and mobile apps
-            <DataMember(Name:="customer_po", EmitDefaultValue:=False)> _
+            <DataMember(Name:="customer_po", EmitDefaultValue:=False)>
             Public Property CustomerPo() As Object
                 Get
                     Return m_CustomerPo
@@ -425,7 +440,7 @@ Namespace Route4MeSDK
 
             'pass-through data about this route destination
             'the data will be visible on the manifest, website, and mobile apps
-            <DataMember(Name:="invoice_no", EmitDefaultValue:=False)> _
+            <DataMember(Name:="invoice_no", EmitDefaultValue:=False)>
             Public Property InvoiceNo() As Object
                 Get
                     Return m_InvoiceNo
@@ -438,7 +453,7 @@ Namespace Route4MeSDK
 
             'pass-through data about this route destination
             'the data will be visible on the manifest, website, and mobile apps
-            <DataMember(Name:="reference_no", EmitDefaultValue:=False)> _
+            <DataMember(Name:="reference_no", EmitDefaultValue:=False)>
             Public Property ReferenceNo() As Object
                 Get
                     Return m_ReferenceNo
@@ -451,7 +466,7 @@ Namespace Route4MeSDK
 
             'pass-through data about this route destination
             'the data will be visible on the manifest, website, and mobile apps
-            <DataMember(Name:="order_no", EmitDefaultValue:=False)> _
+            <DataMember(Name:="order_no", EmitDefaultValue:=False)>
             Public Property OrderNo() As Object
                 Get
                     Return m_OrderNo
@@ -462,7 +477,7 @@ Namespace Route4MeSDK
             End Property
             Private m_OrderNo As Object
 
-            <DataMember(Name:="order_id", EmitDefaultValue:=False)> _
+            <DataMember(Name:="order_id", EmitDefaultValue:=False)>
             Public Property OrderId() As System.Nullable(Of Integer)
                 Get
                     Return m_OrderId
@@ -473,7 +488,7 @@ Namespace Route4MeSDK
             End Property
             Private m_OrderId As System.Nullable(Of Integer)
 
-            <DataMember(Name:="weight", EmitDefaultValue:=False)> _
+            <DataMember(Name:="weight", EmitDefaultValue:=False)>
             Public Property Weight() As Object
                 Get
                     Return m_Weight
@@ -484,7 +499,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Weight As Object
 
-            <DataMember(Name:="cost", EmitDefaultValue:=False)> _
+            <DataMember(Name:="cost", EmitDefaultValue:=False)>
             Public Property Cost() As Object
                 Get
                     Return m_Cost
@@ -495,7 +510,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Cost As Object
 
-            <DataMember(Name:="revenue", EmitDefaultValue:=False)> _
+            <DataMember(Name:="revenue", EmitDefaultValue:=False)>
             Public Property Revenue() As Object
                 Get
                     Return m_Revenue
@@ -508,7 +523,7 @@ Namespace Route4MeSDK
 
             'the cubic volume that this destination/order/line-item consumes/contains
             'this is how much space it will take up on a vehicle
-            <DataMember(Name:="cube", EmitDefaultValue:=False)> _
+            <DataMember(Name:="cube", EmitDefaultValue:=False)>
             Public Property Cube() As Object
                 Get
                     Return m_Cube
@@ -520,7 +535,7 @@ Namespace Route4MeSDK
             Private m_Cube As Object
 
             'the number of pieces/palllets that this destination/order/line-item consumes/contains on a vehicle
-            <DataMember(Name:="pieces", EmitDefaultValue:=False)> _
+            <DataMember(Name:="pieces", EmitDefaultValue:=False)>
             Public Property Pieces() As Object
                 Get
                     Return m_Pieces
@@ -531,7 +546,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Pieces As Object
 
-            <DataMember(Name:="email", EmitDefaultValue:=False)> _
+            <DataMember(Name:="email", EmitDefaultValue:=False)>
             Public Property Email() As String
                 Get
                     Return m_Email
@@ -542,7 +557,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Email As String
 
-            <DataMember(Name:="phone", EmitDefaultValue:=False)> _
+            <DataMember(Name:="phone", EmitDefaultValue:=False)>
             Public Property Phone() As String
                 Get
                     Return m_Phone
@@ -553,7 +568,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Phone As String
 
-            <DataMember(Name:="time_window_start", EmitDefaultValue:=False)> _
+            <DataMember(Name:="time_window_start", EmitDefaultValue:=False)>
             Public Property TimeWindowStart() As System.Nullable(Of Integer)
                 Get
                     Return m_TimeWindowStart
@@ -564,7 +579,7 @@ Namespace Route4MeSDK
             End Property
             Private m_TimeWindowStart As System.Nullable(Of Integer)
 
-            <DataMember(Name:="time_window_end", EmitDefaultValue:=False)> _
+            <DataMember(Name:="time_window_end", EmitDefaultValue:=False)>
             Public Property TimeWindowEnd() As System.Nullable(Of Integer)
                 Get
                     Return m_TimeWindowEnd
@@ -576,7 +591,7 @@ Namespace Route4MeSDK
             Private m_TimeWindowEnd As System.Nullable(Of Integer)
 
             'the expected amount of time that will be spent at this address by the driver/user
-            <DataMember(Name:="time", EmitDefaultValue:=False)> _
+            <DataMember(Name:="time", EmitDefaultValue:=False)>
             Public Property Time() As System.Nullable(Of Integer)
                 Get
                     Return m_Time
@@ -587,7 +602,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Time As System.Nullable(Of Integer)
 
-            <DataMember(Name:="notes", EmitDefaultValue:=False)> _
+            <DataMember(Name:="notes", EmitDefaultValue:=False)>
             Public Property Notes() As AddressNote()
                 Get
                     Return m_Notes
@@ -601,7 +616,7 @@ Namespace Route4MeSDK
             'if present, the priority will sequence addresses in all the optimal routes so that
             'higher priority addresses are general at the beginning of the route sequence
             '1 is the highest priority, 100000 is the lowest
-            <DataMember(Name:="priority", EmitDefaultValue:=False)> _
+            <DataMember(Name:="priority", EmitDefaultValue:=False)>
             Public Property Priority() As System.Nullable(Of Integer)
                 Get
                     Return m_Priority
@@ -613,7 +628,7 @@ Namespace Route4MeSDK
             Private m_Priority As System.Nullable(Of Integer)
 
             'generate optimal routes and driving directions to this curbside lat
-            <DataMember(Name:="curbside_lat", EmitDefaultValue:=False)> _
+            <DataMember(Name:="curbside_lat", EmitDefaultValue:=False)>
             Public Property CurbsideLatitude() As System.Nullable(Of Double)
                 Get
                     Return m_CurbsideLatitude
@@ -625,7 +640,7 @@ Namespace Route4MeSDK
             Private m_CurbsideLatitude As System.Nullable(Of Double)
 
             'generate optimal routes and driving directions to the curbside lang
-            <DataMember(Name:="curbside_lng", EmitDefaultValue:=False)> _
+            <DataMember(Name:="curbside_lng", EmitDefaultValue:=False)>
             Public Property CurbsideLongitude() As System.Nullable(Of Double)
                 Get
                     Return m_CurbsideLongitude
@@ -636,7 +651,7 @@ Namespace Route4MeSDK
             End Property
             Private m_CurbsideLongitude As System.Nullable(Of Double)
 
-            <DataMember(Name:="time_window_start_2", EmitDefaultValue:=False)> _
+            <DataMember(Name:="time_window_start_2", EmitDefaultValue:=False)>
             Public Property TimeWindowStart2() As System.Nullable(Of Integer)
                 Get
                     Return m_TimeWindowStart2
@@ -647,7 +662,7 @@ Namespace Route4MeSDK
             End Property
             Private m_TimeWindowStart2 As System.Nullable(Of Integer)
 
-            <DataMember(Name:="time_window_end_2", EmitDefaultValue:=False)> _
+            <DataMember(Name:="time_window_end_2", EmitDefaultValue:=False)>
             Public Property TimeWindowEnd2() As System.Nullable(Of Integer)
                 Get
                     Return m_TimeWindowEnd2
@@ -671,9 +686,9 @@ Namespace Route4MeSDK
         End Class
 
         Public Function UpdateRouteDestination(addressParameters As Address, ByRef errorString As String) As Address
-            Dim request As New UpdateRouteDestinationRequest() With { _
-                .RouteId = addressParameters.RouteId, _
-                .RouteDestinationId = addressParameters.RouteDestinationId _
+            Dim request As New UpdateRouteDestinationRequest() With {
+                .RouteId = addressParameters.RouteId,
+                .RouteDestinationId = addressParameters.RouteDestinationId
             }
 
             If addressParameters.[Alias] IsNot Nothing Then

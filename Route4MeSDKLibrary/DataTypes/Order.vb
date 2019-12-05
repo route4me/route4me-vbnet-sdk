@@ -64,31 +64,31 @@ Namespace Route4MeSDK.DataTypes
         ''' Local time window start
         ''' </summary>
         <DataMember(Name:="local_time_window_start", EmitDefaultValue:=False)>
-        Public Property local_time_window_start As System.Nullable(Of Integer)
+        Public Property local_time_window_start As Long?
 
         ''' <summary>
         ''' Local time window end
         ''' </summary>
         <DataMember(Name:="local_time_window_end", EmitDefaultValue:=False)>
-        Public Property local_time_window_end As Integer?
+        Public Property local_time_window_end As Long?
 
         ''' <summary>
         ''' Second Local time window start
         ''' </summary>
         <DataMember(Name:="local_time_window_start_2", EmitDefaultValue:=False)>
-        Public Property local_time_window_start_2 As Integer?
+        Public Property local_time_window_start_2 As Long?
 
         ''' <summary>
         ''' Second local time window end
         ''' </summary>
         <DataMember(Name:="local_time_window_end_2", EmitDefaultValue:=False)>
-        Public Property local_time_window_end_2 As Integer?
+        Public Property local_time_window_end_2 As Long?
 
         ''' <summary>
         ''' Second time
         ''' </summary>
         <DataMember(Name:="service_time", EmitDefaultValue:=False)>
-        Public Property service_time As Integer?
+        Public Property service_time As Long?
 
         ''' <summary>
         ''' Address City

@@ -40,7 +40,12 @@ Namespace Route4MeSDKTest.Examples
                     oAddress.Cost = 5
                     oAddress.InvoiceNo = 945825
                     ' etc fill the necessary address parameters
-                    oAddress.CustomFields = CustomData
+
+                    If CustomData IsNot Nothing Then
+                        For Each k1 As String In CustomData.Keys
+                            oAddress.CustomFields.Item(k1) = DirectCast(CustomData.Item(k1), Object)
+                        Next
+                    End If
 
                     errorString = ""
                     Dim address As Address = route4Me.UpdateRouteDestination(oAddress, errorString)

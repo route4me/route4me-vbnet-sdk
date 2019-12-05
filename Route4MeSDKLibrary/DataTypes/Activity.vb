@@ -20,8 +20,8 @@ Namespace Route4MeSDK.DataTypes
         ''' <summary>
         ''' Activity timestamp
         ''' </summary>
-        <DataMember(Name:="activity_timestamp", EmitDefaultValue:=False)> _
-        Public Property ActivityTimestamp As System.Nullable(Of UInteger)
+        <DataMember(Name:="activity_timestamp", EmitDefaultValue:=False)>
+        Public Property ActivityTimestamp As Long?
 
         ''' <summary>
         ''' Activity message

@@ -9,8 +9,8 @@ Namespace Route4MeSDK.DataTypes
         ''' <summary>
         ''' Time (location)
         ''' </summary>
-        <DataMember(Name:="time")> _
-        Public Property Time As Integer
+        <DataMember(Name:="time")>
+        Public Property Time As Long?
 
         ''' <summary>
         ''' Current segment length

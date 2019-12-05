@@ -703,7 +703,7 @@ Route4MeSDKLibrary
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.TruckHazardousGoods">
  <summary>
- Array of the truck hazardous goods.
+ Comma-delimited list of the truck hazardous goods.
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.TruckAxles">
@@ -1379,6 +1379,16 @@ User email.
  <summary>
  Route Parameters to update.
  (After a PUT there is no guarantee that the route_destination_id values are preserved! It may create copies resulting in new destination IDs, especially when dealing with multiple depots.)
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Addresses">
+ <summary>
+ Array of the route addresses
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.ApprovedForExecution">
+ <summary>
+ If true, the route is approved for execution..
  </summary>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery">

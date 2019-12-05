@@ -14,7 +14,7 @@ Namespace Route4MeSDK.QueryTypes
         Public Property Offset As UInteger?
 
         <HttpQueryMemberAttribute(Name:="start", EmitDefaultValue:=False)>
-        Public Property Start As UInteger?
+        Public Property Start As Long?
 
         <HttpQueryMemberAttribute(Name:="query", EmitDefaultValue:=False)>
         Public Property Query As String

@@ -41,10 +41,10 @@
         Public Property time_period As String
 
         <HttpQueryMemberAttribute(Name:="start_date")>
-        Public Property start_date As Integer
+        Public Property start_date As Long
 
         <HttpQueryMemberAttribute(Name:="end_date")>
-        Public Property end_date As Integer
+        Public Property end_date As Long
 
         <HttpQueryMemberAttribute(Name:="altitude", EmitDefaultValue:=False)>
         Public Property Altitude As Double

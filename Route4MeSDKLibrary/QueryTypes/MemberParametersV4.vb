@@ -5,8 +5,8 @@ Namespace Route4MeSDK.QueryTypes
     Public NotInheritable Class MemberParametersV4
         Inherits GenericParameters
 
-        <HttpQueryMemberAttribute(Name:="member_id", EmitDefaultValue:=False)> _
-        Public Property member_id As System.Nullable(Of Integer)
+        <HttpQueryMemberAttribute(Name:="member_id", EmitDefaultValue:=False)>
+        Public Property member_id As Integer?
 
         <DataMember(Name:="HIDE_ROUTED_ADDRESSES", EmitDefaultValue:=False)> _
         Public Property HIDE_ROUTED_ADDRESSES As Boolean
@@ -32,8 +32,8 @@ Namespace Route4MeSDK.QueryTypes
         <DataMember(Name:="member_zipcode", EmitDefaultValue:=False)> _
         Public Property member_zipcode As String
 
-        <HttpQueryMemberAttribute(Name:="route_count", EmitDefaultValue:=False)> _
-        Public Property route_count As System.Nullable(Of Integer)
+        <HttpQueryMemberAttribute(Name:="route_count", EmitDefaultValue:=False)>
+        Public Property route_count As Integer?
 
         <DataMember(Name:="member_email", EmitDefaultValue:=False)> _
         Public Property member_email As String

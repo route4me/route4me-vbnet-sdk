@@ -194,6 +194,25 @@ End Class
         Assert.IsNotNull(dataObject, Convert.ToString("UpdateRouteTest failed... ") & errorString)
     End Sub
 
+    <TestMethod, Ignore>
+    Public Sub UpdateWholeRouteTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        Dim routeId As String = tdr.SD10Stops_route_id
+        Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null...")
+
+        tdr.SD10Stops_route.ApprovedForExecution = True
+        tdr.SD10Stops_route.Parameters.RouteName += " Edited"
+        tdr.SD10Stops_route.Addresses(1).AddressString += " Edited"
+
+        Dim errorString As String = Nothing
+        Dim dataObject = route4Me.UpdateRoute(tdr.SD10Stops_route, errorString)
+
+        Assert.IsNotNull(dataObject, "UpdateRouteTest failed. " & errorString)
+        Assert.IsTrue(dataObject.Parameters.RouteName.Contains("Edited"), "UpdateRouteTest failed, the route name not changed.")
+        Assert.IsTrue(dataObject.Addresses(1).AddressString.Contains("Edited"), "UpdateRouteTest failed, second address name not changed.")
+    End Sub
+
     <TestMethod>
     Public Sub AssignVehicleToRouteTest()
         Dim route4Me = New Route4MeManager(c_ApiKey)

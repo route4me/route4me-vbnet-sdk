@@ -15,21 +15,21 @@ Namespace Route4MeSDK.QueryTypes
         ' Don't serialize as JSON
         <IgnoreDataMember>
         <HttpQueryMemberAttribute(Name:="reoptimize", EmitDefaultValue:=False)>
-        Public Property ReOptimize() As System.Nullable(Of Boolean)
+        Public Property ReOptimize() As Boolean?
 
         ''' <summary>
         ''' The number of existing optimizations that should be returned per response when looking at a list of all the optimizations.
         ''' </summary>
         <IgnoreDataMember>
         <HttpQueryMemberAttribute(Name:="limit", EmitDefaultValue:=False)>
-        Public Property Limit As System.Nullable(Of UInteger)
+        Public Property Limit As UInteger?
 
         ''' <summary>
         ''' The page number for optimization listing pagination. Increment the offset by the limit number to move to the next page.
         ''' </summary>
         <IgnoreDataMember>
         <HttpQueryMemberAttribute(Name:="offset", EmitDefaultValue:=False)>
-        Public Property Offset As System.Nullable(Of UInteger)
+        Public Property Offset As UInteger?
 
         <IgnoreDataMember>
         <HttpQueryMemberAttribute(Name:="start_date", EmitDefaultValue:=False)>
@@ -42,14 +42,14 @@ Namespace Route4MeSDK.QueryTypes
         ''' <summary>
         ''' If true will be redirected
         ''' </summary>
-        <IgnoreDataMember> _
-        <HttpQueryMemberAttribute(Name:="redirect", EmitDefaultValue:=False)> _
-        Public Property Redirect() As System.Nullable(Of Boolean)
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="redirect", EmitDefaultValue:=False)>
+        Public Property Redirect() As Boolean?
 
         ' Don't serialize as JSON
-        <IgnoreDataMember> _
-        <HttpQueryMemberAttribute(Name:="show_directions", EmitDefaultValue:=False)> _
-        Public Property ShowDirections() As System.Nullable(Of Boolean)
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="show_directions", EmitDefaultValue:=False)>
+        Public Property ShowDirections() As Boolean?
 
         <IgnoreDataMember> _
         <HttpQueryMemberAttribute(Name:="optimized_callback_url", EmitDefaultValue:=False)> _

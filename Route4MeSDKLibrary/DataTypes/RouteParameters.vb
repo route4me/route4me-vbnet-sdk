@@ -177,7 +177,7 @@ Namespace Route4MeSDK.DataTypes
         ''' </summary>
         ''' <value>The maximum duration of the route.</value>
         <DataMember(Name:="route_max_duration", EmitDefaultValue:=False)>
-        Public Property RouteMaxDuration As Integer?
+        Public Property RouteMaxDuration As Long?
 
         ''' <summary>The email address to notify upon completion of an optimization request</summary>
         ''' <value>The route email.</value>
@@ -357,10 +357,10 @@ Namespace Route4MeSDK.DataTypes
         Public Property TruckLengthMeters As Double?
 
         ''' <summary>
-        ''' Array of the truck hazardous goods.
+        ''' Comma-delimited list of the truck hazardous goods.
         ''' </summary>
         <DataMember(Name:="truck_hazardous_goods", EmitDefaultValue:=False)>
-        Public Property TruckHazardousGoods As String()
+        Public Property TruckHazardousGoods As String
 
         ''' <summary>
         ''' Truck axles number.
