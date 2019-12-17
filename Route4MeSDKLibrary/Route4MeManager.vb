@@ -238,11 +238,11 @@ Namespace Route4MeSDK
             Return result
         End Function
 
-        <DataContract>
+        <DataContract> _
         Private NotInheritable Class UpdateRouteCustomDataRequest
             Inherits GenericParameters
 
-            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
             Public Property RouteId() As String
                 Get
                     Return m_RouteId
@@ -253,7 +253,7 @@ Namespace Route4MeSDK
             End Property
             Private m_RouteId As String
 
-            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)>
+            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)> _
             Public Property RouteDestinationId() As System.Nullable(Of Integer)
                 Get
                     Return m_RouteDestinationId
@@ -264,7 +264,7 @@ Namespace Route4MeSDK
             End Property
             Private m_RouteDestinationId As System.Nullable(Of Integer)
 
-            <DataMember(Name:="custom_fields", EmitDefaultValue:=False)>
+            <DataMember(Name:="custom_fields", EmitDefaultValue:=False)> _
             Public Property CustomFields() As Dictionary(Of String, String)
                 Get
                     Return m_CustomFields
@@ -277,9 +277,9 @@ Namespace Route4MeSDK
         End Class
 
         Public Function UpdateRouteCustomData(routeParameters As RouteParametersQuery, customData As Dictionary(Of String, String), errorString As String) As Address
-            Dim request As New UpdateRouteCustomDataRequest With {
-                .RouteId = routeParameters.RouteId,
-                .RouteDestinationId = routeParameters.RouteDestinationId,
+            Dim request As New UpdateRouteCustomDataRequest With { _
+                .RouteId = routeParameters.RouteId, _
+                .RouteDestinationId = routeParameters.RouteDestinationId, _
                 .CustomFields = customData
             }
 
@@ -288,407 +288,152 @@ Namespace Route4MeSDK
             Return result
         End Function
 
-        <DataContract>
+        <DataContract> _
         Private NotInheritable Class UpdateRouteDestinationRequest
             Inherits GenericParameters
-            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
             Public Property RouteId As String
 
-            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)>
+            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)> _
             Public Property RouteDestinationId As System.Nullable(Of Integer)
 
-            <DataMember(Name:="alias", EmitDefaultValue:=False)>
+            <DataMember(Name:="alias", EmitDefaultValue:=False)> _
             Public Property [Alias] As String
 
             <DataMember(Name:="first_name", EmitDefaultValue:=False)>
-            Public Property FirstName() As String
-                Get
-                    Return m_FirstName
-                End Get
-                Set(value As String)
-                    m_FirstName = value
-                End Set
-            End Property
-            Private m_FirstName As String
+            Public Property FirstName As String
 
             <DataMember(Name:="last_name", EmitDefaultValue:=False)>
-            Public Property LastName() As String
-                Get
-                    Return m_LastName
-                End Get
-                Set(value As String)
-                    m_LastName = value
-                End Set
-            End Property
-            Private m_LastName As String
+            Public Property LastName As String
 
             <DataMember(Name:="address", EmitDefaultValue:=False)>
-            Public Property AddressString() As String
-                Get
-                    Return m_AddressString
-                End Get
-                Set(value As String)
-                    m_AddressString = value
-                End Set
-            End Property
-            Private m_AddressString As String
+            Public Property AddressString As String
 
-            <DataMember(Name:="address_stop_type", EmitDefaultValue:=False)>
+            <DataMember(Name:="address_stop_type", EmitDefaultValue:=False)> _
             Public Property AddressStopType As String
 
             <DataMember(Name:="is_depot", EmitDefaultValue:=False)>
-            Public Property IsDepot() As System.Nullable(Of Boolean)
-                Get
-                    Return m_IsDepot
-                End Get
-                Set(value As System.Nullable(Of Boolean))
-                    m_IsDepot = value
-                End Set
-            End Property
-            Private m_IsDepot As System.Nullable(Of Boolean)
+            Public Property IsDepot As Boolean?
 
             'the latitude of this address
-            <DataMember(Name:="lat", EmitDefaultValue:=False)>
+            <DataMember(Name:="lat", EmitDefaultValue:=False)> _
             Public Property Latitude As System.Nullable(Of Double)
 
             'the longitude of this address
             <DataMember(Name:="lng", EmitDefaultValue:=False)>
-            Public Property Longitude() As System.Nullable(Of Double)
-                Get
-                    Return m_Longitude
-                End Get
-                Set(value As System.Nullable(Of Double))
-                    m_Longitude = value
-                End Set
-            End Property
-            Private m_Longitude As System.Nullable(Of Double)
+            Public Property Longitude As Double?
 
             <DataMember(Name:="sequence_no", EmitDefaultValue:=False)>
-            Public Property SequenceNo() As System.Nullable(Of Integer)
-                Get
-                    Return m_SequenceNo
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_SequenceNo = value
-                End Set
-            End Property
-            Private m_SequenceNo As System.Nullable(Of Integer)
+            Public Property SequenceNo As Integer?
 
             'status flag to mark an address as visited (aka check in)
             <DataMember(Name:="is_visited", EmitDefaultValue:=False)>
-            Public Property IsVisited() As System.Nullable(Of Boolean)
-                Get
-                    Return m_IsVisited
-                End Get
-                Set(value As System.Nullable(Of Boolean))
-                    m_IsVisited = value
-                End Set
-            End Property
-            Private m_IsVisited As System.Nullable(Of Boolean)
+            Public Property IsVisited As Boolean?
 
             'status flag to mark an address as departed (aka check out)
             <DataMember(Name:="is_departed", EmitDefaultValue:=False)>
-            Public Property IsDeparted() As System.Nullable(Of Boolean)
-                Get
-                    Return m_IsDeparted
-                End Get
-                Set(value As System.Nullable(Of Boolean))
-                    m_IsDeparted = value
-                End Set
-            End Property
-            Private m_IsDeparted As System.Nullable(Of Boolean)
+            Public Property IsDeparted As Boolean?
 
             'the last known visited timestamp of this address
             <DataMember(Name:="timestamp_last_visited", EmitDefaultValue:=False)>
-            Public Property TimestampLastVisited() As System.Nullable(Of UInteger)
-                Get
-                    Return m_TimestampLastVisited
-                End Get
-                Set(value As System.Nullable(Of UInteger))
-                    m_TimestampLastVisited = value
-                End Set
-            End Property
-            Private m_TimestampLastVisited As System.Nullable(Of UInteger)
+            Public Property TimestampLastVisited As UInteger?
 
             'the last known departed timestamp of this address
             <DataMember(Name:="timestamp_last_departed", EmitDefaultValue:=False)>
-            Public Property TimestampLastDeparted() As System.Nullable(Of UInteger)
-                Get
-                    Return m_TimestampLastDeparted
-                End Get
-                Set(value As System.Nullable(Of UInteger))
-                    m_TimestampLastDeparted = value
-                End Set
-            End Property
-            Private m_TimestampLastDeparted As System.Nullable(Of UInteger)
+            Public Property TimestampLastDeparted() As UInteger?
 
-            <DataMember(Name:="group", EmitDefaultValue:=False)>
+            <DataMember(Name:="group", EmitDefaultValue:=False)> _
             Public Property Group As String
 
             'pass-through data about this route destination
             'the data will be visible on the manifest, website, and mobile apps
             <DataMember(Name:="customer_po", EmitDefaultValue:=False)>
-            Public Property CustomerPo() As Object
-                Get
-                    Return m_CustomerPo
-                End Get
-                Set(value As Object)
-                    m_CustomerPo = value
-                End Set
-            End Property
-            Private m_CustomerPo As Object
+            Public Property CustomerPo As Object
 
             'pass-through data about this route destination
             'the data will be visible on the manifest, website, and mobile apps
             <DataMember(Name:="invoice_no", EmitDefaultValue:=False)>
-            Public Property InvoiceNo() As Object
-                Get
-                    Return m_InvoiceNo
-                End Get
-                Set(value As Object)
-                    m_InvoiceNo = value
-                End Set
-            End Property
-            Private m_InvoiceNo As Object
+            Public Property InvoiceNo As Object
 
             'pass-through data about this route destination
             'the data will be visible on the manifest, website, and mobile apps
             <DataMember(Name:="reference_no", EmitDefaultValue:=False)>
-            Public Property ReferenceNo() As Object
-                Get
-                    Return m_ReferenceNo
-                End Get
-                Set(value As Object)
-                    m_ReferenceNo = value
-                End Set
-            End Property
-            Private m_ReferenceNo As Object
+            Public Property ReferenceNo As Object
 
             'pass-through data about this route destination
             'the data will be visible on the manifest, website, and mobile apps
             <DataMember(Name:="order_no", EmitDefaultValue:=False)>
-            Public Property OrderNo() As Object
-                Get
-                    Return m_OrderNo
-                End Get
-                Set(value As Object)
-                    m_OrderNo = value
-                End Set
-            End Property
-            Private m_OrderNo As Object
+            Public Property OrderNo As Object
 
             <DataMember(Name:="order_id", EmitDefaultValue:=False)>
-            Public Property OrderId() As System.Nullable(Of Integer)
-                Get
-                    Return m_OrderId
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_OrderId = value
-                End Set
-            End Property
-            Private m_OrderId As System.Nullable(Of Integer)
+            Public Property OrderId As Integer?
 
             <DataMember(Name:="weight", EmitDefaultValue:=False)>
-            Public Property Weight() As Object
-                Get
-                    Return m_Weight
-                End Get
-                Set(value As Object)
-                    m_Weight = value
-                End Set
-            End Property
-            Private m_Weight As Object
+            Public Property Weight As Object
 
             <DataMember(Name:="cost", EmitDefaultValue:=False)>
-            Public Property Cost() As Object
-                Get
-                    Return m_Cost
-                End Get
-                Set(value As Object)
-                    m_Cost = value
-                End Set
-            End Property
-            Private m_Cost As Object
+            Public Property Cost As Object
 
             <DataMember(Name:="revenue", EmitDefaultValue:=False)>
-            Public Property Revenue() As Object
-                Get
-                    Return m_Revenue
-                End Get
-                Set(value As Object)
-                    m_Revenue = value
-                End Set
-            End Property
-            Private m_Revenue As Object
+            Public Property Revenue As Object
 
             'the cubic volume that this destination/order/line-item consumes/contains
             'this is how much space it will take up on a vehicle
             <DataMember(Name:="cube", EmitDefaultValue:=False)>
-            Public Property Cube() As Object
-                Get
-                    Return m_Cube
-                End Get
-                Set(value As Object)
-                    m_Cube = value
-                End Set
-            End Property
-            Private m_Cube As Object
+            Public Property Cube As Object
 
             'the number of pieces/palllets that this destination/order/line-item consumes/contains on a vehicle
-            <DataMember(Name:="pieces", EmitDefaultValue:=False)>
+            <DataMember(Name:="pieces", EmitDefaultValue:=False)> _
             Public Property Pieces() As Object
-                Get
-                    Return m_Pieces
-                End Get
-                Set(value As Object)
-                    m_Pieces = value
-                End Set
-            End Property
-            Private m_Pieces As Object
 
             <DataMember(Name:="email", EmitDefaultValue:=False)>
-            Public Property Email() As String
-                Get
-                    Return m_Email
-                End Get
-                Set(value As String)
-                    m_Email = value
-                End Set
-            End Property
-            Private m_Email As String
+            Public Property Email As String
 
             <DataMember(Name:="phone", EmitDefaultValue:=False)>
-            Public Property Phone() As String
-                Get
-                    Return m_Phone
-                End Get
-                Set(value As String)
-                    m_Phone = value
-                End Set
-            End Property
-            Private m_Phone As String
+            Public Property Phone As String
 
             <DataMember(Name:="time_window_start", EmitDefaultValue:=False)>
-            Public Property TimeWindowStart() As System.Nullable(Of Integer)
-                Get
-                    Return m_TimeWindowStart
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_TimeWindowStart = value
-                End Set
-            End Property
-            Private m_TimeWindowStart As System.Nullable(Of Integer)
+            Public Property TimeWindowStart As Integer?
 
             <DataMember(Name:="time_window_end", EmitDefaultValue:=False)>
-            Public Property TimeWindowEnd() As System.Nullable(Of Integer)
-                Get
-                    Return m_TimeWindowEnd
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_TimeWindowEnd = value
-                End Set
-            End Property
-            Private m_TimeWindowEnd As System.Nullable(Of Integer)
+            Public Property TimeWindowEnd As Integer?
 
             'the expected amount of time that will be spent at this address by the driver/user
             <DataMember(Name:="time", EmitDefaultValue:=False)>
-            Public Property Time() As System.Nullable(Of Integer)
-                Get
-                    Return m_Time
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_Time = value
-                End Set
-            End Property
-            Private m_Time As System.Nullable(Of Integer)
+            Public Property Time As Integer?
 
             <DataMember(Name:="notes", EmitDefaultValue:=False)>
-            Public Property Notes() As AddressNote()
-                Get
-                    Return m_Notes
-                End Get
-                Set(value As AddressNote())
-                    m_Notes = value
-                End Set
-            End Property
-            Private m_Notes As AddressNote()
+            Public Property Notes As AddressNote()
 
             'if present, the priority will sequence addresses in all the optimal routes so that
             'higher priority addresses are general at the beginning of the route sequence
             '1 is the highest priority, 100000 is the lowest
             <DataMember(Name:="priority", EmitDefaultValue:=False)>
-            Public Property Priority() As System.Nullable(Of Integer)
-                Get
-                    Return m_Priority
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_Priority = value
-                End Set
-            End Property
-            Private m_Priority As System.Nullable(Of Integer)
+            Public Property Priority As Integer?
 
             'generate optimal routes and driving directions to this curbside lat
             <DataMember(Name:="curbside_lat", EmitDefaultValue:=False)>
-            Public Property CurbsideLatitude() As System.Nullable(Of Double)
-                Get
-                    Return m_CurbsideLatitude
-                End Get
-                Set(value As System.Nullable(Of Double))
-                    m_CurbsideLatitude = value
-                End Set
-            End Property
-            Private m_CurbsideLatitude As System.Nullable(Of Double)
+            Public Property CurbsideLatitude As Double?
 
             'generate optimal routes and driving directions to the curbside lang
             <DataMember(Name:="curbside_lng", EmitDefaultValue:=False)>
-            Public Property CurbsideLongitude() As System.Nullable(Of Double)
-                Get
-                    Return m_CurbsideLongitude
-                End Get
-                Set(value As System.Nullable(Of Double))
-                    m_CurbsideLongitude = value
-                End Set
-            End Property
-            Private m_CurbsideLongitude As System.Nullable(Of Double)
+            Public Property CurbsideLongitude As Double?
 
             <DataMember(Name:="time_window_start_2", EmitDefaultValue:=False)>
-            Public Property TimeWindowStart2() As System.Nullable(Of Integer)
-                Get
-                    Return m_TimeWindowStart2
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_TimeWindowStart2 = value
-                End Set
-            End Property
-            Private m_TimeWindowStart2 As System.Nullable(Of Integer)
+            Public Property TimeWindowStart2 As Integer?
 
             <DataMember(Name:="time_window_end_2", EmitDefaultValue:=False)>
-            Public Property TimeWindowEnd2() As System.Nullable(Of Integer)
-                Get
-                    Return m_TimeWindowEnd2
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_TimeWindowEnd2 = value
-                End Set
-            End Property
-            Private m_TimeWindowEnd2 As System.Nullable(Of Integer)
+            Public Property TimeWindowEnd2 As Integer?
 
             <DataMember(Name:="custom_fields", EmitDefaultValue:=False)>
-            Public Property CustomFields() As Dictionary(Of String, Object)
-                Get
-                    Return m_CustomFields
-                End Get
-                Set(value As Dictionary(Of String, Object))
-                    m_CustomFields = value
-                End Set
-            End Property
-            Private m_CustomFields As Dictionary(Of String, Object)
+            Public Property CustomFields As Dictionary(Of String, Object)
+
         End Class
 
         Public Function UpdateRouteDestination(addressParameters As Address, ByRef errorString As String) As Address
-            Dim request As New UpdateRouteDestinationRequest() With {
-                .RouteId = addressParameters.RouteId,
-                .RouteDestinationId = addressParameters.RouteDestinationId
+            Dim request As New UpdateRouteDestinationRequest() With { _
+                .RouteId = addressParameters.RouteId, _
+                .RouteDestinationId = addressParameters.RouteDestinationId _
             }
 
             If addressParameters.[Alias] IsNot Nothing Then

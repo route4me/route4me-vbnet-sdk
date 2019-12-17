@@ -63,6 +63,131 @@ Route4MeSDKLibrary
  Destination Id
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressCustomNote">
+ <summary>
+ The class for the custom note of a route destination.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressCustomNote.NoteCustomEntryID">
+ <summary>
+ A unique ID (40 chars) of a custom note entry.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressCustomNote.NoteID">
+ <summary>
+ The custom note ID.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressCustomNote.NoteCustomTypeID">
+ <summary>
+ The custom note type ID.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressCustomNote.NoteCustomValue">
+ <summary>
+ The custom note value.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressCustomNote.NoteCustomType">
+ <summary>
+ The custom note type.
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressNote">
+ <summary>
+ The class for address note
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressNote.NoteId">
+ <summary>
+ An unique ID of a note
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressNote.RouteId">
+ <summary>
+ The route ID
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressNote.RouteDestinationId">
+ <summary>
+ The route destination ID
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressNote.UploadId">
+ <summary>
+ An unique ID of an uploaded file
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressNote.TimestampAdded">
+ <summary>
+ When the note was added
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressNote.Latitude">
+ <summary>
+ The position latitude where the address note was added
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressNote.Longitude">
+ <summary>
+ The position longitude where the address note was added
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressNote.ActivityType">
+ <summary>
+ The activity type
+ See available activity types here: <see cref="!:https://github.com/route4me/route4me-json-schemas/blob/master/Activity.dtd#L23"/>
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressNote.Contents">
+ <summary>
+ The note text contents
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressNote.UploadType">
+ <summary>
+ An upload type of the note
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressNote.UploadUrl">
+ <summary>
+ An upload url - where a file-note was uploaded.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressNote.UploadExtension">
+ <summary>
+ An extension of the uploaded file.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressNote.DeviceType">
+ <summary>
+ The device a note was uploaded from
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressNote.CustomTypes">
+ <summary>
+ Array of the custom type notes 
+ </summary>
+ <returns></returns>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AvoidanceZone">
  <summary>
  Avoidance Zone

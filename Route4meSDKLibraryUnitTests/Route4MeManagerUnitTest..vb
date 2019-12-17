@@ -85,6 +85,27 @@ End Class
         Assert.IsNotNull(dataObject, Convert.ToString("GetRouteTest failed... ") & errorString)
     End Sub
 
+    <TestMethod>
+    Public Sub GetRoutesByIDsTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        Dim routesParameters As RouteParametersQuery = New RouteParametersQuery() With {
+            .Offset = 0,
+            .Limit = 3
+        }
+
+        Dim errorString As String = Nothing
+        Dim threeRoutes As DataObjectRoute() = route4Me.GetRoutes(routesParameters, errorString)
+        Dim routeParameters = New RouteParametersQuery() With {
+            .RouteId = threeRoutes(0).RouteID & "," + threeRoutes(1).RouteID
+        }
+
+        Dim twoRoutes = route4Me.GetRoutes(routeParameters, errorString)
+
+        Assert.IsInstanceOfType(twoRoutes, GetType(DataObjectRoute()), "GetRoutesByIDsTest failed")
+        Assert.IsTrue(twoRoutes.Length = 2, "GetRoutesByIDsTest failed")
+    End Sub
+
     <TestMethod> _
     Public Sub GetRouteDirectionsTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)

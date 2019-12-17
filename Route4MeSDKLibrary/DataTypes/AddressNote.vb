@@ -1,45 +1,108 @@
 ﻿Imports System.Runtime.Serialization
 
 Namespace Route4MeSDK.DataTypes
-    <DataContract> _
+    ''' <summary>
+    ''' The class for address note
+    ''' </summary>
+    <DataContract>
     Public NotInheritable Class AddressNote
-        <DataMember(Name:="note_id", EmitDefaultValue:=False)> _
+        ''' <summary>
+        ''' An unique ID of a note
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="note_id", EmitDefaultValue:=False)>
         Public Property NoteId As Integer
 
-        <DataMember(Name:="route_id", EmitDefaultValue:=False)> _
+        ''' <summary>
+        ''' The route ID
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="route_id", EmitDefaultValue:=False)>
         Public Property RouteId As String
 
-        <DataMember(Name:="route_destination_id", EmitDefaultValue:=False)> _
+        ''' <summary>
+        ''' The route destination ID
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="route_destination_id", EmitDefaultValue:=False)>
         Public Property RouteDestinationId As Integer
 
-        <DataMember(Name:="upload_id")> _
+        ''' <summary>
+        ''' An unique ID of an uploaded file
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="upload_id")>
         Public Property UploadId As String
 
+        ''' <summary>
+        ''' When the note was added
+        ''' </summary>
+        ''' <returns></returns>
         <DataMember(Name:="ts_added", EmitDefaultValue:=False)>
         Public Property TimestampAdded As Long?
 
-        <DataMember(Name:="lat")> _
+        ''' <summary>
+        ''' The position latitude where the address note was added
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="lat")>
         Public Property Latitude As Double
 
-        <DataMember(Name:="lng")> _
+        ''' <summary>
+        ''' The position longitude where the address note was added
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="lng")>
         Public Property Longitude As Double
 
-        <DataMember(Name:="activity_type")> _
+        ''' <summary>
+        ''' The activity type
+        ''' See available activity types here: <see cref="https://github.com/route4me/route4me-json-schemas/blob/master/Activity.dtd#L23"/>
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="activity_type")>
         Public Property ActivityType As String
 
-        <DataMember(Name:="contents")> _
+        ''' <summary>
+        ''' The note text contents
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="contents")>
         Public Property Contents As String
 
-        <DataMember(Name:="upload_type")> _
+        ''' <summary>
+        ''' An upload type of the note
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="upload_type")>
         Public Property UploadType As String
 
-        <DataMember(Name:="upload_url")> _
+        ''' <summary>
+        ''' An upload url - where a file-note was uploaded.
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="upload_url")>
         Public Property UploadUrl As String
 
-        <DataMember(Name:="upload_extension")> _
+        ''' <summary>
+        ''' An extension of the uploaded file.
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="upload_extension")>
         Public Property UploadExtension As String
 
-        <DataMember(Name:="device_type")> _
+        ''' <summary>
+        ''' The device a note was uploaded from
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="device_type")>
         Public Property DeviceType As String
+
+        ''' <summary>
+        ''' Array of the custom type notes 
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="custom_types")>
+        Public Property CustomTypes As AddressCustomNote()
     End Class
 End Namespace

@@ -104,6 +104,7 @@
     <Compile Include="DataTypes\AddressBookGroup.vb" />
     <Compile Include="DataTypes\AddressBookGroupFilter.vb" />
     <Compile Include="DataTypes\AddressBookGroupRule.vb" />
+    <Compile Include="DataTypes\AddressCustomNote.vb" />
     <Compile Include="DataTypes\AddressForGeocoding.vb" />
     <Compile Include="DataTypes\AddressGeocoded.vb" />
     <Compile Include="DataTypes\AddressManifest.vb" />
