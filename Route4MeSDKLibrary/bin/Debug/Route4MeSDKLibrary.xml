@@ -515,6 +515,12 @@ Route4MeSDKLibrary
  Created/updated custom order field.
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ReadOnlyAttribute">
+ <summary>
+ The class creates custom attribute IsReadOnly for marking 
+ the Route4Me object properties as read-only.
+ </summary>
+</member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.DataObjectRoute.Directions">
  <summary>
  Edge by edge turn-by-turn directions. See <see cref="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Direction"/>
@@ -532,6 +538,34 @@ Route4MeSDKLibrary
  A collection of device tracking data with coordinates, speed, and timestamps.
  </summary>
  <returns></returns>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Route4MeDynamicClass">
+ <summary>
+ For creating dynamic Route4Me data classes with the specified properties only.
+ For resolving update problem: If Not serialize null values, it's impossible to set null,
+ if enable null values, actual values could be rewritten with null values.
+ </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Route4MeDynamicClass.TrySetMember(System.Dynamic.SetMemberBinder,System.Object)">
+ <summary>
+ Tries to set member
+ </summary>
+ <param name="binder">Member binder</param>
+ <param name="value">Object value</param>
+ <returns>True, if a member binded successfully</returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Route4MeDynamicClass.DynamicProperties">
+ <summary>
+ Getter of the dynamic properties
+ </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Route4MeDynamicClass.CopyPropertiesFromClass(System.Object,System.Collections.Generic.List{System.String},System.String@)">
+ <summary>
+ Copy a specified list of the properties of the Route4Me object to the dynamic class.
+ </summary>
+ <param name="r4mObject">Route4Me object</param>
+ <param name="propertyNames">A specified list of the Route4Me class properties</param>
+ <param name="errorString">Error string</param>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters">
  <summary>
@@ -1311,6 +1345,31 @@ User email.
  Route parameters accepted by endpoints
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.NoteParameters.ActivityType">
+ <summary>
+ An acitivity type related to the note.
+ API equivalent: strUpdateType.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.NoteParameters.StrNoteContents">
+ <summary>
+ Text content of the note.
+ API equivalent: strNoteContents.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.NoteParameters.StrFileName">
+ <summary>
+ A temporary filename of a prepared for uploading file.
+ API equivalent: strFileName.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.NoteParameters.CustomNoteTypes">
+ <summary>
+ Form data parameter. 
+ Example item: "custom_note_type[412]": "do a service", 
+ where 412 Is "note_custom_type_id"
+ </summary>
+</member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OptimizationParameters.Limit">
  <summary>
  The number of existing optimizations that should be returned per response when looking at a list of all the optimizations.
@@ -1578,9 +1637,19 @@ User email.
  <summary>
  Get user locations
  </summary>
- <param name="parameters"></param>
- <param name="errorString"></param>
- <returns></returns>
+ <param name="parameters">Query parameters</param>
+ <param name="errorString">Error string</param>
+ <returns>An array of the user locations</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddAddressNote(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.NoteParameters,System.String@)">
+ <summary>
+ The method offers ability to send a complex note at once,
+ with text content, uploading file, custom notes.
+ </summary>
+ <param name="noteParameters">The note parameters of the type NoteParameters
+ Note: contains form data elemets too</param>
+ <param name="errorString">Error string</param>
+ <returns>Created address note</returns>
 </member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.LogCustomActivity(Route4MeSDKLibrary.Route4MeSDK.DataTypes.Activity,System.String@)">
  <summary>
@@ -1728,6 +1797,11 @@ User email.
  Route4Me C# SDK helper methods
  </summary>
 </member>
+<member name="F:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.lsStandardTypes">
+ <summary>
+ List of the standard types
+ </summary>
+</member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ReadObject``1(System.IO.Stream)">
  <summary>
  Reads JSON object for a stream
@@ -1744,6 +1818,8 @@ User email.
  Serialized an object to a string as JSON
  Any DataContractJsonSerializer can be thrown
  </summary>
+ <param name="obj">An object to serialize</param>
+ <returns></returns>
 </member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.Description(System.Enum)">
  <summary>
@@ -1765,6 +1841,102 @@ User email.
  <summary>
  Convert DateTime from Unix epoch time
  </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ObjectDeepClone``1(``0)">
+ <summary>
+ Creates deep clone of the Route4Me object
+ </summary>
+ <typeparam name="T">Route4Me object type</typeparam>
+ <param name="obj">Route4Me object</param>
+ <returns>Route4Me object clone</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.GetPropertiesWithDifferentValues(System.Object,System.Object,System.String@,System.Boolean)">
+ <summary>
+ Compares two Route4Me objects with equal types And returns a list
+ of the property names with different values.
+ </summary>
+ <param name="modifiedObject">Modified Route4Me object</param>
+ <param name="initialObject">Initial Route4Me object</param>
+ <param name="errorString">Error string</param>
+ <param name="excludeReadonly"></param>
+ <returns>List of the property names</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.IsPropertyDictionary(System.Object)">
+ <summary>
+ Checks if the property value Is Dictionary type.
+ </summary>
+ <param name="propValue">The property value</param>
+ <returns>True, if the property value Is the Dictionary type.</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.IsPropertyObject(System.Object)">
+ <summary>
+ Checks if the property value Is Object type.
+ </summary>
+ <param name="propValue">The property value</param>
+ <returns>True, if the property value Is Object type.</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.IsPropertyArray(System.Object)">
+ <summary>
+ Checks if the property value Is Array type.
+ </summary>
+ <param name="propValue">The property value</param>
+ <returns>True, if the property value Is Array type.</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.CheckIfPropertyHasIgnoreAttribute(System.Reflection.PropertyInfo)">
+ <summary>
+ Checks if a property has attribute IgnoreDataMember
+ </summary>
+ <param name="propInfo">A property to be checked</param>
+ <returns>True if the property has attribute IgnoreDataMember</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.CheckIfPropertyHasReadOnlyAttribute(System.Reflection.PropertyInfo)">
+ <summary>
+ Checks if a Route4Me object property has read-only attribute.
+ </summary>
+ <param name="propInfo">Route4Me object property info</param>
+ <returns>True, if a Route4Me object property Is read-only</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.GetPropertyPositions``1">
+ <summary>
+ Returns numeration of the Route4Me object proeprties.
+ </summary>
+ <typeparam name="T">Class type</typeparam>
+ <returns>Property postions in the class</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.OrderPropertiesByPosition``1(System.Collections.Generic.List{System.String},System.String@)">
+ <summary>
+ Returns ordered property names.
+ </summary>
+ <typeparam name="T">Type of the Route4Me object</typeparam>
+ <param name="propertyNames">List of the property name</param>
+ <param name="errorString">Error string</param>
+ <returns>Ordered list of the property names</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ToObject``1(System.Object,System.String@)">
+ <summary>
+ Converts an input object to type TValue.
+ </summary>
+ <typeparam name="TValue">Target type</typeparam>
+ <param name="obj">An object to be converted to a TValue type</param>
+ <param name="errorString">Error string</param>
+ <returns>An object of TValue type</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ConvertObjectToType``1(System.Object@)">
+ <summary>
+ Converts one standard type object to other.
+ </summary>
+ <typeparam name="T">Destincation type for converting to</typeparam>
+ <param name="value">Input value of the object type</param>
+ <returns>Converted value of the type T</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ConvertObjectToPropertyType(System.Object,System.Reflection.PropertyInfo)">
+ <summary>
+ Converts a standard type object to standard property type
+ (e.g. if first Is Long type, second: Int32, converts to Int32)
+ </summary>
+ <param name="value">An object to be converted to the target object type</param>
+ <param name="targetProperty">A property with the standard type</param>
+ <returns>Converted object to the target standard type</returns>
 </member>
 </members>
 </doc>

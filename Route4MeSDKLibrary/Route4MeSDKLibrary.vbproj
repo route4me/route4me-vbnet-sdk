@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Consts.vb" />
+    <Compile Include="DataContractResolver.vb" />
     <Compile Include="DataTypes\Activity.vb" />
     <Compile Include="DataTypes\Address.vb" />
     <Compile Include="DataTypes\AddressBookContact.vb" />
@@ -138,7 +139,9 @@
     <Compile Include="DataTypes\OrderCustomField.vb" />
     <Compile Include="DataTypes\OrderCustomFieldCreateResponse.vb" />
     <Compile Include="DataTypes\OrdersResponse.vb" />
+    <Compile Include="DataTypes\ReadOnlyAttribute.vb" />
     <Compile Include="DataTypes\Route.vb" />
+    <Compile Include="DataTypes\Route4MeDynamicClass.vb" />
     <Compile Include="DataTypes\RouteParameters.vb" />
     <Compile Include="DataTypes\RouteResponse.vb" />
     <Compile Include="DataTypes\Schedule.vb" />

@@ -31,6 +31,8 @@ Namespace Route4MeSDK
 
         Private ReadOnly m_ApiKey As String
         Private ReadOnly m_DefaultTimeOut As New TimeSpan(TimeSpan.TicksPerMinute * 30)
+
+        Private parseWithNewtonJson As Boolean
         ' Default timeout - 30 minutes
         'private bool m_isTestMode = false;
 #End Region
@@ -223,19 +225,194 @@ Namespace Route4MeSDK
             Return result
         End Function
 
-        Public Function UpdateRoute(ByVal route As DataObjectRoute, ByRef errorString As String) As DataObjectRoute
+        Private Function RemoveDuplicatedAddressesFromRoute(ByVal route As DataObjectRoute) As DataObjectRoute
+            Dim lsAddress = New List(Of Address)()
 
-            Dim routeParameters = New RouteParametersQuery() With {
-                .RouteId = route.RouteID,
-                .ApprovedForExecution = route.ApprovedForExecution,
-                .Parameters = route.Parameters,
-                .Addresses = route.Addresses
+            For Each addr1 In route.Addresses
+                If Not lsAddress.Contains(addr1) AndAlso lsAddress.Where(Function(x) x.RouteDestinationId = addr1.RouteDestinationId).FirstOrDefault() Is Nothing Then lsAddress.Add(addr1)
+            Next
+
+            route.Addresses = lsAddress.ToArray()
+            Return route
+        End Function
+
+        'Public Function UpdateRoute(ByVal route As DataObjectRoute, ByRef errorString As String) As DataObjectRoute
+
+        '    Dim routeParameters = New RouteParametersQuery() With {
+        '        .RouteId = route.RouteID,
+        '        .ApprovedForExecution = route.ApprovedForExecution,
+        '        .Parameters = route.Parameters,
+        '        .Addresses = route.Addresses
+        '    }
+
+        '    routeParameters.PrepareForSerialization()
+        '    Dim result = GetJsonObjectFromAPI(Of DataObjectRoute)(routeParameters, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, errorString)
+
+        '    Return result
+        'End Function
+
+        Public Function UpdateRoute(ByVal route As DataObjectRoute, ByVal initialRoute As DataObjectRoute, ByRef errorString As String) As DataObjectRoute
+            errorString = ""
+            parseWithNewtonJson = True
+
+            If initialRoute Is Nothing Then
+                errorString = "An initial route should be specified"
+                Return Nothing
+            End If
+
+            route = RemoveDuplicatedAddressesFromRoute(route)
+            initialRoute = RemoveDuplicatedAddressesFromRoute(initialRoute)
+
+#Region "ApprovedForExecution"
+            Dim approvedForExecution As String = ""
+
+            If initialRoute.ApprovedForExecution <> route.ApprovedForExecution Then
+                approvedForExecution = String.Concat("{""approved_for_execution"": ", If(route.ApprovedForExecution, "true", "false"), "}")
+                Dim genParams = New RouteParametersQuery() With {
+            .RouteId = initialRoute.RouteID
+        }
+                Dim content = New StringContent(approvedForExecution, System.Text.Encoding.UTF8, "application/json")
+                initialRoute = GetJsonObjectFromAPI(Of DataObjectRoute)(genParams, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, content, errorString)
+                If initialRoute Is Nothing Then Return Nothing
+            End If
+
+#End Region
+
+#Region "Resequence if sequence was changed"
+            Dim resequenceJson As String = ""
+
+            For Each addr1 In initialRoute.Addresses
+                Dim addr = route.Addresses.Where(Function(x) x.RouteDestinationId = addr1.RouteDestinationId).FirstOrDefault()
+
+                If addr1 IsNot Nothing AndAlso (addr.SequenceNo <> addr1.SequenceNo OrElse addr.IsDepot <> addr1.IsDepot) Then
+                    resequenceJson += "{""route_destination_id"":" & addr1.RouteDestinationId
+
+                    If addr.SequenceNo <> addr1.SequenceNo Then
+                        resequenceJson += "," & """sequence_no"":" & addr.SequenceNo
+                    ElseIf addr.IsDepot <> addr1.IsDepot Then
+                        resequenceJson += "," & """is_depot"":" & addr.IsDepot.ToString().ToLower()
+                    End If
+
+                    resequenceJson += "},"
+                End If
+            Next
+
+            If resequenceJson.Length > 10 Then
+                resequenceJson = resequenceJson.TrimEnd(","c)
+                resequenceJson = "{""addresses"": [" & resequenceJson & "]}"
+                Dim genParams = New RouteParametersQuery() With {
+            .RouteId = initialRoute.RouteID
+        }
+                Dim content = New StringContent(resequenceJson, System.Text.Encoding.UTF8, "application/json")
+                initialRoute = GetJsonObjectFromAPI(Of DataObjectRoute)(genParams, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, content, errorString)
+                If initialRoute Is Nothing Then Return Nothing
+            End If
+#End Region
+
+#Region "Update Route Parameters"
+            Dim errorString0 As String = Nothing
+
+            If (If(route?.Parameters, Nothing)) IsNot Nothing Then
+                Dim updatableRouteParametersProperties = R4MeUtils.GetPropertiesWithDifferentValues(route.Parameters, initialRoute.Parameters, errorString)
+
+                If updatableRouteParametersProperties IsNot Nothing AndAlso updatableRouteParametersProperties.Count > 0 Then
+                    Dim dynamicRouteProperties = New Route4MeDynamicClass()
+                    dynamicRouteProperties.CopyPropertiesFromClass(route.Parameters, updatableRouteParametersProperties, errorString0)
+                    Dim routeParamsJsonString = R4MeUtils.SerializeObjectToJson(dynamicRouteProperties.DynamicProperties, True)
+                    routeParamsJsonString = String.Concat("{""parameters"":", routeParamsJsonString, "}")
+                    Dim genParams = New RouteParametersQuery() With {
+                .RouteId = initialRoute.RouteID
             }
+                    Dim content = New StringContent(routeParamsJsonString, System.Text.Encoding.UTF8, "application/json")
+                    initialRoute = GetJsonObjectFromAPI(Of DataObjectRoute)(genParams, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, content, errorString)
+                End If
+            End If
 
-            routeParameters.PrepareForSerialization()
-            Dim result = GetJsonObjectFromAPI(Of DataObjectRoute)(routeParameters, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, errorString)
+            If initialRoute Is Nothing Then Return Nothing
+#End Region
 
-            Return result
+#Region "Update Route Addresses"
+            Dim lsUpdatedAddresses = New List(Of Address)()
+            Dim errorString3 As String = Nothing
+
+            If (If(route?.Addresses, Nothing)) IsNot Nothing AndAlso route.Addresses.Length > 0 Then
+
+                For Each address In route.Addresses
+                    Dim initialAddress = initialRoute.Addresses.Where(Function(x) x.RouteDestinationId = address.RouteDestinationId).FirstOrDefault()
+
+                    If initialAddress Is Nothing Then
+                        initialAddress = initialRoute.Addresses.Where(Function(x) x.AddressString = address.AddressString).FirstOrDefault()
+                    End If
+
+                    If initialAddress Is Nothing Then Continue For
+                    Dim updatableAddressProperties = R4MeUtils.GetPropertiesWithDifferentValues(address, initialAddress, errorString)
+                    If updatableAddressProperties.Contains("IsDepot") Then updatableAddressProperties.Remove("IsDepot")
+                    If updatableAddressProperties.Contains("SequenceNo") Then updatableAddressProperties.Remove("SequenceNo")
+                    If updatableAddressProperties.Contains("OptimizationProblemId") AndAlso updatableAddressProperties.Count = 1 Then updatableAddressProperties.Remove("OptimizationProblemId")
+
+                    If updatableAddressProperties IsNot Nothing AndAlso updatableAddressProperties.Count > 0 Then
+                        Dim dynamicAddressProperties = New Route4MeDynamicClass()
+                        dynamicAddressProperties.CopyPropertiesFromClass(address, updatableAddressProperties, errorString0)
+                        Dim addressParamsJsonString = R4MeUtils.SerializeObjectToJson(dynamicAddressProperties.DynamicProperties, True)
+                        Dim genParams = New RouteParametersQuery() With {
+                    .RouteId = initialRoute.RouteID,
+                    .RouteDestinationId = address.RouteDestinationId
+                }
+                        Dim content = New StringContent(addressParamsJsonString, System.Text.Encoding.UTF8, "application/json")
+                        Dim updatedAddress = GetJsonObjectFromAPI(Of Address)(genParams, R4MEInfrastructureSettings.GetAddress, HttpMethodType.Put, content, errorString)
+                        updatedAddress.IsDepot = initialAddress.IsDepot
+                        updatedAddress.SequenceNo = initialAddress.SequenceNo
+
+                        If (If(address?.Notes?.Length, -1)) > 0 Then
+                            Dim addressNotes = New List(Of AddressNote)()
+
+                            For Each note1 As AddressNote In address.Notes
+
+                                If (If(note1?.NoteId, Nothing)) = -1 Then
+                                    Dim noteParameters = New NoteParameters() With {
+                                .RouteId = initialRoute.RouteID,
+                                .AddressId = If(updatedAddress.RouteDestinationId IsNot Nothing, CInt(updatedAddress.RouteDestinationId), note1.RouteDestinationId),
+                                .Latitude = note1.Latitude,
+                                .Longitude = note1.Longitude
+                            }
+                                    If note1.ActivityType IsNot Nothing Then noteParameters.ActivityType = note1.ActivityType
+                                    If note1.DeviceType IsNot Nothing Then noteParameters.DeviceType = note1.DeviceType
+                                    Dim noteContent As String = If(note1.Contents IsNot Nothing, note1.Contents, Nothing)
+                                    If noteContent IsNot Nothing Then noteParameters.StrNoteContents = noteContent
+                                    Dim customNotes As Dictionary(Of String, String) = Nothing
+
+                                    If (If(note1?.CustomTypes?.Length, -1)) > 0 Then
+                                        customNotes = New Dictionary(Of String, String)()
+
+                                        For Each customNote As AddressCustomNote In note1.CustomTypes
+                                            customNotes.Add("custom_note_type[" & customNote.NoteCustomTypeID & "]", customNote.NoteCustomValue)
+                                        Next
+                                    End If
+
+                                    If customNotes IsNot Nothing Then noteParameters.CustomNoteTypes = customNotes
+                                    If note1.UploadUrl IsNot Nothing Then noteParameters.StrFileName = note1.UploadUrl
+                                    Dim addedNote As AddressNote = AddAddressNote(noteParameters, errorString3)
+                                    If errorString3 <> "" Then errorString += vbLf & "Note Adding Error: " & errorString3
+                                    If addedNote IsNot Nothing Then addressNotes.Add(addedNote)
+                                Else
+                                    addressNotes.Add(note1)
+                                End If
+                            Next
+
+                            address.Notes = addressNotes.ToArray()
+                            updatedAddress.Notes = addressNotes.ToArray()
+                        End If
+
+                        If updatedAddress IsNot Nothing AndAlso updatedAddress.[GetType]() = GetType(Address) Then
+                            Dim addressIndex As Integer = Array.IndexOf(initialRoute.Addresses, initialAddress)
+                            If addressIndex > -1 Then initialRoute.Addresses(addressIndex) = updatedAddress
+                        End If
+                    End If
+                Next
+            End If
+#End Region
+
+            Return initialRoute
         End Function
 
         <DataContract> _
@@ -727,24 +904,30 @@ Namespace Route4MeSDK
         End Class
 
         Public Function DuplicateRoute(queryParameters As RouteParametersQuery, ByRef errorString As String) As String
-            'if (queryParameters.ParametersCollection["to"] == null)
-            '  queryParameters.ParametersCollection.Add("to", "none");
+
             ' Redirect to page or return json for none
             queryParameters.ParametersCollection("to") = "none"
+
             Dim response As DuplicateRouteResponse = GetJsonObjectFromAPI(Of DuplicateRouteResponse)(queryParameters, R4MEInfrastructureSettings.DuplicateRoute, HttpMethodType.[Get], errorString)
-            Dim routeId As String = Nothing
-            If response IsNot Nothing AndAlso response.Success Then
-                Dim optimizationProblemId As String = response.OptimizationProblemId
-                If optimizationProblemId IsNot Nothing Then
-                    routeId = Me.GetRouteId(optimizationProblemId, errorString)
-                End If
-            End If
+
+            'If response IsNot Nothing AndAlso response.Success Then
+            '    Dim optimizationProblemId As String = response.OptimizationProblemId
+            '    If optimizationProblemId IsNot Nothing Then
+            '        routeId = Me.GetRouteId(optimizationProblemId, errorString)
+            '    End If
+            'End If
+
+            Dim routeId = If(response IsNot Nothing AndAlso response.Success,
+                    If(response.OptimizationProblemId IsNot Nothing,
+                    response.OptimizationProblemId, Nothing),
+                Nothing)
+
             Return routeId
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class DeleteRouteResponse
-            <DataMember(Name:="deleted")> _
+            <DataMember(Name:="deleted")>
             Public Property Deleted() As [Boolean]
                 Get
                     Return m_Deleted
@@ -755,7 +938,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Deleted As [Boolean]
 
-            <DataMember(Name:="errors")> _
+            <DataMember(Name:="errors")>
             Public Property Errors() As List(Of [String])
                 Get
                     Return m_Errors
@@ -766,7 +949,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Errors As List(Of [String])
 
-            <DataMember(Name:="route_id")> _
+            <DataMember(Name:="route_id")>
             Public Property routeId() As String
                 Get
                     Return m_routeId
@@ -777,7 +960,7 @@ Namespace Route4MeSDK
             End Property
             Private m_routeId As String
 
-            <DataMember(Name:="route_ids")> _
+            <DataMember(Name:="route_ids")>
             Public Property routeIds() As String()
                 Get
                     Return m_routeIds
@@ -854,11 +1037,11 @@ Namespace Route4MeSDK
         ''' <summary>
         ''' Get user locations
         ''' </summary>
-        ''' <param name="parameters"></param>
-        ''' <param name="errorString"></param>
-        ''' <returns></returns>
-        Public Function GetUserLocations(ByVal parameters As GenericParameters, ByRef errorString As String) As Dictionary(Of String, UserLocation)
-            Dim userLocations = GetJsonObjectFromAPI(Of Dictionary(Of String, UserLocation))(parameters, R4MEInfrastructureSettings.UserLocation, HttpMethodType.[Get], False, errorString)
+        ''' <param name="parameters">Query parameters</param>
+        ''' <param name="errorString">Error string</param>
+        ''' <returns>An array of the user locations</returns>
+        Public Function GetUserLocations(ByVal parameters As GenericParameters, ByRef errorString As String) As UserLocation()
+            Dim userLocations = GetJsonObjectFromAPI(Of UserLocation())(parameters, R4MEInfrastructureSettings.UserLocation, HttpMethodType.[Get], False, errorString)
 
             Return userLocations
         End Function
@@ -1106,6 +1289,43 @@ Namespace Route4MeSDK
 
         Public Function AddAddressNote(ByVal noteParameters As NoteParameters, ByVal noteContents As String, ByRef errorString As String) As AddressNote
             Return Me.AddAddressNote(noteParameters, noteContents, Nothing, errorString)
+        End Function
+
+        ''' <summary>
+        ''' The method offers ability to send a complex note at once,
+        ''' with text content, uploading file, custom notes.
+        ''' </summary>
+        ''' <param name="noteParameters">The note parameters of the type NoteParameters
+        ''' Note: contains form data elemets too</param>
+        ''' <param name="errorString">Error string</param>
+        ''' <returns>Created address note</returns>
+        Public Function AddAddressNote(ByVal noteParameters As NoteParameters, ByRef errorString As String) As AddressNote
+            Dim attachmentFileStream As FileStream = Nothing
+            Dim attachmentStreamContent As StreamContent = Nothing
+            Dim multipartFormDataContent = New MultipartFormDataContent()
+
+            If noteParameters.StrFileName IsNot Nothing Then
+                attachmentFileStream = File.OpenRead(noteParameters.StrFileName)
+                attachmentStreamContent = New StreamContent(attachmentFileStream)
+                multipartFormDataContent.Add(attachmentStreamContent, "strFilename", Path.GetFileName(noteParameters.StrFileName))
+            End If
+
+            multipartFormDataContent.Add(New StringContent(noteParameters.ActivityType), "strUpdateType")
+            multipartFormDataContent.Add(New StringContent(noteParameters.StrNoteContents), "strNoteContents")
+
+            If noteParameters.CustomNoteTypes IsNot Nothing AndAlso noteParameters.CustomNoteTypes.Count > 0 Then
+
+                For Each customNote As KeyValuePair(Of String, String) In noteParameters.CustomNoteTypes
+                    multipartFormDataContent.Add(New StringContent(customNote.Value), customNote.Key)
+                Next
+            End If
+
+            Dim httpContent As HttpContent = multipartFormDataContent
+            Dim response = GetJsonObjectFromAPI(Of AddAddressNoteResponse)(noteParameters, R4MEInfrastructureSettings.AddRouteNotesHost, HttpMethodType.Post, httpContent, errorString)
+            If attachmentStreamContent IsNot Nothing Then attachmentStreamContent.Dispose()
+            If attachmentFileStream IsNot Nothing Then attachmentFileStream.Dispose()
+            If response IsNot Nothing AndAlso response.Note Is Nothing AndAlso response.Status = False Then errorString = "Note not added"
+            Return If((response IsNot Nothing), (If(response.Note IsNot Nothing, response.Note, Nothing)), Nothing)
         End Function
 
         Public Function AddAddressNote(ByVal noteParameters As NoteParameters, ByVal noteContents As String, ByVal attachmentFilePath As String, ByRef errorString As String) As AddressNote
@@ -2182,14 +2402,14 @@ Namespace Route4MeSDK
 
 #Region "Orders"
 
-        Public Function GetOrderByID(orderQuery As OrderParameters, ByRef errorString As String) As Order()
-            Dim ids As String() = orderQuery.order_id.Split(","c)
-            If ids.Length = 1 Then
-                orderQuery.order_id = orderQuery.order_id + "," + orderQuery.order_id
-            End If
-            Dim response As GetOrdersResponse = GetJsonObjectFromAPI(Of GetOrdersResponse)(orderQuery, R4MEInfrastructureSettings.Order, HttpMethodType.[Get], errorString)
+        Public Function GetOrderByID(orderQuery As OrderParameters, ByRef errorString As String) As Order
+            'Dim ids As String() = orderQuery.order_id.Split(","c)
+            'If ids.Length = 1 Then
+            '    orderQuery.order_id = orderQuery.order_id + "," + orderQuery.order_id
+            'End If
+            Dim response As Order = GetJsonObjectFromAPI(Of Order)(orderQuery, R4MEInfrastructureSettings.Order, HttpMethodType.[Get], errorString)
 
-            Return response.Results
+            Return response
         End Function
 
         Public Function SearchOrders(orderQuery As OrderParameters, ByRef errorString As String) As Order()
@@ -2889,7 +3109,7 @@ Namespace Route4MeSDK
             Return New Tuple(Of T, String)(result, errorMessage)
         End Function
 
-        Private Function GetJsonObjectFromAPI(Of T As Class)(ByVal optimizationParameters As GenericParameters, ByVal url As String, ByVal httpMethod1 As HttpMethodType, ByVal httpContent As HttpContent, ByVal isString As Boolean, ByRef errorMessage As String) As T
+        Private Function GetJsonObjectFromAPI(Of T As Class)(ByVal optimizationParameters As GenericParameters, ByVal url As String, ByVal httpMethod As HttpMethodType, ByVal httpContent As HttpContent, ByVal isString As Boolean, ByRef errorMessage As String) As T
             Dim result As T = Nothing
             errorMessage = String.Empty
 
@@ -2898,7 +3118,7 @@ Namespace Route4MeSDK
                 Using httpClient As HttpClient = CreateHttpClient(url)
                     Dim parametersURI As String = optimizationParameters.Serialize(m_ApiKey)
 
-                    Select Case httpMethod1
+                    Select Case httpMethod
                         Case HttpMethodType.[Get]
                             Dim response = httpClient.GetStreamAsync(parametersURI)
                             response.Wait()
@@ -2909,8 +3129,8 @@ Namespace Route4MeSDK
 
                             Exit Select
                         Case HttpMethodType.Post, HttpMethodType.Put, HttpMethodType.Delete
-                            Dim isPut As Boolean = httpMethod1 = HttpMethodType.Put
-                            Dim isDelete As Boolean = httpMethod1 = HttpMethodType.Delete
+                            Dim isPut As Boolean = httpMethod = HttpMethodType.Put
+                            Dim isDelete As Boolean = httpMethod = HttpMethodType.Delete
                             Dim content As HttpContent = Nothing
 
                             If httpContent IsNot Nothing Then
@@ -2928,12 +3148,16 @@ Namespace Route4MeSDK
                             ElseIf isDelete Then
                                 Dim request As HttpRequestMessage = New HttpRequestMessage With {
                                     .Content = content,
-                                    .Method = HttpMethod.Delete,
+                                    .Method = System.Net.Http.HttpMethod.Delete,
                                     .RequestUri = New Uri(parametersURI, UriKind.Relative)
                                 }
+
                                 response = httpClient.SendAsync(request)
                             Else
-                                response = httpClient.PostAsync(parametersURI, content)
+                                Dim cts = New CancellationTokenSource()
+                                cts.CancelAfter(1000 * 60 * 5)
+                                Dim request = New HttpRequestMessage()
+                                response = httpClient.PostAsync(parametersURI, content, cts.Token)
                             End If
 
                             response.Wait()

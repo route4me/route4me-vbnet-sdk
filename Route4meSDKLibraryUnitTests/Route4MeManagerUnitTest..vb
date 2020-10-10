@@ -12,7 +12,7 @@ Imports System.Threading
 Imports CsvHelper
 
 Public Class ApiKeys
-    Public Const actualApiKey As String = "11111111111111111111111111111111"
+    Public Const actualApiKey As String = "BD48828717021141485A701453273458"
     Public Const demoApiKey As String = "11111111111111111111111111111111"
 End Class
 
@@ -20,6 +20,7 @@ End Class
     Shared c_ApiKey As String = ApiKeys.actualApiKey
 
     Shared tdr As TestDataRepository
+    Shared tdr2 As TestDataRepository
     Shared lsOptimizationIDs As List(Of String)
 
     <ClassInitialize> _
@@ -27,13 +28,26 @@ End Class
         lsOptimizationIDs = New List(Of String)()
 
         tdr = New TestDataRepository()
+        tdr2 = New TestDataRepository()
+
         Dim result As Boolean = tdr.RunOptimizationSingleDriverRoute10Stops()
 
+        Dim result2 As Boolean = tdr2.RunOptimizationSingleDriverRoute10Stops()
+        Dim result3 As Boolean = tdr2.SingleDriverRoundTripTest()
+        Dim result4 As Boolean = tdr2.MultipleDepotMultipleDriverWith24StopsTimeWindowTest()
+
         Assert.IsTrue(result, "Single Driver 10 Stops generation failed...")
+        Assert.IsTrue(result2, "Single Driver 10 Stops generation failed...")
+        Assert.IsTrue(result4, "Multi-Depot Multi-Driver 24 Stops generation failed...")
+        Assert.IsTrue(tdr.SD10Stops_route.Addresses.Length > 0, "The route has no addresses...")
+        Assert.IsTrue(tdr2.SD10Stops_route.Addresses.Length > 0, "The route has no addresses...")
 
         Assert.IsTrue(tdr.SD10Stops_route.Addresses.Length > 0, "The route has no addresses...")
 
         lsOptimizationIDs.Add(tdr.SD10Stops_optimization_problem_id)
+        lsOptimizationIDs.Add(tdr2.SD10Stops_optimization_problem_id)
+        lsOptimizationIDs.Add(tdr2.SDRT_optimization_problem_id)
+        lsOptimizationIDs.Add(tdr2.MDMD24_optimization_problem_id)
     End Sub
 
     <TestMethod>
@@ -215,23 +229,105 @@ End Class
         Assert.IsNotNull(dataObject, Convert.ToString("UpdateRouteTest failed... ") & errorString)
     End Sub
 
-    <TestMethod, Ignore>
+    <TestMethod>
     Public Sub UpdateWholeRouteTest()
         Dim route4Me = New Route4MeManager(c_ApiKey)
 
-        Dim routeId As String = tdr.SD10Stops_route_id
+        Dim routeId As String = tdr2.SD10Stops_route_id
         Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null...")
 
-        tdr.SD10Stops_route.ApprovedForExecution = True
-        tdr.SD10Stops_route.Parameters.RouteName += " Edited"
-        tdr.SD10Stops_route.Addresses(1).AddressString += " Edited"
+        Dim initialRoute = R4MeUtils.ObjectDeepClone(Of DataObjectRoute)(tdr2.SD10Stops_route)
+        Dim errorString5 As String = Nothing
+        Dim customNotesResponse = route4Me.getAllCustomNoteTypes(errorString5)
+        Dim allCustomNotes = If(customNotesResponse IsNot Nothing AndAlso customNotesResponse.[GetType]() = GetType(CustomNoteType()), CType(customNotesResponse, CustomNoteType()), Nothing)
+        Dim tempFilePath As String = Nothing
 
+        Using stream As Stream = File.Open("test.png", FileMode.Open)
+            Dim tempFiles = New TempFileCollection()
+
+            If True Then
+                tempFilePath = tempFiles.AddExtension("png")
+                Console.WriteLine(tempFilePath)
+
+                Using fileStream As Stream = File.OpenWrite(tempFilePath)
+                    stream.CopyTo(fileStream)
+                End Using
+            End If
+        End Using
+
+        tdr2.SD10Stops_route.Addresses(1).Notes = New AddressNote() {New AddressNote() With {
+        .NoteId = -1,
+        .RouteId = tdr2.SD10Stops_route.RouteID,
+        .Latitude = tdr2.SD10Stops_route.Addresses(1).Latitude,
+        .Longitude = tdr2.SD10Stops_route.Addresses(1).Longitude,
+        .ActivityType = "dropoff",
+        .Contents = "C# SDK Test Content",
+        .CustomTypes = New AddressCustomNote() {New AddressCustomNote() With {
+                .NoteCustomTypeID = allCustomNotes(0).NoteCustomTypeID.ToString(),
+                .NoteCustomValue = allCustomNotes(0).NoteCustomTypeValues(0)
+            }},
+            .UploadUrl = tempFilePath
+        }}
+
+        Dim errorString0 As String = Nothing
+        Dim updatedRoute0 = route4Me.UpdateRoute(tdr2.SD10Stops_route, initialRoute, errorString0)
+
+        Assert.IsTrue(updatedRoute0.Addresses(1).Notes.Length = 1, "UpdateRouteTest failed: cannot create a note")
+        Assert.IsTrue(updatedRoute0.Addresses(1).Notes(0).CustomTypes.Length = 1, "UpdateRouteTest failed: cannot create a custom type note")
+        Assert.IsTrue(updatedRoute0.Addresses(1).Notes(0).UploadId.Length = 32, "UpdateRouteTest failed: cannot create a custom type note")
+
+        tdr2.SD10Stops_route.ApprovedForExecution = True
+        tdr2.SD10Stops_route.Parameters.RouteName += " Edited"
+        tdr2.SD10Stops_route.Parameters.Metric = Metric.Manhattan
+        tdr2.SD10Stops_route.Addresses(1).AddressString += " Edited"
+        tdr2.SD10Stops_route.Addresses(1).Group = "Example Group"
+        tdr2.SD10Stops_route.Addresses(1).CustomerPo = "CPO 456789"
+        tdr2.SD10Stops_route.Addresses(1).InvoiceNo = "INO 789654"
+        tdr2.SD10Stops_route.Addresses(1).ReferenceNo = "RNO 313264"
+        tdr2.SD10Stops_route.Addresses(1).OrderNo = "ONO 654878"
+        tdr2.SD10Stops_route.Addresses(1).Notes = New AddressNote() {New AddressNote() With {
+            .RouteDestinationId = -1,
+            .RouteId = tdr.SD10Stops_route.RouteID,
+            .Latitude = tdr.SD10Stops_route.Addresses(1).Latitude,
+            .Longitude = tdr.SD10Stops_route.Addresses(1).Longitude,
+            .ActivityType = "dropoff",
+            .Contents = "C# SDK Test Content"
+        }}
+
+        tdr2.SD10Stops_route.Addresses(2).SequenceNo = 5
+
+        Dim addressID = tdr2.SD10Stops_route.Addresses(2).RouteDestinationId
         Dim errorString As String = Nothing
-        Dim dataObject = route4Me.UpdateRoute(tdr.SD10Stops_route, errorString)
+        Dim dataObject = route4Me.UpdateRoute(tdr2.SD10Stops_route, initialRoute, errorString)
 
+        Assert.IsTrue(dataObject.Addresses.Where(Function(x) x.RouteDestinationId = addressID).FirstOrDefault().SequenceNo = 5, "UpdateWholeRouteTest failed  Cannot resequence addresses")
+        Assert.IsTrue(tdr2.SD10Stops_route.ApprovedForExecution, "UpdateRouteTest failed, ApprovedForExecution cannot set to true")
         Assert.IsNotNull(dataObject, "UpdateRouteTest failed. " & errorString)
         Assert.IsTrue(dataObject.Parameters.RouteName.Contains("Edited"), "UpdateRouteTest failed, the route name not changed.")
         Assert.IsTrue(dataObject.Addresses(1).AddressString.Contains("Edited"), "UpdateRouteTest failed, second address name not changed.")
+        Assert.IsTrue(dataObject.Addresses(1).Group = "Example Group", "UpdateWholeRouteTest failed.")
+        Assert.IsTrue(dataObject.Addresses(1).CustomerPo = "CPO 456789", "UpdateWholeRouteTest failed.")
+        Assert.IsTrue(dataObject.Addresses(1).InvoiceNo = "INO 789654", "UpdateWholeRouteTest failed.")
+        Assert.IsTrue(dataObject.Addresses(1).ReferenceNo = "RNO 313264", "UpdateWholeRouteTest failed.")
+        Assert.IsTrue(dataObject.Addresses(1).OrderNo = "ONO 654878", "UpdateWholeRouteTest failed.")
+
+        initialRoute = R4MeUtils.ObjectDeepClone(Of DataObjectRoute)(tdr2.SD10Stops_route)
+
+        tdr2.SD10Stops_route.ApprovedForExecution = False
+        tdr2.SD10Stops_route.Addresses(1).Group = Nothing
+        tdr2.SD10Stops_route.Addresses(1).CustomerPo = Nothing
+        tdr2.SD10Stops_route.Addresses(1).InvoiceNo = Nothing
+        tdr2.SD10Stops_route.Addresses(1).ReferenceNo = Nothing
+        tdr2.SD10Stops_route.Addresses(1).OrderNo = Nothing
+
+        dataObject = route4Me.UpdateRoute(tdr2.SD10Stops_route, initialRoute, errorString)
+
+        Assert.IsFalse(tdr2.SD10Stops_route.ApprovedForExecution, "UpdateRouteTest failed, ApprovedForExecution cannot set to false")
+        Assert.IsNull(dataObject.Addresses(1).Group, "UpdateWholeRouteTest failed.")
+        Assert.IsNull(dataObject.Addresses(1).CustomerPo, "UpdateWholeRouteTest failed.")
+        Assert.IsNull(dataObject.Addresses(1).InvoiceNo, "UpdateWholeRouteTest failed.")
+        Assert.IsNull(dataObject.Addresses(1).ReferenceNo, "UpdateWholeRouteTest failed.")
+        Assert.IsNull(dataObject.Addresses(1).OrderNo, "UpdateWholeRouteTest failed.")
     End Sub
 
     <TestMethod>
@@ -361,7 +457,7 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim routeId As String = tdr.SD10Stops_route_id
-        Assert.IsNotNull(routeId, "routeId is null...")
+        Assert.IsNotNull(routeId, "routeId is null")
 
         Dim routeParameters As New RouteParametersQuery() With {
             .RouteId = routeId
@@ -371,7 +467,7 @@ End Class
         Dim errorString As String = ""
         Dim routeId_DuplicateRoute As String = route4Me.DuplicateRoute(routeParameters, errorString)
 
-        Assert.IsNotNull(routeId_DuplicateRoute, Convert.ToString("DuplicateRouteTest failed... ") & errorString)
+        Assert.IsNotNull(routeId_DuplicateRoute, "DuplicateRouteTest failed... " & errorString)
     End Sub
 
     <TestMethod>
@@ -7371,20 +7467,14 @@ End Class
 
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim orderIds As String = ""
-        For Each ord1 As String In lsOrderiDs
-            orderIds += ord1 & Convert.ToString(",")
-        Next
-        orderIds = orderIds.TrimEnd(",")
-
-        Dim orderParameters As New OrderParameters() With { _
-            .order_id = orderIds _
+        Dim orderParameters As New OrderParameters() With {
+            .order_id = lsOrderiDs(0)
         }
 
         Dim errorString As String = ""
-        Dim orders As Order() = route4Me.GetOrderByID(orderParameters, errorString)
+        Dim orders As Order = route4Me.GetOrderByID(orderParameters, errorString)
 
-        Assert.IsInstanceOfType(orders, GetType(Order()), Convert.ToString("GetOrderByIDTest failed... ") & errorString)
+        Assert.IsInstanceOfType(orders, GetType(Order), Convert.ToString("GetOrderByIDTest failed... ") & errorString)
     End Sub
 
     <TestMethod> _
@@ -7492,7 +7582,6 @@ End Class
 
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim order As Order = Nothing
         Dim orderId As String = If(lsOrderiDs.Count > 0, lsOrderiDs(0), "")
 
         Assert.IsFalse(orderId = "", "There is no order for updating...")
@@ -7502,13 +7591,9 @@ End Class
         }
 
         Dim errorString As String = ""
-        Dim orders As Order() = route4Me.GetOrderByID(orderParameters, errorString)
+        Dim order As Order = route4Me.GetOrderByID(orderParameters, errorString)
 
-        Assert.IsTrue(orders.Length > 0, Convert.ToString("There is no order for updating... ") & errorString)
-
-        If orders.Length > 0 Then
-            order = orders(0)
-        End If
+        Assert.IsTrue(order IsNot Nothing, Convert.ToString("There is no order for updating... ") & errorString)
 
         order.EXT_FIELD_last_name = "Updated " + (New Random()).[Next]().ToString()
 
@@ -8832,18 +8917,13 @@ End Class
     <TestMethod>
     Public Sub QueryUserLocationsTest()
         Dim route4Me = New Route4MeManager(ApiKeys.actualApiKey)
-
         Dim genericParameters = New GenericParameters()
-
         Dim errorString As String = Nothing
         Dim userLocations = route4Me.GetUserLocations(genericParameters, errorString)
 
         Assert.IsNotNull(userLocations, "GetAllUserLocationsTest failed... " & errorString)
 
-        Dim userLocation = userLocations.Where(Function(x) x.Value.UserTracking IsNot Nothing).FirstOrDefault().Value
-
-        If userLocation Is Nothing Then userLocation = userLocations(userLocations.Keys.First())
-
+        Dim userLocation = userLocations.Where(Function(x) x.UserTracking IsNot Nothing).FirstOrDefault()
         Dim email As String = userLocation.MemberData.MemberEmail
 
         genericParameters.ParametersCollection.Add("query", email)

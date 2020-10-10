@@ -88,7 +88,7 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="is_operational", EmitDefaultValue:=False)>
         Public Property IsOperational As Boolean?
 
-        <DataMember(Name:="External telematics vehicle ID", EmitDefaultValue:=False)>
+        <DataMember(Name:="external_telematics_vehicle_id", EmitDefaultValue:=False)>
         Public Property ExternalTelematicsVehicleID As String
 
         <DataMember(Name:="r4m_telematics_gateway_connection_id", EmitDefaultValue:=False)>
