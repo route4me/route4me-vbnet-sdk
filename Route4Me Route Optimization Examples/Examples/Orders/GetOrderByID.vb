@@ -16,14 +16,12 @@ Namespace Route4MeSDKTest.Examples
             }
 
             Dim errorString As String = ""
-            Dim orders As Order() = route4Me.GetOrderByID(orderParameters, errorString)
+            Dim order As Order = route4Me.GetOrderByID(orderParameters, errorString)
 
             Console.WriteLine("")
 
-            If orders.Length > 0 Then
-                For Each order As Order In orders
-                    Console.WriteLine("GetOrderByID executed successfully, order_id = {0}", order.order_id)
-                Next
+            If order IsNot Nothing Then
+                Console.WriteLine("GetOrderByID executed successfully, order_id = {0}", order.order_id)
             Else
                 Console.WriteLine("GetOrderByID error: {0}", errorString)
             End If
