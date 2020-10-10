@@ -89,7 +89,7 @@ Namespace Route4MeSDK.DataTypes
         Public Property TotalWaitTime As Long?
 
         <DataMember(Name:="udu_actual_travel_distance", EmitDefaultValue:=False)>
-        Public Property UduActualTravelDistance As Decimal?
+        Public Property UduActualTravelDistance As Double?
 
         <DataMember(Name:="actual_travel_distance")>
         Public Property ActualTravelDistance As Double?

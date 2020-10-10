@@ -82,10 +82,10 @@ Namespace Route4MeSDK.DataTypes
         Public Property TotalWaitTime As Long?
 
         <DataMember(Name:="udu_actual_travel_distance", EmitDefaultValue:=False)>
-        Public Property UduActualTravelDistance As Decimal?
+        Public Property UduActualTravelDistance As Double?
 
         <DataMember(Name:="actual_travel_distance", EmitDefaultValue:=False)>
-        Public Property ActualTravelDistance As Decimal?
+        Public Property ActualTravelDistance As Double?
 
         <DataMember(Name:="actual_travel_time", EmitDefaultValue:=False)>
         Public Property ActualTravelTime As Long?
@@ -103,7 +103,7 @@ Namespace Route4MeSDK.DataTypes
         Public Property IdlingTime As Long?
 
         <DataMember(Name:="paying_miles", EmitDefaultValue:=False)>
-        Public Property PayingMiles As Decimal?
+        Public Property PayingMiles As Double?
 
         <DataMember(Name:="geofence_polygon_type", EmitDefaultValue:=False)>
         Public Property GeofencePolygonType As String

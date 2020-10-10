@@ -11,8 +11,8 @@ Namespace Route4MeSDKTest.Examples
             ' Create the manager with the api key
             Dim route4Me As New Route4MeManager(c_ApiKey)
 
-            Dim orderParameters As New OrderParameters() With { _
-                .order_id = OrderId _
+            Dim orderParameters As New OrderParameters() With {
+                .order_id = OrderId
             }
 
             Dim errorString As String = ""

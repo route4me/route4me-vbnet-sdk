@@ -79,7 +79,7 @@ Namespace Route4MeSDK.DataTypes
         ''' Vehicle movement speed.
         ''' </summary>
         <DataMember(Name:="speed")>
-        Public Property Speed As Decimal?
+        Public Property Speed As Double?
 
         ''' <summary>
         ''' Vehicle movement speed.

@@ -16,7 +16,7 @@ Namespace Route4MeSDK.DataTypes
         Public Property Name As String
 
         <DataMember(Name:="distance")>
-        Public Property Distance As Decimal?
+        Public Property Distance As Double?
 
         <DataMember(Name:="matchings_index")>
         Public Property MatchingsIndex As Integer?

@@ -53,7 +53,7 @@ Namespace Route4MeSDK.DataTypes
         Public Property VehicleYearAcquired As Integer?
 
         <DataMember(Name:="vehicle_cost_new", EmitDefaultValue:=False)>
-        Public Property VehicleCostNew As Decimal?
+        Public Property VehicleCostNew As Double?
 
         <DataMember(Name:="purchased_new", EmitDefaultValue:=False)>
         Public Property PurchasedNew As Object
@@ -164,19 +164,19 @@ Namespace Route4MeSDK.DataTypes
         Public Property TruckConfig As String
 
         <DataMember(Name:="height_metric", EmitDefaultValue:=False)>
-        Public Property HeightMetric As Decimal?
+        Public Property HeightMetric As Double?
 
         <DataMember(Name:="length_metric", EmitDefaultValue:=False)>
-        Public Property LengthMetric As Decimal?
+        Public Property LengthMetric As Double?
 
         <DataMember(Name:="width_metric", EmitDefaultValue:=False)>
-        Public Property WidthMetric As Decimal?
+        Public Property WidthMetric As Double?
 
         <DataMember(Name:="weight_metric", EmitDefaultValue:=False)>
-        Public Property WeightMetric As Decimal?
+        Public Property WeightMetric As Double?
 
         <DataMember(Name:="max_weight_per_axle_group_metric", EmitDefaultValue:=False)>
-        Public Property MaxWeightPerAxleGroupMetric As Decimal?
+        Public Property MaxWeightPerAxleGroupMetric As Double?
 
         <DataMember(Name:="timestamp_removed", EmitDefaultValue:=False)>
         Public Property TimestampRemoved As String

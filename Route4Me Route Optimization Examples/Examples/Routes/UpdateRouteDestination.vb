@@ -14,7 +14,7 @@ Namespace Route4MeSDKTest.Examples
             Dim routeId As String = "824CA521E3A8DE9F1C684C8BAE90CF07"
             Dim routeDestionationId As Integer = 217393034
 
-            Dim CustomData As New Dictionary(Of String, Object)()
+            Dim CustomData As New Dictionary(Of String, String)()
             CustomData.Add("BatchId", "e7c672b1-a356-4a97-803e-97db88fdcf99")
             CustomData.Add("CustomerNumber", "2718500")
             CustomData.Add("DeliveryId", "2c71f6d9-c1aa-4672-a682-3e9f12badac9")
@@ -41,29 +41,25 @@ Namespace Route4MeSDKTest.Examples
                     oAddress.InvoiceNo = 945825
                     ' etc fill the necessary address parameters
 
-                    If CustomData IsNot Nothing Then
-                        For Each k1 As String In CustomData.Keys
-                            oAddress.CustomFields.Item(k1) = DirectCast(CustomData.Item(k1), Object)
-                        Next
-                    End If
+                    oAddress.CustomFields = R4MeUtils.ToObject(Of Dictionary(Of String, Object))(CustomData, errorString)
 
                     errorString = ""
-                    Dim address As Address = route4Me.UpdateRouteDestination(oAddress, errorString)
+                        Dim address As Address = route4Me.UpdateRouteDestination(oAddress, errorString)
 
-                    Console.WriteLine("")
+                        Console.WriteLine("")
 
-                    If address IsNot Nothing Then
-                        Console.WriteLine("UpdateRouteDestination executed successfully")
-                        Console.WriteLine("Alias {0}", address.[Alias])
-                        Console.WriteLine("Cost {0}", address.Cost)
-                        Console.WriteLine("InvoiceNo {0}", address.InvoiceNo)
+                        If address IsNot Nothing Then
+                            Console.WriteLine("UpdateRouteDestination executed successfully")
+                            Console.WriteLine("Alias {0}", address.[Alias])
+                            Console.WriteLine("Cost {0}", address.Cost)
+                            Console.WriteLine("InvoiceNo {0}", address.InvoiceNo)
                         For Each kvpair As KeyValuePair(Of String, Object) In address.CustomFields
                             Console.WriteLine(kvpair.Key & ": " & kvpair.Value)
                         Next
                     Else
-                        Console.WriteLine("UpdateRouteDestination error {0}", errorString)
+                            Console.WriteLine("UpdateRouteDestination error {0}", errorString)
+                        End If
                     End If
-                End If
             Next
         End Sub
     End Class

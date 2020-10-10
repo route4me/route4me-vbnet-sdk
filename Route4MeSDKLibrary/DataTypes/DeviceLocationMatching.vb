@@ -13,15 +13,15 @@ Namespace Route4MeSDK.DataTypes
         Public Property Legs As DeviceLocationLeg()
 
         <DataMember(Name:="distance")>
-        Public Property Distance As Decimal?
+        Public Property Distance As Double?
 
         <DataMember(Name:="duration")>
-        Public Property Duration As Decimal?
+        Public Property Duration As Double?
 
         <DataMember(Name:="weight_name")>
         Public Property WeightName As String
 
         <DataMember(Name:="weight")>
-        Public Property Weight As Decimal?
+        Public Property Weight As Double?
     End Class
 End Namespace
