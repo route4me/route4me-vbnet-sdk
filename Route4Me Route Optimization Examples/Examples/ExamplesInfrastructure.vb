@@ -3,7 +3,7 @@ Imports System
 'Imports System.Linq
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Const c_ApiKey As String = "11111111111111111111111111111111"
+        Public c_ApiKey As String = Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ReadSetting("demoApiKey")
 
         Private Sub PrintExampleOptimizationResult(exampleName As String, dataObject As DataObject, errorString As String)
             Dim err1 As String

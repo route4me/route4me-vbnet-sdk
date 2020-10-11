@@ -1,5 +1,6 @@
 ﻿Imports System.Collections.Generic
 Imports System.ComponentModel
+Imports System.Configuration
 Imports System.Globalization
 Imports System.IO
 Imports System.Reflection
@@ -526,7 +527,24 @@ Namespace Route4MeSDK
             Return result
         End Function
 
+        ''' <summary>
+        ''' Read a setting parameter from App.config by specified key
+        ''' </summary>
+        ''' <param name="key">A seting key</param>
+        Public Function ReadSetting(key As String) As String
+            Try
+                Dim appSettings = ConfigurationManager.AppSettings
+                Dim result As String = appSettings(key)
 
+                If IsNothing(result) Then
+                    Return "Not found"
+                End If
+
+                Return result
+            Catch e As ConfigurationErrorsException
+                Return "Error reading app settings"
+            End Try
+        End Function
     End Module
 End Namespace
 

@@ -1938,5 +1938,11 @@ User email.
  <param name="targetProperty">A property with the standard type</param>
  <returns>Converted object to the target standard type</returns>
 </member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.ReadSetting(System.String)">
+ <summary>
+ Read a setting parameter from App.config by specified key
+ </summary>
+ <param name="key">A seting key</param>
+</member>
 </members>
 </doc>

@@ -12,9 +12,10 @@ Imports System.Threading
 Imports CsvHelper
 
 Public Class ApiKeys
-    Public Const actualApiKey As String = "11111111111111111111111111111111"
-    Public Const demoApiKey As String = "11111111111111111111111111111111"
+    Public Shared actualApiKey As String = R4MeUtils.ReadSetting("actualApiKey")
+    Public Shared demoApiKey As String = R4MeUtils.ReadSetting("actualApiKey")
 End Class
+
 
 <TestClass()> Public Class RoutesGroup
     Shared c_ApiKey As String = ApiKeys.actualApiKey
@@ -532,7 +533,7 @@ End Class
     Public Shared Sub NotesGroupInitialize(ByVal context As TestContext)
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
         lsOptimizationIDs = New List(Of String)()
-        tdr = New TestDataRepository(c_ApiKey)
+        tdr = New TestDataRepository()
         Dim result As Boolean = tdr.SingleDriverRoundTripTest()
         Assert.IsTrue(result, "Single Driver Round Trip generation failed...")
         Assert.IsTrue(tdr.SDRT_route.Addresses.Length > 0, "The route has no addresses...")
@@ -4001,7 +4002,7 @@ End Class
     <TestMethod> _
     Public Sub SingleDriverRoundTripGenericTest()
         Const uri As String = R4MEInfrastructureSettings.MainHost + "/api.v4/optimization_problem.php"
-        Const myApiKey As String = ApiKeys.actualApiKey
+        Dim myApiKey As String = ApiKeys.actualApiKey
 
         ' Create the manager with the api key
         Dim route4Me As New Route4MeManager(myApiKey)
@@ -7418,7 +7419,7 @@ End Class
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
         lsOptimizationIDs = New List(Of String)()
         context.Properties.Add("Categ", "Ignorable")
-        tdr = New TestDataRepository(c_ApiKey)
+        tdr = New TestDataRepository()
         Dim result As Boolean = tdr.SingleDriverRoundTripTest()
         Assert.IsTrue(result, "Single Driver Round Trip generation failed...")
         Assert.IsTrue(tdr.SDRT_route.Addresses.Length > 0, "The route has no addresses...")
@@ -10157,7 +10158,7 @@ End Class
         lsAddressbookContacts = New List(Of String)()
         lsOrders = New List(Of String)()
 
-        tdr = New TestDataRepository(c_ApiKey)
+        tdr = New TestDataRepository()
         Dim result As Boolean = tdr.RunOptimizationSingleDriverRoute10Stops()
 
         Assert.IsTrue(result, "Single Driver 10 stops generation failed...")
@@ -10803,11 +10804,8 @@ End Class
 Public Class TestDataRepository
     Private c_ApiKey As String = ApiKeys.actualApiKey
 
-    Public Sub New(Optional ByVal apiKey As String = ApiKeys.actualApiKey)
-        c_ApiKey = apiKey
-    End Sub
-
     Public Sub New()
+        c_ApiKey = ApiKeys.actualApiKey
     End Sub
 
     Public Property dataObjectSD10Stops As DataObject
