@@ -83,10 +83,10 @@ Namespace Route4MeSDK.DataTypes
         Public Property RouteDurationSec As Long?
 
         <DataMember(Name:="planned_total_route_duration")>
-        Public Property PlannedTotalRouteDuration As Long?
+        Public Property PlannedTotalRouteDuration As Int32?
 
         <DataMember(Name:="total_wait_time", EmitDefaultValue:=False)>
-        Public Property TotalWaitTime As Long?
+        Public Property TotalWaitTime As Int32?
 
         <DataMember(Name:="udu_actual_travel_distance", EmitDefaultValue:=False)>
         Public Property UduActualTravelDistance As Double?
@@ -98,16 +98,16 @@ Namespace Route4MeSDK.DataTypes
         Public Property ActualTravelTime As Integer?
 
         <DataMember(Name:="actual_footsteps")>
-        Public Property ActualFootSteps As Long?
+        Public Property ActualFootSteps As Int32?
 
         <DataMember(Name:="working_time")>
-        Public Property WorkingTime As Long?
+        Public Property WorkingTime As Int32?
 
         <DataMember(Name:="driving_time")>
-        Public Property DrivingTime As Long?
+        Public Property DrivingTime As Int32?
 
         <DataMember(Name:="idling_time")>
-        Public Property IdlingTime As Long?
+        Public Property IdlingTime As Int32?
 
         <DataMember(Name:="paying_miles")>
         Public Property PayingMiles As Double?

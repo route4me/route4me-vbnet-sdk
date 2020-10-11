@@ -311,11 +311,11 @@ Namespace Route4MeSDK
 
             If Not attributes.ContainsKey("ReadOnlyAttribute") Then Return False
 
-            Dim isReadOnly As Object = Nothing
+            Dim [ReadOnly] As Object = Nothing
 
-            attributes.TryGetValue("ReadOnlyAttribute", isReadOnly)
+            attributes.TryGetValue("ReadOnlyAttribute", [ReadOnly])
 
-            Dim isReadOnlyValue = If(isReadOnly IsNot Nothing, (CType(isReadOnly, Route4MeSDK.DataTypes.ReadOnlyAttribute)).IsReadOnly, False)
+            Dim isReadOnlyValue = If([ReadOnly] IsNot Nothing, (CType([ReadOnly], Route4MeSDK.DataTypes.ReadOnlyAttribute)).ReadOnly, False)
 
             Return isReadOnlyValue
         End Function

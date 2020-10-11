@@ -9,18 +9,18 @@ Namespace Route4MeSDK.DataTypes
     Public Class ReadOnlyAttribute
         Inherits Attribute
 
-        Private _isReadOnly As Boolean
+        Private _ReadOnly As Boolean
 
-        Public Sub New(ByVal IsReadOnly As Boolean)
-            _isReadOnly = IsReadOnly
+        Public Sub New(ByVal [ReadOnly] As Boolean)
+            _ReadOnly = [ReadOnly]
         End Sub
 
-        Public Overridable Property IsReadOnly As Boolean
+        Public Overridable Property [ReadOnly] As Boolean
             Get
-                Return _isReadOnly
+                Return _ReadOnly
             End Get
             Set(ByVal value As Boolean)
-                _isReadOnly = value
+                _ReadOnly = value
             End Set
         End Property
     End Class
