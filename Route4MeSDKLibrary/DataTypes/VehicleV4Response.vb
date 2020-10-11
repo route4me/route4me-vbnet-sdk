@@ -86,7 +86,7 @@ Namespace Route4MeSDK.DataTypes
         Public Property Route4meTelematicsInternalApiKey As String
 
         <DataMember(Name:="is_operational", EmitDefaultValue:=False)>
-        Public Property IsOperational As Boolean?
+        Public Property IsOperational As String
 
         <DataMember(Name:="external_telematics_vehicle_id", EmitDefaultValue:=False)>
         Public Property ExternalTelematicsVehicleID As String
