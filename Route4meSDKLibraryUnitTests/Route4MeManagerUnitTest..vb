@@ -12,7 +12,7 @@ Imports System.Threading
 Imports CsvHelper
 
 Public Class ApiKeys
-    Public Const actualApiKey As String = "BD48828717021141485A701453273458"
+    Public Const actualApiKey As String = "11111111111111111111111111111111"
     Public Const demoApiKey As String = "11111111111111111111111111111111"
 End Class
 
