@@ -14,7 +14,7 @@ Namespace Route4MeSDK.DataTypes
         ''' from a file upload within your environment (for analytics).
         ''' </summary>
         <DataMember(Name:="is_upload", EmitDefaultValue:=False)>
-        Public Property IsUpload As String
+        Public Property IsUpload As Boolean?
 
         ''' <summary>
         ''' The tour type of this route. rt is short for round trip, 
@@ -48,7 +48,7 @@ Namespace Route4MeSDK.DataTypes
         ''' Offset in seconds relative to the route start date (i.e. 9AM would be 60 * 60 * 9)
         ''' </summary>
         <DataMember(Name:="route_time", EmitDefaultValue:=False)>
-        Public Property RouteTime As Object
+        Public Property RouteTime As Integer?
 
         <Obsolete("Always false")>
         <DataMember(Name:="shared_publicly", EmitDefaultValue:=False)>
