@@ -486,7 +486,7 @@ Namespace Route4MeSDK.DataTypes
         ''' Route service time slowdown (e.g. 10 (means 10% slowdown))
         ''' </summary>
         <DataMember(Name:="route_service_time_multiplier", EmitDefaultValue:=False)>
-        Public Property RoutServiceTimeMultiplier As Double?
+        Public Property RouteServiceTimeMultiplier As Double?
 
         ''' <summary>
         ''' Optimization engine (e.g. '1','2' etc)
