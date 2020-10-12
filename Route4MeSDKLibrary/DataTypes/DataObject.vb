@@ -12,8 +12,11 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="state")> _
         Public Property State As OptimizationState
 
-        <DataMember(Name:="user_errors")> _
+        <DataMember(Name:="user_errors")>
         Public Property UserErrors As String()
+
+        <DataMember(Name:="optimization_errors")>
+        Public Property OptimizationErrors As String()
 
         <DataMember(Name:="sent_to_background")> _
         Public Property IsSentToBackground As Boolean
