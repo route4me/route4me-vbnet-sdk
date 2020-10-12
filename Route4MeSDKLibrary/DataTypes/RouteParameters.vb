@@ -237,6 +237,7 @@ Namespace Route4MeSDK.DataTypes
         ''' <para><value>6 = TRUCKING</value></para>
         ''' </summary>
         <DataMember(Name:="dm", EmitDefaultValue:=False)>
+        <Range(1, 12)>
         Public Property DM As Integer?
 
         ''' <summary>
@@ -248,6 +249,7 @@ Namespace Route4MeSDK.DataTypes
         ''' <para><value>4 = DEPRECATED</value></para>
         ''' </summary>
         <DataMember(Name:="dirm", EmitDefaultValue:=False)>
+        <Range(1, 10)>
         Public Property Dirm As Integer?
 
         ''' <summary>
