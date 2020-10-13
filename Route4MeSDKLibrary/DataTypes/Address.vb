@@ -1,10 +1,13 @@
 ﻿Imports System.Collections.Generic
 Imports System.Runtime.Serialization
+Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDK.DataTypes
 
     <DataContract>
-    Public NotInheritable Class Address
+    Public Class Address
+        Inherits GenericParameters
+
         ''' <summary>
         ''' Route destination ID
         ''' </summary>

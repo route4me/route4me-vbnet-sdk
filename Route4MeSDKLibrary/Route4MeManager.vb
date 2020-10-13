@@ -465,145 +465,30 @@ Namespace Route4MeSDK
             Return result
         End Function
 
+        ''' <summary>
+        ''' The request parameters for the updating process of a route destination
+        ''' </summary>
         <DataContract> _
         Private NotInheritable Class UpdateRouteDestinationRequest
-            Inherits GenericParameters
-            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
-            Public Property RouteId As String
+            Inherits Address
 
-            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)> _
-            Public Property RouteDestinationId As System.Nullable(Of Integer)
+            ''' <summary>
+            ''' A route ID to be updated
+            ''' </summary>
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
+            Public Overloads Property RouteId As String
 
-            <DataMember(Name:="alias", EmitDefaultValue:=False)> _
-            Public Property [Alias] As String
+            ''' <summary>
+            ''' A optimization ID to be updated
+            ''' </summary>
+            <HttpQueryMemberAttribute(Name:="optimization_problem_id", EmitDefaultValue:=False)>
+            Public Overloads Property OptimizationProblemId As String
 
-            <DataMember(Name:="first_name", EmitDefaultValue:=False)>
-            Public Property FirstName As String
-
-            <DataMember(Name:="last_name", EmitDefaultValue:=False)>
-            Public Property LastName As String
-
-            <DataMember(Name:="address", EmitDefaultValue:=False)>
-            Public Property AddressString As String
-
-            <DataMember(Name:="address_stop_type", EmitDefaultValue:=False)> _
-            Public Property AddressStopType As String
-
-            <DataMember(Name:="is_depot", EmitDefaultValue:=False)>
-            Public Property IsDepot As Boolean?
-
-            'the latitude of this address
-            <DataMember(Name:="lat", EmitDefaultValue:=False)> _
-            Public Property Latitude As System.Nullable(Of Double)
-
-            'the longitude of this address
-            <DataMember(Name:="lng", EmitDefaultValue:=False)>
-            Public Property Longitude As Double?
-
-            <DataMember(Name:="sequence_no", EmitDefaultValue:=False)>
-            Public Property SequenceNo As Integer?
-
-            'status flag to mark an address as visited (aka check in)
-            <DataMember(Name:="is_visited", EmitDefaultValue:=False)>
-            Public Property IsVisited As Boolean?
-
-            'status flag to mark an address as departed (aka check out)
-            <DataMember(Name:="is_departed", EmitDefaultValue:=False)>
-            Public Property IsDeparted As Boolean?
-
-            'the last known visited timestamp of this address
-            <DataMember(Name:="timestamp_last_visited", EmitDefaultValue:=False)>
-            Public Property TimestampLastVisited As UInteger?
-
-            'the last known departed timestamp of this address
-            <DataMember(Name:="timestamp_last_departed", EmitDefaultValue:=False)>
-            Public Property TimestampLastDeparted() As UInteger?
-
-            <DataMember(Name:="group", EmitDefaultValue:=False)> _
-            Public Property Group As String
-
-            'pass-through data about this route destination
-            'the data will be visible on the manifest, website, and mobile apps
-            <DataMember(Name:="customer_po", EmitDefaultValue:=False)>
-            Public Property CustomerPo As Object
-
-            'pass-through data about this route destination
-            'the data will be visible on the manifest, website, and mobile apps
-            <DataMember(Name:="invoice_no", EmitDefaultValue:=False)>
-            Public Property InvoiceNo As Object
-
-            'pass-through data about this route destination
-            'the data will be visible on the manifest, website, and mobile apps
-            <DataMember(Name:="reference_no", EmitDefaultValue:=False)>
-            Public Property ReferenceNo As Object
-
-            'pass-through data about this route destination
-            'the data will be visible on the manifest, website, and mobile apps
-            <DataMember(Name:="order_no", EmitDefaultValue:=False)>
-            Public Property OrderNo As Object
-
-            <DataMember(Name:="order_id", EmitDefaultValue:=False)>
-            Public Property OrderId As Integer?
-
-            <DataMember(Name:="weight", EmitDefaultValue:=False)>
-            Public Property Weight As Object
-
-            <DataMember(Name:="cost", EmitDefaultValue:=False)>
-            Public Property Cost As Object
-
-            <DataMember(Name:="revenue", EmitDefaultValue:=False)>
-            Public Property Revenue As Object
-
-            'the cubic volume that this destination/order/line-item consumes/contains
-            'this is how much space it will take up on a vehicle
-            <DataMember(Name:="cube", EmitDefaultValue:=False)>
-            Public Property Cube As Object
-
-            'the number of pieces/palllets that this destination/order/line-item consumes/contains on a vehicle
-            <DataMember(Name:="pieces", EmitDefaultValue:=False)> _
-            Public Property Pieces() As Object
-
-            <DataMember(Name:="email", EmitDefaultValue:=False)>
-            Public Property Email As String
-
-            <DataMember(Name:="phone", EmitDefaultValue:=False)>
-            Public Property Phone As String
-
-            <DataMember(Name:="time_window_start", EmitDefaultValue:=False)>
-            Public Property TimeWindowStart As Integer?
-
-            <DataMember(Name:="time_window_end", EmitDefaultValue:=False)>
-            Public Property TimeWindowEnd As Integer?
-
-            'the expected amount of time that will be spent at this address by the driver/user
-            <DataMember(Name:="time", EmitDefaultValue:=False)>
-            Public Property Time As Integer?
-
-            <DataMember(Name:="notes", EmitDefaultValue:=False)>
-            Public Property Notes As AddressNote()
-
-            'if present, the priority will sequence addresses in all the optimal routes so that
-            'higher priority addresses are general at the beginning of the route sequence
-            '1 is the highest priority, 100000 is the lowest
-            <DataMember(Name:="priority", EmitDefaultValue:=False)>
-            Public Property Priority As Integer?
-
-            'generate optimal routes and driving directions to this curbside lat
-            <DataMember(Name:="curbside_lat", EmitDefaultValue:=False)>
-            Public Property CurbsideLatitude As Double?
-
-            'generate optimal routes and driving directions to the curbside lang
-            <DataMember(Name:="curbside_lng", EmitDefaultValue:=False)>
-            Public Property CurbsideLongitude As Double?
-
-            <DataMember(Name:="time_window_start_2", EmitDefaultValue:=False)>
-            Public Property TimeWindowStart2 As Integer?
-
-            <DataMember(Name:="time_window_end_2", EmitDefaultValue:=False)>
-            Public Property TimeWindowEnd2 As Integer?
-
-            <DataMember(Name:="custom_fields", EmitDefaultValue:=False)>
-            Public Property CustomFields As Dictionary(Of String, String)
+            ''' <summary>
+            ''' A route destination ID to be updated
+            ''' </summary>
+            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)>
+            Public Overloads Property RouteDestinationId As Integer?
 
         End Class
 
@@ -721,6 +606,26 @@ Namespace Route4MeSDK
             Dim result = GetJsonObjectFromAPI(Of Address)(request, R4MEInfrastructureSettings.GetAddress, HttpMethodType.Put, errorString)
 
             Return result
+        End Function
+
+        ''' <summary>
+        ''' Updates an optimization destination
+        ''' </summary>
+        ''' <param name="addressParameters">Contains an address object</param>
+        ''' <param name="errorString">Returned error string in case of the processs failing</param>
+        ''' <returns>The updated address</returns>
+        Public Function UpdateOptimizationDestination(ByVal addressParameters As Address, ByRef errorString As String) As Address
+            Dim request = New UpdateRouteDestinationRequest With {
+                .OptimizationProblemId = addressParameters.OptimizationProblemId
+            }
+
+            For Each propInfo In GetType(Address).GetProperties()
+                propInfo.SetValue(request, propInfo.GetValue(addressParameters))
+            Next
+
+            Dim dataObject = GetJsonObjectFromAPI(Of DataObject)(request, R4MEInfrastructureSettings.ApiHost, HttpMethodType.Put, errorString)
+
+            Return If(dataObject?.Addresses?.Where(Function(x) x.RouteDestinationId = addressParameters.RouteDestinationId).FirstOrDefault(), Nothing)
         End Function
 
         Public Function MergeRoutes(mergeRoutesParameters As MergeRoutesQuery, ByRef errorString As String) As Boolean
@@ -1536,32 +1441,47 @@ Namespace Route4MeSDK
             Return result
         End Function
 
+        ''' <summary>
+        ''' The request parameters for the route destination adding process.
+        ''' </summary>
         <DataContract> _
         Private NotInheritable Class AddRouteDestinationRequest
             Inherits GenericParameters
-            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
-            Public Property RouteId() As String
-                Get
-                    Return m_RouteId
-                End Get
-                Set(value As String)
-                    m_RouteId = value
-                End Set
-            End Property
-            Private m_RouteId As String
 
-            <DataMember(Name:="addresses", EmitDefaultValue:=False)> _
-            Public Property Addresses() As Address()
-                Get
-                    Return m_Addresses
-                End Get
-                Set(value As Address())
-                    m_Addresses = value
-                End Set
-            End Property
-            Private m_Addresses As Address()
+            ''' <summary>
+            ''' The route ID
+            ''' </summary>
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
+            Public Property RouteId As String
+
+            ''' <summary>
+            ''' The optimization ID
+            ''' </summary>
+            <HttpQueryMemberAttribute(Name:="optimization_problem_id", EmitDefaultValue:=False)>
+            Public Property OptimizationProblemId As String
+
+            ''' <summary>
+            ''' The array of the Address type objects
+            ''' </summary>
+            <DataMember(Name:="addresses", EmitDefaultValue:=False)>
+            Public Property Addresses As Address()
+
+            ''' <summary>
+            ''' If true, an address will be inserted at optimal position 
+            ''' of a route
+            ''' </summary>
+            <DataMember(Name:="optimal_position", EmitDefaultValue:=True)>
+            Public Property OptimalPosition As Boolean
+
         End Class
 
+        ''' <summary>
+        ''' Adds the address(es) into a route.
+        ''' </summary>
+        ''' <param name="routeId">The route ID</param>
+        ''' <param name="addresses">Valid array of the Address type objects.</param>
+        ''' <param name="errorString">out: Error as string</param>
+        ''' <returns>An array of the IDs of added addresses</returns>
         Public Function AddRouteDestinations(routeId As String, addresses As Address(), ByRef errorString As String) As Integer()
             Dim request As New AddRouteDestinationRequest() With { _
                 .RouteId = routeId, _
@@ -1584,6 +1504,21 @@ Namespace Route4MeSDK
             End If
             Return destinationIds
         End Function
+
+
+        Public Function AddOptimizationDestinations(ByVal optimizationId As String, ByVal addresses As Address(), ByRef errorString As String) As Integer?()
+            Dim request = New AddRouteDestinationRequest() With {
+                .OptimizationProblemId = optimizationId,
+                .Addresses = addresses
+            }
+
+            Dim addressesList = addresses.[Select](Function(x) x.AddressString).ToList()
+
+            Dim dataObject = GetJsonObjectFromAPI(Of DataObject)(request, R4MEInfrastructureSettings.ApiHost, HttpMethodType.Put, errorString)
+
+            Return If(dataObject?.Addresses?.Where(Function(x) addressesList.Contains(x.AddressString))?.[Select](Function(y) y.RouteDestinationId).ToArray(), Nothing)
+        End Function
+
 
         <DataContract> _
         Private NotInheritable Class MarkAddressAsMarkedAsDepartedRequest

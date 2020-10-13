@@ -10236,13 +10236,13 @@ End Class
         Assert.IsNotNull(dataObject, "GetOptimizationTest failed... " & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub ReOptimizationTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim optimizationParameters As New OptimizationParameters() With { _
-            .OptimizationProblemID = tdr.SD10Stops_optimization_problem_id, _
-            .ReOptimize = True _
+        Dim optimizationParameters As New OptimizationParameters() With {
+            .OptimizationProblemID = tdr.SD10Stops_optimization_problem_id,
+            .ReOptimize = True
         }
 
         ' Run the query
@@ -10251,8 +10251,23 @@ End Class
 
         lsOptimizationIDs.Add(dataObject.OptimizationProblemId)
 
-        Assert.IsNotNull(dataObject, Convert.ToString("ReOptimizationTest failed... ") & errorString)
+        Assert.IsNotNull(dataObject, Convert.ToString("ReOptimizationTest failed. ") & errorString)
     End Sub
+
+    <TestMethod>
+    Public Sub UpdateOptimizationDestinationTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+        Dim address = tdr.SD10Stops_route.Addresses(3)
+
+        address.FirstName = "UpdatedFirstName"
+        address.LastName = "UpdatedLastName"
+
+        Dim errorString As String = ""
+        Dim updatedAddress = route4Me.UpdateOptimizationDestination(address, errorString)
+
+        Assert.IsNotNull(updatedAddress, "UpdateOptimizationDestinationTest failed")
+    End Sub
+
 
     <TestMethod> _
     Public Sub RemoveOptimizationTest()
