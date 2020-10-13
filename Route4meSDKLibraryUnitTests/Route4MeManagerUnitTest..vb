@@ -4226,7 +4226,7 @@ End Class
             .Latitude = 33.132675170898,
             .Longitude = -83.244743347168,
             .Time = 0,
-            .CustomFields = New Dictionary(Of String, Object)() From {
+            .CustomFields = New Dictionary(Of String, String)() From {
                 {"color", "red"},
                 {"size", "huge"}
             }
@@ -7702,7 +7702,7 @@ End Class
                 .Phone = "(917) 338-1887",
                 .FirstName = "",
                 .LastName = "",
-                .CustomFields = New Dictionary(Of String, Object) From {
+                .CustomFields = New Dictionary(Of String, String) From {
                     {"icon", Nothing}
                 },
                 .Time = 0,
@@ -7721,7 +7721,7 @@ End Class
                 .Phone = "(212) 227-7535",
                 .FirstName = "",
                 .LastName = "",
-                .CustomFields = New Dictionary(Of String, Object) From {
+                .CustomFields = New Dictionary(Of String, String) From {
                     {"icon", Nothing}
                 },
                 .Time = 0,
@@ -7740,7 +7740,7 @@ End Class
                 .Phone = "(212) 566-5132",
                 .FirstName = "",
                 .LastName = "",
-                .CustomFields = New Dictionary(Of String, Object) From {
+                .CustomFields = New Dictionary(Of String, String) From {
                     {"icon", Nothing}
                 },
                 .Time = 0,
@@ -7843,7 +7843,7 @@ End Class
                 .Phone = "(917) 338-1887",
                 .FirstName = "",
                 .LastName = "",
-                .CustomFields = New Dictionary(Of String, Object) From {
+                .CustomFields = New Dictionary(Of String, String) From {
                     {"icon", Nothing}
                 },
                 .Time = 0,
@@ -7860,7 +7860,7 @@ End Class
                 .Phone = "(212) 566-5132",
                 .FirstName = "",
                 .LastName = "",
-                .CustomFields = New Dictionary(Of String, Object) From {
+                .CustomFields = New Dictionary(Of String, String) From {
                     {"icon", Nothing}
                 },
                 .Time = 0,
@@ -10867,7 +10867,7 @@ Public Class TestDataRepository
             .Latitude = 33.132675170898,
             .Longitude = -83.244743347168,
             .Time = 0,
-            .CustomFields = New Dictionary(Of String, Object)() From {
+            .CustomFields = New Dictionary(Of String, String)() From {
                 {"color", "red"},
                 {"size", "huge"}
             }

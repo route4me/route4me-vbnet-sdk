@@ -28,7 +28,7 @@ Namespace Route4MeSDKTest.Examples
                 .Latitude = 33.132675170898,
                 .Longitude = -83.244743347168,
                 .Time = 0,
-                .CustomFields = New Dictionary(Of String, Object)() From {
+                .CustomFields = New Dictionary(Of String, String)() From {
                     {"color", "red"},
                     {"size", "huge"}
                 }

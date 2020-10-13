@@ -603,7 +603,7 @@ Namespace Route4MeSDK
             Public Property TimeWindowEnd2 As Integer?
 
             <DataMember(Name:="custom_fields", EmitDefaultValue:=False)>
-            Public Property CustomFields As Dictionary(Of String, Object)
+            Public Property CustomFields As Dictionary(Of String, String)
 
         End Class
 

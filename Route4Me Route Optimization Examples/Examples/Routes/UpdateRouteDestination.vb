@@ -41,7 +41,7 @@ Namespace Route4MeSDKTest.Examples
                     oAddress.InvoiceNo = 945825
                     ' etc fill the necessary address parameters
 
-                    oAddress.CustomFields = R4MeUtils.ToObject(Of Dictionary(Of String, Object))(CustomData, errorString)
+                    oAddress.CustomFields = R4MeUtils.ToObject(Of Dictionary(Of String, String))(CustomData, errorString)
 
                     errorString = ""
                         Dim address As Address = route4Me.UpdateRouteDestination(oAddress, errorString)
@@ -53,7 +53,7 @@ Namespace Route4MeSDKTest.Examples
                             Console.WriteLine("Alias {0}", address.[Alias])
                             Console.WriteLine("Cost {0}", address.Cost)
                             Console.WriteLine("InvoiceNo {0}", address.InvoiceNo)
-                        For Each kvpair As KeyValuePair(Of String, Object) In address.CustomFields
+                        For Each kvpair As KeyValuePair(Of String, String) In address.CustomFields
                             Console.WriteLine(kvpair.Key & ": " & kvpair.Value)
                         Next
                     Else
