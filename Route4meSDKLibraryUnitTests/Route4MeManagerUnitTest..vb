@@ -415,6 +415,27 @@ End Class
     End Sub
 
     <TestMethod>
+    Public Sub UpdateRouteAvoidanceZonesTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+        Dim routeId As String = tdr.SD10Stops_route_id
+
+        Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null")
+
+        Dim parameters = New RouteParametersQuery() With {
+            .RouteId = routeId,
+            .Parameters = New RouteParameters() With {
+                .AvoidanceZones = New String() {"FAA49711A0F1144CE4E203DC18ABDFFB", "9C48E8008E9865006336B99D3595E66A"}
+            }
+        }
+
+        Dim errorString As String = Nothing
+        Dim result = route4Me.UpdateRoute(parameters, errorString)
+
+        Assert.IsNotNull(result, "UpdateRouteAvoidanceZonesTest failed... " & errorString)
+        Assert.IsTrue(result.Parameters.AvoidanceZones.Length = 2, "UpdateRouteAvoidanceZonesTest failed... " & errorString)
+    End Sub
+
+    <TestMethod>
     Public Sub RouteOriginParameterTest()
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
