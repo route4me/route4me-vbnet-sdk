@@ -1,19 +1,15 @@
-﻿Imports System.Text
-Imports Microsoft.VisualStudio.TestTools.UnitTesting
-Imports Route4MeSDKLibrary.Route4MeSDK
+﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.FastProcessing
 Imports System.IO
 Imports System.Runtime.Serialization
-Imports System.Reflection
 Imports System.CodeDom.Compiler
 Imports System.Threading
-Imports CsvHelper
 
 Public Class ApiKeys
     Public Shared actualApiKey As String = R4MeUtils.ReadSetting("actualApiKey")
-    Public Shared demoApiKey As String = R4MeUtils.ReadSetting("actualApiKey")
+    Public Shared demoApiKey As String = R4MeUtils.ReadSetting("demoApiKey")
 End Class
 
 
@@ -193,7 +189,7 @@ End Class
 
         Dim route_id As String = tdr.SD10Stops_route_id
 
-        Assert.IsNotNull(route_id, "rote_id is null...")
+        Assert.IsNotNull(route_id, "rote_id is null.")
 
         Dim roParameters As New Dictionary(Of String, String)() From { _
             {"route_id", route_id}, _
@@ -205,7 +201,7 @@ End Class
         Dim errorString As String = ""
         Dim result As Boolean = route4Me.ResequenceReoptimizeRoute(roParameters, errorString)
 
-        Assert.IsTrue(result, "ResequenceReoptimizeRouteTest failed...")
+        Assert.IsTrue(result, "ResequenceReoptimizeRouteTest failed.")
     End Sub
 
     <TestMethod>
@@ -213,7 +209,7 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim routeId As String = tdr.SD10Stops_route_id
-        Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null...")
+        Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null.")
 
         Dim parametersNew As New RouteParameters() With {
             .RouteName = "New name of the route"
@@ -227,7 +223,7 @@ End Class
         Dim errorString As String = ""
         Dim dataObject As DataObjectRoute = route4Me.UpdateRoute(routeParameters, errorString)
 
-        Assert.IsNotNull(dataObject, Convert.ToString("UpdateRouteTest failed... ") & errorString)
+        Assert.IsNotNull(dataObject, Convert.ToString("UpdateRouteTest failed. ") & errorString)
     End Sub
 
     <TestMethod>
@@ -235,7 +231,7 @@ End Class
         Dim route4Me = New Route4MeManager(c_ApiKey)
 
         Dim routeId As String = tdr2.SD10Stops_route_id
-        Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null...")
+        Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null.")
 
         Dim initialRoute = R4MeUtils.ObjectDeepClone(Of DataObjectRoute)(tdr2.SD10Stops_route)
         Dim errorString5 As String = Nothing
@@ -9395,8 +9391,10 @@ End Class
             Dim newVehicle As VehicleV4Parameters = New VehicleV4Parameters() With {
                 .VehicleAlias = "Ford Transit Test 6"
             }
-            Dim vehicle As VehicleV4Response = vehicleGroup.createVehicle(newVehicle)
-            lsVehicleIDs.Add(vehicle.VehicleId)
+
+            Dim vehicle As VehicleV4CreateResponse = vehicleGroup.createVehicle(newVehicle)
+
+            lsVehicleIDs.Add(vehicle.VehicleGuid)
         Else
 
             For Each veh1 As VehicleV4Response In vehicles.Data
@@ -9423,11 +9421,11 @@ End Class
         Return vehicles
     End Function
 
-    Public Function createVehicle(ByVal vehicleParams As VehicleV4Parameters) As VehicleV4Response
+    Public Function createVehicle(ByVal vehicleParams As VehicleV4Parameters) As VehicleV4CreateResponse
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
         Dim errorString As String = ""
-        Dim result As VehicleV4Response = route4Me.CreateVehicle(vehicleParams, errorString)
+        Dim result As VehicleV4CreateResponse = route4Me.CreateVehicle(vehicleParams, errorString)
 
         Assert.IsNotNull(result, "CreatetVehiclTest failed... " & errorString)
 
@@ -9443,7 +9441,7 @@ End Class
             .VehicleAlias = "Ford Transit Test 6"
         }
 
-        Dim commonVehicle As VehicleV4Response = createVehicle(commonVehicleParams)
+        Dim commonVehicle As VehicleV4CreateResponse = createVehicle(commonVehicleParams)
 
         Dim class6TruckParams As VehicleV4Parameters = New VehicleV4Parameters() With {
             .VehicleName = "GMC TopKick C5500",
@@ -9476,7 +9474,7 @@ End Class
             .TruckConfig = "FULLSIZEVAN"
         }
 
-        Dim class6Truck As VehicleV4Response = createVehicle(class6TruckParams)
+        Dim class6Truck As VehicleV4CreateResponse = createVehicle(class6TruckParams)
 
         Dim class7TruckParams As VehicleV4Parameters = New VehicleV4Parameters() With {
             .VehicleName = "FORD F750",
@@ -9512,7 +9510,7 @@ End Class
             .PurchasedNew = True
         }
 
-        Dim class7Truck As VehicleV4Response = createVehicle(class7TruckParams)
+        Dim class7Truck As VehicleV4CreateResponse = createVehicle(class7TruckParams)
 
         Dim class8TruckParams As VehicleV4Parameters = New VehicleV4Parameters() With {
             .VehicleName = "Peterbilt 579",
@@ -9548,7 +9546,7 @@ End Class
             .PurchasedNew = True
         }
 
-        Dim class8Truck As VehicleV4Response = createVehicle(class8TruckParams)
+        Dim class8Truck As VehicleV4CreateResponse = createVehicle(class8TruckParams)
 
     End Sub
 
@@ -9574,8 +9572,8 @@ End Class
             Dim newVehicle As VehicleV4Parameters = New VehicleV4Parameters() With {
                 .VehicleAlias = "Ford Transit Test 6"
             }
-            Dim vehicle As VehicleV4Response = createVehicle(newVehicle)
-            lsVehicleIDs.Add(vehicle.VehicleId)
+            Dim vehicle As VehicleV4CreateResponse = createVehicle(newVehicle)
+            lsVehicleIDs.Add(vehicle.VehicleGuid)
         End If
 
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
@@ -9602,8 +9600,8 @@ End Class
             Dim newVehicle As VehicleV4Parameters = New VehicleV4Parameters() With {
                 .VehicleAlias = "Ford Transit Test 6"
             }
-            Dim vehicle As VehicleV4Response = createVehicle(newVehicle)
-            lsVehicleIDs.Add(vehicle.VehicleId)
+            Dim vehicle As VehicleV4CreateResponse = createVehicle(newVehicle)
+            lsVehicleIDs.Add(vehicle.VehicleGuid)
         End If
 
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)

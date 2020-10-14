@@ -63,6 +63,425 @@ Route4MeSDKLibrary
  Destination Id
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.RouteDestinationId">
+ <summary>
+ Route destination ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Alias">
+ <summary>
+ Route alias
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.MemberId">
+ <summary>
+ The id of the member inside the route4me system
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.FirstName">
+ <summary>
+ First name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.LastName">
+ <summary>
+ Last name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.AddressString">
+ <summary>
+ Route destination address
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.AddressStopType">
+ <summary>
+ Route address stop type
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.IsDepot">
+ <summary>
+ Designate this stop as a depot. 
+ A route may have multiple depots/points of origin.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.TimeframeViolationState">
+ <summary>
+ Timeframe violation state
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.TimeframeViolationTime">
+ <summary>
+ Timeframe violation time
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.TimeframeViolationRate">
+ <summary>
+ Timeframe violation rate
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Latitude">
+ <summary>
+ The latitude of this address
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Longitude">
+ <summary>
+ The longitude of this address
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.RouteId">
+ <summary>
+ The id of the route being viewed, modified, erased
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.OriginalRouteId">
+ <summary>
+ If this route was duplicated from an existing route, 
+ this value would have the original route's id
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.RouteName">
+ <summary>
+ Route name of a depot address.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.OptimizationProblemId">
+ <summary>
+ The id of the optimization request that was used 
+ to initially instantiate this route
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.SequenceNo">
+ <summary>
+ The destination's sequence number in the route.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Geocoded">
+ <summary>
+ True if the address Is geocoded.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.PreferredGeocoding">
+ <summary>
+ The preferred geocoding number.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.FailedGeocoding">
+ <summary>
+ True if geocoding failed.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Geocodings">
+ <summary>
+ An array containing Geocoding objects.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.ContactId">
+ <summary>
+ when planning a route from the address book or using existing address book ids
+ pass the address book id (contact_id) for an address so that route4me can run
+ analytics on the address book addresses that were used to plan routes, and to find previous visits to 
+ favorite addresses
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.IsVisited">
+ <summary>
+ The status flag to mark an address as visited (aka check in)
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.IsDeparted">
+ <summary>
+ The status flag to mark an address as departed (aka check out)
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.TimestampLastVisited">
+ <summary>
+ The last known visited timestamp of this address
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.TimestampLastDeparted">
+ <summary>
+ The last known departed timestamp of this address
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.VisitedLatitude">
+ <summary>
+ Visited address latitude.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.VisitedLongitude">
+ <summary>
+ Visited address longitude.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.DepartedLatitude">
+ <summary>
+ Departed address latitude.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.DepartedLongitude">
+ <summary>
+ Departed address longitude.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Group">
+ <summary>
+ The address group
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.CustomerPo">
+ <summary>
+ The pass-through data about this route destination. 
+ The data will be visible on the manifest, website, and mobile apps
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.InvoiceNo">
+ <summary>
+ The pass-through data about this route destination. 
+ The data will be visible on the manifest, website, and mobile apps
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.ReferenceNo">
+ <summary>
+ The pass-through data about this route destination. 
+ The data will be visible on the manifest, website, and mobile apps
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.OrderNo">
+ <summary>
+ The pass-through data about this route destination. 
+ The data will be visible on the manifest, website, and mobile apps.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.OrderId">
+ <summary>
+ The address order ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Weight">
+ <summary>
+ The address cargo weight
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Cost">
+ <summary>
+ The address cost
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Revenue">
+ <summary>
+ The address revenue
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Cube">
+ <summary>
+ The cubic volume that this destination/order/line-item consumes/contains.
+ This is how much space it will take up on a vehicle.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Pieces">
+ <summary>
+ The number of pieces/palllets that this destination/order/line-item 
+ consumes/contains on a vehicle
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Email">
+ <summary>
+ The pass-through data about this route destination. 
+ The data will be visible on the manifest, website, and mobile apps. 
+ Also used to email clients when vehicles are approaching 
+ (future capability).
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Phone">
+ <summary>
+ The pass-through data about this route destination. 
+ The data will be visible on the manifest, website, and mobile apps. 
+ Also used to sms message clients when vehicles are approaching 
+ (future capability).
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.DestinationNoteCount">
+ <summary>
+ The number of notes that are already associated with this address 
+ on the route.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.DriveTimeToNextDestination">
+ <summary>
+ Server-side generated amount of km/miles that it will take to get 
+ to the next location on the route
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.AbnormalTrafficTimeToNextDestination">
+ <summary>
+ Abnormal traffic time to next destination.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.UncongestedTimeToNextDestination">
+ <summary>
+ Uncongested time to next destination.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.TrafficTimeToNextDestination">
+ <summary>
+ Traffic time to next destination.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.DistanceToNextDestination">
+ <summary>
+ Server-side generated amount of seconds that it will take 
+ to get to the next location
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.GeneratedTimeWindowStart">
+ <summary>
+ Estimated time window start based on the optimization engine, 
+ after all the sequencing has been completed.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.GeneratedTimeWindowEnd">
+ <summary>
+ Estimated time window end based on the optimization engine, 
+ after all the sequencing has been completed
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.ChannelName">
+ <summary>
+ The unique socket channel name which should be used to get real time alerts.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.TimeWindowStart">
+ <summary>
+ The address time window start.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.TimeWindowEnd">
+ <summary>
+ The address time window end.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Time">
+ <summary>
+ The expected amount of time that will be spent at this address 
+ by the driver/user
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Notes">
+ <summary>
+ The address notes
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.PathToNext">
+ <summary>
+ The route path points to the next address.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Priority">
+ <summary>
+ If present, the priority will sequence addresses in all the optimal routes 
+ so that higher priority addresses are general at the beginning 
+ of the route sequence.
+ 1 is the highest priority, 100000 is the lowest
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.CurbsideLatitude">
+ <summary>
+ Generate optimal routes and driving directions to this curbside lat
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.CurbsideLongitude">
+ <summary>
+ Generate optimal routes and driving directions to the curbside lang
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.TimeWindowStart2">
+ <summary>
+ The address time window start 2.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.TimeWindowEnd2">
+ <summary>
+ The address time window end 2.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.GeofenceDetectedVisitedTimestamp">
+ <summary>
+ Geofence detected visited timestamp
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.GeofenceDetectedDepartedTimestamp">
+ <summary>
+ Geofence detected departed timestamp
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.GeofenceDetectedService_time">
+ <summary>
+ Geofence detected service time
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.GeofenceDetectedVisitedLat">
+ <summary>
+ Geofence detected visited latitude
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.GeofenceDetectedVisitedLng">
+ <summary>
+ Geofence detected visited longitude
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.GeofenceDetectedDepartedLat">
+ <summary>
+ Geofence detected departed latitude
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.GeofenceDetectedDepartedLng">
+ <summary>
+ Geofence detected departed longitude
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.CustomFields">
+ <summary>
+ The address custom fields.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.CustomFieldsStrJson">
+ <summary>
+ The address custom fields in JSON format.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.CustomFieldsConfig">
+ <summary>
+ The custom fields configuration.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.CustomFieldsConfigStrJson">
+ <summary>
+ The custom fields configuration in JSON format.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.tracking_number">
+ <summary>
+ System-wide unique code, which permits end-users (recipients) 
+ to track the status of their order.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.WaitTimeToNextDestination">
+ <summary>
+ Wait time to next destination.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.UduDistanceToNextDestination">
+ <summary>
+ Server-side generated amount of seconds that it will take to get 
+ to the next location.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Manifest">
+ <summary>
+ Manifest of a route address.
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressCustomNote">
  <summary>
  The class for the custom note of a route destination.
@@ -270,6 +689,67 @@ Route4MeSDKLibrary
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ErrorResponse">
  <summary>
  Errors data-structure
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Geocoding">
+ <summary>
+ Subcalss of the Address class. See <see cref="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Geocodings"/>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Geocoding.Key">
+ <summary>
+ A unique identifier for the geocoding
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Geocoding.Name">
+ <summary>
+ Specific description of the geocoding result
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Geocoding.Bbox">
+ <summary>
+ Boundary box
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Geocoding.Latitude">
+ <summary>
+ The latitude of the geocoded address
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Geocoding.Longtude">
+ <summary>
+ The longitude of the geocoded address
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Geocoding.Confidence">
+ <summary>
+ Confidance level in the address geocoding:
+ <para>high, medium, low</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Geocoding.PostalCode">
+ <summary>
+ The postal code of the geocoded address
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Geocoding.CountryRegion">
+ <summary>
+ Country region
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Geocoding.CurbsideCoordinates">
+ <summary>
+ The address curbside coordinates
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Geocoding.AaddressWithoutNumber">
+ <summary>
+ The address without number
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Geocoding.PlaceID">
+ <summary>
+ The place ID
  </summary>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location">
@@ -675,13 +1155,13 @@ Route4MeSDKLibrary
  <summary>
  Options which let the user choose which road obstacles to avoid. 
  This has no impact on route sequencing.
- <para>Available values:
- <value>Highways</value>, 
- <value>Tolls</value>, 
- <value>minimizeHighways</value>, 
- <value>minimizeTolls</value>, 
- <value>""</value>.
- </para>
+ <para>Available values:</para>
+ <para>- Highways</para>
+ <para>- Tolls</para>
+ <para>- minimizeHighways</para>
+ <para>- minimizeTolls</para>
+ <para>- highways,tolls</para>
+ <para>- ""</para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.AvoidanceZones">
@@ -965,7 +1445,7 @@ Route4MeSDKLibrary
  Route travel time slowdown (e.g. 25 (means 25% slowdown))
  </summary>
 </member>
-<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.RoutServiceTimeMultiplier">
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.RouteServiceTimeMultiplier">
  <summary>
  Route service time slowdown (e.g. 10 (means 10% slowdown))
  </summary>
@@ -1254,6 +1734,29 @@ User email.
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.LastKnown">
  <summary>
  Timestamp of a last known location.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4CreateResponse">
+ <summary>
+ Response from the create vehicle request. See also <seealso cref="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response"/>.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4CreateResponse.status">
+ <summary>
+ Status of the request process.
+ </summary>
+ <value>
+   <c>true</c> if request finished successfully; otherwise, <c>false</c>.
+ </value>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4CreateResponse.VehicleGuid">
+ <summary>
+ The vehicle Guid.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4CreateResponse.New">
+ <summary>
+ <c>true</c> True, if the vehicle Is New.
  </summary>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters">
@@ -1633,6 +2136,34 @@ User email.
  <summary>
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateRouteDestinationRequest">
+ <summary>
+ The request parameters for the updating process of a route destination
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateRouteDestinationRequest.RouteId">
+ <summary>
+ A route ID to be updated
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateRouteDestinationRequest.OptimizationProblemId">
+ <summary>
+ A optimization ID to be updated
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateRouteDestinationRequest.RouteDestinationId">
+ <summary>
+ A route destination ID to be updated
+ </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateOptimizationDestination(Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address,System.String@)">
+ <summary>
+ Updates an optimization destination
+ </summary>
+ <param name="addressParameters">Contains an address object</param>
+ <param name="errorString">Returned error string in case of the processs failing</param>
+ <returns>The updated address</returns>
+</member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetUserLocations(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GenericParameters,System.String@)">
  <summary>
  Get user locations
@@ -1658,6 +2189,41 @@ User email.
  <param name="activity"> Input Activity object to add </param>
  <param name="errorString"> Error string </param>
  <returns> True/False </returns>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddRouteDestinationRequest">
+ <summary>
+ The request parameters for the route destination adding process.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddRouteDestinationRequest.RouteId">
+ <summary>
+ The route ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddRouteDestinationRequest.OptimizationProblemId">
+ <summary>
+ The optimization ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddRouteDestinationRequest.Addresses">
+ <summary>
+ The array of the Address type objects
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddRouteDestinationRequest.OptimalPosition">
+ <summary>
+ If true, an address will be inserted at optimal position 
+ of a route
+ </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddRouteDestinations(System.String,Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address[],System.String@)">
+ <summary>
+ Adds the address(es) into a route.
+ </summary>
+ <param name="routeId">The route ID</param>
+ <param name="addresses">Valid array of the Address type objects.</param>
+ <param name="errorString">out: Error as string</param>
+ <returns>An array of the IDs of added addresses</returns>
 </member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddAvoidanceZone(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters,System.String@)">
  <summary>

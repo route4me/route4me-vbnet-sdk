@@ -2883,8 +2883,8 @@ Namespace Route4MeSDK
             Return response
         End Function
 
-        Public Function CreateVehicle(ByVal vehicle As VehicleV4Parameters, ByRef errorString As String) As VehicleV4Response
-            Dim newVehicle As VehicleV4Response = GetJsonObjectFromAPI(Of VehicleV4Response)(vehicle, R4MEInfrastructureSettings.Vehicle_V4_API, HttpMethodType.Post, errorString)
+        Public Function CreateVehicle(ByVal vehicle As VehicleV4Parameters, ByRef errorString As String) As VehicleV4CreateResponse
+            Dim newVehicle As VehicleV4CreateResponse = GetJsonObjectFromAPI(Of VehicleV4CreateResponse)(vehicle, R4MEInfrastructureSettings.Vehicle_V4_API, HttpMethodType.Post, errorString)
 
             Return newVehicle
         End Function

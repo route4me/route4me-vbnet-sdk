@@ -1155,13 +1155,13 @@ Route4MeSDKLibrary
  <summary>
  Options which let the user choose which road obstacles to avoid. 
  This has no impact on route sequencing.
- <para>Available values:
- <value>Highways</value>, 
- <value>Tolls</value>, 
- <value>minimizeHighways</value>, 
- <value>minimizeTolls</value>, 
- <value>""</value>.
- </para>
+ <para>Available values:</para>
+ <para>- Highways</para>
+ <para>- Tolls</para>
+ <para>- minimizeHighways</para>
+ <para>- minimizeTolls</para>
+ <para>- highways,tolls</para>
+ <para>- ""</para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.AvoidanceZones">
@@ -1736,6 +1736,29 @@ User email.
  Timestamp of a last known location.
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4CreateResponse">
+ <summary>
+ Response from the create vehicle request. See also <seealso cref="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response"/>.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4CreateResponse.status">
+ <summary>
+ Status of the request process.
+ </summary>
+ <value>
+   <c>true</c> if request finished successfully; otherwise, <c>false</c>.
+ </value>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4CreateResponse.VehicleGuid">
+ <summary>
+ The vehicle Guid.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4CreateResponse.New">
+ <summary>
+ <c>true</c> True, if the vehicle Is New.
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters">
  <summary>
  Avoidance zone parameters
@@ -2113,6 +2136,34 @@ User email.
  <summary>
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateRouteDestinationRequest">
+ <summary>
+ The request parameters for the updating process of a route destination
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateRouteDestinationRequest.RouteId">
+ <summary>
+ A route ID to be updated
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateRouteDestinationRequest.OptimizationProblemId">
+ <summary>
+ A optimization ID to be updated
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateRouteDestinationRequest.RouteDestinationId">
+ <summary>
+ A route destination ID to be updated
+ </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateOptimizationDestination(Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address,System.String@)">
+ <summary>
+ Updates an optimization destination
+ </summary>
+ <param name="addressParameters">Contains an address object</param>
+ <param name="errorString">Returned error string in case of the processs failing</param>
+ <returns>The updated address</returns>
+</member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetUserLocations(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GenericParameters,System.String@)">
  <summary>
  Get user locations
@@ -2138,6 +2189,41 @@ User email.
  <param name="activity"> Input Activity object to add </param>
  <param name="errorString"> Error string </param>
  <returns> True/False </returns>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddRouteDestinationRequest">
+ <summary>
+ The request parameters for the route destination adding process.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddRouteDestinationRequest.RouteId">
+ <summary>
+ The route ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddRouteDestinationRequest.OptimizationProblemId">
+ <summary>
+ The optimization ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddRouteDestinationRequest.Addresses">
+ <summary>
+ The array of the Address type objects
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddRouteDestinationRequest.OptimalPosition">
+ <summary>
+ If true, an address will be inserted at optimal position 
+ of a route
+ </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddRouteDestinations(System.String,Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address[],System.String@)">
+ <summary>
+ Adds the address(es) into a route.
+ </summary>
+ <param name="routeId">The route ID</param>
+ <param name="addresses">Valid array of the Address type objects.</param>
+ <param name="errorString">out: Error as string</param>
+ <returns>An array of the IDs of added addresses</returns>
 </member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddAvoidanceZone(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters,System.String@)">
  <summary>
