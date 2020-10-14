@@ -130,13 +130,13 @@ Namespace Route4MeSDK.DataTypes
         ''' <summary>
         ''' Options which let the user choose which road obstacles to avoid. 
         ''' This has no impact on route sequencing.
-        ''' <para>Available values:
-        ''' <value>Highways</value>, 
-        ''' <value>Tolls</value>, 
-        ''' <value>minimizeHighways</value>, 
-        ''' <value>minimizeTolls</value>, 
-        ''' <value>""</value>.
-        ''' </para>
+        ''' <para>Available values:</para>
+        ''' <para>- Highways</para>
+        ''' <para>- Tolls</para>
+        ''' <para>- minimizeHighways</para>
+        ''' <para>- minimizeTolls</para>
+        ''' <para>- highways,tolls</para>
+        ''' <para>- ""</para>
         ''' </summary>
         <DataMember(Name:="avoid", EmitDefaultValue:=False)>
         Public Property Avoid As String

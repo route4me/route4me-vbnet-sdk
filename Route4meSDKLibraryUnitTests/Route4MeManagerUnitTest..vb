@@ -6747,6 +6747,7 @@ Public Class AddressbookContactsGroup
         ' Run the query
         Dim total As UInteger = 0
         Dim errorString As String = ""
+
         Dim contacts As AddressBookContact() = route4Me.GetAddressBookLocation(addressBookParameters, total, errorString)
 
         Assert.IsInstanceOfType(contacts, GetType(AddressBookContact()), Convert.ToString("SearchLocationsByIDsTest failed... ") & errorString)
