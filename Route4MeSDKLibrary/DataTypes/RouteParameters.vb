@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.Serialization
 Imports System.ComponentModel.DataAnnotations
+Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDK.DataTypes
 
@@ -116,13 +117,12 @@ Namespace Route4MeSDK.DataTypes
 
         ''' <summary>
         ''' The mode of travel that the directions should be optimized for.
-        ''' <para>Available values:
-        ''' <value>Driving</value>, 
-        ''' <value>Walking</value>, 
-        ''' <value>Trucking</value>, 
-        ''' <value>Cycling</value>, 
-        ''' <value>Transit</value>.
-        ''' </para>
+        ''' <para>Available values:</para>
+        ''' <para>- Driving</para>
+        ''' <para>- Walking</para>
+        ''' <para>- Trucking</para>
+        ''' <para>- Cycling</para>
+        ''' <para>- Transit</para>
         ''' </summary>
         <DataMember(Name:="travel_mode", EmitDefaultValue:=False)>
         Public Property TravelMode As String
@@ -480,13 +480,13 @@ Namespace Route4MeSDK.DataTypes
         ''' Route travel time slowdown (e.g. 25 (means 25% slowdown))
         ''' </summary>
         <DataMember(Name:="route_time_multiplier", EmitDefaultValue:=False)>
-        Public Property RouteTimeMultiplier As Double?
+        Public Property RouteTimeMultiplier As Integer?
 
         ''' <summary>
         ''' Route service time slowdown (e.g. 10 (means 10% slowdown))
         ''' </summary>
         <DataMember(Name:="route_service_time_multiplier", EmitDefaultValue:=False)>
-        Public Property RouteServiceTimeMultiplier As Double?
+        Public Property RouteServiceTimeMultiplier As Integer?
 
         ''' <summary>
         ''' Optimization engine (e.g. '1','2' etc)
@@ -501,6 +501,15 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="override_addresses", EmitDefaultValue:=False)>
         Public Property overrideAddresses As OverrideAddresses
 
+        ''' <summary>
+        ''' Slowdown of the optimization parameters.
+        ''' </summary>
+        ''' <remarks>
+        ''' <para>This Is only query parameter.</para>
+        ''' <para>This parameter Is used in the optimization creation/generation process. </para>
+        ''' </remarks>
+        <DataMember(Name:="slowdowns", EmitDefaultValue:=False)>
+        Public Property Slowdowns As SlowdownParams
     End Class
 
     ''' <summary>
@@ -509,6 +518,42 @@ Namespace Route4MeSDK.DataTypes
     Public Class OverrideAddresses
         <DataMember(Name:="time", EmitDefaultValue:=False), CustomValidation(GetType(PropertyValidation), "ValidateEpochTime")>
         Public Property Time As Integer?
+    End Class
+
+    ''' <summary>
+    ''' Slowdown parameters for the optimization creating process.
+    ''' </summary>
+    <DataContract>
+    Public Class SlowdownParams
+        Inherits GenericParameters
+
+        ''' <summary>
+        ''' Class constructor
+        ''' </summary>
+        ''' <param name="_serviceTime">Service time slowdown (percent)</param>
+        ''' <param name="_travelTime">Travel time slowdown (percent)</param>
+        Public Sub New(ByVal _serviceTime As Integer?, ByVal _travelTime As Integer?)
+            ServiceTime = _serviceTime
+            TravelTime = _travelTime
+        End Sub
+
+        ''' <summary>
+        ''' Class constructor
+        ''' </summary>
+        Public Sub New()
+        End Sub
+
+        ''' <summary>
+        ''' Service time slowdowon (percent)
+        ''' </summary>
+        <DataMember(Name:="service_time", EmitDefaultValue:=False)>
+        Public Property ServiceTime As Integer?
+
+        ''' <summary>
+        ''' Travel time slowdowon (percent)
+        ''' </summary>
+        <DataMember(Name:="travel_time", EmitDefaultValue:=False)>
+        Public Property TravelTime As Integer?
     End Class
 
 End Namespace

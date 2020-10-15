@@ -8,14 +8,14 @@ Namespace Route4MeSDK.QueryTypes
     Public NotInheritable Class OptimizationParameters
         Inherits GenericParameters
         ' Don't serialize as JSON
-        <IgnoreDataMember> _
-        <HttpQueryMemberAttribute(Name:="optimization_problem_id", EmitDefaultValue:=False)> _
-        Public Property OptimizationProblemID() As String
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="optimization_problem_id", EmitDefaultValue:=False)>
+        Public Property OptimizationProblemID As String
 
         ' Don't serialize as JSON
         <IgnoreDataMember>
         <HttpQueryMemberAttribute(Name:="reoptimize", EmitDefaultValue:=False)>
-        Public Property ReOptimize() As Boolean?
+        Public Property ReOptimize As Boolean?
 
         ''' <summary>
         ''' The number of existing optimizations that should be returned per response when looking at a list of all the optimizations.
@@ -51,15 +51,15 @@ Namespace Route4MeSDK.QueryTypes
         <HttpQueryMemberAttribute(Name:="show_directions", EmitDefaultValue:=False)>
         Public Property ShowDirections() As Boolean?
 
-        <IgnoreDataMember> _
-        <HttpQueryMemberAttribute(Name:="optimized_callback_url", EmitDefaultValue:=False)> _
-        Public Property OptimizedCallbackURL() As String
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="optimized_callback_url", EmitDefaultValue:=False)>
+        Public Property OptimizedCallbackURL As String
 
-        <DataMember(Name:="parameters", EmitDefaultValue:=False)> _
-        Public Property Parameters() As RouteParameters
+        <DataMember(Name:="parameters", EmitDefaultValue:=False)>
+        Public Property Parameters As RouteParameters
 
-        <DataMember(Name:="addresses", EmitDefaultValue:=False)> _
-        Public Property Addresses() As Address()
+        <DataMember(Name:="addresses", EmitDefaultValue:=False)>
+        Public Property Addresses As Address()
 
     End Class
 End Namespace
