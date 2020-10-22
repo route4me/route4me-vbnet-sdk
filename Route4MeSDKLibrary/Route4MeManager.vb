@@ -14,8 +14,6 @@ Imports System.Xml
 Imports System.Threading.Tasks
 Imports System.Threading
 
-
-
 Namespace Route4MeSDK
     ''' <summary>
     ''' This class encapsulates the Route4Me REST API
@@ -73,15 +71,15 @@ Namespace Route4MeSDK
 
         ''' <summary>
         ''' </summary>
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class DataObjectOptimizations
-            <DataMember(Name:="optimizations")> _
+            <DataMember(Name:="optimizations")>
             Public Property Optimizations() As DataObject()
                 Get
                     Return m_Optimizations
                 End Get
                 Set(value As DataObject())
-                    m_Optimizations = Value
+                    m_Optimizations = value
                 End Set
             End Property
             Private m_Optimizations As DataObject()
@@ -102,9 +100,9 @@ Namespace Route4MeSDK
             Return result
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class RemoveOptimizationResponse
-            <DataMember(Name:="status")> _
+            <DataMember(Name:="status")>
             Public Property Status() As [Boolean]
                 Get
                     Return m_Status
@@ -115,7 +113,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Status As [Boolean]
 
-            <DataMember(Name:="removed")> _
+            <DataMember(Name:="removed")>
             Public Property Removed() As Integer
                 Get
                     Return m_Removed
@@ -127,10 +125,10 @@ Namespace Route4MeSDK
             Private m_Removed As Integer
         End Class
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class RemoveOptimizationRequest
             Inherits GenericParameters
-            <DataMember(Name:="optimization_problem_ids", EmitDefaultValue:=False)> _
+            <DataMember(Name:="optimization_problem_ids", EmitDefaultValue:=False)>
             Public Property OptimizationProblemIDs() As String()
                 Get
                     Return m_OptimizationProblemIDs
@@ -143,8 +141,8 @@ Namespace Route4MeSDK
         End Class
 
         Public Function RemoveOptimization(optimizationProblemIDs As String(), ByRef errorString As String) As Boolean
-            Dim request As New RemoveOptimizationRequest() With { _
-                .OptimizationProblemIDs = optimizationProblemIDs _
+            Dim request As New RemoveOptimizationRequest() With {
+                .OptimizationProblemIDs = optimizationProblemIDs
             }
 
             Dim response As RemoveOptimizationResponse = GetJsonObjectFromAPI(Of RemoveOptimizationResponse)(request, R4MEInfrastructureSettings.ApiHost, HttpMethodType.Delete, False, errorString)
@@ -156,12 +154,12 @@ Namespace Route4MeSDK
             End If
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class RemoveDestinationFromOptimizationResponse
-            <DataMember(Name:="deleted")> _
+            <DataMember(Name:="deleted")>
             Public Property Deleted As [Boolean]
 
-            <DataMember(Name:="route_destination_id")> _
+            <DataMember(Name:="route_destination_id")>
             Public Property RouteDestinationId As Integer
 
         End Class
@@ -415,11 +413,11 @@ Namespace Route4MeSDK
             Return initialRoute
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class UpdateRouteCustomDataRequest
             Inherits GenericParameters
 
-            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
             Public Property RouteId() As String
                 Get
                     Return m_RouteId
@@ -430,7 +428,7 @@ Namespace Route4MeSDK
             End Property
             Private m_RouteId As String
 
-            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)>
             Public Property RouteDestinationId() As System.Nullable(Of Integer)
                 Get
                     Return m_RouteDestinationId
@@ -441,7 +439,7 @@ Namespace Route4MeSDK
             End Property
             Private m_RouteDestinationId As System.Nullable(Of Integer)
 
-            <DataMember(Name:="custom_fields", EmitDefaultValue:=False)> _
+            <DataMember(Name:="custom_fields", EmitDefaultValue:=False)>
             Public Property CustomFields() As Dictionary(Of String, String)
                 Get
                     Return m_CustomFields
@@ -454,9 +452,9 @@ Namespace Route4MeSDK
         End Class
 
         Public Function UpdateRouteCustomData(routeParameters As RouteParametersQuery, customData As Dictionary(Of String, String), errorString As String) As Address
-            Dim request As New UpdateRouteCustomDataRequest With { _
-                .RouteId = routeParameters.RouteId, _
-                .RouteDestinationId = routeParameters.RouteDestinationId, _
+            Dim request As New UpdateRouteCustomDataRequest With {
+                .RouteId = routeParameters.RouteId,
+                .RouteDestinationId = routeParameters.RouteDestinationId,
                 .CustomFields = customData
             }
 
@@ -468,7 +466,7 @@ Namespace Route4MeSDK
         ''' <summary>
         ''' The request parameters for the updating process of a route destination
         ''' </summary>
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class UpdateRouteDestinationRequest
             Inherits Address
 
@@ -493,9 +491,9 @@ Namespace Route4MeSDK
         End Class
 
         Public Function UpdateRouteDestination(addressParameters As Address, ByRef errorString As String) As Address
-            Dim request As New UpdateRouteDestinationRequest() With { _
-                .RouteId = addressParameters.RouteId, _
-                .RouteDestinationId = addressParameters.RouteDestinationId _
+            Dim request As New UpdateRouteDestinationRequest() With {
+                .RouteId = addressParameters.RouteId,
+                .RouteDestinationId = addressParameters.RouteDestinationId
             }
 
             If addressParameters.[Alias] IsNot Nothing Then
@@ -729,11 +727,11 @@ Namespace Route4MeSDK
             End If
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class ResequenceRouteDestinationRequest
             Inherits GenericParameters
 
-            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
             Public Property RouteId() As String
                 Get
                     Return m_RouteId
@@ -744,7 +742,7 @@ Namespace Route4MeSDK
             End Property
             Private m_RouteId As String
 
-            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)>
             Public Property RouteDestinationId() As System.Nullable(Of Integer)
                 Get
                     Return m_RouteDestinationId
@@ -755,7 +753,7 @@ Namespace Route4MeSDK
             End Property
             Private m_RouteDestinationId As System.Nullable(Of Integer)
 
-            <DataMember(Name:="addresses", EmitDefaultValue:=False)> _
+            <DataMember(Name:="addresses", EmitDefaultValue:=False)>
             Public Property Addresses() As Address()
                 Get
                     Return m_Addresses
@@ -769,9 +767,9 @@ Namespace Route4MeSDK
         End Class
 
         Public Function ResequenceRouteDestination(routeParames As RouteParametersQuery, addresses As Address(), ByRef errorString As String) As RouteResponse
-            Dim request As New ResequenceRouteDestinationRequest With { _
-               .RouteId = routeParames.RouteId, _
-               .RouteDestinationId = routeParames.RouteDestinationId, _
+            Dim request As New ResequenceRouteDestinationRequest With {
+               .RouteId = routeParames.RouteId,
+               .RouteDestinationId = routeParames.RouteDestinationId,
                .Addresses = addresses
             }
             '.RouteId = routeParames.RouteId _
@@ -783,9 +781,9 @@ Namespace Route4MeSDK
             Return response
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class DuplicateRouteResponse
-            <DataMember(Name:="optimization_problem_id")> _
+            <DataMember(Name:="optimization_problem_id")>
             Public Property OptimizationProblemId() As String
                 Get
                     Return m_OptimizationProblemId
@@ -796,7 +794,7 @@ Namespace Route4MeSDK
             End Property
             Private m_OptimizationProblemId As String
 
-            <DataMember(Name:="success")> _
+            <DataMember(Name:="success")>
             Public Property Success() As [Boolean]
                 Get
                     Return m_Success
@@ -911,11 +909,11 @@ Namespace Route4MeSDK
             Return result
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class FindAssetRequest
             Inherits GenericParameters
 
-            <HttpQueryMemberAttribute(Name:="tracking", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="tracking", EmitDefaultValue:=False)>
             Public Property Tracking() As String
                 Get
                     Return m_Tracking
@@ -982,11 +980,11 @@ Namespace Route4MeSDK
             Return response
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class ValidateSessionRequest
             Inherits GenericParameters
 
-            <HttpQueryMemberAttribute(Name:="session_guid", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="session_guid", EmitDefaultValue:=False)>
             Public Property SessionGuid() As String
                 Get
                     Return m_SessionGuid
@@ -997,7 +995,7 @@ Namespace Route4MeSDK
             End Property
             Private m_SessionGuid As String
 
-            <HttpQueryMemberAttribute(Name:="member_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="member_id", EmitDefaultValue:=False)>
             Public Property MemberId() As System.Nullable(Of Integer)
                 Get
                     Return m_MemberId
@@ -1008,7 +1006,7 @@ Namespace Route4MeSDK
             End Property
             Private m_MemberId As System.Nullable(Of Integer)
 
-            <HttpQueryMemberAttribute(Name:="format", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="format", EmitDefaultValue:=False)>
             Public Property Format() As String
                 Get
                     Return m_Format
@@ -1022,10 +1020,10 @@ Namespace Route4MeSDK
         End Class
 
         Public Function ValidateSession(memParams As MemberParameters, ByRef errorString As String) As MemberResponse
-            Dim request As ValidateSessionRequest = New ValidateSessionRequest() With { _
-                .SessionGuid = memParams.SessionGuid, _
-                .MemberId = memParams.MemberId, _
-                .Format = memParams.Format _
+            Dim request As ValidateSessionRequest = New ValidateSessionRequest() With {
+                .SessionGuid = memParams.SessionGuid,
+                .MemberId = memParams.MemberId,
+                .Format = memParams.Format
             }
 
             Dim result As MemberResponse = GetJsonObjectFromAPI(Of MemberResponse)(request, R4MEInfrastructureSettings.ValidateSession, HttpMethodType.[Get], False, errorString)
@@ -1076,9 +1074,9 @@ Namespace Route4MeSDK
             Return response
         End Function
 
-        <DataContract> _
+        <DataContract>
         Public NotInheritable Class USerDeleteResponse
-            <DataMember(Name:="status")> _
+            <DataMember(Name:="status")>
             Public Property Status() As Boolean
                 Get
                     Return m_Status
@@ -1135,11 +1133,11 @@ Namespace Route4MeSDK
 
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class GetConfigurationDataRequest
             Inherits GenericParameters
 
-            <HttpQueryMemberAttribute(Name:="config_key", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="config_key", EmitDefaultValue:=False)>
             Public Property config_key() As String
                 Get
                     Return m_config_key
@@ -1165,15 +1163,24 @@ Namespace Route4MeSDK
 
         End Function
 
+
+        Public Function GetMemberCapabilities(ByRef errorString As String) As MemberCapabilities
+            Dim parameters = New GenericParameters()
+
+            Dim result = GetJsonObjectFromAPI(Of MemberCapabilities)(parameters, R4MEInfrastructureSettings.MemberCapabilities, HttpMethodType.[Get], errorString)
+
+            Return result
+        End Function
+
 #End Region
 
 #Region "Address Notes"
 
         Public Function GetAddressNotes(noteParameters As NoteParameters, ByRef errorString As String) As AddressNote()
-            Dim addressParameters As New AddressParameters() With { _
-                .RouteId = noteParameters.RouteId, _
-                .RouteDestinationId = noteParameters.AddressId, _
-                .Notes = True _
+            Dim addressParameters As New AddressParameters() With {
+                .RouteId = noteParameters.RouteId,
+                .RouteDestinationId = noteParameters.AddressId,
+                .Notes = True
             }
             Dim address As Address = Me.GetAddress(addressParameters, errorString)
             If address IsNot Nothing Then
@@ -1183,12 +1190,12 @@ Namespace Route4MeSDK
             End If
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class AddAddressNoteResponse
-            <DataMember(Name:="status")> _
+            <DataMember(Name:="status")>
             Public Property Status As Boolean
 
-            <DataMember(Name:="note")> _
+            <DataMember(Name:="note")>
             Public Property Note As AddressNote
         End Class
 
@@ -1380,12 +1387,12 @@ Namespace Route4MeSDK
 
 #Region "Activities"
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class GetActivitiesResponse
-            <DataMember(Name:="results")> _
+            <DataMember(Name:="results")>
             Public Property Results As Activity()
 
-            <DataMember(Name:="total")> _
+            <DataMember(Name:="total")>
             Public Property Total As UInteger
 
         End Class
@@ -1408,9 +1415,9 @@ Namespace Route4MeSDK
             Return result
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class LogCustomActivityResponse
-            <DataMember(Name:="status")> _
+            <DataMember(Name:="status")>
             Public Property Status As Boolean
 
         End Class
@@ -1444,7 +1451,7 @@ Namespace Route4MeSDK
         ''' <summary>
         ''' The request parameters for the route destination adding process.
         ''' </summary>
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class AddRouteDestinationRequest
             Inherits GenericParameters
 
@@ -1483,9 +1490,9 @@ Namespace Route4MeSDK
         ''' <param name="errorString">out: Error as string</param>
         ''' <returns>An array of the IDs of added addresses</returns>
         Public Function AddRouteDestinations(routeId As String, addresses As Address(), ByRef errorString As String) As Integer()
-            Dim request As New AddRouteDestinationRequest() With { _
-                .RouteId = routeId, _
-                .Addresses = addresses _
+            Dim request As New AddRouteDestinationRequest() With {
+                .RouteId = routeId,
+                .Addresses = addresses
             }
             Dim response As DataObject = GetJsonObjectFromAPI(Of DataObject)(request, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, errorString)
             Dim destinationIds As Integer() = Nothing
@@ -1520,11 +1527,11 @@ Namespace Route4MeSDK
         End Function
 
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class MarkAddressAsMarkedAsDepartedRequest
             Inherits GenericParameters
 
-            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
             Public Property RouteId() As String
                 Get
                     Return m_RouteId
@@ -1535,7 +1542,7 @@ Namespace Route4MeSDK
             End Property
             Private m_RouteId As String
 
-            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)>
             Public Property RouteDestinationId() As System.Nullable(Of Integer)
                 Get
                     Return m_RouteDestinationId
@@ -1546,8 +1553,8 @@ Namespace Route4MeSDK
             End Property
             Private m_RouteDestinationId As System.Nullable(Of Integer)
 
-            <IgnoreDataMember> _
-            <DataMember(Name:="is_departed")> _
+            <IgnoreDataMember>
+            <DataMember(Name:="is_departed")>
             Public Property IsDeparted() As Boolean
                 Get
                     Return m_IsDeparted
@@ -1558,8 +1565,8 @@ Namespace Route4MeSDK
             End Property
             Private m_IsDeparted As Boolean
 
-            <IgnoreDataMember> _
-            <DataMember(Name:="is_visited")> _
+            <IgnoreDataMember>
+            <DataMember(Name:="is_visited")>
             Public Property IsVisited() As Boolean
                 Get
                     Return m_IsVisited
@@ -1572,10 +1579,10 @@ Namespace Route4MeSDK
         End Class
 
         Public Function MarkAddressAsMarkedAsDeparted(aParams As AddressParameters, ByRef errorString As String) As Address
-            Dim request As New MarkAddressAsMarkedAsDepartedRequest With { _
-                .RouteId = aParams.RouteId, _
-                .RouteDestinationId = aParams.RouteDestinationId, _
-                .IsDeparted = aParams.IsDeparted _
+            Dim request As New MarkAddressAsMarkedAsDepartedRequest With {
+                .RouteId = aParams.RouteId,
+                .RouteDestinationId = aParams.RouteDestinationId,
+                .IsDeparted = aParams.IsDeparted
             }
 
             Dim response As Address = GetJsonObjectFromAPI(Of Address)(request, R4MEInfrastructureSettings.GetAddress, HttpMethodType.[Put], errorString)
@@ -1584,10 +1591,10 @@ Namespace Route4MeSDK
         End Function
 
         Public Function MarkAddressAsMarkedAsVisited(aParams As AddressParameters, ByRef errorString As String) As Address
-            Dim request As New MarkAddressAsMarkedAsDepartedRequest With { _
-                .RouteId = aParams.RouteId, _
-                .RouteDestinationId = aParams.RouteDestinationId, _
-                .IsVisited = aParams.IsVisited _
+            Dim request As New MarkAddressAsMarkedAsDepartedRequest With {
+                .RouteId = aParams.RouteId,
+                .RouteDestinationId = aParams.RouteDestinationId,
+                .IsVisited = aParams.IsVisited
             }
 
             Dim response As Address = GetJsonObjectFromAPI(Of Address)(request, R4MEInfrastructureSettings.GetAddress, HttpMethodType.[Put], errorString)
@@ -1595,11 +1602,11 @@ Namespace Route4MeSDK
             Return response
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class MarkAddressDepartedRequest
             Inherits GenericParameters
 
-            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
             Public Property RouteId() As String
                 Get
                     Return m_RouteId
@@ -1610,7 +1617,7 @@ Namespace Route4MeSDK
             End Property
             Private m_RouteId As String
 
-            <HttpQueryMemberAttribute(Name:="address_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="address_id", EmitDefaultValue:=False)>
             Public Property AddressId() As System.Nullable(Of Integer)
                 Get
                     Return m_AddressId
@@ -1621,8 +1628,8 @@ Namespace Route4MeSDK
             End Property
             Private m_AddressId As System.Nullable(Of Integer)
 
-            <IgnoreDataMember> _
-            <HttpQueryMemberAttribute(Name:="is_departed", EmitDefaultValue:=False)> _
+            <IgnoreDataMember>
+            <HttpQueryMemberAttribute(Name:="is_departed", EmitDefaultValue:=False)>
             Public Property IsDeparted() As Boolean
                 Get
                     Return m_IsDeparted
@@ -1633,8 +1640,8 @@ Namespace Route4MeSDK
             End Property
             Private m_IsDeparted As Boolean
 
-            <IgnoreDataMember> _
-            <HttpQueryMemberAttribute(Name:="is_visited", EmitDefaultValue:=False)> _
+            <IgnoreDataMember>
+            <HttpQueryMemberAttribute(Name:="is_visited", EmitDefaultValue:=False)>
             Public Property IsVisited() As Boolean
                 Get
                     Return m_IsVisited
@@ -1645,7 +1652,7 @@ Namespace Route4MeSDK
             End Property
             Private m_IsVisited As Boolean
 
-            <HttpQueryMemberAttribute(Name:="member_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="member_id", EmitDefaultValue:=False)>
             Public Property MemberId() As System.Nullable(Of Integer)
                 Get
                     Return m_MemberId
@@ -1657,9 +1664,9 @@ Namespace Route4MeSDK
             Private m_MemberId As System.Nullable(Of Integer)
         End Class
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class MarkAddressDepartedResponse
-            <DataMember(Name:="status")> _
+            <DataMember(Name:="status")>
             Public Property Status() As [Boolean]
                 Get
                     Return m_Status
@@ -1670,7 +1677,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Status As [Boolean]
 
-            <DataMember(Name:="error")> _
+            <DataMember(Name:="error")>
             Public Property [error]() As String
                 Get
                     Return m_error
@@ -1683,11 +1690,11 @@ Namespace Route4MeSDK
         End Class
 
         Public Function MarkAddressDeparted(aParams As AddressParameters, ByRef errorString As String) As Integer
-            Dim request As New MarkAddressDepartedRequest With { _
-                .RouteId = aParams.RouteId, _
-                .AddressId = aParams.AddressId, _
-                .IsDeparted = aParams.IsDeparted, _
-                .MemberId = 1 _
+            Dim request As New MarkAddressDepartedRequest With {
+                .RouteId = aParams.RouteId,
+                .AddressId = aParams.AddressId,
+                .IsDeparted = aParams.IsDeparted,
+                .MemberId = 1
             }
 
             Dim response As MarkAddressDepartedResponse = GetJsonObjectFromAPI(Of MarkAddressDepartedResponse)(request, R4MEInfrastructureSettings.MarkAddressDeparted, HttpMethodType.[Get], errorString)
@@ -1705,11 +1712,11 @@ Namespace Route4MeSDK
         End Function
 
         Public Function MarkAddressVisited(aParams As AddressParameters, ByRef errorString As String) As Integer
-            Dim request As New MarkAddressDepartedRequest With { _
-                .RouteId = aParams.RouteId, _
-                .AddressId = aParams.AddressId, _
-                .IsVisited = aParams.IsVisited, _
-                .MemberId = 1 _
+            Dim request As New MarkAddressDepartedRequest With {
+                .RouteId = aParams.RouteId,
+                .AddressId = aParams.AddressId,
+                .IsVisited = aParams.IsVisited,
+                .MemberId = 1
             }
 
             Dim response As String = GetJsonObjectFromAPI(Of String)(request, R4MEInfrastructureSettings.MarkAddressVisited, HttpMethodType.[Get], errorString)
@@ -1720,11 +1727,11 @@ Namespace Route4MeSDK
             Return iResponse
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class InsertAddressIntoRouteOptimalPositionRequest
             Inherits GenericParameters
 
-            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
             Public Property RouteId() As String
                 Get
                     Return m_RouteId
@@ -1735,7 +1742,7 @@ Namespace Route4MeSDK
             End Property
             Private m_RouteId As String
 
-            <DataMember(Name:="addresses", EmitDefaultValue:=False)> _
+            <DataMember(Name:="addresses", EmitDefaultValue:=False)>
             Public Property Addresses() As Address()
                 Get
                     Return m_Addresses
@@ -1746,7 +1753,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Addresses As Address()
 
-            <DataMember(Name:="optimal_position", EmitDefaultValue:=False)> _
+            <DataMember(Name:="optimal_position", EmitDefaultValue:=False)>
             Public Property OptimalPosition() As Boolean
                 Get
                     Return m_OptimalPosition
@@ -1759,9 +1766,9 @@ Namespace Route4MeSDK
         End Class
 
         Public Function InsertAddressIntoRouteOptimalPosition(routeId As String, addresses As Address(), optimalPosition As Boolean, ByRef errorString As String) As Integer()
-            Dim request As New InsertAddressIntoRouteOptimalPositionRequest() With { _
-                .RouteId = routeId, _
-                .Addresses = addresses, _
+            Dim request As New InsertAddressIntoRouteOptimalPositionRequest() With {
+                .RouteId = routeId,
+                .Addresses = addresses,
                 .OptimalPosition = optimalPosition
             }
 
@@ -1784,10 +1791,10 @@ Namespace Route4MeSDK
 
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class RemoveRouteDestinationRequest
             Inherits GenericParameters
-            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
             Public Property RouteId() As String
                 Get
                     Return m_RouteId
@@ -1798,7 +1805,7 @@ Namespace Route4MeSDK
             End Property
             Private m_RouteId As String
 
-            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)>
             Public Property RouteDestinationId() As Integer
                 Get
                     Return m_RouteDestinationId
@@ -1810,9 +1817,9 @@ Namespace Route4MeSDK
             Private m_RouteDestinationId As Integer
         End Class
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class RemoveRouteDestinationResponse
-            <DataMember(Name:="deleted")> _
+            <DataMember(Name:="deleted")>
             Public Property Deleted() As [Boolean]
                 Get
                     Return m_Deleted
@@ -1823,7 +1830,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Deleted As [Boolean]
 
-            <DataMember(Name:="route_destination_id")> _
+            <DataMember(Name:="route_destination_id")>
             Public Property RouteDestinationId() As Integer
                 Get
                     Return m_RouteDestinationId
@@ -1836,9 +1843,9 @@ Namespace Route4MeSDK
         End Class
 
         Public Function RemoveRouteDestination(routeId As String, destinationId As Integer, ByRef errorString As String) As Boolean
-            Dim request As New RemoveRouteDestinationRequest() With { _
-                .RouteId = routeId, _
-                .RouteDestinationId = destinationId _
+            Dim request As New RemoveRouteDestinationRequest() With {
+                .RouteId = routeId,
+                .RouteDestinationId = destinationId
             }
             Dim response As RemoveRouteDestinationResponse = GetJsonObjectFromAPI(Of RemoveRouteDestinationResponse)(request, R4MEInfrastructureSettings.GetAddress, HttpMethodType.Delete, errorString)
             If response IsNot Nothing AndAlso response.Deleted Then
@@ -1848,10 +1855,10 @@ Namespace Route4MeSDK
             End If
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class RemoveAddressFromOptimizationRequest
             Inherits GenericParameters
-            <HttpQueryMemberAttribute(Name:="optimization_problem_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="optimization_problem_id", EmitDefaultValue:=False)>
             Public Property OptimizationProblemId() As String
                 Get
                     Return m_OptimizationProblemId
@@ -1862,7 +1869,7 @@ Namespace Route4MeSDK
             End Property
             Private m_OptimizationProblemId As String
 
-            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)>
             Public Property RouteDestinationId() As Integer
                 Get
                     Return m_RouteDestinationId
@@ -1874,9 +1881,9 @@ Namespace Route4MeSDK
             Private m_RouteDestinationId As Integer
         End Class
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class RemoveAddressFromOptimizationResponse
-            <DataMember(Name:="deleted")> _
+            <DataMember(Name:="deleted")>
             Public Property Deleted() As [Boolean]
                 Get
                     Return m_Deleted
@@ -1887,7 +1894,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Deleted As [Boolean]
 
-            <DataMember(Name:="route_destination_id")> _
+            <DataMember(Name:="route_destination_id")>
             Public Property RouteDestinationId() As Integer
                 Get
                     Return m_RouteDestinationId
@@ -1900,9 +1907,9 @@ Namespace Route4MeSDK
         End Class
 
         Public Function RemoveAddressFromOptimization(optiimizationId As String, destinationId As Integer, ByRef errorString As String) As Boolean
-            Dim request As New RemoveAddressFromOptimizationRequest() With { _
-                .OptimizationProblemId = optiimizationId, _
-                .RouteDestinationId = destinationId _
+            Dim request As New RemoveAddressFromOptimizationRequest() With {
+                .OptimizationProblemId = optiimizationId,
+                .RouteDestinationId = destinationId
             }
             Dim response As RemoveAddressFromOptimizationResponse = GetJsonObjectFromAPI(Of RemoveAddressFromOptimizationResponse)(request, R4MEInfrastructureSettings.GetAddress, HttpMethodType.Delete, errorString)
             If response IsNot Nothing AndAlso response.Deleted Then
@@ -1912,9 +1919,9 @@ Namespace Route4MeSDK
             End If
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class MoveDestinationToRouteResponse
-            <DataMember(Name:="success")> _
+            <DataMember(Name:="success")>
             Public Property Success() As [Boolean]
                 Get
                     Return m_Success
@@ -1925,7 +1932,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Success As [Boolean]
 
-            <DataMember(Name:="error")> _
+            <DataMember(Name:="error")>
             Public Property [error]() As String
                 Get
                     Return m_error
@@ -1958,9 +1965,9 @@ Namespace Route4MeSDK
 
 #Region "Address Book"
 
-        <DataContract> _
-        Private NotInheritable Class GetAddressBookContactsResponse
-            <DataMember(Name:="results")> _
+        <DataContract>
+        Public NotInheritable Class GetAddressBookContactsResponse
+            <DataMember(Name:="results")>
             Public Property Results() As AddressBookContact()
                 Get
                     Return m_Results
@@ -1971,7 +1978,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Results As AddressBookContact()
 
-            <DataMember(Name:="total")> _
+            <DataMember(Name:="total")>
             Public Property Total() As UInteger
                 Get
                     Return m_Total
@@ -2006,10 +2013,10 @@ Namespace Route4MeSDK
             Return result
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class SearchAddressBookLocationRequest
             Inherits GenericParameters
-            <HttpQueryMemberAttribute(Name:="query", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="query", EmitDefaultValue:=False)>
             Public Property Query() As String
                 Get
                     Return m_Query
@@ -2020,7 +2027,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Query As String
 
-            <HttpQueryMemberAttribute(Name:="fields", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="fields", EmitDefaultValue:=False)>
             Public Property Fields() As String
                 Get
                     Return m_Fields
@@ -2031,7 +2038,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Fields As String
 
-            <HttpQueryMemberAttribute(Name:="offset", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="offset", EmitDefaultValue:=False)>
             Public Property Offset() As System.Nullable(Of Integer)
                 Get
                     Return m_Offset
@@ -2042,7 +2049,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Offset As System.Nullable(Of Integer)
 
-            <HttpQueryMemberAttribute(Name:="limit", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="limit", EmitDefaultValue:=False)>
             Public Property Limit() As System.Nullable(Of Integer)
                 Get
                     Return m_Limit
@@ -2118,10 +2125,10 @@ Namespace Route4MeSDK
         End Function
 
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class RemoveAddressBookContactsRequest
             Inherits GenericParameters
-            <DataMember(Name:="address_ids", EmitDefaultValue:=False)> _
+            <DataMember(Name:="address_ids", EmitDefaultValue:=False)>
             Public Property AddressIds() As String()
                 Get
                     Return m_AddressIds
@@ -2133,9 +2140,9 @@ Namespace Route4MeSDK
             Private m_AddressIds As String()
         End Class
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class RemoveAddressBookContactsResponse
-            <DataMember(Name:="status")> _
+            <DataMember(Name:="status")>
             Public Property Status() As Boolean
                 Get
                     Return m_Status
@@ -2148,8 +2155,8 @@ Namespace Route4MeSDK
         End Class
 
         Public Function RemoveAddressBookContacts(addressIds As String(), ByRef errorString As String) As Boolean
-            Dim request As New RemoveAddressBookContactsRequest() With { _
-                .AddressIds = addressIds _
+            Dim request As New RemoveAddressBookContactsRequest() With {
+                .AddressIds = addressIds
             }
             Dim response As RemoveAddressBookContactsResponse = GetJsonObjectFromAPI(Of RemoveAddressBookContactsResponse)(request, R4MEInfrastructureSettings.AddressBook, HttpMethodType.Delete, errorString)
             If response IsNot Nothing AndAlso response.Status Then
@@ -2251,9 +2258,9 @@ Namespace Route4MeSDK
             Return avoidanceZone
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class DeleteAvoidanceZoneResponse
-            <DataMember(Name:="status")> _
+            <DataMember(Name:="status")>
             Public Property status As [Boolean]
 
         End Class
@@ -2305,9 +2312,9 @@ Namespace Route4MeSDK
             Return territories
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class RemoveTerritoryResponse
-            <DataMember(Name:="status")> _
+            <DataMember(Name:="status")>
             Public Property status As [Boolean]
 
         End Class
@@ -2369,9 +2376,9 @@ Namespace Route4MeSDK
             Return If((response IsNot Nothing), response.Results, Nothing)
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class SearchOrdersByCustomFieldsResponse
-            <DataMember(Name:="results")> _
+            <DataMember(Name:="results")>
             Public Property Results() As List(Of Integer())
                 Get
                     Return m_Results
@@ -2382,7 +2389,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Results As List(Of Integer())
 
-            <DataMember(Name:="total")> _
+            <DataMember(Name:="total")>
             Public Property Total() As UInteger
                 Get
                     Return m_Total
@@ -2393,7 +2400,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Total As UInteger
 
-            <DataMember(Name:="fields")> _
+            <DataMember(Name:="fields")>
             Public Property Fields() As String()
                 Get
                     Return m_Fields
@@ -2416,9 +2423,9 @@ Namespace Route4MeSDK
             Return result
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class GetOrdersResponse
-            <DataMember(Name:="results")> _
+            <DataMember(Name:="results")>
             Public Property Results() As Order()
                 Get
                     Return m_Results
@@ -2429,7 +2436,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Results As Order()
 
-            <DataMember(Name:="total")> _
+            <DataMember(Name:="total")>
             Public Property Total() As UInteger
                 Get
                     Return m_Total
@@ -2483,10 +2490,10 @@ Namespace Route4MeSDK
             Return resultOrder
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class RemoveOrdersRequest
             Inherits GenericParameters
-            <DataMember(Name:="order_ids", EmitDefaultValue:=False)> _
+            <DataMember(Name:="order_ids", EmitDefaultValue:=False)>
             Public Property OrderIds() As String()
                 Get
                     Return m_OrderIds
@@ -2498,9 +2505,9 @@ Namespace Route4MeSDK
             Private m_OrderIds As String()
         End Class
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class RemoveOrdersResponse
-            <DataMember(Name:="status")> _
+            <DataMember(Name:="status")>
             Public Property Status() As Boolean
                 Get
                     Return m_Status
@@ -2519,8 +2526,8 @@ Namespace Route4MeSDK
         ''' <param name="errorString"> out: Error as string </param>
         ''' <returns> Result status true/false </returns>
         Public Function RemoveOrders(orderIds As String(), ByRef errorString As String) As Boolean
-            Dim request As New RemoveOrdersRequest() With { _
-                    .OrderIds = orderIds _
+            Dim request As New RemoveOrdersRequest() With {
+                    .OrderIds = orderIds
             }
             Dim response As RemoveOrdersResponse = GetJsonObjectFromAPI(Of RemoveOrdersResponse)(request, R4MEInfrastructureSettings.Order, HttpMethodType.Delete, errorString)
             If response IsNot Nothing AndAlso response.Status Then
@@ -2530,10 +2537,10 @@ Namespace Route4MeSDK
             End If
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class AddOrdersToRouteRequest
             Inherits GenericParameters
-            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
             Public Property RouteId() As String
                 Get
                     Return m_RouteId
@@ -2544,7 +2551,7 @@ Namespace Route4MeSDK
             End Property
             Private m_RouteId As String
 
-            <HttpQueryMemberAttribute(Name:="redirect", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="redirect", EmitDefaultValue:=False)>
             Public Property Redirect() As System.Nullable(Of Integer)
                 Get
                     Return m_Redirect
@@ -2555,7 +2562,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Redirect As System.Nullable(Of Integer)
 
-            <DataMember(Name:="addresses", EmitDefaultValue:=False)> _
+            <DataMember(Name:="addresses", EmitDefaultValue:=False)>
             Public Property Addresses() As Address()
                 Get
                     Return m_Addresses
@@ -2566,7 +2573,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Addresses As Address()
 
-            <DataMember(Name:="parameters", EmitDefaultValue:=False)> _
+            <DataMember(Name:="parameters", EmitDefaultValue:=False)>
             Public Property Parameters() As RouteParameters
                 Get
                     Return m_Parameters
@@ -2580,11 +2587,11 @@ Namespace Route4MeSDK
         End Class
 
         Public Function AddOrdersToRoute(rQueryParams As RouteParametersQuery, addresses As Address(), rParams As RouteParameters, ByRef errorString As String) As RouteResponse
-            Dim request As New AddOrdersToRouteRequest With { _
-                .RouteId = rQueryParams.RouteId, _
-                .Redirect = rQueryParams.Redirect, _
-                .Addresses = addresses, _
-                .Parameters = rParams _
+            Dim request As New AddOrdersToRouteRequest With {
+                .RouteId = rQueryParams.RouteId,
+                .Redirect = rQueryParams.Redirect,
+                .Addresses = addresses,
+                .Parameters = rParams
             }
 
             Dim response As RouteResponse = GetJsonObjectFromAPI(Of RouteResponse)(request, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, False, errorString)
@@ -2592,10 +2599,10 @@ Namespace Route4MeSDK
             Return response
         End Function
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class AddOrdersToOptimizationRequest
             Inherits GenericParameters
-            <HttpQueryMemberAttribute(Name:="optimization_problem_id", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="optimization_problem_id", EmitDefaultValue:=False)>
             Public Property OptimizationProblemId() As String
                 Get
                     Return m_OptimizationProblemId
@@ -2606,7 +2613,7 @@ Namespace Route4MeSDK
             End Property
             Private m_OptimizationProblemId As String
 
-            <HttpQueryMemberAttribute(Name:="redirect", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="redirect", EmitDefaultValue:=False)>
             Public Property Redirect() As System.Nullable(Of Integer)
                 Get
                     Return m_Redirect
@@ -2617,7 +2624,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Redirect As System.Nullable(Of Integer)
 
-            <DataMember(Name:="addresses", EmitDefaultValue:=False)> _
+            <DataMember(Name:="addresses", EmitDefaultValue:=False)>
             Public Property Addresses() As Address()
                 Get
                     Return m_Addresses
@@ -2628,7 +2635,7 @@ Namespace Route4MeSDK
             End Property
             Private m_Addresses As Address()
 
-            <DataMember(Name:="parameters", EmitDefaultValue:=False)> _
+            <DataMember(Name:="parameters", EmitDefaultValue:=False)>
             Public Property Parameters() As RouteParameters
                 Get
                     Return m_Parameters
@@ -2642,11 +2649,11 @@ Namespace Route4MeSDK
         End Class
 
         Public Function AddOrdersToOptimization(rQueryParams As OptimizationParameters, addresses As Address(), rParams As RouteParameters, ByRef errorString As String) As DataObject
-            Dim request As New AddOrdersToOptimizationRequest With { _
-                .OptimizationProblemId = rQueryParams.OptimizationProblemID, _
-                .Redirect = rQueryParams.Redirect, _
-                .Addresses = addresses, _
-                .Parameters = rParams _
+            Dim request As New AddOrdersToOptimizationRequest With {
+                .OptimizationProblemId = rQueryParams.OptimizationProblemID,
+                .Redirect = rQueryParams.Redirect,
+                .Addresses = addresses,
+                .Parameters = rParams
             }
 
             Dim response As DataObject = GetJsonObjectFromAPI(Of DataObject)(request, R4MEInfrastructureSettings.ApiHost, HttpMethodType.Put, False, errorString)
@@ -2679,34 +2686,34 @@ Namespace Route4MeSDK
 
 #Region "Geocoding"
 
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class GeocodingRequest
             Inherits GenericParameters
 
-            <HttpQueryMemberAttribute(Name:="addresses", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="addresses", EmitDefaultValue:=False)>
             Public Property Addresses As String
 
-            <HttpQueryMemberAttribute(Name:="format", EmitDefaultValue:=False)> _
+            <HttpQueryMemberAttribute(Name:="format", EmitDefaultValue:=False)>
             Public Property Format As String
 
         End Class
 
         ''' <summary>
         ''' </summary>
-        <DataContract> _
+        <DataContract>
         Private NotInheritable Class RapidStreetResponse
-            <DataMember(Name:="zipcode")> _
+            <DataMember(Name:="zipcode")>
             Public Property Zipcode As String
 
-            <DataMember(Name:="street_name")> _
+            <DataMember(Name:="street_name")>
             Public Property StreetName As String
         End Class
 
 
         Public Function Geocoding(geoParams As GeocodingParameters, ByRef errorString As String) As String
-            Dim request As New GeocodingRequest With { _
-                .Addresses = geoParams.Addresses, _
-                .Format = geoParams.Format _
+            Dim request As New GeocodingRequest With {
+                .Addresses = geoParams.Addresses,
+                .Format = geoParams.Format
             }
 
             Dim response As String = GetXmlObjectFromAPI(Of String)(request, R4MEInfrastructureSettings.Geocoder, HttpMethodType.Post, DirectCast(Nothing, HttpContent), False, errorString)
@@ -2715,7 +2722,7 @@ Namespace Route4MeSDK
         End Function
 
         Public Function BatchGeocoding(ByVal geoParams As GeocodingParameters, ByRef errorString As String) As String
-            Dim request As New GeocodingRequest 
+            Dim request As New GeocodingRequest
 
             Dim keyValues = New List(Of KeyValuePair(Of String, String))()
             keyValues.Add(New KeyValuePair(Of String, String)("strExportFormat", geoParams.Format))
@@ -2765,9 +2772,9 @@ Namespace Route4MeSDK
         End Function
 
         Public Function RapidStreetData(geoParams As GeocodingParameters, ByRef errorString As String) As ArrayList
-            Dim request As New GeocodingRequest With { _
-                .Addresses = geoParams.Addresses, _
-                .Format = geoParams.Format _
+            Dim request As New GeocodingRequest With {
+                .Addresses = geoParams.Addresses,
+                .Format = geoParams.Format
             }
             Dim url As String = R4MEInfrastructureSettings.RapidStreetData
 
@@ -2801,9 +2808,9 @@ Namespace Route4MeSDK
         End Function
 
         Public Function RapidStreetZipcode(geoParams As GeocodingParameters, ByRef errorString As String) As ArrayList
-            Dim request As New GeocodingRequest With { _
-                .Addresses = geoParams.Addresses, _
-                .Format = geoParams.Format _
+            Dim request As New GeocodingRequest With {
+                .Addresses = geoParams.Addresses,
+                .Format = geoParams.Format
             }
             Dim url As String = R4MEInfrastructureSettings.RapidStreetZipcode
 
@@ -2832,9 +2839,9 @@ Namespace Route4MeSDK
         End Function
 
         Public Function RapidStreetService(geoParams As GeocodingParameters, ByRef errorString As String) As ArrayList
-            Dim request As New GeocodingRequest With { _
-                .Addresses = geoParams.Addresses, _
-                .Format = geoParams.Format _
+            Dim request As New GeocodingRequest With {
+                .Addresses = geoParams.Addresses,
+                .Format = geoParams.Format
             }
             Dim url As String = R4MEInfrastructureSettings.RapidStreetService
 
@@ -3183,10 +3190,10 @@ Namespace Route4MeSDK
                                 If isPut Then
                                     response = httpClient.PutAsync(parametersURI, content)
                                 ElseIf isDelete Then
-                                    Dim request As New HttpRequestMessage() With { _
-                                        .Content = content, _
-                                        .Method = HttpMethod.Delete, _
-                                        .RequestUri = New Uri(parametersURI, UriKind.Relative) _
+                                    Dim request As New HttpRequestMessage() With {
+                                        .Content = content,
+                                        .Method = HttpMethod.Delete,
+                                        .RequestUri = New Uri(parametersURI, UriKind.Relative)
                                     }
                                     response = httpClient.SendAsync(request)
                                 Else
@@ -3264,8 +3271,8 @@ Namespace Route4MeSDK
         Private Function CreateHttpClient(url As String) As HttpClient
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 Or CType(768, SecurityProtocolType) Or CType(3072, SecurityProtocolType)
 
-            Dim result As New HttpClient() With { _
-                .BaseAddress = New Uri(url) _
+            Dim result As New HttpClient() With {
+                .BaseAddress = New Uri(url)
             }
 
             result.Timeout = m_DefaultTimeOut

@@ -1,8 +1,4 @@
-﻿Imports System.ComponentModel
-Imports System.Reflection
-Imports System.Collections.Generic
-Imports System.Runtime.Serialization
-Imports System.ComponentModel.DataAnnotations
+﻿Imports System.ComponentModel.DataAnnotations
 
 Namespace Route4MeSDK
     ''' <summary>

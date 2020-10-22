@@ -7,7 +7,9 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.Serialization.Json
 Imports System.Text
+Imports System.Text.RegularExpressions
 Imports Newtonsoft.Json
+Imports Route4MeSDKLibrary.Route4MeSDK.Route4MeManager
 
 Namespace Route4MeSDK
     ''' <summary>
@@ -50,10 +52,21 @@ Namespace Route4MeSDK
         <Extension()>
         Public Function ReadObjectNew(Of T)(ByVal stream As Stream) As T
             Dim jsonSettings = New JsonSerializerSettings() With {
-        .ContractResolver = New DataContractResolver()
-    }
+                .ContractResolver = New DataContractResolver()
+            }
             Dim reader As StreamReader = New StreamReader(stream)
             Dim text As String = reader.ReadToEnd()
+
+            If GetType(T) = GetType(GetAddressBookContactsResponse) Then
+                Dim pattern As String = String.Concat("\""schedule\""", ":({[\s\S\n\d\w]*}),", """")
+                Dim rgx As Regex = New Regex(pattern)
+                Dim rslt As Match = rgx.Match(text)
+
+                If rslt.Success Then
+                    text = text.Replace(rslt.Groups(1).ToString(), "[" & rslt.Groups(1).ToString() & "]")
+                End If
+            End If
+
             Return JsonConvert.DeserializeObject(Of T)(text, jsonSettings)
         End Function
 

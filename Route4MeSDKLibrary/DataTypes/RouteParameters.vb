@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.Serialization
 Imports System.ComponentModel.DataAnnotations
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+Imports System.ComponentModel
 
 Namespace Route4MeSDK.DataTypes
 
@@ -495,6 +496,14 @@ Namespace Route4MeSDK.DataTypes
         Public Property OptimizationEngine As String
 
         ''' <summary>
+        ''' Slowdonw of the optimization parameters.
+        ''' If true, the time windows ignored.
+        ''' </summary>
+        <DataMember(Name:="ignore_tw", EmitDefaultValue:=False)>
+        Public Property IgnoreTw As Boolean?
+
+
+        ''' <summary>
         ''' If the service time is specified, all the route addresses wil have same service time. 
         ''' See <see cref="OverrideAddresses"/>
         ''' </summary>
@@ -510,6 +519,21 @@ Namespace Route4MeSDK.DataTypes
         ''' </remarks>
         <DataMember(Name:="slowdowns", EmitDefaultValue:=False)>
         Public Property Slowdowns As SlowdownParams
+
+        ''' <summary>
+        ''' TO DO: adjust description
+        ''' </summary>
+        <DataMember(Name:="is_dynamic_start_time", EmitDefaultValue:=False)>
+        <DefaultValue(False)>
+        Public Property is_dynamic_start_time As Boolean
+
+        ''' <summary>
+        ''' Address bundling rules
+        ''' </summary>
+        <DataMember(Name:="bundling", EmitDefaultValue:=False)>
+        <DefaultValue(False)>
+        Public Property Bundling As AddressBundling
+
     End Class
 
     ''' <summary>

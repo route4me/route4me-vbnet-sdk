@@ -105,12 +105,14 @@
     <Compile Include="DataTypes\AddressBookGroup.vb" />
     <Compile Include="DataTypes\AddressBookGroupFilter.vb" />
     <Compile Include="DataTypes\AddressBookGroupRule.vb" />
+    <Compile Include="DataTypes\AddressBundling.vb" />
     <Compile Include="DataTypes\AddressCustomNote.vb" />
     <Compile Include="DataTypes\AddressForGeocoding.vb" />
     <Compile Include="DataTypes\AddressGeocoded.vb" />
     <Compile Include="DataTypes\AddressManifest.vb" />
     <Compile Include="DataTypes\AddressNote.vb" />
     <Compile Include="DataTypes\AvoidanceZone.vb" />
+    <Compile Include="DataTypes\BundledItemResponse.vb" />
     <Compile Include="DataTypes\cDatabase.vb" />
     <Compile Include="DataTypes\Country.vb" />
     <Compile Include="DataTypes\CustomNoteType.vb" />
@@ -132,6 +134,7 @@
     <Compile Include="DataTypes\GeoPoint.vb" />
     <Compile Include="DataTypes\Links.vb" />
     <Compile Include="DataTypes\Location.vb" />
+    <Compile Include="DataTypes\MemberCapabilities.vb" />
     <Compile Include="DataTypes\MemberConfigurationDataResponse.vb" />
     <Compile Include="DataTypes\MemberConfigurationResponse.vb" />
     <Compile Include="DataTypes\MemberResponse.vb" />

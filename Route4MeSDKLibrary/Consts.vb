@@ -69,6 +69,7 @@
 
         Public Const TeleamticsVendorsHost As String = "https://telematics.route4me.com/api/vendors.php"
 
+        Public Const MemberCapabilities As String = MainHost + "/api/member/capabilities.php"
 #End Region
     End Class
 End Namespace

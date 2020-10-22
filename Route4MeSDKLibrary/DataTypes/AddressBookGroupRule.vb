@@ -19,7 +19,7 @@ Namespace Route4MeSDK.DataTypes
         Public Property [Operator] As String
 
         <DataMember(Name:="value", EmitDefaultValue:=False)>
-        Public Property Value As String
+        Public Property Value As Object
 
         Public Sub New()
         End Sub

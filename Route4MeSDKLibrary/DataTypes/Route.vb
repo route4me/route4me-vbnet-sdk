@@ -151,6 +151,10 @@ Namespace Route4MeSDK.DataTypes
         <[ReadOnly](True)>
         Public Property OriginalRoute As DataObjectRoute
 
+        <DataMember(Name:="bundle_items", EmitDefaultValue:=True)>
+        <[ReadOnly](True)>
+        Public Property BundleItems As BundledItemResponse()
+
         ''' <summary>
         ''' Edge by edge turn-by-turn directions. See <see cref="Direction"/>
         ''' </summary>

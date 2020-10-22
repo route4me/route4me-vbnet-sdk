@@ -105,6 +105,13 @@ Namespace Route4MeSDK.QueryTypes
         Public Property Redirect As Boolean?
 
         ''' <summary>
+        ''' If true, the address bundling info Is included into route response.
+        ''' </summary>
+        <IgnoreDataMember()>
+        <HttpQueryMemberAttribute(Name:="bundling_items", EmitDefaultValue:=False)>
+        Public Property BundlingItems As Boolean?
+
+        ''' <summary>
         ''' For /api.v3/route/reoptimize_2.php endpoint. "Distance", "Time"
         ''' </summary>
         <IgnoreDataMember> _

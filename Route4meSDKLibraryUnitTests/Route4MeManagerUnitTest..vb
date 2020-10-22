@@ -257,16 +257,16 @@ End Class
         End Using
 
         tdr2.SD10Stops_route.Addresses(1).Notes = New AddressNote() {New AddressNote() With {
-        .NoteId = -1,
-        .RouteId = tdr2.SD10Stops_route.RouteID,
-        .Latitude = tdr2.SD10Stops_route.Addresses(1).Latitude,
-        .Longitude = tdr2.SD10Stops_route.Addresses(1).Longitude,
-        .ActivityType = "dropoff",
-        .Contents = "C# SDK Test Content",
-        .CustomTypes = New AddressCustomNote() {New AddressCustomNote() With {
+            .NoteId = -1,
+            .RouteId = tdr2.SD10Stops_route.RouteID,
+            .Latitude = tdr2.SD10Stops_route.Addresses(1).Latitude,
+            .Longitude = tdr2.SD10Stops_route.Addresses(1).Longitude,
+            .ActivityType = "dropoff",
+            .Contents = "C# SDK Test Content",
+            .CustomTypes = If(allCustomNotes.Length > 0, New AddressCustomNote() {New AddressCustomNote() With {
                 .NoteCustomTypeID = allCustomNotes(0).NoteCustomTypeID.ToString(),
                 .NoteCustomValue = allCustomNotes(0).NoteCustomTypeValues(0)
-            }},
+            }}, Nothing),
             .UploadUrl = tempFilePath
         }}
 
@@ -274,7 +274,7 @@ End Class
         Dim updatedRoute0 = route4Me.UpdateRoute(tdr2.SD10Stops_route, initialRoute, errorString0)
 
         Assert.IsTrue(updatedRoute0.Addresses(1).Notes.Length = 1, "UpdateRouteTest failed: cannot create a note")
-        Assert.IsTrue(updatedRoute0.Addresses(1).Notes(0).CustomTypes.Length = 1, "UpdateRouteTest failed: cannot create a custom type note")
+        If allCustomNotes.Length > 0 Then Assert.IsTrue(updatedRoute0.Addresses(1).Notes(0).CustomTypes.Length = 1, "UpdateRouteTest failed: cannot create a custom type note")
         Assert.IsTrue(updatedRoute0.Addresses(1).Notes(0).UploadId.Length = 32, "UpdateRouteTest failed: cannot create a custom type note")
 
         tdr2.SD10Stops_route.ApprovedForExecution = True
@@ -4403,6 +4403,197 @@ End Class
 
         tdr.RemoveOptimization(New String() {dataObject1.OptimizationProblemId})
 
+    End Sub
+
+    <TestMethod>
+    Public Sub BundledAddressesTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+        Dim errorString0 As String = Nothing
+        Dim memberCapabilities = route4Me.GetMemberCapabilities(errorString0)
+
+        If c_ApiKey = ApiKeys.demoApiKey OrElse memberCapabilities Is Nothing Then
+            Console.WriteLine("This test requires enterprise commercial subscription")
+            Return
+        End If
+
+        Dim commercialSubscription = memberCapabilities.[GetType]().GetProperties().Where(Function(x) x.Name = "Commercial").FirstOrDefault()
+
+        If commercialSubscription Is Nothing Then
+            Console.WriteLine("This test requires enterprise commercial subscription")
+            Return
+        End If
+
+#Region "Prepare Addresses"
+
+        Dim addresses As Address() = New Address() {
+            New Address() With {
+                .AddressString = "3634 W Market St, Fairlawn, OH 44333",
+                .IsDepot = True,
+                .Latitude = 41.135762259364,
+                .Longitude = -81.629313826561,
+                .TimeWindowStart = Nothing,
+                .TimeWindowEnd = Nothing,
+                .TimeWindowStart2 = Nothing,
+                .TimeWindowEnd2 = Nothing,
+                .Time = Nothing
+            },
+            New Address() With {
+                .AddressString = "1218 Ruth Ave, Cuyahoga Falls, OH 44221",
+                .Latitude = 41.135762259364,
+                .Longitude = -81.629313826561,
+                .TimeWindowStart = 6 * 3600 + 0 * 60,
+                .TimeWindowEnd = 6 * 3600 + 30 * 60,
+                .TimeWindowStart2 = 7 * 3600 + 0 * 60,
+                .TimeWindowEnd2 = 7 * 3600 + 20 * 60,
+                .Time = 300
+            },
+            New Address() With {
+                .AddressString = "512 Florida Pl, Barberton, OH 44203",
+                .Latitude = 41.003671512008,
+                .Longitude = -81.598461046815,
+                .TimeWindowStart = 7 * 3600 + 30 * 60,
+                .TimeWindowEnd = 7 * 3600 + 40 * 60,
+                .TimeWindowStart2 = 8 * 3600 + 0 * 60,
+                .TimeWindowEnd2 = 8 * 3600 + 10 * 60,
+                .Time = 300
+            },
+            New Address() With {
+                .AddressString = "512 Florida Pl, Barberton, OH 44203",
+                .Latitude = 41.003671512008,
+                .Longitude = -81.598461046815,
+                .TimeWindowStart = 8 * 3600 + 30 * 60,
+                .TimeWindowEnd = 8 * 3600 + 40 * 60,
+                .TimeWindowStart2 = 8 * 3600 + 50 * 60,
+                .TimeWindowEnd2 = 9 * 3600 + 0 * 60,
+                .Time = 100
+            },
+            New Address() With {
+                .AddressString = "3495 Purdue St, Cuyahoga Falls, OH 44221",
+                .Latitude = 41.162971496582,
+                .Longitude = -81.479049682617,
+                .TimeWindowStart = 9 * 3600 + 0 * 60,
+                .TimeWindowEnd = 9 * 3600 + 15 * 60,
+                .TimeWindowStart2 = 9 * 3600 + 30 * 60,
+                .TimeWindowEnd2 = 9 * 3600 + 45 * 60,
+                .Time = 300
+            },
+            New Address() With {
+                .AddressString = "1659 Hibbard Dr, Stow, OH 44224",
+                .Latitude = 41.194505989552,
+                .Longitude = -81.443351581693,
+                .TimeWindowStart = 10 * 3600 + 0 * 60,
+                .TimeWindowEnd = 10 * 3600 + 15 * 60,
+                .TimeWindowStart2 = 10 * 3600 + 30 * 60,
+                .TimeWindowEnd2 = 10 * 3600 + 45 * 60,
+                .Time = 300
+            },
+            New Address() With {
+                .AddressString = "2705 N River Rd, Stow, OH 44224",
+                .Latitude = 41.145240783691,
+                .Longitude = -81.410247802734,
+                .TimeWindowStart = 11 * 3600 + 0 * 60,
+                .TimeWindowEnd = 11 * 3600 + 15 * 60,
+                .TimeWindowStart2 = 11 * 3600 + 30 * 60,
+                .TimeWindowEnd2 = 11 * 3600 + 45 * 60,
+                .Time = 300
+            },
+            New Address() With {
+                .AddressString = "10159 Bissell Dr, Twinsburg, OH 44087",
+                .Latitude = 41.340042114258,
+                .Longitude = -81.421226501465,
+                .TimeWindowStart = 12 * 3600 + 0 * 60,
+                .TimeWindowEnd = 12 * 3600 + 15 * 60,
+                .TimeWindowStart2 = 12 * 3600 + 30 * 60,
+                .TimeWindowEnd2 = 12 * 3600 + 45 * 60,
+                .Time = 300
+            }, New Address() With {
+                .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262",
+                .Latitude = 41.148578643799,
+                .Longitude = -81.429229736328,
+                .TimeWindowStart = 13 * 3600 + 0 * 60,
+                .TimeWindowEnd = 13 * 3600 + 15 * 60,
+                .TimeWindowStart2 = 13 * 3600 + 30 * 60,
+                .TimeWindowEnd2 = 13 * 3600 + 45 * 60,
+                .Time = 300,
+                .Cube = 3
+            },
+            New Address() With {
+                .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262",
+                .Latitude = 41.148578643799,
+                .Longitude = -81.429229736328,
+                .TimeWindowStart = 14 * 3600 + 0 * 60,
+                .TimeWindowEnd = 14 * 3600 + 15 * 60,
+                .TimeWindowStart2 = 14 * 3600 + 30 * 60,
+                .TimeWindowEnd2 = 14 * 3600 + 45 * 60,
+                .Time = 300,
+                .Cube = 2
+            },
+            New Address() With {
+                .AddressString = "512 Florida Pl, Barberton, OH 44203",
+                .Latitude = 41.003671512008,
+                .Longitude = -81.598461046815,
+                .TimeWindowStart = 15 * 3600 + 0 * 60,
+                .TimeWindowEnd = 15 * 3600 + 15 * 60,
+                .TimeWindowStart2 = 15 * 3600 + 30 * 60,
+                .TimeWindowEnd2 = 15 * 3600 + 45 * 60,
+                .Time = 300
+            },
+            New Address() With {
+                .AddressString = "559 W Aurora Rd, Northfield, OH 44067",
+                .Latitude = 41.315116882324,
+                .Longitude = -81.558746337891,
+                .TimeWindowStart = 16 * 3600 + 0 * 60,
+                .TimeWindowEnd = 16 * 3600 + 15 * 60,
+                .TimeWindowStart2 = 16 * 3600 + 30 * 60,
+                .TimeWindowEnd2 = 17 * 3600 + 0 * 60,
+                .Time = 50
+            }}
+
+#End Region
+
+        Dim parameters = New RouteParameters() With {
+            .AlgorithmType = AlgorithmType.TSP,
+            .RouteName = "SD Multiple TW Address Bundling " & DateTime.Now.ToString("yyyy-MM-dd"),
+            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.Date.AddDays(1)),
+            .RouteTime = 5 * 3600 + 30 * 60,
+            .Optimize = Optimize.Distance.GetEnumDescription(),
+            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
+            .DeviceType = DeviceType.Web.GetEnumDescription(),
+            .Bundling = New AddressBundling() With {
+                .Mode = AddressBundlingMode.Address,
+                .MergeMode = AddressBundlingMergeMode.KeepAsSeparateDestinations,
+                .ServiceTimeRules = New ServiceTimeRulesClass() With {
+                    .FirstItemMode = AddressBundlingFirstItemMode.KeepOriginal,
+                    .AdditionalItemsMode = AddressBundlingAdditionalItemsMode.KeepOriginal
+                }
+            }
+        }
+
+        Dim optimizationParameters = New OptimizationParameters() With {
+            .Addresses = addresses,
+            .Parameters = parameters
+        }
+
+        Dim errorString As String = Nothing
+        dataObject = route4Me.RunOptimization(optimizationParameters, errorString)
+
+        Assert.IsNotNull(dataObject, "SingleDriverMultipleTimeWindowsTest failed... " & errorString)
+        Assert.IsTrue(dataObject.Routes.Length > 0, "The optimization doesn't contain route")
+
+        Dim routeId = dataObject.Routes(0).RouteID
+        Assert.IsTrue(routeId IsNot Nothing AndAlso routeId.Length = 32, "The route ID is not valid")
+
+        Dim routeQueryParameters = New RouteParametersQuery() With {
+            .RouteId = routeId,
+            .BundlingItems = True
+        }
+
+        Dim routeBundled = route4Me.GetRoute(routeQueryParameters, errorString)
+
+        Assert.IsNotNull(routeBundled, "Cannot retrieve the route. " & errorString)
+        Assert.IsNotNull(routeBundled.BundleItems, "Cannot retrieve bundled items in the route response.")
+
+        tdr.RemoveOptimization(New String() {dataObject.OptimizationProblemId})
     End Sub
 
     <TestMethod>
