@@ -474,6 +474,46 @@ End Class
         Assert.IsNotNull(dataObject, Convert.ToString("ReoptimizeRouteTest failed... ") & errorString)
     End Sub
 
+
+    <TestMethod>
+    Public Sub UnlinkRouteFromOptimizationTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        Dim routeId As String = tdr.SD10Stops_route_id
+
+        Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null.")
+
+        Dim routeDuplicateParameters = New RouteParametersQuery() With {
+            .RouteId = routeId
+        }
+
+        Dim errorString As String = Nothing
+        Dim duplicatedRouteId = route4Me.DuplicateRoute(routeDuplicateParameters, errorString)
+
+        Assert.IsNotNull(duplicatedRouteId, "Cannot duplicate a route. " & errorString)
+        Assert.IsTrue(duplicatedRouteId.Length = 32, "Cannot duplicate a route.")
+
+        Dim duplicatedRoute = route4Me.GetRoute(New RouteParametersQuery() With {
+            .RouteId = duplicatedRouteId
+        }, errorString)
+
+        Assert.IsNotNull(duplicatedRoute, "Cannot retrieve the duplicated route.")
+        Assert.IsInstanceOfType(duplicatedRoute, GetType(DataObjectRoute), "Cannot retrieve the duplicated route.")
+        Assert.IsNotNull(duplicatedRoute.OptimizationProblemId, "Optimization problem ID of the duplicated route is null.")
+
+        Dim routeParameters = New RouteParametersQuery() With {
+            .RouteId = duplicatedRouteId,
+            .UnlinkFromMasterOptimization = True
+        }
+
+        lsOptimizationIDs.Add(duplicatedRoute.OptimizationProblemId)
+
+        Dim unlinkedRoute = route4Me.UpdateRoute(routeParameters, errorString)
+
+        Assert.IsNotNull(unlinkedRoute, "UnlinkRouteFromOptimizationTest failed. " & errorString)
+        Assert.IsNull(unlinkedRoute.OptimizationProblemId, "Optimization problem ID of the unlinked route is not null.")
+    End Sub
+
     <TestMethod>
     Public Sub DuplicateRouteTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)

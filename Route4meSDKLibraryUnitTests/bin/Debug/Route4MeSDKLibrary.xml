@@ -2314,6 +2314,11 @@ User email.
  If true, the route is approved for execution..
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.UnlinkFromMasterOptimization">
+ <summary>
+ If true, the route will be unlinked from the master optimization.
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery">
  <summary>
  Avoidance zone query
