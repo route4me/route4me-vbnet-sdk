@@ -1088,6 +1088,7 @@ End Class
             }
         }
 
+#Region "Addresses"
         Dim addresses As Address() = New Address() {
             New Address() With {
                 .AddressString = "1218 Ruth Ave, Cuyahoga Falls, OH 44221",
@@ -1201,7 +1202,7 @@ End Class
                 .TimeWindowStart = 52180,
                 .TimeWindowEnd = 54379
             }}
-
+#End Region
         Dim parameters = New RouteParameters() With {
             .AlgorithmType = AlgorithmType.CVRP_TW_MD,
             .RouteName = "Multiple Separate Depots, Multiple Driver",
@@ -1249,7 +1250,7 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         ' Prepare the addresses
-
+#Region "Addresses"
         Dim addresses As Address() = New Address() {New Address() With { _
             .AddressString = "455 S 4th St, Louisville, KY 40202", _
             .IsDepot = True, _
@@ -1904,7 +1905,7 @@ End Class
             .TimeWindowStart = 185853, _
             .TimeWindowEnd = 187252 _
         }}
-
+#End Region
         ' Set parameters
 
         Dim parameters As New RouteParameters() With { _
@@ -1943,7 +1944,7 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         ' Prepare the addresses
-
+#Region "Addresses"
         Dim addresses As Address() = New Address() {New Address() With { _
             .AddressString = "40 Mercer st, New York, NY", _
             .IsDepot = True, _
@@ -3737,7 +3738,7 @@ End Class
             .TimeWindowStart = Nothing, _
             .TimeWindowEnd = Nothing _
         }}
-
+#End Region
         ' Set parameters
 
         Dim parameters As RouteParameters = New RouteParameters() With {
@@ -3783,7 +3784,7 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         ' Prepare the addresses
-
+#Region "Addresses"
         Dim addresses As Address() = New Address() {New Address() With { _
             .AddressString = "3634 W Market St, Fairlawn, OH 44333", _
             .IsDepot = True, _
@@ -3957,7 +3958,7 @@ End Class
             .TimeWindowStart = 65277, _
             .TimeWindowEnd = 68545 _
         }}
-
+#End Region
         ' Set parameters
 
         Dim parameters As New RouteParameters() With { _
@@ -4054,6 +4055,7 @@ End Class
         If skip = "yes" Then Return
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
+#Region "Addresses"
         Dim addresses As Address() = New Address() {New Address() With { _
             .AddressString = "455 S 4th St, Louisville, KY 40202", _
             .IsDepot = True, _
@@ -4150,31 +4152,31 @@ End Class
             .TimeWindowEnd2 = 16 * 3600 + 45 * 60, _
             .Time = 300 _
         }}
-
-        Dim parameters As New RouteParameters() With { _
-            .AlgorithmType = AlgorithmType.CVRP_TW_SD, _
-            .RouteName = "Trucking SD Multiple TW 09-02-2018 from c# SDK " & DateTime.Now.ToString("yymMddHHmmss"), _
-            .OptimizationQuality = 3, _
-            .DeviceType = DeviceType.Web.GetEnumDescription(), _
-            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(), _
-            .Dirm = 3, _
-            .DM = 6, _
-            .Optimize = Optimize.TimeWithTraffic.GetEnumDescription(), _
-            .RouteMaxDuration = 8 * 3600 + 30 * 60, _
-            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.Date.AddDays(1)), _
-            .RouteTime = 7 * 3600 + 0 * 60, _
-            .StoreRoute = True, _
-            .TravelMode = TravelMode.Trucking.GetEnumDescription(), _
-            .VehicleMaxCargoVolume = 30, _
-            .VehicleCapacity = 10, _
-            .VehicleMaxDistanceMI = 10000, _
-            .TruckHeightMeters = 4, _
-            .TruckLengthMeters = 12, _
-            .TruckWidthMeters = 3, _
-            .TrailerWeightT = 10, _
-            .WeightPerAxleT = 10, _
-            .LimitedWeightT = 20, _
-            .RT = True _
+#End Region
+        Dim parameters As New RouteParameters() With {
+            .AlgorithmType = AlgorithmType.CVRP_TW_SD,
+            .RouteName = "Trucking SD Multiple TW 09-02-2018 from c# SDK " & DateTime.Now.ToString("yymMddHHmmss"),
+            .OptimizationQuality = 3,
+            .DeviceType = DeviceType.Web.GetEnumDescription(),
+            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
+            .Dirm = 3,
+            .DM = 6,
+            .Optimize = Optimize.TimeWithTraffic.GetEnumDescription(),
+            .RouteMaxDuration = 8 * 3600 + 30 * 60,
+            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.Date.AddDays(1)),
+            .RouteTime = 7 * 3600 + 0 * 60,
+            .StoreRoute = True,
+            .TravelMode = TravelMode.Trucking.GetEnumDescription(),
+            .VehicleMaxCargoVolume = 30,
+            .VehicleCapacity = 10,
+            .VehicleMaxDistanceMI = 10000,
+            .TruckHeightMeters = 4,
+            .TruckLengthMeters = 12,
+            .TruckWidthMeters = 3,
+            .TrailerWeightT = 10,
+            .WeightPerAxleT = 10,
+            .LimitedWeightT = 20,
+            .RT = True
         }
 
         Dim optimizationParameters As OptimizationParameters = New OptimizationParameters() With { _
@@ -4182,8 +4184,11 @@ End Class
             .Parameters = parameters _
         }
         Dim errorString As String
+
         dataObject = route4Me.RunAsyncOptimization(optimizationParameters, errorString)
+
         Assert.IsNotNull(dataObject, "SingleDriverMultipleTimeWindowsTest failed... " & errorString)
+
         tdr.RemoveOptimization(New String() {dataObject.OptimizationProblemId})
     End Sub
 
@@ -4192,7 +4197,7 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         ' Prepare the addresses
-
+#Region "Addresses"
         Dim addresses As Address() = New Address() {New Address() With { _
             .AddressString = "3634 W Market St, Fairlawn, OH 44333", _
             .IsDepot = True, _
@@ -4304,7 +4309,7 @@ End Class
             .TimeWindowEnd2 = 17 * 3600 + 0 * 60, _
             .Time = 50 _
         }}
-
+#End Region
         ' Set parameters
 
         Dim parameters As New RouteParameters() With { _
@@ -4341,7 +4346,7 @@ End Class
         Dim route4Me As New Route4MeManager(myApiKey)
 
         ' Prepare the addresses
-
+#Region "Addresses"
         Dim addresses As Address() = New Address() {New Address() With { _
             .AddressString = "754 5th Ave New York, NY 10019", _
             .[Alias] = "Bergdorf Goodman", _
@@ -4399,7 +4404,7 @@ End Class
             .Longitude = -73.9862019, _
             .Time = 0 _
         }}
-
+#End Region
         ' Set parameters
 
         Dim parameters As New RouteParameters() With { _
@@ -4436,7 +4441,7 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         ' Prepare the addresses
-
+#Region "Addresses"
         Dim addresses As Address() = New Address() {New Address() With { _
             .AddressString = "754 5th Ave New York, NY 10019", _
             .[Alias] = "Bergdorf Goodman", _
@@ -4494,7 +4499,7 @@ End Class
             .Longitude = -73.9862019, _
             .Time = 0 _
         }}
-
+#End Region
         ' Set parameters
 
         Dim parameters As New RouteParameters() With { _
@@ -6951,11 +6956,13 @@ End Class
         Assert.IsNotNull(dataObject, "Optimization failed")
     End Sub
 
-    <ClassCleanup> _
+    <ClassCleanup>
     Public Shared Sub RouteTypesGroupCleanup()
-        Dim result As Boolean = tdr.RemoveOptimization(New String() {dataObjectMDMD24.OptimizationProblemId})
+        If (dataObjectMDMD24.OptimizationProblemId IsNot Nothing) Then
+            Dim result As Boolean = tdr.RemoveOptimization(New String() {dataObjectMDMD24.OptimizationProblemId})
 
-        Assert.IsTrue(result, "Removing of the optimization with 24 stops failed...")
+            Assert.IsTrue(result, "Removing of the optimization with 24 stops failed.")
+        End If
     End Sub
 
 End Class
