@@ -490,6 +490,8 @@ End Class
         Dim errorString As String = Nothing
         Dim duplicatedRouteId = route4Me.DuplicateRoute(routeDuplicateParameters, errorString)
 
+        Thread.Sleep(3000)
+
         Assert.IsNotNull(duplicatedRouteId, "Cannot duplicate a route. " & errorString)
         Assert.IsTrue(duplicatedRouteId.Length = 32, "Cannot duplicate a route.")
 
