@@ -146,6 +146,12 @@ Namespace Route4MeSDK.QueryTypes
         Public Property Addresses As Address()
 
         ''' <summary>
+        ''' Array of the depots
+        ''' </summary>
+        <DataMember(Name:="depots", EmitDefaultValue:=False)>
+        Public Property Depots As Address()
+
+        ''' <summary>
         ''' If true, the route is approved for execution..
         ''' </summary>
         <DataMember(Name:="approved_for_execution", EmitDefaultValue:=False)>

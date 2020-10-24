@@ -2119,6 +2119,16 @@ User email.
  If true will be redirected
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OptimizationParameters.Addresses">
+ <summary>
+ Array of the route addresses
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OptimizationParameters.Depots">
+ <summary>
+ Array of the depots
+ </summary>
+</member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderCustomFieldParameters.OrderCustomFieldName">
  <summary>
  Custom order field name.
@@ -2307,6 +2317,11 @@ User email.
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Addresses">
  <summary>
  Array of the route addresses
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Depots">
+ <summary>
+ Array of the depots
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.ApprovedForExecution">

@@ -58,8 +58,17 @@ Namespace Route4MeSDK.QueryTypes
         <DataMember(Name:="parameters", EmitDefaultValue:=False)>
         Public Property Parameters As RouteParameters
 
+        ''' <summary>
+        ''' Array of the route addresses
+        ''' </summary>
         <DataMember(Name:="addresses", EmitDefaultValue:=False)>
         Public Property Addresses As Address()
+
+        ''' <summary>
+        ''' Array of the depots
+        ''' </summary>
+        <DataMember(Name:="depots", EmitDefaultValue:=False)>
+        Public Property Depots As Address()
 
     End Class
 End Namespace
