@@ -1757,6 +1757,29 @@ Route4MeSDKLibrary
  Step duration (sec)
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ScheduleCalendarResponse">
+ <summary>
+ Data structure of the schedule calendar response.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ScheduleCalendarResponse.AddressBook">
+ <summary>
+ The address book contact quantity by dates (dates are in the string format, e.g. 2020-10-18).
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ScheduleCalendarResponse.Orders">
+ <summary>
+ The order quantity by dates (dates are in the string format, e.g. 2020-10-18).
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ScheduleCalendarResponse.RoutesCount">
+ <summary>
+ The order quantity by dates (dates are in the string format, e.g. 2020-10-18).
+ </summary>
+ <returns></returns>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Territory">
  <summary>
  Territory parameters
@@ -2334,6 +2357,46 @@ User email.
  If true, the route will be unlinked from the master optimization.
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery">
+ <summary>
+ URL query parameters for retrieving the schedule calendar.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery.DateFromString">
+ <summary>
+ Start date to filter the schedules in the string format (e.g. 2020-10-27).
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery.DateToString">
+ <summary>
+ End date to filter the schedules in the string format (e.g. 2020-10-30).
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery.MemberId">
+ <summary>
+ Member ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery.TimezoneOffsetMinutes">
+ <summary>
+ Timezone offset (in minutes) (e.g. NYT: -4*60 = -480, Kiev: 3*60 = 180).
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery.ShowOrders">
+ <summary>
+ If true, the scheduled orders are included in the calendar.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery.ShowContacts">
+ <summary>
+ If true, the scheduled address book contacts are included in the calendar.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery.RoutesCount">
+ <summary>
+ If true, the scheduled routes are included in the calendar.
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery">
  <summary>
  Avoidance zone query
@@ -2420,6 +2483,14 @@ User email.
  <param name="errorString">Returned error string in case of the processs failing</param>
  <returns>The updated address</returns>
 </member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetScheduleCalendar(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery,System.String@)">
+ <summary>
+ Get schedule calendar from the user's account.
+ </summary>
+ <param name="scheduleCalendarParams">Query parameters</param>
+ <param name="errorString">Error string</param>
+ <returns>Schedule calendar of the member</returns>
+</member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetUserLocations(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GenericParameters,System.String@)">
  <summary>
  Get user locations
@@ -2427,6 +2498,15 @@ User email.
  <param name="parameters">Query parameters</param>
  <param name="errorString">Error string</param>
  <returns>An array of the user locations</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.MemberHasCommercialCapability(System.String,System.String,System.String@)">
+ <summary>
+ Check if the member with the actualApiKey has commercial member capability.
+ </summary>
+ <param name="actualApiKey">Actual API key</param>
+ <param name="demoApiKey">Demo API key</param>
+ <param name="errorString">Error message text</param>
+ <returns>True, if the member has commercial capability</returns>
 </member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddAddressNote(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.NoteParameters,System.String@)">
  <summary>

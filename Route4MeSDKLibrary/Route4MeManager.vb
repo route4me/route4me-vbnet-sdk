@@ -893,6 +893,18 @@ Namespace Route4MeSDK
             Return deletedRouteIds
         End Function
 
+        ''' <summary>
+        ''' Get schedule calendar from the user's account.
+        ''' </summary>
+        ''' <param name="scheduleCalendarParams">Query parameters</param>
+        ''' <param name="errorString">Error string</param>
+        ''' <returns>Schedule calendar of the member</returns>
+        Public Function GetScheduleCalendar(ByVal scheduleCalendarParams As ScheduleCalendarQuery, ByRef errorString As String) As ScheduleCalendarResponse
+            Dim response = GetJsonObjectFromAPI(Of ScheduleCalendarResponse)(scheduleCalendarParams, R4MEInfrastructureSettings.ScheduleCalendar, HttpMethodType.[Get], errorString)
+
+            Return response
+        End Function
+
 #End Region
 
 #Region "Tracking"
@@ -1170,6 +1182,31 @@ Namespace Route4MeSDK
             Dim result = GetJsonObjectFromAPI(Of MemberCapabilities)(parameters, R4MEInfrastructureSettings.MemberCapabilities, HttpMethodType.[Get], errorString)
 
             Return result
+        End Function
+
+        ''' <summary>
+        ''' Check if the member with the actualApiKey has commercial member capability.
+        ''' </summary>
+        ''' <param name="actualApiKey">Actual API key</param>
+        ''' <param name="demoApiKey">Demo API key</param>
+        ''' <param name="errorString">Error message text</param>
+        ''' <returns>True, if the member has commercial capability</returns>
+        Public Function MemberHasCommercialCapability(ByVal actualApiKey As String, ByVal demoApiKey As String, ByRef errorString As String) As Boolean
+            Try
+                Dim memberCapabilities = Me.GetMemberCapabilities(errorString)
+
+                If actualApiKey = demoApiKey OrElse memberCapabilities Is Nothing Then Return False
+
+                Dim commercialSubscription = memberCapabilities.[GetType]().GetProperties().Where(Function(x) x.Name = "Commercial").FirstOrDefault()
+
+                If commercialSubscription Is Nothing Then Return False
+
+                Return True
+            Catch ex As Exception
+                errorString = ex.Message
+
+                Return False
+            End Try
         End Function
 
 #End Region
@@ -2918,17 +2955,17 @@ Namespace Route4MeSDK
 
 #Region "Telematics Vendors"
         Public Function GetAllTelematicsVendors(ByVal vendorParams As TelematicsVendorParameters, ByRef errorString As String) As TelematicsVendorsResponse
-            Dim response As TelematicsVendorsResponse = GetJsonObjectFromAPI(Of TelematicsVendorsResponse)(vendorParams, R4MEInfrastructureSettings.TeleamticsVendorsHost, HttpMethodType.[Get], errorString)
+            Dim response As TelematicsVendorsResponse = GetJsonObjectFromAPI(Of TelematicsVendorsResponse)(vendorParams, R4MEInfrastructureSettings.TelematicsVendorsHost, HttpMethodType.[Get], errorString)
             Return response
         End Function
 
         Public Function GetTelematicsVendor(ByVal vendorParams As TelematicsVendorParameters, ByRef errorString As String) As TelematicsVendorResponse
-            Dim response As TelematicsVendorResponse = GetJsonObjectFromAPI(Of TelematicsVendorResponse)(vendorParams, R4MEInfrastructureSettings.TeleamticsVendorsHost, HttpMethodType.[Get], errorString)
+            Dim response As TelematicsVendorResponse = GetJsonObjectFromAPI(Of TelematicsVendorResponse)(vendorParams, R4MEInfrastructureSettings.TelematicsVendorsHost, HttpMethodType.[Get], errorString)
             Return response
         End Function
 
         Public Function SearchTelematicsVendors(ByVal vendorParams As TelematicsVendorParameters, ByRef errorString As String) As TelematicsVendorsSearchResponse
-            Dim response As TelematicsVendorsSearchResponse = GetJsonObjectFromAPI(Of TelematicsVendorsSearchResponse)(vendorParams, R4MEInfrastructureSettings.TeleamticsVendorsHost, HttpMethodType.[Get], errorString)
+            Dim response As TelematicsVendorsSearchResponse = GetJsonObjectFromAPI(Of TelematicsVendorsSearchResponse)(vendorParams, R4MEInfrastructureSettings.TelematicsVendorsHost, HttpMethodType.[Get], errorString)
             Return response
         End Function
 #End Region

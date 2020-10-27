@@ -1,15 +1,11 @@
-﻿Imports System.Text
-Imports Microsoft.VisualStudio.TestTools.UnitTesting
-Imports Route4MeSDKLibrary.Route4MeSDK
+﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.FastProcessing
 Imports System.IO
 Imports System.Runtime.Serialization
-Imports System.Reflection
 Imports System.CodeDom.Compiler
 Imports System.Threading
-Imports CsvHelper
 
 Public Class ApiKeys
     Public Shared actualApiKey As String = R4MeUtils.ReadSetting("actualApiKey")
@@ -4629,19 +4625,8 @@ End Class
     Public Sub BundledAddressesTest()
         Dim route4Me = New Route4MeManager(c_ApiKey)
         Dim errorString0 As String = Nothing
-        Dim memberCapabilities = route4Me.GetMemberCapabilities(errorString0)
 
-        If c_ApiKey = ApiKeys.demoApiKey OrElse memberCapabilities Is Nothing Then
-            Console.WriteLine("This test requires enterprise commercial subscription")
-            Return
-        End If
-
-        Dim commercialSubscription = memberCapabilities.[GetType]().GetProperties().Where(Function(x) x.Name = "Commercial").FirstOrDefault()
-
-        If commercialSubscription Is Nothing Then
-            Console.WriteLine("This test requires enterprise commercial subscription")
-            Return
-        End If
+        If Not route4Me.MemberHasCommercialCapability(c_ApiKey, ApiKeys.demoApiKey, errorString0) Then Return
 
 #Region "Prepare Addresses"
 
@@ -4814,6 +4799,33 @@ End Class
         Assert.IsNotNull(routeBundled.BundleItems, "Cannot retrieve bundled items in the route response.")
 
         tdr.RemoveOptimization(New String() {dataObject.OptimizationProblemId})
+    End Sub
+
+    <TestMethod>
+    Public Sub GetScheduleCalendarTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        Dim errorString0 As String = Nothing
+        If Not route4Me.MemberHasCommercialCapability(c_ApiKey, ApiKeys.demoApiKey, errorString0) Then Return
+
+        Dim days5 As TimeSpan = New TimeSpan(5, 0, 0, 0)
+
+        Dim calendarQuery = New ScheduleCalendarQuery() With {
+            .DateFromString = (DateTime.Now - days5).ToString("yyyy-MM-dd"),
+            .DateToString = (DateTime.Now + days5).ToString("yyyy-MM-dd"),
+            .TimezoneOffsetMinutes = 4 * 60,
+            .ShowOrders = True,
+            .ShowContacts = True,
+            .RoutesCount = True
+        }
+
+        Dim errorString As String = Nothing
+        Dim scheduleCalendar = route4Me.GetScheduleCalendar(calendarQuery, errorString)
+
+        Assert.IsNotNull(scheduleCalendar, "The test GetScheduleCalendarTest failed")
+        Assert.IsNotNull(scheduleCalendar.AddressBook, "The test GetScheduleCalendarTest failed")
+        Assert.IsNotNull(scheduleCalendar.Orders, "The test GetScheduleCalendarTest failed")
+        Assert.IsNotNull(scheduleCalendar.RoutesCount, "The test GetScheduleCalendarTest failed")
     End Sub
 
     <TestMethod>

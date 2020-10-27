@@ -150,6 +150,7 @@
     <Compile Include="DataTypes\RouteResponse.vb" />
     <Compile Include="DataTypes\Schedule.vb" />
     <Compile Include="DataTypes\DirectionStep.vb" />
+    <Compile Include="DataTypes\ScheduleCalendarResponse.vb" />
     <Compile Include="DataTypes\StatusResponse.vb" />
     <Compile Include="DataTypes\TelematicsVendor.vb" />
     <Compile Include="DataTypes\TelematicsVendorFeature.vb" />
@@ -209,6 +210,7 @@
     <Compile Include="QueryTypes\OrderFilterParameters.vb" />
     <Compile Include="QueryTypes\OrderParameters.vb" />
     <Compile Include="QueryTypes\RouteParametersQuery.vb" />
+    <Compile Include="QueryTypes\ScheduleCalendarQuery.vb" />
     <Compile Include="QueryTypes\TelematicsVendorParameters.vb" />
     <Compile Include="QueryTypes\TerritoryQuery.vb" />
     <Compile Include="QueryTypes\VehicleParameters.vb" />

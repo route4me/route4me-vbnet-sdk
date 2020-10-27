@@ -67,9 +67,11 @@
 
         Public Const CustomNoteType As String = MainHost + "/api.v4/note_custom_types.php"
 
-        Public Const TeleamticsVendorsHost As String = "https://telematics.route4me.com/api/vendors.php"
+        Public Const TelematicsVendorsHost As String = "https://telematics.route4me.com/api/vendors.php"
 
         Public Const MemberCapabilities As String = MainHost + "/api/member/capabilities.php"
+
+        Public Const ScheduleCalendar As String = MainHost + "/api/schedule_calendar_data.php"
 #End Region
     End Class
 End Namespace

@@ -54,6 +54,7 @@ Namespace Route4MeSDK
             Dim jsonSettings = New JsonSerializerSettings() With {
                 .ContractResolver = New DataContractResolver()
             }
+
             Dim reader As StreamReader = New StreamReader(stream)
             Dim text As String = reader.ReadToEnd()
 
