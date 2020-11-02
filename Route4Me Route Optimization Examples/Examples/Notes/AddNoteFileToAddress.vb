@@ -8,7 +8,7 @@ Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub AddNoteFIleToAddress(routeId As String, addressId As Integer)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim noteParameters As New NoteParameters() With { _
                 .RouteId = routeId, _

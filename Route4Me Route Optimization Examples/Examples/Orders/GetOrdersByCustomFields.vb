@@ -9,7 +9,7 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub GetOrdersByCustomFields(CustomFields As String)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim oParams As New OrderParameters() With { _
                 .Fields = CustomFields, _

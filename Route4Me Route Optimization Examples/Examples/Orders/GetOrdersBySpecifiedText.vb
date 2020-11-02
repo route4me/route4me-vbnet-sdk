@@ -9,7 +9,7 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub GetOrdersBySpecifiedText(query As String)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim oParams As New OrderParameters() With { _
                 .Query = query, _

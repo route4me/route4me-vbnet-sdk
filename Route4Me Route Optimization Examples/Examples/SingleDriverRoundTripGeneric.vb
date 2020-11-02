@@ -93,17 +93,13 @@ Namespace Route4MeSDKTest.Examples
 
         Public Function SingleDriverRoundTripGeneric() As String
             Const uri As String = R4MEInfrastructureSettings.MainHost + "/api.v4/optimization_problem.php"
-            Const myApiKey As String = "11111111111111111111111111111111"
 
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(myApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             ' Prepare the addresses
             ' Using the defined class, can use user-defined class instead
             '#Region "Addresses"
-
-
-
 
             '#End Region
             Dim addresses As Address() = New Address() {New Address() With { _
@@ -168,19 +164,18 @@ Namespace Route4MeSDKTest.Examples
             ' Using the defined class, can use user-defined class instead
 
 
-            Dim parameters As New RouteParameters() With { _
-                .AlgorithmType = AlgorithmType.TSP, _
-                .StoreRoute = False, _
-                .RouteName = "Single Driver Round Trip", _
-                .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)), _
-                .RouteTime = 60 * 60 * 7, _
-                .RouteMaxDuration = 86400, _
-                .VehicleCapacity = "1", _
-                .VehicleMaxDistanceMI = "10000", _
-                .Optimize = EnumHelper.GetEnumDescription(Optimize.Distance), _
-                .DistanceUnit = EnumHelper.GetEnumDescription(DistanceUnit.MI), _
-                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.Web), _
-                .TravelMode = EnumHelper.GetEnumDescription(TravelMode.Driving) _
+            Dim parameters As New RouteParameters() With {
+                .AlgorithmType = AlgorithmType.TSP,
+                .RouteName = "Single Driver Round Trip",
+                .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)),
+                .RouteTime = 60 * 60 * 7,
+                .RouteMaxDuration = 86400,
+                .VehicleCapacity = "1",
+                .VehicleMaxDistanceMI = "10000",
+                .Optimize = EnumHelper.GetEnumDescription(Optimize.Distance),
+                .DistanceUnit = EnumHelper.GetEnumDescription(DistanceUnit.MI),
+                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.Web),
+                .TravelMode = EnumHelper.GetEnumDescription(TravelMode.Driving)
             }
 
             Dim myParameters As New MyAddressAndParametersHolder() With { _

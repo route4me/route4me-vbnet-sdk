@@ -1,5 +1,4 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
-Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDKTest.Examples
@@ -9,10 +8,10 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub RapidStreetDataLimited()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
-            Dim geoParams As New GeocodingParameters With { _
-                 .Offset = 1, _
-                .Limit = 10 _
+            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim geoParams As New GeocodingParameters With {
+                 .Offset = 1,
+                .Limit = 10
             }
             ' Run the query
             Dim errorString As String = ""

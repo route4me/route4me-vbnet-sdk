@@ -1,35 +1,52 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
+        ''' <summary>
+        ''' Get activities with the event Destination Inserted
+        ''' </summary>
         Public Sub SearchDestinationInserted()
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim activityParameters As New ActivityParameters() With { _
-                .ActivityType = "insert-destination", _
-                .RouteId = "87B8873BAEA4E09942C68E2C92A9C4B7" _
+            RunOptimizationSingleDriverRoute10Stops()
+
+            Dim routeId As String = SD10Stops_route_id
+
+            OptimizationsToRemove = New List(Of String)() From {
+                SD10Stops_optimization_problem_id
             }
 
-            ' Run the query
-            Dim errorString As String = ""
+            Dim newAddress = New Address() With {
+                .AddressString = "118 Bill Johnson Rd NE Milledgeville GA 31061",
+                .Latitude = 33.141784667969,
+                .Longitude = -83.237518310547,
+                .Time = 0,
+                .SequenceNo = 4
+            }
+
+            Dim errorString As String = Nothing
+            Dim insertedDestinations As Integer() = route4Me.AddRouteDestinations(routeId, New Address() {newAddress}, errorString)
+
+            If insertedDestinations Is Nothing OrElse insertedDestinations.Length < 1 Then
+                Console.WriteLine("Cannot insert the test destination." & Environment.NewLine & errorString)
+
+                RemoveTestOptimizations()
+
+                Return
+            End If
+
+            Dim activityParameters As ActivityParameters = New ActivityParameters With {
+                .ActivityType = "insert-destination",
+                .RouteId = routeId
+            }
+
             Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
 
-            Console.WriteLine("")
+            PrintExampleActivities(activities, errorString)
 
-            If activities IsNot Nothing Then
-                Console.WriteLine("SearchDestinationInserted executed successfully, {0} activities returned", activities.Length)
-                Console.WriteLine("")
-
-                For Each Activity As Activity In activities
-                    Console.WriteLine("Activity ID: {0}", Activity.ActivityId)
-                Next
-
-                Console.WriteLine("")
-            Else
-                Console.WriteLine("SearchDestinationInserted error: {0}", errorString)
-            End If
+            RemoveTestOptimizations()
         End Sub
     End Class
 End Namespace

@@ -1,37 +1,35 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
+        ''' <summary>
+        ''' Get Team Activities on a Route
+        ''' </summary>
         Public Sub GetRouteTeamActivities()
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim routeId As String = "06B655F27E0D6A74BD37F6F9758E4D2E"
+            RunOptimizationSingleDriverRoute10Stops()
 
-            Dim activityParameters As New ActivityParameters() With { _
-                .RouteId = routeId, _
-                .team = "true" _
+            Dim routeId As String = SD10Stops_route_id
+
+            OptimizationsToRemove = New List(Of String)() From {
+                SD10Stops_optimization_problem_id
             }
 
-            ' Run the query
-            Dim errorString As String = ""
+            Dim activityParameters = New ActivityParameters() With {
+                .RouteId = routeId,
+                .team = "true",
+                .Limit = 10,
+                .Offset = 0
+            }
+            Dim errorString As String = Nothing
             Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
 
-            Console.WriteLine("")
+            PrintExampleActivities(activities, errorString)
 
-            If activities IsNot Nothing Then
-                Console.WriteLine("GetActivities executed successfully, {0} activities returned", activities.Length)
-                Console.WriteLine("")
-
-                For Each Activity As Activity In activities
-                    Console.WriteLine("Activity ID: {0}", Activity.ActivityId)
-                Next
-
-                Console.WriteLine("")
-            Else
-                Console.WriteLine("GetActivities error: {0}", errorString)
-            End If
+            RemoveTestOptimizations()
         End Sub
     End Class
 End Namespace

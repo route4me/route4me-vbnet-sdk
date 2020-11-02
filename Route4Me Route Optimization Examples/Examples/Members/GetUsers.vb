@@ -4,7 +4,7 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub GetUsers()
-            Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+            Dim route4Me As Route4MeManager = New Route4MeManager(ActualApiKey)
             Dim parameters As GenericParameters = New GenericParameters()
             Dim errorString As String
             Dim dataObjects As Route4MeManager.GetUsersResponse = route4Me.GetUsers(parameters, errorString)

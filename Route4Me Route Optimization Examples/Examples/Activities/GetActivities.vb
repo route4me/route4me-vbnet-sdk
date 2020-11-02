@@ -1,16 +1,19 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Sub GetActivities(routeId As String)
+        ''' <summary>
+        ''' Get activities from a user account.
+        ''' </summary>
+        Public Sub GetActivities()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
-            Dim activityParameters As New ActivityParameters() With { _
-                .RouteId = routeId, _
-                .Limit = 10, _
-                .Offset = 0 _
+            Dim activityParameters As New ActivityParameters() With {
+                .Limit = 10,
+                .Offset = 0
             }
 
             ' Run the query

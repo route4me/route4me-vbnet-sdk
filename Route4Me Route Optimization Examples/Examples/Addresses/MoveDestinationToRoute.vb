@@ -5,7 +5,7 @@ Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub MoveDestinationToRoute(toRouteId As String, routeDestinationId As Integer, afterDestinationId As Integer)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             ' Run the query
             Dim errorString As String = ""

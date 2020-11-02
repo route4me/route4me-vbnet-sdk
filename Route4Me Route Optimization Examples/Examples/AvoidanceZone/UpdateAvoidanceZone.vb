@@ -1,6 +1,7 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
@@ -9,7 +10,7 @@ Namespace Route4MeSDKTest.Examples
         ''' <param name="territoryId"> Avoidance Zone Id </param>
         Public Sub UpdateAvoidanceZone(territoryId As String)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim avoidanceZoneParameters As New AvoidanceZoneParameters() With { _
                 .TerritoryId = territoryId, _

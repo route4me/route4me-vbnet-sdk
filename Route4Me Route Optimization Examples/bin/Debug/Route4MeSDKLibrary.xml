@@ -482,6 +482,60 @@ Route4MeSDKLibrary
  Manifest of a route address.
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBundling">
+ <summary>
+ Class for the address bundling query
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBundling.Mode">
+ <summary>
+ Address bundling mode
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBundling.ModeParams">
+ <summary>
+ Address bundling mode parameters:
+ <para>If Mode=3, contains an array of the field names of the Address object</para>
+ <para>If Mode=4, contains an array of the custom fields of the Address object</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBundling.MergeMode">
+ <summary>
+ Address bundling merge mode
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBundling.ServiceTimeRules">
+ <summary>
+ Service time rules of the address bundling
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ServiceTimeRulesClass">
+ <summary>
+ Class for the address bundling service time rules
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ServiceTimeRulesClass.FirstItemMode">
+ <summary>
+ Mode of a first item of the bundled addresses.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ServiceTimeRulesClass.FirstItemModeParams">
+ <summary>
+ First item mode parameters.
+ If FirstItemMode=AddressBundlingFirstItemMode.CustomTime, contains custom service time in seconds.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ServiceTimeRulesClass.AdditionalItemsMode">
+ <summary>
+ Mode of the non-first items of the bundled addresses.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ServiceTimeRulesClass.AdditionalItemsModeParams">
+ <summary>
+ Additional items mode parameters:
+ <para>if AdditionalItemsMode=AddressBundlingAdditionalItemsMode.CustomTime, contains an array of the custom service times</para>
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressCustomNote">
  <summary>
  The class for the custom note of a route destination.
@@ -637,6 +691,61 @@ Route4MeSDKLibrary
  Territory parameters
 </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.BundledItemResponse">
+ <summary>
+ Bundled item data structure
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.BundledItemResponse.Cube">
+ <summary>
+ Summary cube value of the bundled addresses
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.BundledItemResponse.Revenue">
+ <summary>
+ Summary revenue value of the bundled addresses
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.BundledItemResponse.Pieces">
+ <summary>
+ Summary pieces value of the bundled addresses
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.BundledItemResponse.Weight">
+ <summary>
+ Summary weight value of the bundled addresses
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.BundledItemResponse.Cost">
+ <summary>
+ Summary cost value of the bundled addresses
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.BundledItemResponse.ServiceTime">
+ <summary>
+ Service time of the bundled addresses
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.BundledItemResponse.TimeWindowStart">
+ <summary>
+ Time window start of the bundled addresses
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.BundledItemResponse.TimeWindowEnd">
+ <summary>
+ Time window emd of the bundled addresses
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.BundledItemResponse.CustomData">
+ <summary>
+ TO DO: Adjust description
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.BundledItemResponse.AddressesId">
+ <summary>
+ Array of the IDs of the bundeld addresses.
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.DataObject">
  <summary>
  Main data object data-structure
@@ -684,6 +793,37 @@ Route4MeSDKLibrary
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TerritoryType">
  <summary>
  Territory type (circle, rectangle, polygon)
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBundlingMode">
+ <summary>
+ Enumeration of the address bundling mode:
+ <para>Address = 1, group locations by address</para>
+ <para>Coordinates = 2, group locations by coordinates</para>
+ <para>AddressId = 3, group locations by list of the address IDs</para>
+ <para>Address = 4, group locations by address custom fields</para>
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBundlingMergeMode">
+ <summary>
+ Enumeration of the desstinations merge mode:
+ <para>KeepAsSeparateDestinations = 1, keep separate destinations in output</para>
+ <para>MergeIntoSingleDestination = 2, merge the bundled destinations in one destination in output</para>
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBundlingFirstItemMode">
+ <summary>
+ Enumeration of the service time first item mode:
+ <para>KeepOriginal = 1, keep original service time</para>
+ <para>CustomTime = 2, set custom time to service time</para>
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBundlingAdditionalItemsMode">
+ <summary>
+ Enumeration of the service time additional items mode:
+ <para>KeepOriginal = 1, preserve original address service time</para>
+ <para>CustomTime = 2, set custom times</para>
+ <para>InheritFromPrimary = 3, don't add service times</para>
  </summary>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ErrorResponse">
@@ -790,6 +930,46 @@ Route4MeSDKLibrary
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location.ErrorCode">
  <summary>
  Error code
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberCapabilities">
+ <summary>
+ Member capabilities data structure
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberCapabilities.Avoid">
+ <summary>
+ Array of the avoidance zone IDs
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberCapabilities.AvoidRoads">
+ <summary>
+ Road avoid options: "Highways", "Tolls", "highways,tolls".
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberCapabilities.Features">
+ <summary>
+ Restriction options
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberCapabilities.TravelModes">
+ <summary>
+ Travel modes: "Highways", "Tolls", "highways,tolls"
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberCapabilities.NavigateBy">
+ <summary>
+ Navigate options
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberCapabilities.LicensedModules">
+ <summary>
+ Array of the license modules
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberCapabilities.Commercial">
+ <summary>
+ If true, the member subscription Is commercial.
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.order_id">
@@ -1142,13 +1322,12 @@ Route4MeSDKLibrary
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.TravelMode">
  <summary>
  The mode of travel that the directions should be optimized for.
- <para>Available values:
- <value>Driving</value>, 
- <value>Walking</value>, 
- <value>Trucking</value>, 
- <value>Cycling</value>, 
- <value>Transit</value>.
- </para>
+ <para>Available values:</para>
+ <para>- Driving</para>
+ <para>- Walking</para>
+ <para>- Trucking</para>
+ <para>- Cycling</para>
+ <para>- Transit</para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.Avoid">
@@ -1455,15 +1634,67 @@ Route4MeSDKLibrary
  Optimization engine (e.g. '1','2' etc)
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.IgnoreTw">
+ <summary>
+ Slowdonw of the optimization parameters.
+ If true, the time windows ignored.
+ </summary>
+</member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.overrideAddresses">
  <summary>
  If the service time is specified, all the route addresses wil have same service time. 
  See <see cref="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.overrideAddresses"/>
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.Slowdowns">
+ <summary>
+ Slowdown of the optimization parameters.
+ </summary>
+ <remarks>
+ <para>This Is only query parameter.</para>
+ <para>This parameter Is used in the optimization creation/generation process. </para>
+ </remarks>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.is_dynamic_start_time">
+ <summary>
+ TO DO: adjust description
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.Bundling">
+ <summary>
+ Address bundling rules
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.OverrideAddresses">
  <summary>
  The service time specified or all the addresses in the route.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.SlowdownParams">
+ <summary>
+ Slowdown parameters for the optimization creating process.
+ </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.DataTypes.SlowdownParams.#ctor(System.Nullable{System.Int32},System.Nullable{System.Int32})">
+ <summary>
+ Class constructor
+ </summary>
+ <param name="_serviceTime">Service time slowdown (percent)</param>
+ <param name="_travelTime">Travel time slowdown (percent)</param>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.DataTypes.SlowdownParams.#ctor">
+ <summary>
+ Class constructor
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.SlowdownParams.ServiceTime">
+ <summary>
+ Service time slowdowon (percent)
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.SlowdownParams.TravelTime">
+ <summary>
+ Travel time slowdowon (percent)
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteResponse.UserRouteRating">
@@ -1525,6 +1756,29 @@ Route4MeSDKLibrary
  <summary>
  Step duration (sec)
  </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ScheduleCalendarResponse">
+ <summary>
+ Data structure of the schedule calendar response.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ScheduleCalendarResponse.AddressBook">
+ <summary>
+ The address book contact quantity by dates (dates are in the string format, e.g. 2020-10-18).
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ScheduleCalendarResponse.Orders">
+ <summary>
+ The order quantity by dates (dates are in the string format, e.g. 2020-10-18).
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ScheduleCalendarResponse.RoutesCount">
+ <summary>
+ The order quantity by dates (dates are in the string format, e.g. 2020-10-18).
+ </summary>
+ <returns></returns>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Territory">
  <summary>
@@ -1888,6 +2142,16 @@ User email.
  If true will be redirected
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OptimizationParameters.Addresses">
+ <summary>
+ Array of the route addresses
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OptimizationParameters.Depots">
+ <summary>
+ Array of the depots
+ </summary>
+</member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderCustomFieldParameters.OrderCustomFieldName">
  <summary>
  Custom order field name.
@@ -2047,6 +2311,11 @@ User email.
  If true will be redirected
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.BundlingItems">
+ <summary>
+ If true, the address bundling info Is included into route response.
+ </summary>
+</member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Optimize">
  <summary>
  For /api.v3/route/reoptimize_2.php endpoint. "Distance", "Time"
@@ -2073,9 +2342,59 @@ User email.
  Array of the route addresses
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Depots">
+ <summary>
+ Array of the depots
+ </summary>
+</member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.ApprovedForExecution">
  <summary>
  If true, the route is approved for execution..
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.UnlinkFromMasterOptimization">
+ <summary>
+ If true, the route will be unlinked from the master optimization.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery">
+ <summary>
+ URL query parameters for retrieving the schedule calendar.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery.DateFromString">
+ <summary>
+ Start date to filter the schedules in the string format (e.g. 2020-10-27).
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery.DateToString">
+ <summary>
+ End date to filter the schedules in the string format (e.g. 2020-10-30).
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery.MemberId">
+ <summary>
+ Member ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery.TimezoneOffsetMinutes">
+ <summary>
+ Timezone offset (in minutes) (e.g. NYT: -4*60 = -480, Kiev: 3*60 = 180).
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery.ShowOrders">
+ <summary>
+ If true, the scheduled orders are included in the calendar.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery.ShowContacts">
+ <summary>
+ If true, the scheduled address book contacts are included in the calendar.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery.RoutesCount">
+ <summary>
+ If true, the scheduled routes are included in the calendar.
  </summary>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery">
@@ -2164,6 +2483,14 @@ User email.
  <param name="errorString">Returned error string in case of the processs failing</param>
  <returns>The updated address</returns>
 </member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetScheduleCalendar(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery,System.String@)">
+ <summary>
+ Get schedule calendar from the user's account.
+ </summary>
+ <param name="scheduleCalendarParams">Query parameters</param>
+ <param name="errorString">Error string</param>
+ <returns>Schedule calendar of the member</returns>
+</member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetUserLocations(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GenericParameters,System.String@)">
  <summary>
  Get user locations
@@ -2171,6 +2498,15 @@ User email.
  <param name="parameters">Query parameters</param>
  <param name="errorString">Error string</param>
  <returns>An array of the user locations</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.MemberHasCommercialCapability(System.String,System.String,System.String@)">
+ <summary>
+ Check if the member with the actualApiKey has commercial member capability.
+ </summary>
+ <param name="actualApiKey">Actual API key</param>
+ <param name="demoApiKey">Demo API key</param>
+ <param name="errorString">Error message text</param>
+ <returns>True, if the member has commercial capability</returns>
 </member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddAddressNote(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.NoteParameters,System.String@)">
  <summary>

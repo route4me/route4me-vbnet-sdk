@@ -7,7 +7,7 @@ Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Function SingleDriverMultipleTimeWindows() As DataObject
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             ' Prepare the addresses
             '#Region "Addresses"

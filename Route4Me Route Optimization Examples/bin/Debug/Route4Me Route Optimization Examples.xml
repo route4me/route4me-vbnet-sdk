@@ -22,6 +22,36 @@ Route4Me Route Optimization Examples
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetRouteTeamActivities">
+ <summary>
+ Get Team Activities on a Route
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchDestinationDeleted">
+ <summary>
+ Get activities with the event Destination Deleted
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchDestinationInserted">
+ <summary>
+ Get activities with the event Destination Inserted
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchDestinationMarkedAsDeparted">
+ <summary>
+ Get activities with the event Destination Marked as Departed
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchNoteInserted">
+ <summary>
+ Get activities with the event Note Inserted
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchRouteOwnerChanged">
+ <summary>
+ Get activities with the event Route Owner Changed
+ </summary>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MarkAddressAsMarkedAsVisited(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AddressParameters)">
  <summary>
  Mark Address As Marked As Visited
@@ -66,10 +96,20 @@ Route4Me Route Optimization Examples
  </summary>
  <param name="territoryId"> Avoidance Zone Id </param>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveTestContacts">
+ <summary>
+ Remove the contacts created in an example.
+ </summary>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GenericExample">
  <summary>
  This example demonstares how to use the API in a generic way, not bounded to the proposed Route4MeManager shortcucts
  For the same functionality using shortcuts check the Route4MeExamples.GenericExampleShortcut()
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetActivities">
+ <summary>
+ Get activities from a user account.
  </summary>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetAvoidanceZone(System.String)">
@@ -168,9 +208,9 @@ Route4Me Route Optimization Examples
  Get User By ID
  </summary>
 </member>
-<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.LogSpecificMessage">
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.LogCustomActivity">
  <summary>
- Log Specific Message
+ Create User Activity
  </summary>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateUser">

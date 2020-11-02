@@ -9,7 +9,7 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub GetOrderByID(OrderId As Integer)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim orderParameters As New OrderParameters() With {
                 .order_id = OrderId

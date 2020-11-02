@@ -9,7 +9,7 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub ValidateSession()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim params As MemberParameters = New MemberParameters() With { _
                 .SessionGuid = "ad9001f33ed6875b5f0e75bce52cbc34", _

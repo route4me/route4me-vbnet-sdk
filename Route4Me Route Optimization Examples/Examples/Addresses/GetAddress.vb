@@ -5,7 +5,7 @@ Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub GetAddress(routeId As String, routeDestinationId As Integer)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim addressParameters As New AddressParameters() With { _
                 .RouteId = routeId, _

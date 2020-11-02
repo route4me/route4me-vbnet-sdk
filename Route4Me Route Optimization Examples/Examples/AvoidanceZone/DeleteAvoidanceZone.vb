@@ -9,7 +9,7 @@ Namespace Route4MeSDKTest.Examples
         ''' <param name="territoryId"> Avoidance Zone Id </param>
         Public Sub DeleteAvoidanceZone(territoryId As String)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim avoidanceZoneQuery As New AvoidanceZoneQuery() With { _
                 .TerritoryId = territoryId _

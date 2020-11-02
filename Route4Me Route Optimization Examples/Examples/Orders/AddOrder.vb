@@ -10,7 +10,7 @@ Namespace Route4MeSDKTest.Examples
         ''' <returns> Added Order </returns>
         Public Function AddOrder() As Order
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim order As New Order() With { _
                 .address_1 = "Test Address1 " + (New Random()).[Next]().ToString(), _

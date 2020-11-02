@@ -5,7 +5,7 @@ Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub TrackDeviceLastLocationHistory(routeId As String)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             ' Create the gps parametes
             Dim gpsParameters As New GPSParameters() With { _

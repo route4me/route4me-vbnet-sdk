@@ -6,7 +6,7 @@ Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Async Function AsyncMultipleDepotMultipleDriver() As Task(Of DataObject)
 
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim addresses As Address() = New Address() {New Address() With {
                 .AddressString = "3634 W Market St, Fairlawn, OH 44333",

@@ -9,7 +9,7 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub RapidStreetServiceAll()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
             Dim geoParams As New GeocodingParameters With { _
                 .Zipcode = "00601", _
                 .Housenumber = "17" _

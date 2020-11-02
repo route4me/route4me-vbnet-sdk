@@ -10,7 +10,7 @@ Namespace Route4MeSDKTest.Examples
         ''' <param name="order"> Order with updated attributes </param>
         Public Sub UpdateOrder(order As Order)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             ' Run the query
             Dim errorString As String = ""

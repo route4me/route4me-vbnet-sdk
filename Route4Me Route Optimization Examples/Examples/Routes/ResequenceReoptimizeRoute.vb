@@ -10,7 +10,7 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub ResequenceReoptimizeRoute(routeId As String)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim roParameters As New Dictionary(Of String, String)
             With roParameters

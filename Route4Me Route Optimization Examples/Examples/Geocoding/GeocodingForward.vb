@@ -1,5 +1,4 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
-Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDKTest.Examples
@@ -9,7 +8,7 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub GeocodingForward(geoParams As GeocodingParameters)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             ' Run the query
             Dim errorString As String = ""

@@ -8,7 +8,7 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub CreateRectTerritory()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim territoryParameters As New AvoidanceZoneParameters() With { _
                 .TerritoryName = "Test Territory", _

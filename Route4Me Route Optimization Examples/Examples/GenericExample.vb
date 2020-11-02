@@ -44,7 +44,7 @@ Namespace Route4MeSDKTest.Examples
         End Sub
 
         Public Sub GenericExampleShortcut()
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim routeQueryParameters As New RouteParametersQuery() With { _
                 .Limit = 10, _

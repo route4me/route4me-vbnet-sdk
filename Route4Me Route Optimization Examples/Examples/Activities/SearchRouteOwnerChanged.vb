@@ -1,35 +1,32 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
+        ''' <summary>
+        ''' Get activities with the event Route Owner Changed
+        ''' </summary>
         Public Sub SearchRouteOwnerChanged()
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim activityParameters As New ActivityParameters() With { _
-                .ActivityType = "route-owner-changed", _
-                .RouteId = "5C15E83A4BE005BCD1537955D28D51D7" _
+            RunOptimizationSingleDriverRoute10Stops()
+
+            Dim routeId As String = SD10Stops_route_id
+
+            OptimizationsToRemove = New List(Of String)() From {
+                SD10Stops_optimization_problem_id
             }
 
-            ' Run the query
-            Dim errorString As String = ""
+            Dim activityParameters = New ActivityParameters With {
+                .ActivityType = "route-owner-changed",
+                .RouteId = routeId
+            }
+
+            Dim errorString As String = Nothing
             Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
 
-            Console.WriteLine("")
-
-            If activities IsNot Nothing Then
-                Console.WriteLine("SearchRouteOwnerChanged executed successfully, {0} activities returned", activities.Length)
-                Console.WriteLine("")
-
-                For Each Activity As Activity In activities
-                    Console.WriteLine("Activity ID: {0}", Activity.ActivityId)
-                Next
-
-                Console.WriteLine("")
-            Else
-                Console.WriteLine("SearchRouteOwnerChanged error: {0}", errorString)
-            End If
+            PrintExampleActivities(activities, errorString)
         End Sub
     End Class
 End Namespace

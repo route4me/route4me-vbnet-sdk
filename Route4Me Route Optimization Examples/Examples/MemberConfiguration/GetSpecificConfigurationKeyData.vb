@@ -9,7 +9,7 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub GetSpecificConfigurationKeyData()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim params As MemberConfigurationParameters = New MemberConfigurationParameters() With { _
                 .config_key = "destination_icon_uri" _

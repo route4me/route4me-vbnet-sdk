@@ -8,7 +8,7 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub UpdateTerritory()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim territoryId As String = "4703BC24F64E43C45DA852ABAFB5B404"
 

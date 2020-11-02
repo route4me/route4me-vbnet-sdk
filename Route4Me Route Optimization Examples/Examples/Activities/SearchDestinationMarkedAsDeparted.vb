@@ -1,35 +1,66 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
+        ''' <summary>
+        ''' Get activities with the event Destination Marked as Departed
+        ''' </summary>
         Public Sub SearchDestinationMarkedAsDeparted()
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim activityParameters As New ActivityParameters() With { _
-                .ActivityType = "mark-destination-departed", _
-                .RouteId = "03CEF546324F727239ABA69EFF3766E1" _
+            RunOptimizationSingleDriverRoute10Stops()
+
+            Dim routeId As String = SD10Stops_route_id
+
+            OptimizationsToRemove = New List(Of String)() From {
+                SD10Stops_optimization_problem_id
             }
 
-            ' Run the query
-            Dim errorString As String = ""
+            Dim addressId As Integer = CInt(SD10Stops_route.Addresses(2).RouteDestinationId)
+
+            Dim addressVisitedParams = New AddressParameters() With {
+                .RouteId = routeId,
+                .AddressId = addressId,
+                .IsVisited = True
+            }
+
+            Dim errorString As String = Nothing
+            Dim visitedStatus As Integer = route4Me.MarkAddressVisited(addressVisitedParams, errorString)
+
+            If visitedStatus <> 1 Then
+                Console.WriteLine("Cannot mark the test destination as visited." & Environment.NewLine & errorString)
+
+                RemoveTestOptimizations()
+
+                Return
+            End If
+
+            Dim addressDepartParams = New AddressParameters() With {
+                .RouteId = routeId,
+                .AddressId = addressId,
+                .IsDeparted = True
+            }
+
+            Dim departedStatus As Integer = route4Me.MarkAddressDeparted(addressDepartParams, errorString)
+
+            If departedStatus <> 1 Then
+                Console.WriteLine("Cannot mark the test destination as departed." & Environment.NewLine & errorString)
+                RemoveTestOptimizations()
+                Return
+            End If
+
+            Dim activityParameters = New ActivityParameters With {
+                .ActivityType = "mark-destination-departed",
+                .RouteId = routeId
+            }
+
             Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
 
-            Console.WriteLine("")
+            PrintExampleActivities(activities, errorString)
 
-            If activities IsNot Nothing Then
-                Console.WriteLine("SearchDestinationMarkedAsDeparted executed successfully, {0} activities returned", activities.Length)
-                Console.WriteLine("")
-
-                For Each Activity As Activity In activities
-                    Console.WriteLine("Activity ID: {0}", Activity.ActivityId)
-                Next
-
-                Console.WriteLine("")
-            Else
-                Console.WriteLine("SearchDestinationMarkedAsDeparted error: {0}", errorString)
-            End If
+            RemoveTestOptimizations()
         End Sub
     End Class
 End Namespace

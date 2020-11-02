@@ -7,7 +7,7 @@ Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub UpdateRoute(routeId As String)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim parametersNew As New RouteParameters() With { _
                 .RouteName = "New name of the route" _

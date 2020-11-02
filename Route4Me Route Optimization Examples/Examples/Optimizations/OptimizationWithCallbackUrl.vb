@@ -5,7 +5,7 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Function OptimizationWithCallbackUrl() As DataObject
-            Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+            Dim route4Me As Route4MeManager = New Route4MeManager(ActualApiKey)
             Dim addresses As Address() = New Address() {New Address() With {
                 .AddressString = "3634 W Market St, Fairlawn, OH 44333",
                 .IsDepot = True,

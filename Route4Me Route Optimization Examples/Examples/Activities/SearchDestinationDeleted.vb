@@ -1,35 +1,42 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
+        ''' <summary>
+        ''' Get activities with the event Destination Deleted
+        ''' </summary>
         Public Sub SearchDestinationDeleted()
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim activityParameters As New ActivityParameters() With { _
-                .ActivityType = "delete-destination", _
-                .RouteId = "5C15E83A4BE005BCD1537955D28D51D7" _
+            RunOptimizationSingleDriverRoute10Stops()
+
+            Dim routeId As String = SD10Stops_route_id
+
+            OptimizationsToRemove = New List(Of String)() From {
+                SD10Stops_optimization_problem_id
             }
 
-            ' Run the query
-            Dim errorString As String = ""
+            Dim addressId As Integer = CInt(SD10Stops_route.Addresses(2).RouteDestinationId)
+
+            Dim errorString As String = Nothing
+            Dim removed As Boolean = route4Me.RemoveRouteDestination(routeId, addressId, errorString)
+
+            If Not removed Then
+                Console.WriteLine("Cannot remove the test destination." & Environment.NewLine & errorString)
+                Return
+            End If
+
+            Dim activityParameters = New ActivityParameters With {
+                .ActivityType = "delete-destination",
+                .RouteId = routeId
+            }
             Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
 
-            Console.WriteLine("")
+            PrintExampleActivities(activities, errorString)
 
-            If activities IsNot Nothing Then
-                Console.WriteLine("SearchDestinationDeleted executed successfully, {0} activities returned", activities.Length)
-                Console.WriteLine("")
-
-                For Each Activity As Activity In activities
-                    Console.WriteLine("Activity ID: {0}", Activity.ActivityId)
-                Next
-
-                Console.WriteLine("")
-            Else
-                Console.WriteLine("SearchDestinationDeleted error: {0}", errorString)
-            End If
+            RemoveTestOptimizations()
         End Sub
     End Class
 End Namespace

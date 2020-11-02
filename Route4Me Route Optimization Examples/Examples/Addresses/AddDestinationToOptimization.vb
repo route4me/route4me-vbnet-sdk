@@ -5,7 +5,7 @@ Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub AddDestinationToOptimization(optimizationProblemID As String, andReOptimize As Boolean)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             ' Prepare the address that we are going to add to an existing route optimization
             Dim addresses As Address() = New Address() {New Address() With { _

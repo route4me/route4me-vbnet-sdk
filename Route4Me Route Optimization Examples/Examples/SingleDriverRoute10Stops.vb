@@ -5,7 +5,7 @@ Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Function SingleDriverRoute10Stops() As DataObject
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             ' Prepare the addresses
             '#Region "Addresses"
@@ -82,15 +82,14 @@ Namespace Route4MeSDKTest.Examples
 
             ' Set parameters
 
-            Dim parameters As New RouteParameters() With { _
-                .AlgorithmType = AlgorithmType.TSP, _
-                .StoreRoute = False, _
-                .RouteName = "Single Driver Route 10 Stops", _
-                .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)), _
-                .RouteTime = 60 * 60 * 7, _
-                .Optimize = EnumHelper.GetEnumDescription(Optimize.Distance), _
-                .DistanceUnit = EnumHelper.GetEnumDescription(DistanceUnit.MI), _
-                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.Web) _
+            Dim parameters As New RouteParameters() With {
+                .AlgorithmType = AlgorithmType.TSP,
+                .RouteName = "Single Driver Route 10 Stops",
+                .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)),
+                .RouteTime = 60 * 60 * 7,
+                .Optimize = EnumHelper.GetEnumDescription(Optimize.Distance),
+                .DistanceUnit = EnumHelper.GetEnumDescription(DistanceUnit.MI),
+                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.Web)
             }
 
             Dim optimizationParameters As New OptimizationParameters() With { _

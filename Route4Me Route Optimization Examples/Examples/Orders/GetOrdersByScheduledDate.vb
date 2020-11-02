@@ -9,7 +9,7 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub GetOrderByScheduledDate(ScheduleddDate As String)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim oParams As New OrderParameters() With { _
                 .scheduled_for_YYMMDD = ScheduleddDate _

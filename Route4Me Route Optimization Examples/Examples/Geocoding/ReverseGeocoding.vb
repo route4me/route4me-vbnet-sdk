@@ -9,7 +9,7 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub ReverseGeocoding()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
             Dim geoParams As New GeocodingParameters With { _
                  .Addresses = "42.35863,-71.05670"
             }

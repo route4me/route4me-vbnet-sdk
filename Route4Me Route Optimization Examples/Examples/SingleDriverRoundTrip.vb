@@ -7,7 +7,7 @@ Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Function SingleDriverRoundTrip() As DataObject
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             ' Prepare the addresses
             '#Region "Addresses"
@@ -72,19 +72,18 @@ Namespace Route4MeSDKTest.Examples
 
             ' Set parameters
 
-            Dim parameters As New RouteParameters() With { _
-                .AlgorithmType = AlgorithmType.TSP, _
-                .StoreRoute = False, _
-                .RouteName = "Single Driver Round Trip", _
-                .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)), _
-                .RouteTime = 60 * 60 * 7, _
-                .RouteMaxDuration = 86400, _
-                .VehicleCapacity = "1", _
-                .VehicleMaxDistanceMI = "10000", _
-                .Optimize = EnumHelper.GetEnumDescription(Optimize.Distance), _
-                .DistanceUnit = EnumHelper.GetEnumDescription(DistanceUnit.MI), _
-                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.Web), _
-                .TravelMode = EnumHelper.GetEnumDescription(TravelMode.Driving) _
+            Dim parameters As New RouteParameters() With {
+                .AlgorithmType = AlgorithmType.TSP,
+                .RouteName = "Single Driver Round Trip",
+                .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)),
+                .RouteTime = 60 * 60 * 7,
+                .RouteMaxDuration = 86400,
+                .VehicleCapacity = "1",
+                .VehicleMaxDistanceMI = "10000",
+                .Optimize = EnumHelper.GetEnumDescription(Optimize.Distance),
+                .DistanceUnit = EnumHelper.GetEnumDescription(DistanceUnit.MI),
+                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.Web),
+                .TravelMode = EnumHelper.GetEnumDescription(TravelMode.Driving)
             }
 
             Dim optimizationParameters As New OptimizationParameters() With { _

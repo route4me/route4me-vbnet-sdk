@@ -9,7 +9,7 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub CreateUser()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim params As MemberParametersV4 = New MemberParametersV4() With { _
                 .HIDE_ROUTED_ADDRESSES = "FALSE", _

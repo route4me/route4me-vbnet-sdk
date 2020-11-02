@@ -3,21 +3,21 @@ Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Function InsertAddressIntoRouteOptimzalPostion(routeId As String) As Integer()
+        Public Function InsertAddressIntoRouteOptimalPosition(routeId As String) As Integer()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             ' Prepare the addresses
 
-            Dim addresses As Address() = New Address() {New Address() With { _
-                .AddressString = "Cabo Rojo, Cabo Rojo 00623, Puerto Rico", _
-                .Alias = "", _
-                .Latitude = 18.086627, _
-                .Longitude = -67.145735, _
-                .CurbsideLatitude = 18.086627, _
-                .CurbsideLongitude = -67.145735, _
-                .ContactId = Nothing, _
-                .IsDeparted = False, _
+            Dim addresses As Address() = New Address() {New Address() With {
+                .AddressString = "Cabo Rojo, Cabo Rojo 00623, Puerto Rico",
+                .Alias = "",
+                .Latitude = 18.086627,
+                .Longitude = -67.145735,
+                .CurbsideLatitude = 18.086627,
+                .CurbsideLongitude = -67.145735,
+                .ContactId = Nothing,
+                .IsDeparted = False,
                 .IsVisited = False
             }}
 

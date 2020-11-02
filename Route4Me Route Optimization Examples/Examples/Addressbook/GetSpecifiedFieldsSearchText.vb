@@ -5,13 +5,13 @@ Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub GetSpecifiedFieldsSearchText()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
-            Dim addressBookParameters As New AddressBookParameters() With {
-                .Query = "david",
-                .Fields = "first_name,address_email",
-                .Offset = 0,
-                .Limit = 20
+            Dim addressBookParameters As New AddressBookParameters() With { _
+                .Query = "david", _
+                .Fields = "first_name,address_email", _
+                .Offset = 0, _
+                .Limit = 20 _
             }
 
             ' Run the query

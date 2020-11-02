@@ -9,7 +9,7 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub ResequenceRouteDestination(routeId As String, routeDestinationId As Integer)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             Dim rParameters As New RouteParametersQuery() With { _
                 .RouteId = routeId, _

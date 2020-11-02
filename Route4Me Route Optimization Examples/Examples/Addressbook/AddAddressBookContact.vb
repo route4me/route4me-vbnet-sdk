@@ -4,7 +4,7 @@ Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Function AddAddressBookContact() As AddressBookContact
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeSDKLibrary.Route4MeSDK.Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeSDKLibrary.Route4MeSDK.Route4MeManager(ActualApiKey)
 
             Dim contact As New AddressBookContact() With {
                  .first_name = "Test FirstName " + (New Random()).[Next]().ToString(),

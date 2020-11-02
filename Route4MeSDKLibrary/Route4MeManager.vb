@@ -1437,9 +1437,11 @@ Namespace Route4MeSDK
         Public Function GetActivityFeed(activityParameters As ActivityParameters, ByRef errorString As String) As Activity()
             Dim response As GetActivitiesResponse = GetJsonObjectFromAPI(Of GetActivitiesResponse)(activityParameters, R4MEInfrastructureSettings.ActivityFeed, HttpMethodType.[Get], errorString)
             Dim result As Activity() = Nothing
+
             If response IsNot Nothing Then
                 result = response.Results
             End If
+
             Return result
         End Function
 

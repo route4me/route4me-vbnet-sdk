@@ -10,7 +10,7 @@ Namespace Route4MeSDKTest.Examples
         ''' <param name="orderIds"> Order Ids </param>
         Public Sub RemoveOrders(orderIds As String())
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(c_ApiKey)
+            Dim route4Me As New Route4MeManager(ActualApiKey)
 
             ' Run the query
             Dim errorString As String = ""
