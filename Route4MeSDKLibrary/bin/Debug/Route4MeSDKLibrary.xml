@@ -482,6 +482,230 @@ Route4MeSDKLibrary
  Manifest of a route address.
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact">
+ <summary>
+ Address book contact class. 
+ <para>See the JSON schema at <see cref="!:https://github.com/route4me/route4me-json-schemas/blob/master/Addressbook_v4.dtd">link</see> </para>
+ <para>Note: 'contact' means 'address book contact' and 'address' means 'geographic address of the contact'.</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.territory_name">
+ <summary>
+ A territory shape name the contact belongs.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.created_timestamp">
+ <summary>
+ Time when the contact was created.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.address_id">
+ <summary>
+ Unique ID of the contact.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.address_1">
+ <summary>
+ The geographic address of the contact.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.address_2">
+ <summary>
+ Second geographic address of the contact.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.member_id">
+ <summary>
+ Unique ID of the member.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.address_alias">
+ <summary>
+ The contact's alias.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.address_group">
+ <summary>
+ A group the contact belongs.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.first_name">
+ <summary>
+ The first name of the contact person.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.last_name">
+ <summary>
+ The last name of the contact person.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.local_time_window_start">
+ <summary>
+ Start of the contact's local time window.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.local_time_window_end">
+ <summary>
+ End of the contact's local time window.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.local_time_window_start_2">
+ <summary>
+ Start of the contact's second local time window.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.local_time_window_end_2">
+ <summary>
+ End of the contact's second local time window.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.address_email">
+ <summary>
+ The contact's email.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.address_phone_number">
+ <summary>
+ The contact's phone number.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.cached_lat">
+ <summary>
+ A latitude of the contact's cached position.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.cached_lng">
+ <summary>
+ A longitude of the contact's cached position.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.curbside_lat">
+ <summary>
+ A latitude of the contact's curbside.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.curbside_lng">
+ <summary>
+ A longitude of the contact's curbside.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.address_city">
+ <summary>
+ A city the contact belongs.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.address_state_id">
+ <summary>
+ The ID of the state the contact belongs.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.address_country_id">
+ <summary>
+ The ID of the country the contact belongs.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.address_zip">
+ <summary>
+ The contact's ZIP code.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.address_custom_data">
+ <summary>
+ An array of the contact's custom field-value pairs.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.schedule">
+ <summary>
+ An array of the contact's schedules.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.schedule_blacklist">
+ <summary>
+ The list of dates that should be omitted from the schedules.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.in_route_count">
+ <summary>
+ Number of the routes containing the contact.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.visited_count">
+ <summary>
+ Number of the visits to the contact.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.last_visited_timestamp">
+ <summary>
+ When the contact was last visited.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.last_routed_timestamp">
+ <summary>
+ When the contact was last routed.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.service_time">
+ <summary>
+ The service time at the contact's address.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.local_timezone_string">
+ <summary>
+ The contact's local timezone.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.color">
+ <summary>
+ The contact's color on the map.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.address_icon">
+ <summary>
+ The contact's icon on the map.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.AddressStopType">
+ <summary>
+ The contact's stop type.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.AddressCube">
+ <summary>
+  The cubic volume of the contact's cargo.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.AddressPieces">
+ <summary>
+ The number of pieces/palllets that this destination/order/line-item consumes/contains on a vehicle.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.AddressReferenceNo">
+ <summary>
+ The reference number of the address.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.AddressRevenue">
+ <summary>
+ The revenue from the contact.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.AddressWeight">
+ <summary>
+ The weight of the contact's cargo.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.AddressPriority">
+ <summary>
+ If present, the priority will sequence addresses in all the optimal routes so that 
+ higher priority addresses are general at the beginning of the route sequence. 
+ 1 is the highest priority, 100000 is the lowest.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact.AddressCustomerPo">
+ <summary>
+ The customer purchase order of the contact.
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBundling">
  <summary>
  Class for the address bundling query
@@ -2561,6 +2785,40 @@ User email.
  <param name="errorString">out: Error as string</param>
  <returns>An array of the IDs of added addresses</returns>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.SearchAddressBookLocationRequest">
+ <summary>
+ The request parameters for the address book locations searching process.
+ </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.SearchAddressBookLocation(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AddressBookParameters,System.Collections.Generic.List{Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact}@,System.String@)">
+ <summary>
+ Searches for the address book locations 
+ </summary>
+ <param name="addressBookParameters">An AddressParameters type object as the input parameter</param>
+ <param name="errorString">out: Error as string</param>
+ <returns>List of the selected fields values</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateAddressBookContact(Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact,Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact,System.String@)">
+ <summary>
+ Updates a contact by comparing initial And modified contact objects And
+ by updating only modified proeprties of a contact.
+ </summary>
+ <param name="contact">A address book contact object as input (modified Or created virtual contact)</param>
+ <param name="initialContact">An initial address book contact</param>
+ <param name="errorString">Error string</param>
+ <returns>Updated address book contact</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateAddressBookContact(Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact,System.Collections.Generic.List{System.String},System.String@)">
+ <summary>
+ Updates an address book contact.
+ Used in case fo sending specified, limited number of the Contact parameters.
+ </summary>
+ <param name="contact">Address Book Contact</param>
+ <param name="updatableProperties">List of the properties which should be updated - 
+ despite are they null Or Not</param>
+ <param name="errorString">Error strings</param>
+ <returns>Address book contact</returns>
+</member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddAvoidanceZone(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters,System.String@)">
  <summary>
  Create avoidance zone
@@ -2845,6 +3103,14 @@ User email.
  Read a setting parameter from App.config by specified key
  </summary>
  <param name="key">A seting key</param>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.DDHHMM2Seconds(System.String,System.String@)">
+ <summary>
+ Convert the dd:HH:mm format String To the seconts (int)
+ </summary>
+ <param name="ddhhmm">The dd:HH:mm format String</param>
+ <param name="errorString">Error string</param>
+ <returns>Seconds</returns>
 </member>
 </members>
 </doc>

@@ -22,9 +22,29 @@ Route4Me Route Optimization Examples
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetActivitiesByMember">
+ <summary>
+ Get activities by member.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetLastActivities">
+ <summary>
+The example refers to the process of query all the activities from the last specified days.
+ </summary>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetRouteTeamActivities">
  <summary>
  Get Team Activities on a Route
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchAreaRemoved">
+ <summary>
+ Get activities with the event Area Removed
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchAreaUpdated">
+ <summary>
+ Get activities with the event Area Updated.
  </summary>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchDestinationDeleted">
@@ -42,14 +62,119 @@ Route4Me Route Optimization Examples
  Get activities with the event Destination Marked as Departed
  </summary>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchDestinationOutSequence">
+ <summary>
+ Get activities with the event Destination Out of Sequense
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchDestinationUpdated">
+ <summary>
+ Get activities with the event Destination Updated
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchDriverArrivedEarly">
+ <summary>
+ Get activities with the event Driver Arrived Early
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchDriverArrivedLate">
+ <summary>
+ Get activities with the event Driver Arrived Late
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchDriverArrivedOnTime">
+ <summary>
+ Get activities with the event Driver Arrived On Time
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchGeofenceEntered">
+ <summary>
+ Get activities with the event Geofence Entered
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchGeofenceLeft">
+ <summary>
+ Get activities with the event Geofence Left
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchInsertDestinationAll">
+ <summary>
+ Get activities with the event Insert Destination All
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchMarkDestinationDepartedAll">
+ <summary>
+ Get activities with the event Mark Destination As Departed All
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchMarkDestinationVisited">
+ <summary>
+ Get activities with the event Mark Destination as Visited
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchMemberCreated">
+ <summary>
+ Get activities with the event Member Created
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchMemberDeleted">
+ <summary>
+ Get activities with the event Member Deleted
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchMemberModified">
+ <summary>
+ Get activities with the event Search Member Modified
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchMoveDestination">
+ <summary>
+ Get activities with the event Move Destination
+ </summary>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchNoteInserted">
  <summary>
  Get activities with the event Note Inserted
  </summary>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchNoteInsertedAll">
+ <summary>
+ Get activities with the event Search Area Added
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchRouteDeleted">
+ <summary>
+ Get activities with the event Route Deleted
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchRouteOptimized">
+ <summary>
+ Get activities with the event Route Optimized
+ </summary>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchRouteOwnerChanged">
  <summary>
  Get activities with the event Route Owner Changed
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddAddressBookContact">
+ <summary>
+ Add address book contact
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddScheduledAddressBookContact">
+ <summary>
+ Add a scheduled address book contact
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchLocationsByText">
+ <summary>
+ Search for the address book Locations by query text.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateWholeAddressBookContact">
+ <summary>
+ Update an address book contact by sending whole modified contact object.
  </summary>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MarkAddressAsMarkedAsVisited(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AddressParameters)">
@@ -77,6 +202,21 @@ Route4Me Route Optimization Examples
  Add Avoidance Zone
  </summary>
  <returns> Id of added territory </returns>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetSpecifiedFieldsSearchText">
+ <summary>
+ Search for Specified Text, Show Specified Fields
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchLocationsByIDs">
+ <summary>
+ Search Locations By IDs
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchRoutedLocations">
+ <summary>
+ Search Routed Locations
+ </summary>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddPolygonAvoidanceZone">
  <summary>
@@ -110,6 +250,11 @@ Route4Me Route Optimization Examples
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetActivities">
  <summary>
  Get activities from a user account.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetAddressBookContacts">
+ <summary>
+ Get the address book contacts
  </summary>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetAvoidanceZone(System.String)">
@@ -217,6 +362,12 @@ Route4Me Route Optimization Examples
  <summary>
  Update an User
  </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveAddressBookContacts(System.String[])">
+ <summary>
+ Remove an array of the address book contacts.
+ </summary>
+ <param name="addressIds">An array of the address IDs</param>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveOptimization(System.String[])">
  <summary>

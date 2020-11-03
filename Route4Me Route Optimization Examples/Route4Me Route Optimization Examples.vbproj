@@ -243,7 +243,6 @@
     <Compile Include="Examples\Tracking\SetGPSPosition.vb" />
     <Compile Include="Examples\Tracking\TrackDeviceLastLocationHistory.vb" />
     <Compile Include="Examples\Vehicles\GetVehicles.vb" />
-    <Compile Include="MainFull.vb" />
     <Compile Include="Main.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
