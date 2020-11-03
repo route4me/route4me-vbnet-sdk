@@ -12,6 +12,8 @@
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,10 +26,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -64,6 +64,9 @@
   <PropertyGroup>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
       <HintPath>..\packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
@@ -74,11 +77,14 @@
       <HintPath>..\Route4MeSDKLibrary\bin\Debug\Route4MeSDKLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -96,15 +102,40 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Examples\Activities\GetActivitiesByMember.vb" />
+    <Compile Include="Examples\Activities\GetLastActivities.vb" />
     <Compile Include="Examples\Activities\GetRouteTeamActivities.vb" />
     <Compile Include="Examples\Activities\SearchAreaAdded.vb" />
+    <Compile Include="Examples\Activities\SearchAreaRemoved.vb" />
+    <Compile Include="Examples\Activities\SearchAreaUpdated.vb" />
     <Compile Include="Examples\Activities\SearchDestinationDeleted.vb" />
     <Compile Include="Examples\Activities\SearchDestinationInserted.vb" />
     <Compile Include="Examples\Activities\SearchDestinationMarkedAsDeparted.vb" />
+    <Compile Include="Examples\Activities\SearchDestinationOutSequence.vb" />
+    <Compile Include="Examples\Activities\SearchDestinationUpdated.vb" />
+    <Compile Include="Examples\Activities\SearchDriverArrivedEarly.vb" />
+    <Compile Include="Examples\Activities\SearchDriverArrivedLate.vb" />
+    <Compile Include="Examples\Activities\SearchDriverArrivedOnTime.vb" />
+    <Compile Include="Examples\Activities\SearchGeofenceEntered.vb" />
+    <Compile Include="Examples\Activities\SearchGeofenceLeft.vb" />
+    <Compile Include="Examples\Activities\SearchInsertDestinationAll.vb" />
+    <Compile Include="Examples\Activities\SearchMarkDestinationDepartedAll.vb" />
+    <Compile Include="Examples\Activities\SearchMarkDestinationVisited.vb" />
+    <Compile Include="Examples\Activities\SearchMemberCreated.vb" />
+    <Compile Include="Examples\Activities\SearchMemberDeleted.vb" />
+    <Compile Include="Examples\Activities\SearchMemberModified.vb" />
+    <Compile Include="Examples\Activities\SearchMoveDestination.vb" />
     <Compile Include="Examples\Activities\SearchNoteInserted.vb" />
+    <Compile Include="Examples\Activities\SearchNoteInsertedAll.vb" />
+    <Compile Include="Examples\Activities\SearchRouteDeleted.vb" />
+    <Compile Include="Examples\Activities\SearchRouteOptimized.vb" />
     <Compile Include="Examples\Activities\SearchRouteOwnerChanged.vb" />
     <Compile Include="Examples\Addressbook\AddAddressBookContact.vb" />
+    <Compile Include="Examples\Addressbook\AddScheduledAddressBookContact.vb" />
     <Compile Include="Examples\Addressbook\DeserializeDictionaryExample.vb" />
+    <Compile Include="Examples\Addressbook\ScheduleDaily.vb" />
+    <Compile Include="Examples\Addressbook\SearchLocationsByText.vb" />
+    <Compile Include="Examples\Addressbook\UpdateWholeAddressBookContact.vb" />
     <Compile Include="Examples\Addresses\AddDestinationToOptimization.vb" />
     <Compile Include="Examples\Addresses\AddRouteDestinations.vb" />
     <Compile Include="Examples\Addresses\GetAddress.vb" />
@@ -212,11 +243,13 @@
     <Compile Include="Examples\Tracking\SetGPSPosition.vb" />
     <Compile Include="Examples\Tracking\TrackDeviceLastLocationHistory.vb" />
     <Compile Include="Examples\Vehicles\GetVehicles.vb" />
+    <Compile Include="MainFull.vb" />
     <Compile Include="Main.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>

@@ -5,23 +5,21 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
-        ''' Search Locations By IDs
+        ''' Search for the address book Locations by query text.
         ''' </summary>
-        Public Sub SearchLocationsByIDs()
+        Public Sub SearchLocationsByText()
             Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            CreateTestContacts()
-
             Dim addressBookParameters = New AddressBookParameters With {
-                .AddressId = contact1.address_id.ToString() & "," + contact2.address_id.ToString()
+                .Query = "david",
+                .Offset = 0,
+                .Limit = 20
             }
 
             Dim total As UInteger = Nothing, errorString As String = Nothing
             Dim contacts As AddressBookContact() = route4Me.GetAddressBookLocation(addressBookParameters, total, errorString)
 
             PrintExampleContact(contacts, total, errorString)
-
-            RemoveTestContacts()
         End Sub
     End Class
 End Namespace

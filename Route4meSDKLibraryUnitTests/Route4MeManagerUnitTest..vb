@@ -1,11 +1,15 @@
-﻿Imports Route4MeSDKLibrary.Route4MeSDK
+﻿Imports System.Text
+Imports Microsoft.VisualStudio.TestTools.UnitTesting
+Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.FastProcessing
 Imports System.IO
 Imports System.Runtime.Serialization
+Imports System.Reflection
 Imports System.CodeDom.Compiler
 Imports System.Threading
+Imports CsvHelper
 
 Public Class ApiKeys
     Public Shared actualApiKey As String = R4MeUtils.ReadSetting("actualApiKey")
@@ -7290,7 +7294,10 @@ Public Class AddressbookContactsGroup
 
         ' Run the query
         Dim errorString As String = ""
-        Dim response As Route4MeManager.SearchAddressBookLocationResponse = route4Me.SearchAddressBookLocation(addressBookParameters, errorString)
+        Dim contactsFromObjects As List(Of AddressBookContact) = Nothing
+
+        Dim response As Route4MeManager.SearchAddressBookLocationResponse =
+            route4Me.SearchAddressBookLocation(addressBookParameters, contactsFromObjects, errorString)
 
         Assert.IsInstanceOfType(response.Total, GetType(UInt32), Convert.ToString("GetSpecifiedFieldsSearchTextTest failed... ") & errorString)
     End Sub

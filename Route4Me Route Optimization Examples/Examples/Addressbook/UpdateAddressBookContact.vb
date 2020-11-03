@@ -1,23 +1,49 @@
-﻿Imports Route4MeSDKLibrary.Route4MeSDK
+﻿Imports Route4MeSDK.DataTypes
+Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
-Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+Imports System.Collections.Generic
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Sub UpdateAddressBookContact(contact As AddressBookContact)
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+        Public Sub UpdateAddressBookContact(ByVal Optional contact As AddressBookContact = Nothing)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+            CreateTestContacts()
+            If contact IsNot Nothing Then contact1 = contact
+            contact1.address_group = "Updated"
+            contact1.schedule_blacklist = New String() {"2020-03-14", "2020-03-15"}
+            contact1.address_custom_data = New Dictionary(Of String, Object) From {
+                {"key1", "value1"},
+                {"key2", "value2"}
+            }
+            contact1.local_time_window_start = 25400
+            contact1.local_time_window_end = 26000
+            contact1.AddressCube = 5
+            contact1.AddressPieces = 6
+            contact1.AddressRevenue = 700
+            contact1.AddressWeight = 80
+            contact1.AddressPriority = 9
 
-            ' Run the query
-            Dim errorString As String = ""
-            Dim updatedContact As AddressBookContact = route4Me.UpdateAddressBookContact(contact, errorString)
+            Dim updatableProperties = New List(Of String)() From {
+                "address_id",
+                "address_group",
+                "schedule_blacklist",
+                "address_custom_data",
+                "local_time_window_start",
+                "local_time_window_end",
+                "AddressCube",
+                "AddressPieces",
+                "AddressRevenue",
+                "AddressWeight",
+                "AddressPriority",
+                "ConvertBooleansToInteger"
+            }
 
-            Console.WriteLine("")
+            Dim errorString As String = Nothing
+            Dim updatedContact = route4Me.UpdateAddressBookContact(contact1, updatableProperties, errorString)
 
-            If updatedContact IsNot Nothing Then
-                Console.WriteLine("UpdateAddressBookContact executed successfully")
-            Else
-                Console.WriteLine("UpdateAddressBookContact error: {0}", errorString)
-            End If
+            PrintExampleContact(updatedContact, 0, errorString)
+
+            RemoveTestContacts()
         End Sub
     End Class
 End Namespace

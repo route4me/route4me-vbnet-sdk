@@ -559,6 +559,36 @@ Namespace Route4MeSDK
                 Return "Error reading app settings"
             End Try
         End Function
+
+        ''' <summary>
+        ''' Convert the dd:HH:mm format String To the seconts (int)
+        ''' </summary>
+        ''' <param name="ddhhmm">The dd:HH:mm format String</param>
+        ''' <param name="errorString">Error string</param>
+        ''' <returns>Seconds</returns>
+        Public Function DDHHMM2Seconds(ByVal ddhhmm As String, ByRef errorString As String) As Integer?
+            errorString = ""
+
+            If ddhhmm Is Nothing Then
+                errorString = "Wrong time.Specify the time in the format HH: mm: ss"
+                Return Nothing
+            End If
+
+            Dim regexPattern As String = "\d{2}\:[0-2][0-9]\:[0-6][0-9]"
+            Dim regex As Regex = New Regex(regexPattern)
+            Dim match As Match = regex.Match(ddhhmm)
+
+            If match.Success Then
+                Dim parts As String() = ddhhmm.Split(":"c)
+                Dim days As Integer = Convert.ToInt32(parts(0))
+                Dim hours As Integer = Convert.ToInt32(parts(1))
+                Dim minutes As Integer = Convert.ToInt32(parts(2))
+                Return days * 24 * 3600 + hours * 3600 + minutes * 60
+            Else
+                errorString = "Wrong time.Specify the time in the format HH: mm: ss"
+                Return Nothing
+            End If
+        End Function
     End Module
 End Namespace
 

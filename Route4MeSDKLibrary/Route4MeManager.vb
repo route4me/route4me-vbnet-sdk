@@ -13,6 +13,7 @@ Imports System.Text
 Imports System.Xml
 Imports System.Threading.Tasks
 Imports System.Threading
+Imports System.Reflection
 
 Namespace Route4MeSDK
     ''' <summary>
@@ -2052,52 +2053,32 @@ Namespace Route4MeSDK
             Return result
         End Function
 
+        ''' <summary>
+        ''' The request parameters for the address book locations searching process.
+        ''' </summary>
         <DataContract>
         Private NotInheritable Class SearchAddressBookLocationRequest
             Inherits GenericParameters
+
+            ' <value>Comma-delimited list of the contact IDs</value>
+            <HttpQueryMemberAttribute(Name:="address_id", EmitDefaultValue:=False)>
+            Public Property AddressId As String
+
+            ' <value>The query text</value>
             <HttpQueryMemberAttribute(Name:="query", EmitDefaultValue:=False)>
-            Public Property Query() As String
-                Get
-                    Return m_Query
-                End Get
-                Set(value As String)
-                    m_Query = value
-                End Set
-            End Property
-            Private m_Query As String
+            Public Property Query As String
 
+            ' <value>The comma-delimited list of the fields</value>
             <HttpQueryMemberAttribute(Name:="fields", EmitDefaultValue:=False)>
-            Public Property Fields() As String
-                Get
-                    Return m_Fields
-                End Get
-                Set(value As String)
-                    m_Fields = value
-                End Set
-            End Property
-            Private m_Fields As String
+            Public Property Fields As String
 
+            ' <value>Search starting position</value>
             <HttpQueryMemberAttribute(Name:="offset", EmitDefaultValue:=False)>
-            Public Property Offset() As System.Nullable(Of Integer)
-                Get
-                    Return m_Offset
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_Offset = value
-                End Set
-            End Property
-            Private m_Offset As System.Nullable(Of Integer)
+            Public Property Offset As Integer?
 
+            ' <value>Search starting position</value>
             <HttpQueryMemberAttribute(Name:="limit", EmitDefaultValue:=False)>
-            Public Property Limit() As System.Nullable(Of Integer)
-                Get
-                    Return m_Limit
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_Limit = value
-                End Set
-            End Property
-            Private m_Limit As System.Nullable(Of Integer)
+            Public Property Limit As Integer?
 
         End Class
 
@@ -2137,15 +2118,90 @@ Namespace Route4MeSDK
             Private m_Fields As String()
         End Class
 
-        Public Function SearchAddressBookLocation(addressBookParameters As AddressBookParameters, ByRef errorString As String) As SearchAddressBookLocationResponse
-            Dim request As SearchAddressBookLocationRequest = New SearchAddressBookLocationRequest() With {
-                .Query = addressBookParameters.Query,
-                .Fields = addressBookParameters.Fields,
-                .Offset = addressBookParameters.Offset,
-                .Limit = addressBookParameters.Limit
-            }
+        ''' <summary>
+        ''' Searches for the address book locations 
+        ''' </summary>
+        ''' <param name="addressBookParameters">An AddressParameters type object as the input parameter</param>
+        ''' <param name="errorString">out: Error as string</param>
+        ''' <returns>List of the selected fields values</returns>
+        Public Function SearchAddressBookLocation(ByVal addressBookParameters As AddressBookParameters, ByRef contactsFromObjects As List(Of AddressBookContact), ByRef errorString As String) As SearchAddressBookLocationResponse
 
-            Dim response = GetJsonObjectFromAPI(Of SearchAddressBookLocationResponse)(request, R4MEInfrastructureSettings.AddressBook, HttpMethodType.[Get], errorString)
+            If addressBookParameters.Fields Is Nothing Then
+                errorString = "Fields property should be specified."
+                contactsFromObjects = Nothing
+                Return Nothing
+            End If
+
+            Dim request = New SearchAddressBookLocationRequest()
+            contactsFromObjects = New List(Of AddressBookContact)()
+
+            If addressBookParameters.AddressId IsNot Nothing Then request.AddressId = addressBookParameters.AddressId
+
+            If addressBookParameters.Query IsNot Nothing Then request.Query = addressBookParameters.Query
+
+            request.Fields = addressBookParameters.Fields
+
+            If addressBookParameters.Offset IsNot Nothing Then request.Offset = If(addressBookParameters.Offset >= 0, CInt(addressBookParameters.Offset), 0)
+            If addressBookParameters.Limit IsNot Nothing Then request.Limit = If(addressBookParameters.Limit >= 0, CInt(addressBookParameters.Limit), 0)
+
+            parseWithNewtonJson = True
+
+            Dim errorString0 As String = Nothing
+            Dim response = GetJsonObjectFromAPI(Of SearchAddressBookLocationResponse)(request, R4MEInfrastructureSettings.AddressBook, HttpMethodType.[Get], errorString0)
+            Dim errorString1 As String = Nothing, errorString2 As String = Nothing, errorString3 As String = Nothing
+
+            If response IsNot Nothing AndAlso response.Total > 0 Then
+                Dim orderedPropertyNames = R4MeUtils.OrderPropertiesByPosition(Of AddressBookContact)(response.Fields.ToList(), errorString)
+
+                For Each contactObjects As Object() In response.Results
+                    Dim contactFromObject = New AddressBookContact()
+
+                    For Each propertyName In orderedPropertyNames
+                        Dim value = contactObjects(orderedPropertyNames.IndexOf(propertyName))
+                        Dim valueType = If(value IsNot Nothing, value.[GetType]().Name, "")
+                        Dim propInfo As PropertyInfo = GetType(AddressBookContact).GetProperty(propertyName)
+
+                        Select Case propertyName
+                            Case "address_custom_data"
+                                Dim customData = R4MeUtils.ToObject(Of Dictionary(Of String, String))(value, errorString1)
+
+                                If errorString1 = "" Then
+                                    propInfo.SetValue(contactFromObject, customData)
+                                Else
+                                    propInfo.SetValue(contactFromObject, New Dictionary(Of String, String)() From {
+                                {"<WRONG DATA>", "<WRONG DATA>"}
+                            })
+                                End If
+
+                            Case "schedule"
+                                Dim schedules = R4MeUtils.ToObject(Of Schedule())(value, errorString2)
+
+                                If errorString2 = "" Then
+                                    propInfo.SetValue(contactFromObject, schedules)
+                                Else
+                                    propInfo.SetValue(contactFromObject, Nothing)
+                                End If
+
+                            Case "schedule_blacklist"
+                                Dim scheduleBlackList = R4MeUtils.ToObject(Of String())(value, errorString3)
+
+                                If errorString3 = "" Then
+                                    propInfo.SetValue(contactFromObject, scheduleBlackList)
+                                Else
+                                    propInfo.SetValue(contactFromObject, New String() {"<WRONG DATA>"})
+                                End If
+
+                            Case Else
+                                Dim convertedValue = If(valueType <> "", R4MeUtils.ConvertObjectToPropertyType(value, propInfo), value)
+                                propInfo.SetValue(contactFromObject, convertedValue)
+                        End Select
+                    Next
+
+                    contactsFromObjects.Add(contactFromObject)
+                Next
+            Else
+                errorString = errorString0
+            End If
 
             Return response
         End Function
@@ -2163,6 +2219,70 @@ Namespace Route4MeSDK
             Return result
         End Function
 
+        ''' <summary>
+        ''' Updates a contact by comparing initial And modified contact objects And
+        ''' by updating only modified proeprties of a contact.
+        ''' </summary>
+        ''' <param name="contact">A address book contact object as input (modified Or created virtual contact)</param>
+        ''' <param name="initialContact">An initial address book contact</param>
+        ''' <param name="errorString">Error string</param>
+        ''' <returns>Updated address book contact</returns>
+        Public Function UpdateAddressBookContact(ByVal contact As AddressBookContact, ByVal initialContact As AddressBookContact, ByRef errorString As String) As AddressBookContact
+            errorString = ""
+            parseWithNewtonJson = True
+
+            If (initialContact Is Nothing) Or (initialContact Is contact) Then
+                errorString = "The initial and modified contacts should not be null"
+                Return Nothing
+            End If
+
+            Dim updatableContactProperties = R4MeUtils.GetPropertiesWithDifferentValues(contact, initialContact, errorString)
+            updatableContactProperties.Add("address_id")
+            Dim errorString0 As String = Nothing
+
+            If updatableContactProperties IsNot Nothing AndAlso updatableContactProperties.Count > 0 Then
+                Dim dynamicContactProperties = New Route4MeDynamicClass()
+
+                dynamicContactProperties.CopyPropertiesFromClass(contact, updatableContactProperties, errorString0)
+
+                Dim contactParamsJsonString = R4MeUtils.SerializeObjectToJson(dynamicContactProperties.DynamicProperties, True)
+                Dim genParams = New GenericParameters()
+                Dim content = New StringContent(contactParamsJsonString, System.Text.Encoding.UTF8, "application/json")
+                Dim response = GetJsonObjectFromAPI(Of AddressBookContact)(genParams, R4MEInfrastructureSettings.AddressBook, HttpMethodType.Put, content, errorString)
+
+                Return response
+            End If
+
+            Return Nothing
+        End Function
+
+        ''' <summary>
+        ''' Updates an address book contact.
+        ''' Used in case fo sending specified, limited number of the Contact parameters.
+        ''' </summary>
+        ''' <param name="contact">Address Book Contact</param>
+        ''' <param name="updatableProperties">List of the properties which should be updated - 
+        ''' despite are they null Or Not</param>
+        ''' <param name="errorString">Error strings</param>
+        ''' <returns>Address book contact</returns>
+        Public Function UpdateAddressBookContact(ByVal contact As AddressBookContact, ByVal updatableProperties As List(Of String), ByRef errorString As String) As AddressBookContact
+            parseWithNewtonJson = True
+
+            Dim myDynamicClass = New Route4MeDynamicClass()
+
+            Dim errorString0 As String = Nothing
+            myDynamicClass.CopyPropertiesFromClass(contact, updatableProperties, errorString0)
+
+            Dim jsonString = fastJSON.JSON.ToJSON(myDynamicClass.DynamicProperties)
+
+            Dim genParams = New GenericParameters()
+
+            Dim content = New StringContent(jsonString, System.Text.Encoding.UTF8, "application/json")
+
+            Dim response = GetJsonObjectFromAPI(Of AddressBookContact)(genParams, R4MEInfrastructureSettings.AddressBook, HttpMethodType.Put, content, errorString)
+
+            Return response
+        End Function
 
         <DataContract>
         Private NotInheritable Class RemoveAddressBookContactsRequest

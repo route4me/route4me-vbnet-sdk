@@ -1,32 +1,25 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
+        ''' <summary>
+        ''' Search Routed Locations
+        ''' </summary>
         Public Sub SearchRoutedLocations()
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim addressBookParameters As New AddressBookParameters() With { _
-                .Display = "routed", _
-                .Offset = 0, _
-                .Limit = 20 _
+            Dim addressBookParameters = New AddressBookParameters With {
+                .Display = "routed",
+                .Offset = 0,
+                .Limit = 20
             }
 
-            ' Run the query
-            Dim total As UInteger
-            Dim errorString As String = ""
+            Dim total As UInteger = Nothing, errorString As String = Nothing
             Dim contacts As AddressBookContact() = route4Me.GetAddressBookLocation(addressBookParameters, total, errorString)
 
-            Console.WriteLine("")
-
-            If contacts IsNot Nothing Then
-                Console.WriteLine("SearchRoutedLocations executed successfully, {0} contacts returned, total = {1}", contacts.Length, total)
-
-                Console.WriteLine("")
-            Else
-                Console.WriteLine("SearchRoutedLocations error: {0}", errorString)
-            End If
+            PrintExampleContact(contacts, total, errorString)
         End Sub
     End Class
 End Namespace

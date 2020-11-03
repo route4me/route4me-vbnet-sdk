@@ -1,32 +1,32 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
+        ''' <summary>
+        ''' Search for Specified Text, Show Specified Fields
+        ''' </summary>
         Public Sub GetSpecifiedFieldsSearchText()
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim addressBookParameters As New AddressBookParameters() With { _
-                .Query = "david", _
-                .Fields = "first_name,address_email", _
-                .Offset = 0, _
-                .Limit = 20 _
+            CreateTestContacts()
+
+            Dim addressBookParameters = New AddressBookParameters With {
+                .Query = "Test FirstName",
+                .Fields = "address_id,first_name,address_email,address_group,first_name,cached_lat,schedule",
+                .Offset = 0,
+                .Limit = 20
             }
 
-            ' Run the query
-            Dim errorString As String = ""
-            Dim response As Route4MeManager.SearchAddressBookLocationResponse = route4Me.SearchAddressBookLocation(addressBookParameters, errorString)
+            Dim contactsFromObjects As List(Of AddressBookContact) = Nothing
+            Dim errorString As String = Nothing
 
-            Console.WriteLine("")
+            Dim response = route4Me.SearchAddressBookLocation(addressBookParameters, contactsFromObjects, errorString)
 
-            If response IsNot Nothing Then
-                Console.WriteLine("GetSpecifiedFieldsSearchText executed successfully, {0} contacts returned, total = {1}", response.Results.Count, response.Total)
+            PrintExampleContact(contactsFromObjects.ToArray(), (If(contactsFromObjects IsNot Nothing, CUInt(contactsFromObjects.Count), 0)), errorString)
 
-                Console.WriteLine("")
-            Else
-                Console.WriteLine("GetSpecifiedFieldsSearchText error: {0}", errorString)
-            End If
+            RemoveTestContacts()
         End Sub
     End Class
 End Namespace
