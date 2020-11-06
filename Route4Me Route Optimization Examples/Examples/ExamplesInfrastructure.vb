@@ -33,6 +33,9 @@ Namespace Route4MeSDKTest.Examples
         Public SDRT_route As DataObjectRoute
         Public SDRT_route_id As String
 
+        Dim avoidanceZone As AvoidanceZone
+
+
         Private Sub PrintExampleOptimizationResult(exampleName As String, dataObject As DataObject, errorString As String)
             Dim err1 As String
             Console.WriteLine("")
@@ -126,6 +129,25 @@ Namespace Route4MeSDKTest.Examples
                 End If
             Else
                 Console.WriteLine(If(CBool(obj), testName & " executed successfully", String.Format(testName & " error: {0}", errorString)))
+            End If
+        End Sub
+
+        Private Sub PrintExampleAvoidanceZone(
+                            ByVal avoidanceZone As Object,
+                            ByVal Optional errorString As String = "")
+
+            Dim testName As String = (New System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name
+
+            Console.WriteLine("")
+
+            If avoidanceZone IsNot Nothing Then
+                Console.WriteLine(testName & " executed successfully")
+
+                Dim avoidanceZoneId As String = If(avoidanceZone.[GetType]() = GetType(AvoidanceZone), (CType(avoidanceZone, AvoidanceZone)).TerritoryId, avoidanceZone.ToString())
+
+                Console.WriteLine("Territory ID: {0}", avoidanceZoneId)
+            Else
+                Console.WriteLine(testName & " error: {0}", errorString)
             End If
         End Sub
 
@@ -461,5 +483,44 @@ Namespace Route4MeSDKTest.Examples
                 Return False
             End Try
         End Function
+
+        ''' <summary>
+        ''' Remove an avoidance zone
+        ''' </summary>
+        ''' <param name="avoidanceZoneId">Avoidance zone ID (territory ID)</param>
+        ''' <returns>If true, an avoidance zone removed successfully</returns>
+        Public Function RemoveAvidanceZone(ByVal avoidanceZoneId As String) As Boolean
+            Dim avZoneQuery As AvoidanceZoneQuery = New AvoidanceZoneQuery() With {
+                .TerritoryId = avoidanceZoneId
+            }
+
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim errorString As String = Nothing
+            Dim deleted As Boolean = route4Me.DeleteAvoidanceZone(avZoneQuery, errorString)
+
+            Console.WriteLine("")
+            Console.WriteLine(If(deleted, "The avoidance zone " & avZoneQuery.TerritoryId & " removed successfully", "Cannot remove avoidance zone " & avZoneQuery.TerritoryId))
+
+            Return deleted
+        End Function
+
+        Public Sub CreateAvoidanceZone()
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim avoidanceZoneParameters = New AvoidanceZoneParameters() With {
+                .TerritoryName = "Test Territory",
+                .TerritoryColor = "ff0000",
+                .Territory = New Territory() With {
+                    .Type = TerritoryType.Circle.GetEnumDescription(),
+                    .Data = New String() {"37.569752822786455,-77.47833251953125", "5000"}
+                }
+            }
+
+            Dim errorString As String = Nothing
+            avoidanceZone = route4Me.AddAvoidanceZone(avoidanceZoneParameters, errorString)
+
+            PrintExampleAvoidanceZone(avoidanceZone)
+        End Sub
     End Class
 End Namespace

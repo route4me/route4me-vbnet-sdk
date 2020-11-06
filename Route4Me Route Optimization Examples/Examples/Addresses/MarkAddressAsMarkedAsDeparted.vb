@@ -11,7 +11,9 @@ Namespace Route4MeSDKTest.Examples
         Public Sub MarkAddressAsMarkedAsDeparted(ByVal Optional aParams As AddressParameters = Nothing)
             Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            If aParams Is Nothing Then
+            Dim isInnerExample As Boolean = If(aParams Is Nothing, True, False)
+
+            If isInnerExample Then
                 RunOptimizationSingleDriverRoute10Stops()
                 OptimizationsToRemove = New List(Of String)() From {
                     SD10Stops_optimization_problem_id
@@ -28,7 +30,7 @@ Namespace Route4MeSDKTest.Examples
 
             PrintExampleDestination(resultAddress, errorString)
 
-            If aParams Is Nothing Then RemoveTestOptimizations()
+            If isInnerExample Then RemoveTestOptimizations()
         End Sub
     End Class
 End Namespace

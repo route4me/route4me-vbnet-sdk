@@ -1,42 +1,38 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
         ''' Add Avoidance Zone
         ''' </summary>
-        ''' <returns> Id of added territory </returns>
-        Public Function AddAvoidanceZone() As String
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+        ''' <param name="removeAvoidanceZone">If true, created avoidance zone removed</param>
+        ''' <returns>Id of added territory </returns>
+        Public Function AddAvoidanceZone(
+                 ByVal Optional removeAvoidanceZone As Boolean = True) As String
 
-            Dim avoidanceZoneParameters As New AvoidanceZoneParameters() With { _
-                .TerritoryName = "Test Territory", _
-                .TerritoryColor = "ff0000", _
-                .Territory = New Territory() With { _
-                    .Type = EnumHelper.GetEnumDescription(TerritoryType.Circle), _
-                    .Data = New String() {"37.569752822786455,-77.47833251953125", "5000"} _
-                } _
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim avoidanceZoneParameters = New AvoidanceZoneParameters() With {
+                .TerritoryName = "Test Territory",
+                .TerritoryColor = "ff0000",
+                .Territory = New Territory() With {
+                    .Type = TerritoryType.Circle.GetEnumDescription(),
+                    .Data = New String() {"37.569752822786455,-77.47833251953125", "5000"}
+                }
             }
 
-            ' Run the query
-            Dim errorString As String = ""
+            Dim errorString As String = Nothing
             Dim avoidanceZone As AvoidanceZone = route4Me.AddAvoidanceZone(avoidanceZoneParameters, errorString)
 
-            Console.WriteLine("")
+            PrintExampleAvoidanceZone(avoidanceZone, errorString)
 
-            If avoidanceZone IsNot Nothing Then
-                Console.WriteLine("AddAvoidanceZone executed successfully")
+            Dim avZoneId As String = If(avoidanceZone IsNot Nothing AndAlso avoidanceZone.[GetType]() = GetType(AvoidanceZone), avoidanceZone.TerritoryId, Nothing)
 
-                Console.WriteLine("Territory ID: {0}", avoidanceZone.TerritoryId)
+            If removeAvoidanceZone Then RemoveAvidanceZone(avZoneId)
 
-                Return avoidanceZone.TerritoryId
-            Else
-                Console.WriteLine("AddAvoidanceZone error: {0}", errorString)
-
-                Return Nothing
-            End If
+            Return If(removeAvoidanceZone, Nothing, avZoneId)
         End Function
     End Class
 End Namespace

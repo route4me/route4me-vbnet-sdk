@@ -1,33 +1,30 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
-Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
         ''' Delete Avoidance Zone
         ''' </summary>
         ''' <param name="territoryId"> Avoidance Zone Id </param>
-        Public Sub DeleteAvoidanceZone(territoryId As String)
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+        Public Sub DeleteAvoidanceZone(ByVal Optional territoryId As String = Nothing)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim avoidanceZoneQuery As New AvoidanceZoneQuery() With { _
-                .TerritoryId = territoryId _
+            Dim isInnerExample As Boolean = If(territoryId Is Nothing, True, False)
+
+            If isInnerExample Then
+                CreateAvoidanceZone()
+                territoryId = avoidanceZone.TerritoryId
+            End If
+
+            Dim avoidanceZoneQuery = New AvoidanceZoneQuery() With {
+                .TerritoryId = territoryId
             }
 
-            ' Run the query
-            Dim errorString As String = ""
+            Dim errorString As String = Nothing
             route4Me.DeleteAvoidanceZone(avoidanceZoneQuery, errorString)
 
-            Console.WriteLine("")
-
-            If errorString = "" Then
-                Console.WriteLine("DeleteAvoidanceZone executed successfully")
-
-                Console.WriteLine("Territory ID: {0}", territoryId)
-            Else
-                Console.WriteLine("DeleteAvoidanceZone error: {0}", errorString)
-            End If
+            PrintExampleAvoidanceZone(territoryId, errorString)
         End Sub
     End Class
 End Namespace

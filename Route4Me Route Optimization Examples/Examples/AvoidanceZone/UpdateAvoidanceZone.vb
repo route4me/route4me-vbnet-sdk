@@ -4,37 +4,32 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        ''' <summary>
-        ''' Update Avoidance Zone
-        ''' </summary>
-        ''' <param name="territoryId"> Avoidance Zone Id </param>
-        Public Sub UpdateAvoidanceZone(territoryId As String)
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+        Public Sub UpdateAvoidanceZone(ByVal Optional territoryId As String = Nothing)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim avoidanceZoneParameters As New AvoidanceZoneParameters() With { _
-                .TerritoryId = territoryId, _
-                .TerritoryName = "Test Territory Updated", _
-                .TerritoryColor = "ff00ff", _
-                .Territory = New Territory() With { _
-                    .Type = EnumHelper.GetEnumDescription(TerritoryType.Circle), _
-                    .Data = New String() {"38.41322259056806,-78.501953234", "3000"} _
-                } _
+            Dim isInnerExample As Boolean = If(territoryId Is Nothing, True, False)
+
+            If isInnerExample Then
+                CreateAvoidanceZone()
+                territoryId = Me.avoidanceZone.TerritoryId
+            End If
+
+            Dim avoidanceZoneParameters = New AvoidanceZoneParameters() With {
+                .TerritoryId = territoryId,
+                .TerritoryName = "Test Territory Updated",
+                .TerritoryColor = "ff00ff",
+                .Territory = New Territory() With {
+                    .Type = TerritoryType.Circle.GetEnumDescription(),
+                    .Data = New String() {"38.41322259056806,-78.501953234", "3000"}
+                }
             }
 
-            ' Run the query
-            Dim errorString As String = ""
+            Dim errorString As String = Nothing
             Dim avoidanceZone As AvoidanceZone = route4Me.UpdateAvoidanceZone(avoidanceZoneParameters, errorString)
 
-            Console.WriteLine("")
+            PrintExampleAvoidanceZone(avoidanceZone, errorString)
 
-            If avoidanceZone IsNot Nothing Then
-                Console.WriteLine("UpdateAvoidanceZone executed successfully")
-
-                Console.WriteLine("Territory ID: {0}", avoidanceZone.TerritoryId)
-            Else
-                Console.WriteLine("UpdateAvoidanceZone error: {0}", errorString)
-            End If
+            If isInnerExample Then RemoveAvidanceZone(territoryId)
         End Sub
     End Class
 End Namespace
