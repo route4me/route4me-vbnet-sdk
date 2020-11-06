@@ -177,25 +177,64 @@ The example refers to the process of query all the activities from the last spec
  Update an address book contact by sending whole modified contact object.
  </summary>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddDestinationToOptimization">
+ <summary>
+ Add a destination to an optimization.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddRouteDestinations(System.String)">
+ <summary>
+ Add destinations to a route.
+ </summary>
+ <param name="routeId">Route ID</param>
+ <returns>An array of the added address IDs</returns>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetAddress(System.String,System.Nullable{System.Int32})">
+ <summary>
+ Get destination from a route.
+ </summary>
+ <param name="routeId">Route ID</param>
+ <param name="routeDestinationId">A route destination ID</param>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MarkAddressAsMarkedAsVisited(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AddressParameters)">
  <summary>
- Mark Address As Marked As Visited
+ Mark Address as Marked as Visited
  </summary>
+ <param name="aParams">Address parameters</param>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MarkAddressAsMarkedAsDeparted(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AddressParameters)">
  <summary>
- Mark Address As Marked As Departed
+ Mark Address as Marked as Departed
  </summary>
+ <param name="aParams">Address parameters</param>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MarkAddressDeparted(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AddressParameters)">
  <summary>
- Mark Addressas  Departed
+ Mark Address as Departed
  </summary>
+ <param name="aParams">Address parameters</param>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MarkAddressVisited(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AddressParameters)">
  <summary>
- Mark Address Visited
+ Mark Address as Visited
  </summary>
+ <param name="aParams">Address parameters</param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MoveDestinationToRoute(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32})">
+ <summary>
+ Move a destination to a route after specified destination.
+ </summary>
+ <param name="toRouteId">Route ID of a destination route</param>
+ <param name="routeDestinationId">Source destination ID</param>
+ <param name="afterDestinationId">A destination id in a destination route. </param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveDestinationFromOptimization(System.String,System.Nullable{System.Int32},System.Nullable{System.Boolean})">
+ <summary>
+ Remove a destination from an optimization.
+ </summary>
+ <param name="optimizationId">Optimization ID</param>
+ <param name="destinationId">Destination ID</param>
+ <param name="andReOptimize">If true, re-optimize an optimization </param>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddAvoidanceZone">
  <summary>
@@ -235,6 +274,13 @@ The example refers to the process of query all the activities from the last spec
  Delete Avoidance Zone
  </summary>
  <param name="territoryId"> Avoidance Zone Id </param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.PrintExampleDestination(System.Object,System.String)">
+ <summary>
+ Console print of an example results.
+ </summary>
+ <param name="obj">An Address type object, Or boolean value</param>
+ <param name="errorString">Error string</param>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveTestContacts">
  <summary>

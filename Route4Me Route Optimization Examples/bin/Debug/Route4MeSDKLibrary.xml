@@ -2785,6 +2785,16 @@ User email.
  <param name="errorString">out: Error as string</param>
  <returns>An array of the IDs of added addresses</returns>
 </member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddRouteDestinations(System.String,Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address[],System.Boolean,System.String@)">
+ <summary>
+ Adds address(es) into a route.
+ </summary>
+ <param name="routeId"> The route ID </param>
+ <param name="addresses"> Valid array of the Address type objects. </param>
+ <param name="optimalPosition"> If true, an address will be inserted at optimal position of a route </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns> An array of the IDs of added addresses </returns>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.SearchAddressBookLocationRequest">
  <summary>
  The request parameters for the address book locations searching process.

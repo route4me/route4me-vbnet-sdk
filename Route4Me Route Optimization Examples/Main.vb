@@ -20,7 +20,7 @@ Namespace Route4MeSDKTest
             End If
 
             If destinationIds IsNot Nothing AndAlso destinationIds.Length > 1 Then
-                examples.RemoveAddressFromOptimization(dataObject1.OptimizationProblemId, destinationIds(1))
+                examples.RemoveDestinationFromOptimization(dataObject1.OptimizationProblemId, destinationIds(1))
             End If
 
             Dim dataObject2 As DataObject = examples.SingleDriverRoundTrip()
@@ -61,12 +61,7 @@ Namespace Route4MeSDKTest
 
             examples.GetOptimizations()
 
-
-            If optimizationProblemID IsNot Nothing Then
-                examples.AddDestinationToOptimization(optimizationProblemID, True)
-            Else
-                Console.WriteLine("AddDestinationToOptimization not called. optimizationProblemID == null.")
-            End If
+            examples.AddDestinationToOptimization()
 
             If optimizationProblemID IsNot Nothing Then
                 examples.ReOptimization(optimizationProblemID)
