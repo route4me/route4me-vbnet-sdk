@@ -5,27 +5,32 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
-        ''' Mark Address As Marked As Visited
+        ''' Mark Address as Marked as Visited
         ''' </summary>
-        Public Sub MarkAddressAsMarkedAsVisited(aParams As AddressParameters)
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+        ''' <param name="aParams">Address parameters</param>
+        Public Sub MarkAddressAsMarkedAsVisited(ByVal Optional aParams As AddressParameters = Nothing)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            ' Run the query
-            Dim errorString As String = ""
+            Dim isInnerExample As Boolean = If(aParams Is Nothing, True, False)
+
+            If isInnerExample Then
+                RunOptimizationSingleDriverRoute10Stops()
+                OptimizationsToRemove = New List(Of String)() From {
+                    SD10Stops_optimization_problem_id
+                }
+                aParams = New AddressParameters With {
+                    .RouteId = SD10Stops_route_id,
+                    .RouteDestinationId = CInt(SD10Stops_route.Addresses(2).RouteDestinationId),
+                    .IsVisited = True
+                }
+            End If
+
+            Dim errorString As String = Nothing
             Dim resultAddress As Address = route4Me.MarkAddressAsMarkedAsVisited(aParams, errorString)
 
-            Console.WriteLine("")
+            PrintExampleDestination(resultAddress, errorString)
 
-            If resultAddress IsNot Nothing Then
-                Console.WriteLine("MarkAddressAsMarkedAsVisited executed successfully")
-
-                Console.WriteLine("Marked Address ID: {0}", resultAddress.RouteDestinationId)
-
-            Else
-                Console.WriteLine("MarkAddressAsMarkedAsVisited error: {0}", errorString)
-
-            End If
+            If isInnerExample Then RemoveTestOptimizations()
         End Sub
     End Class
 End Namespace

@@ -28,6 +28,11 @@ Namespace Route4MeSDKTest.Examples
 
         Private contactToRemove As AddressBookContact
 
+        Public dataObjectSDRT As DataObject
+        Public SDRT_optimization_problem_id As String
+        Public SDRT_route As DataObjectRoute
+        Public SDRT_route_id As String
+
         Private Sub PrintExampleOptimizationResult(exampleName As String, dataObject As DataObject, errorString As String)
             Dim err1 As String
             Console.WriteLine("")
@@ -52,7 +57,7 @@ Namespace Route4MeSDKTest.Examples
             End If
         End Sub
 
-        Private Sub PrintExampleOptimizationResult(ByVal exampleName As String, ByVal dataObjectRoute As DataObjectRoute, ByVal errorString As String)
+        Private Sub PrintExampleRouteResult(ByVal exampleName As String, ByVal dataObjectRoute As DataObjectRoute, ByVal errorString As String)
             Console.WriteLine("")
 
             If dataObjectRoute IsNot Nothing Then
@@ -90,6 +95,37 @@ Namespace Route4MeSDKTest.Examples
                 Console.WriteLine("")
             Else
                 Console.WriteLine("{0} error: {1}", testName, errorString)
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' Console print of an example results.
+        ''' </summary>
+        ''' <param name="obj">An Address type object, Or boolean value</param>
+        ''' <param name="errorString">Error string</param>
+        Private Sub PrintExampleDestination(ByVal obj As Object, ByVal Optional errorString As String = "")
+            If obj Is Nothing AndAlso obj.[GetType]() <> GetType(Address) AndAlso obj.[GetType]() <> GetType(Boolean) Then
+                Console.WriteLine("Wrong address. Cannot print." & Environment.NewLine & errorString)
+                Return
+            End If
+
+            Console.WriteLine("")
+
+            Dim testName As String = (New StackTrace()).GetFrame(1).GetMethod().Name
+
+            testName = If(testName IsNot Nothing, testName, "")
+
+            If obj.[GetType]() = GetType(Address) Then
+                Dim address = CType(obj, Address)
+
+                If address.RouteDestinationId IsNot Nothing Then
+                    Console.WriteLine(testName & " executed successfully")
+                    Console.WriteLine("Destination ID: {0}", address.RouteDestinationId)
+                Else
+                    Console.WriteLine(testName & " error: {0}", errorString)
+                End If
+            Else
+                Console.WriteLine(If(CBool(obj), testName & " executed successfully", String.Format(testName & " error: {0}", errorString)))
             End If
         End Sub
 
@@ -180,12 +216,16 @@ Namespace Route4MeSDKTest.Examples
 
             Try
                 dataObjectSD10Stops = r4mm.RunOptimization(optimizationParameters, errorString)
-
                 SD10Stops_optimization_problem_id = dataObjectSD10Stops.OptimizationProblemId
+                SD10Stops_route = If(
+                    (dataObjectSD10Stops IsNot Nothing AndAlso dataObjectSD10Stops.Routes IsNot Nothing AndAlso dataObjectSD10Stops.Routes.Length > 0),
+                    dataObjectSD10Stops.Routes(0),
+                    Nothing)
+                SD10Stops_route_id = If(
+                    (SD10Stops_route IsNot Nothing), SD10Stops_route.RouteID, Nothing)
 
-                If dataObjectSD10Stops IsNot Nothing And dataObjectSD10Stops.Routes IsNot Nothing And dataObjectSD10Stops.Routes.Length > 0 Then
+                If dataObjectSD10Stops IsNot Nothing AndAlso dataObjectSD10Stops.Routes IsNot Nothing AndAlso dataObjectSD10Stops.Routes.Length > 0 Then
                     SD10Stops_route = dataObjectSD10Stops.Routes(0)
-                    SD10Stops_route_id = SD10Stops_route.RouteID
                 Else
                     SD10Stops_route = Nothing
                 End If
@@ -328,5 +368,98 @@ Namespace Route4MeSDKTest.Examples
             End If
         End Sub
 
+        Public Function RunSingleDriverRoundTrip() As Boolean
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim addresses As Address() = New Address() {New Address() With {
+                .AddressString = "754 5th Ave New York, NY 10019",
+                .[Alias] = "Bergdorf Goodman",
+                .IsDepot = True,
+                .Latitude = 40.7636197,
+                .Longitude = -73.9744388,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "717 5th Ave New York, NY 10022",
+                .[Alias] = "Giorgio Armani",
+                .Latitude = 40.7669692,
+                .Longitude = -73.9693864,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "888 Madison Ave New York, NY 10014",
+                .[Alias] = "Ralph Lauren Women's and Home",
+                .Latitude = 40.7715154,
+                .Longitude = -73.9669241,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "1011 Madison Ave New York, NY 10075",
+                .[Alias] = "Yigal Azrou'l",
+                .Latitude = 40.7772129,
+                .Longitude = -73.9669,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "440 Columbus Ave New York, NY 10024",
+                .[Alias] = "Frank Stella Clothier",
+                .Latitude = 40.7808364,
+                .Longitude = -73.9732729,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "324 Columbus Ave #1 New York, NY 10023",
+                .[Alias] = "Liana",
+                .Latitude = 40.7803123,
+                .Longitude = -73.9793079,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "110 W End Ave New York, NY 10023",
+                .[Alias] = "Toga Bike Shop",
+                .Latitude = 40.7753077,
+                .Longitude = -73.9861529,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "555 W 57th St New York, NY 10019",
+                .[Alias] = "BMW of Manhattan",
+                .Latitude = 40.7718005,
+                .Longitude = -73.9897716,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "57 W 57th St New York, NY 10019",
+                .[Alias] = "Verizon Wireless",
+                .Latitude = 40.7558695,
+                .Longitude = -73.9862019,
+                .Time = 0
+            }}
+
+            Dim parameters = New RouteParameters() With {
+                .AlgorithmType = AlgorithmType.TSP,
+                .RouteName = "Single Driver Round Trip",
+                .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.Date.AddDays(1)),
+                .RouteTime = 60 * 60 * 7,
+                .RouteMaxDuration = 86400,
+                .VehicleCapacity = 1,
+                .VehicleMaxDistanceMI = 10000,
+                .RT = True,
+                .Optimize = Optimize.Distance.GetEnumDescription(),
+                .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
+                .DeviceType = DeviceType.Web.GetEnumDescription(),
+                .TravelMode = TravelMode.Driving.GetEnumDescription()
+            }
+
+            Dim optimizationParameters = New OptimizationParameters() With {
+                .Addresses = addresses,
+                .Parameters = parameters
+            }
+
+            Dim errorString As String = Nothing
+
+            Try
+                dataObjectSDRT = route4Me.RunOptimization(optimizationParameters, errorString)
+                SDRT_optimization_problem_id = dataObjectSDRT.OptimizationProblemId
+                SDRT_route = If((dataObjectSDRT IsNot Nothing AndAlso dataObjectSDRT.Routes IsNot Nothing AndAlso dataObjectSDRT.Routes.Length > 0), dataObjectSDRT.Routes(0), Nothing)
+                SDRT_route_id = If((SDRT_route IsNot Nothing), SDRT_route.RouteID, Nothing)
+                Return True
+            Catch ex As Exception
+                Console.WriteLine("Single Driver Round Trip generation failed... " & ex.Message)
+                Return False
+            End Try
+        End Function
     End Class
 End Namespace

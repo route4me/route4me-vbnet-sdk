@@ -1552,6 +1552,52 @@ Namespace Route4MeSDK
             Return destinationIds
         End Function
 
+        ''' <summary>
+		''' Adds address(es) into a route.
+		''' </summary>
+		''' <param name="routeId"> The route ID </param>
+		''' <param name="addresses"> Valid array of the Address type objects. </param>
+		''' <param name="optimalPosition"> If true, an address will be inserted at optimal position of a route </param>
+		''' <param name="errorString"> out: Error as string </param>
+		''' <returns> An array of the IDs of added addresses </returns>
+        Public Function AddRouteDestinations(ByVal routeId As String,
+                                            ByVal addresses As Address(),
+                                            ByVal optimalPosition As Boolean,
+                                            ByRef errorString As String) As Integer()
+
+            Dim request = New AddRouteDestinationRequest() With {
+                .RouteId = routeId,
+                .Addresses = addresses,
+                .OptimalPosition = optimalPosition
+            }
+
+            Dim response = GetJsonObjectFromAPI(Of DataObject)(
+                request,
+                R4MEInfrastructureSettings.RouteHost,
+                HttpMethodType.Put, errorString)
+
+            Dim arrDestinationIds = New List(Of Integer)()
+
+            If response IsNot Nothing And response.Addresses IsNot Nothing Then
+                addresses.ToList().ForEach(
+                    Sub(addressNew)
+                        response.Addresses.Where(
+                        Function(addressResp) _
+                                addressResp.AddressString = addressNew.AddressString And
+                                Math.Abs(addressResp.Latitude - addressNew.Latitude) < 0.0001 And
+                                Math.Abs(addressResp.Longitude - addressNew.Longitude) < 0.0001 And
+                                    addressResp.RouteDestinationId IsNot Nothing
+                            ).
+                            ToList().ForEach(
+                            Sub(addrResp)
+                                arrDestinationIds.Add(CType(addrResp.RouteDestinationId, Integer))
+                            End Sub)
+
+                    End Sub)
+            End If
+
+            Return arrDestinationIds.ToArray()
+        End Function
 
         Public Function AddOptimizationDestinations(ByVal optimizationId As String, ByVal addresses As Address(), ByRef errorString As String) As Integer?()
             Dim request = New AddRouteDestinationRequest() With {

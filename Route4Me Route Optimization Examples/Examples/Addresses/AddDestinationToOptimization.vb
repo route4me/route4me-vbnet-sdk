@@ -1,42 +1,43 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Sub AddDestinationToOptimization(optimizationProblemID As String, andReOptimize As Boolean)
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+        ''' <summary>
+        ''' Add a destination to an optimization.
+        ''' </summary>
+        Public Sub AddDestinationToOptimization()
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            ' Prepare the address that we are going to add to an existing route optimization
-            Dim addresses As Address() = New Address() {New Address() With { _
-                .AddressString = "717 5th Ave New York, NY 10021", _
-                .[Alias] = "Giorgio Armani", _
-                .Latitude = 40.7669692, _
-                .Longitude = -73.9693864, _
-                .Time = 0 _
-            }}
+            RunOptimizationSingleDriverRoute10Stops()
 
-            'Optionally change any route parameters, such as maximum route duration, maximum cubic constraints, etc.
-            Dim optimizationParameters As New OptimizationParameters() With { _
-                .OptimizationProblemID = optimizationProblemID, _
-                .Addresses = addresses, _
-                .ReOptimize = andReOptimize _
+            OptimizationsToRemove = New List(Of String)() From {
+                SD10Stops_optimization_problem_id
             }
 
-            ' Execute the optimization to re-optimize and rebalance all the routes in this optimization
-            Dim errorString As String = ""
+            ' Prepare the address that we are going to add to an existing route optimization
+            Dim addresses As Address() = New Address() {New Address() With {
+                .AddressString = "717 5th Ave New York, NY 10021",
+                .[Alias] = "Giorgio Armani",
+                .Latitude = 40.7669692,
+                .Longitude = -73.9693864,
+                .Time = 0
+            }}
+
+            ' Optionally change any route parameters, such as maximum route duration, maximum cubic constraints, etc.
+            Dim optimizationParameters As OptimizationParameters = New OptimizationParameters() With {
+                .OptimizationProblemID = SD10Stops_optimization_problem_id,
+                .Addresses = addresses,
+                .ReOptimize = True
+            }
+
+            Dim errorString As String = Nothing
             Dim dataObject As DataObject = route4Me.UpdateOptimization(optimizationParameters, errorString)
 
-            Console.WriteLine("")
+            PrintExampleOptimizationResult("AddDestinationToOptimization", dataObject, errorString)
 
-            If dataObject IsNot Nothing Then
-                Console.WriteLine("AddDestinationToOptimization executed successfully")
-
-                Console.WriteLine("Optimization Problem ID: {0}", dataObject.OptimizationProblemId)
-                Console.WriteLine("State: {0}", dataObject.State)
-            Else
-                Console.WriteLine("AddDestinationToOptimization error: {0}", errorString)
-            End If
+            RemoveTestOptimizations()
         End Sub
     End Class
 End Namespace
