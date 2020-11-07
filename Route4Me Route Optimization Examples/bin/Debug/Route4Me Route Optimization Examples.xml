@@ -236,11 +236,19 @@ The example refers to the process of query all the activities from the last spec
  <param name="destinationId">Destination ID</param>
  <param name="andReOptimize">If true, re-optimize an optimization </param>
 </member>
-<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddAvoidanceZone">
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveRouteDestination(System.String,System.Nullable{System.Int32})">
+ <summary>
+ Remove a destination from a route.
+ </summary>
+ <param name="routeId">Route ID</param>
+ <param name="destinationId">Destination ID</param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddAvoidanceZone(System.Boolean)">
  <summary>
  Add Avoidance Zone
  </summary>
- <returns> Id of added territory </returns>
+ <param name="removeAvoidanceZone">If true, created avoidance zone removed</param>
+ <returns>Id of added territory </returns>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetSpecifiedFieldsSearchText">
  <summary>
@@ -257,17 +265,19 @@ The example refers to the process of query all the activities from the last spec
  Search Routed Locations
  </summary>
 </member>
-<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddPolygonAvoidanceZone">
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddPolygonAvoidanceZone(System.Boolean)">
  <summary>
  Add Polygon Avoidance Zone
  </summary>
- <returns> Id of added territory </returns>
+ <param name="removeAvoidanceZone">If true, created avoidance zone removed</param>
+ <returns>Id of added territory</returns>
 </member>
-<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddRectAvoidanceZone">
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddRectAvoidanceZone(System.Boolean)">
  <summary>
  Add Rectangular Avoidance Zone
  </summary>
- <returns> Id of added territory </returns>
+ <param name="removeAvoidanceZone">If true, created avoidance zone removed</param>
+ <returns>Id of added territory</returns>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.DeleteAvoidanceZone(System.String)">
  <summary>
@@ -286,6 +296,20 @@ The example refers to the process of query all the activities from the last spec
  <summary>
  Remove the contacts created in an example.
  </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.PrintExampleScheduledContact(Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact,System.String,System.String)">
+ <summary>
+ Console print of a scheduled contact response.
+ </summary>
+ <param name="contactResponse">Scheduled contact</param>
+ <param name="scheduleType">Schedule type 'daily', 'weekly', monthly'</param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveAvidanceZone(System.String)">
+ <summary>
+ Remove an avoidance zone
+ </summary>
+ <param name="avoidanceZoneId">Avoidance zone ID (territory ID)</param>
+ <returns>If true, an avoidance zone removed successfully</returns>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GenericExample">
  <summary>
@@ -519,11 +543,11 @@ The example refers to the process of query all the activities from the last spec
  Update Territory
  </summary>
 </member>
-<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateAvoidanceZone(System.String)">
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateAddressBookContact(Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact)">
  <summary>
- Update Avoidance Zone
+ Update a contact by modifying the specified parameters
  </summary>
- <param name="territoryId"> Avoidance Zone Id </param>
+ <param name="contact">Initial address book contact</param>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UserAuthentication">
  <summary>

@@ -390,6 +390,30 @@ Namespace Route4MeSDKTest.Examples
             End If
         End Sub
 
+        ''' <summary>
+        ''' Console print of a scheduled contact response.
+        ''' </summary>
+        ''' <param name="contactResponse">Scheduled contact</param>
+        ''' <param name="scheduleType">Schedule type 'daily', 'weekly', monthly'</param>
+        Private Sub PrintExampleScheduledContact(
+                        ByVal contactResponse As AddressBookContact,
+                        ByVal scheduleType As String,
+                        ByVal Optional errorString As String = "")
+
+            Dim location1 As Integer = If(
+                contactResponse.address_id IsNot Nothing,
+                Convert.ToInt32(contactResponse.address_id),
+                -1)
+
+            If location1 > 0 Then
+                ContactsToRemove.Add(location1.ToString())
+
+                Console.WriteLine("A location with the " & scheduleType & " scheduling was created. AddressId: {0}", location1)
+            Else
+                Console.WriteLine("Creating of a location with " & scheduleType & " scheduling failed." & Environment.NewLine & errorString)
+            End If
+        End Sub
+
         Public Function RunSingleDriverRoundTrip() As Boolean
             Dim route4Me = New Route4MeManager(ActualApiKey)
 
