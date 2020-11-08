@@ -127,6 +127,10 @@ Namespace Route4MeSDKTest.Examples
                 Else
                     Console.WriteLine(testName & " error: {0}", errorString)
                 End If
+            ElseIf obj.[GetType]().IsArray Then
+                Dim addresses = CType(obj, Integer())
+                Console.WriteLine(testName & " executed successfully")
+                Console.WriteLine("Affected destinations: " & addresses.Length)
             Else
                 Console.WriteLine(If(CBool(obj), testName & " executed successfully", String.Format(testName & " error: {0}", errorString)))
             End If
@@ -355,7 +359,7 @@ Namespace Route4MeSDKTest.Examples
 
             Dim errorString As String = Nothing
 
-            If OptimizationsToRemove.Count > 0 Then
+            If (If(OptimizationsToRemove?.Count, 0)) > 0 Then
                 Try
                     Dim result As Boolean = route4Me.RemoveOptimization(OptimizationsToRemove.ToArray(), errorString)
 
