@@ -1,29 +1,23 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
-Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
-        ''' Reverse geocoding
+        ''' Reverse Geocoding
         ''' </summary>
         Public Sub ReverseGeocoding()
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
-            Dim geoParams As New GeocodingParameters With { _
-                 .Addresses = "42.35863,-71.05670"
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim geoParams = New GeocodingParameters With {
+                .Addresses = "42.35863,-71.05670",
+                .Format = "json"
             }
-            ' Run the query
-            Dim errorString As String = ""
+
+            Dim errorString As String = Nothing
             Dim result As String = route4Me.Geocoding(geoParams, errorString)
 
-            Console.WriteLine("")
-
-            If result IsNot Nothing Then
-                Console.WriteLine("ReverseGeocoding executed successfully")
-            Else
-                Console.WriteLine("ReverseGeocoding error: {0}", errorString)
-            End If
+            PrintExampleGeocodings(result, GeocodingPrintOption.Geocodings, errorString)
         End Sub
     End Class
 End Namespace

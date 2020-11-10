@@ -2890,14 +2890,18 @@ Namespace Route4MeSDK
 #End Region
 
 #Region "Geocoding"
-
+        ''' <summary>
+        ''' The request parameters for the geocoding process.
+        ''' </summary>
         <DataContract>
         Private NotInheritable Class GeocodingRequest
             Inherits GenericParameters
 
+            ''' <value>The list of the addresses delimited by the symbol '|'</value>
             <HttpQueryMemberAttribute(Name:="addresses", EmitDefaultValue:=False)>
             Public Property Addresses As String
 
+            ''' <value>The response format (son, xml)</value>
             <HttpQueryMemberAttribute(Name:="format", EmitDefaultValue:=False)>
             Public Property Format As String
 
@@ -2930,10 +2934,18 @@ Namespace Route4MeSDK
             Dim request As New GeocodingRequest
 
             Dim keyValues = New List(Of KeyValuePair(Of String, String))()
-            keyValues.Add(New KeyValuePair(Of String, String)("strExportFormat", geoParams.Format))
+            keyValues.Add(New KeyValuePair(Of String, String)("strExportFormat", geoParams.ExportFormat))
             keyValues.Add(New KeyValuePair(Of String, String)("addresses", geoParams.Addresses))
+
             Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
-            Dim response As String = GetJsonObjectFromAPI(Of String)(request, R4MEInfrastructureSettings.Geocoder, HttpMethodType.Post, httpContent, True, errorString)
+
+            Dim response As String = GetJsonObjectFromAPI(Of String)(
+                request,
+                R4MEInfrastructureSettings.Geocoder,
+                HttpMethodType.Post,
+                httpContent, True,
+                errorString)
+
             Return response.ToString()
         End Function
 
@@ -2941,38 +2953,63 @@ Namespace Route4MeSDK
             Dim request As New GeocodingRequest
 
             Dim keyValues = New List(Of KeyValuePair(Of String, String))()
-            keyValues.Add(New KeyValuePair(Of String, String)("strExportFormat", geoParams.Format))
+            keyValues.Add(New KeyValuePair(Of String, String)("strExportFormat", geoParams.ExportFormat))
             keyValues.Add(New KeyValuePair(Of String, String)("addresses", geoParams.Addresses))
+
             Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
             Dim result As Task(Of Tuple(Of String, String)) = GetJsonObjectFromAPIAsync(Of String)(request, R4MEInfrastructureSettings.Geocoder, HttpMethodType.Post, httpContent, True)
+
             result.Wait()
+
             errorString = ""
             If result.IsFaulted OrElse result.IsCanceled Then errorString = result.Result.Item2
+
             Return result.Result.Item1
         End Function
 
+        ''' <summary>
+        ''' The response from the addresses uploading process to temporary storage.
+        ''' </summary>
         <DataContract>
-        Public NotInheritable Class uploadAddressesToTemporarryStorageResponse
+        Public NotInheritable Class uploadAddressesToTemporaryStorageResponse
             Inherits GenericParameters
 
+            ''' <value>The optimization problem ID</value>
             <DataMember(Name:="optimization_problem_id", IsRequired:=False)>
             Public Property optimization_problem_id As String
+
+            ''' <value>The temporary addresses storage ID</value>
             <DataMember(Name:="temporary_addresses_storage_id", IsRequired:=False)>
             Public Property temporary_addresses_storage_id As String
+
+            ''' <value>Number of the uploaded addresses</value>
             <DataMember(Name:="address_count", IsRequired:=False)>
             Public Property address_count As UInteger
+
+            ''' <value>Status of the process: true, false</value>
             <DataMember(Name:="status", IsRequired:=False)>
             Public Property status As Boolean
         End Class
 
-        Public Function uploadAddressesToTemporarryStorage(ByVal jsonAddresses As String, ByRef errorString As String) As uploadAddressesToTemporarryStorageResponse
+        Public Function uploadAddressesToTemporaryStorage(ByVal jsonAddresses As String, ByRef errorString As String) As uploadAddressesToTemporaryStorageResponse
             Dim request As New GeocodingRequest
 
             Dim content As HttpContent = New StringContent(jsonAddresses)
+
             content.Headers.ContentType = New MediaTypeHeaderValue("application/json")
-            Dim result As Tuple(Of uploadAddressesToTemporarryStorageResponse, String) = GetJsonObjectFromAPIAsync(Of uploadAddressesToTemporarryStorageResponse)(request, R4MEInfrastructureSettings.FastGeocoder, HttpMethodType.Post, content, False).GetAwaiter().GetResult()
+
+            Dim result As Tuple(Of uploadAddressesToTemporaryStorageResponse, String) =
+                GetJsonObjectFromAPIAsync(Of uploadAddressesToTemporaryStorageResponse)(
+                request,
+                R4MEInfrastructureSettings.FastGeocoder,
+                HttpMethodType.Post,
+                content,
+                False).GetAwaiter().GetResult()
+
             Thread.SpinWait(5000)
+
             errorString = result.Item2
+
             Return result.Item1
         End Function
 

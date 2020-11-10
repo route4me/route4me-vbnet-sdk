@@ -1,21 +1,14 @@
 ﻿Imports Quobject.SocketIoClientDotNet.Client
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
 Imports System.Net
-Imports System.Text
 Imports System.Threading
-Imports System.Threading.Tasks
 Imports System.Collections.Immutable
 Imports Quobject.SocketIoClientDotNet.EngineIoClientDotNet
 Imports Quobject.SocketIoClientDotNet.EngineIoClientDotNet.Client.Transports
-Imports Client = Quobject.SocketIoClientDotNet.Client
 Imports IO = Quobject.SocketIoClientDotNet.Client.IO
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Newtonsoft.Json.Serialization
-Imports System.Diagnostics
 
 Namespace Route4MeSDK.FastProcessing
     Public Class FastBulkGeocoding
@@ -37,10 +30,10 @@ Namespace Route4MeSDK.FastProcessing
         Private geocodedAddressesDownloadingIsDone As Boolean
         Private savedAddresses As List(Of AddressGeocoded)
         Private jsSer As JsonSerializer = New JsonSerializer()
-        Public Property apiKey As String
+        Public Property _apiKey As String
 
         Public Sub New(ByVal ApiKey As String, Optional ByVal EnableTraceSource As Boolean = False)
-            If ApiKey <> "" Then apiKey = ApiKey
+            If ApiKey <> "" Then _apiKey = ApiKey
             Quobject.SocketIoClientDotNet.TraceSourceTools.LogTraceSource.TraceSourceLogging(EnableTraceSource)
         End Sub
 
@@ -79,7 +72,8 @@ Namespace Route4MeSDK.FastProcessing
         Public Delegate Sub GeocodingIsFinishedEventHandler(ByVal sender As Object, ByVal e As AddressesChunkGeocodedArgs)
 
         Public Sub uploadAndGeocodeLargeJsonFile(ByVal fileName As String)
-            Dim route4Me As Route4MeManager = New Route4MeManager(apiKey)
+            Dim route4Me As Route4MeManager = New Route4MeManager(_apiKey)
+
             largeJsonFileProcessingIsDone = False
             fileReading = New FastFileReading()
             fileReading.jsonObjectsChunkSize = 200
@@ -112,7 +106,7 @@ Namespace Route4MeSDK.FastProcessing
 
         Private Sub FileReading_JsonFileChunkIsReady(ByVal sender As Object, ByVal e As FastFileReading.JsonFileChunkIsReadyArgs)
             Dim jsonAddressesChunk As String = e.AddressesChunk
-            Dim uploadAddressesResponse = uploadAddressesToTemporarryStorage(jsonAddressesChunk)
+            Dim uploadAddressesResponse = uploadAddressesToTemporaryStorage(jsonAddressesChunk)
 
             If uploadAddressesResponse IsNot Nothing Then
                 Dim tempAddressesStorageID As String = uploadAddressesResponse.optimization_problem_id
@@ -122,8 +116,8 @@ Namespace Route4MeSDK.FastProcessing
             End If
         End Sub
 
-        Public Function uploadAddressesToTemporarryStorage(ByVal streamSource As String) As Route4MeManager.uploadAddressesToTemporarryStorageResponse
-            Dim route4Me As Route4MeManager = New Route4MeManager(apiKey)
+        Public Function uploadAddressesToTemporaryStorage(ByVal streamSource As String) As Route4MeManager.uploadAddressesToTemporaryStorageResponse
+            Dim route4Me As Route4MeManager = New Route4MeManager(_apiKey)
             Dim jsonText As String = ""
 
             If streamSource.Contains("{") AndAlso streamSource.Contains("}") Then
@@ -133,8 +127,11 @@ Namespace Route4MeSDK.FastProcessing
             End If
 
             Dim errorString As String = ""
-            Dim uploadResponse As Route4MeManager.uploadAddressesToTemporarryStorageResponse = route4Me.uploadAddressesToTemporarryStorage(jsonText, errorString)
+            Dim uploadResponse As Route4MeManager.uploadAddressesToTemporaryStorageResponse _
+            = route4Me.uploadAddressesToTemporaryStorage(jsonText, errorString)
+
             If uploadResponse Is Nothing OrElse Not uploadResponse.status Then Return Nothing
+
             Return uploadResponse
         End Function
 
@@ -163,7 +160,8 @@ Namespace Route4MeSDK.FastProcessing
                                      manualResetEvent.[Set]()
                                      socket.Disconnect()
                                  End Function)
-            socket.[On](socket.EVENT_ERROR, Function(e)
+
+            socket.[On](Socket.EVENT_ERROR, Function(e)
                                                 Dim exception = CType(e, Quobject.SocketIoClientDotNet.EngineIoClientDotNet.Client.EngineIOException)
                                                 Console.WriteLine("EVENT_ERROR. " & exception.Message)
                                                 Console.WriteLine("BASE EXCEPTION. " & exception.GetBaseException().Message())
@@ -171,20 +169,24 @@ Namespace Route4MeSDK.FastProcessing
                                                 socket.Disconnect()
                                                 manualResetEvent.[Set]()
                                             End Function)
-            socket.[On](socket.EVENT_MESSAGE, Function(message)
+
+            socket.[On](Socket.EVENT_MESSAGE, Function(message)
                                                   Thread.Sleep(500)
                                               End Function)
+
             socket.[On]("data", Function(d)
                                     Thread.Sleep(1000)
                                 End Function)
-             
-            socket.[On](socket.EVENT_DISCONNECT, Function(e)
+
+            socket.[On](Socket.EVENT_DISCONNECT, Function(e)
                                                      Thread.Sleep(700)
 
                                                  End Function)
-            socket.[On](socket.EVENT_RECONNECT_ATTEMPT, Function(e)
+
+            socket.[On](Socket.EVENT_RECONNECT_ATTEMPT, Function(e)
                                                             Thread.Sleep(1500)
                                                         End Function)
+
             socket.[On]("addresses_bulk", Function(addresses_chunk)
                                               Dim jsonChunkText As String = addresses_chunk.ToString()
                                               Dim errors As List(Of String) = New List(Of String)()
@@ -231,6 +233,7 @@ Namespace Route4MeSDK.FastProcessing
                                                   socket.Close()
                                               End If
                                           End Function)
+
             socket.[On]("geocode_progress", Function(message)
                                                 Dim progressMessage = JsonConvert.DeserializeObject(Of clsProgress)(message.ToString())
 
@@ -239,6 +242,7 @@ Namespace Route4MeSDK.FastProcessing
                                                     download(0)
                                                 End If
                                             End Function)
+
             Dim jobj = New JObject()
             jobj.Add("temporary_addresses_storage_id", TEMPORARY_ADDRESSES_STORAGE_ID)
             jobj.Add("force_restart", True)
@@ -261,8 +265,11 @@ Namespace Route4MeSDK.FastProcessing
             Dim chunkSize As Integer = CInt(Math.Round(CDec((Math.Min(200, Math.Max(10, Convert.ToDecimal(requestedAddresses / 100)))))))
             Dim chunksLimit As Integer = CInt(Math.Ceiling((CDec((bufferFailSafeMaxAddresses / chunkSize)))))
             Dim maxAddressesToBeDownloaded As Integer = chunkSize * chunksLimit
+
             nextDownloadStage = loadedAddressesCount + maxAddressesToBeDownloaded
+
             Dim jobj = New JObject()
+
             jobj.Add("temporary_addresses_storage_id", TEMPORARY_ADDRESSES_STORAGE_ID)
             jobj.Add("from_index", start)
             jobj.Add("chunks_limit", chunksLimit)

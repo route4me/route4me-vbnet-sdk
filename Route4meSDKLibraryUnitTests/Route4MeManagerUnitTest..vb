@@ -10203,11 +10203,11 @@ End Class
         Dim lsGeocodedAddressTotal As List(Of AddressGeocoded) = New List(Of AddressGeocoded)()
         Dim lsAddresses As List(Of String) = New List(Of String)()
         Dim addressesInFile As Integer = 13
+
         AddHandler fastbGeocoding.GeocodingIsFinished, Function(sender As Object, e As FastBulkGeocoding.GeocodingIsFinishedArgs)
                                                            Assert.IsNotNull(lsAddresses, "Geocoding process failed")
                                                            Assert.AreEqual(addressesInFile, lsAddresses.Count, "Not all the addresses were geocoded")
                                                            Console.WriteLine("Large addresses file geocoding is finished")
-
                                                        End Function
 
         AddHandler fastbGeocoding.AddressesChunkGeocoded, Function(sender As Object, e As FastBulkGeocoding.AddressesChunkGeocodedArgs)

@@ -4,6 +4,13 @@ Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDKTest.Examples
+    Public Enum GeocodingPrintOption
+        Geocodings = 1
+        StreetData = 2
+        StreetService = 3
+        StreetZipCode = 4
+    End Enum
+
     Partial Public NotInheritable Class Route4MeExamples
 
         Public ActualApiKey As String = R4MeUtils.ReadSetting("actualApiKey")
@@ -549,6 +556,40 @@ Namespace Route4MeSDKTest.Examples
             avoidanceZone = route4Me.AddAvoidanceZone(avoidanceZoneParameters, errorString)
 
             PrintExampleAvoidanceZone(avoidanceZone)
+        End Sub
+
+        Public Sub PrintExampleGeocodings(ByVal result As Object, ByVal printOption As GeocodingPrintOption, ByVal errorString As String)
+
+            Dim testName As String = (New StackTrace()).GetFrame(1).GetMethod().Name
+            testName = If(testName IsNot Nothing, testName, "")
+
+            Select Case printOption
+                Case GeocodingPrintOption.Geocodings
+                    Console.WriteLine("")
+
+                    If result IsNot Nothing AndAlso result.ToString().Length > 0 Then
+                        Console.WriteLine(testName & " executed successfully")
+                    Else
+                        Console.WriteLine(testName & " error: {0}", errorString)
+                    End If
+
+                Case GeocodingPrintOption.StreetData,
+                     GeocodingPrintOption.StreetService,
+                     GeocodingPrintOption.StreetZipCode
+                    Console.WriteLine("")
+
+                    If result IsNot Nothing AndAlso result.[GetType]() = GetType(ArrayList) Then
+                        Console.WriteLine(testName & " executed successfully")
+
+                        For Each res1 As Dictionary(Of String, String) In CType(result, ArrayList)
+                            Console.WriteLine("Zipcode: " & res1("zipcode"))
+                            Console.WriteLine("Street name: " & res1("street_name"))
+                            Console.WriteLine("---------------------------")
+                        Next
+                    Else
+                        Console.WriteLine(testName & " error: {0}", errorString)
+                    End If
+            End Select
         End Sub
     End Class
 End Namespace

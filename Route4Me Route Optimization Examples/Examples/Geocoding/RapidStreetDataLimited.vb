@@ -7,28 +7,17 @@ Namespace Route4MeSDKTest.Examples
         ''' Rapid Street Data Limited
         ''' </summary>
         Public Sub RapidStreetDataLimited()
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
-            Dim geoParams As New GeocodingParameters With {
-                 .Offset = 1,
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim geoParams = New GeocodingParameters() With {
+                .Offset = 10,
                 .Limit = 10
             }
-            ' Run the query
-            Dim errorString As String = ""
+
+            Dim errorString As String = Nothing
             Dim result As ArrayList = route4Me.RapidStreetData(geoParams, errorString)
 
-            Console.WriteLine("")
-
-            If result IsNot Nothing Then
-                Console.WriteLine("RapidStreetDataLimited executed successfully")
-                For Each res1 In result
-                    Console.WriteLine("Zipcode: " & res1("zipcode"))
-                    Console.WriteLine("Street name: " & res1("street_name"))
-                    Console.WriteLine("---------------------------")
-                Next
-            Else
-                Console.WriteLine("RapidStreetDataLimited error: {0}", errorString)
-            End If
+            PrintExampleGeocodings(result, GeocodingPrintOption.StreetData, errorString)
         End Sub
     End Class
 End Namespace

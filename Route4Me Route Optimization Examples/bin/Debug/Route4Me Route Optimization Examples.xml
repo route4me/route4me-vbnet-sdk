@@ -340,7 +340,7 @@ The example refers to the process of query all the activities from the last spec
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GeocodingForward(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GeocodingParameters)">
  <summary>
- Forward geocoding
+ Forward Geocoding
  </summary>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RapidStreetDataAll">
@@ -380,7 +380,7 @@ The example refers to the process of query all the activities from the last spec
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ReverseGeocoding">
  <summary>
- Reverse geocoding
+ Reverse Geocoding
  </summary>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddNewConfigurationKey">

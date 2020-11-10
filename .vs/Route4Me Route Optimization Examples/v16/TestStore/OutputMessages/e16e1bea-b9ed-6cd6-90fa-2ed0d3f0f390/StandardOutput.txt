@@ -29,7 +29,8 @@ Properyt type=Nullable`1
 Properyt type=Nullable`1
 Properyt type=Nullable`1
 Properyt type=String
-There was an error parsing the query. [ Token line number = 1,Token line offset = 358,Token in error = , ]
+Properyt type=String
+There was an error parsing the query. [ Token line number = 1,Token line offset = 380,Token in error = , ]
 Properyt type=Nullable`1
 Properyt type=String
 Properyt type=String
@@ -53,7 +54,8 @@ Properyt type=Nullable`1
 Properyt type=Nullable`1
 Properyt type=Nullable`1
 Properyt type=String
-There was an error parsing the query. [ Token line number = 1,Token line offset = 358,Token in error = , ]
+Properyt type=String
+There was an error parsing the query. [ Token line number = 1,Token line offset = 380,Token in error = , ]
 Properyt type=Nullable`1
 Properyt type=String
 Properyt type=String
@@ -101,7 +103,8 @@ Properyt type=Nullable`1
 Properyt type=Nullable`1
 Properyt type=Nullable`1
 Properyt type=String
-There was an error parsing the query. [ Token line number = 1,Token line offset = 387,Token in error = , ]
+Properyt type=String
+There was an error parsing the query. [ Token line number = 1,Token line offset = 409,Token in error = , ]
 Properyt type=Nullable`1
 Properyt type=String
 Properyt type=String
@@ -195,7 +198,8 @@ Properyt type=Nullable`1
 Properyt type=Nullable`1
 Properyt type=Nullable`1
 Properyt type=String
-There was an error parsing the query. [ Token line number = 1,Token line offset = 367,Token in error = , ]
+Properyt type=String
+There was an error parsing the query. [ Token line number = 1,Token line offset = 389,Token in error = , ]
 Properyt type=Nullable`1
 Properyt type=String
 Properyt type=String
@@ -241,5 +245,6 @@ Properyt type=Nullable`1
 Properyt type=Nullable`1
 Properyt type=Nullable`1
 Properyt type=String
-There was an error parsing the query. [ Token line number = 1,Token line offset = 358,Token in error = , ]
+Properyt type=String
+There was an error parsing the query. [ Token line number = 1,Token line offset = 380,Token in error = , ]
 The file 'Addressbook Get Contacts RESPONSE.json' was uploaded to the SQL server.

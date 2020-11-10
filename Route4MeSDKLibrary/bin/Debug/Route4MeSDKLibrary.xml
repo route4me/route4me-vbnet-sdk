@@ -2298,6 +2298,61 @@ User email.
  Important: You have to add here all derived classes, that are serealized as json as a KnownType
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GeocodingParameters">
+ <summary>
+ Parameters for the address(es) geocoding request.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GeocodingParameters.Addresses">
+ <summary>
+ List of the addresses as a multiline text.
+ <remarks><para>The addresses are delimited with the newline character.</para>
+ <para>Query parameter.</para></remarks>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GeocodingParameters.Format">
+ <summary>
+ Response format (xml, json).
+ Note: used in the forward And reverse geocodings as a url parameter.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GeocodingParameters.ExportFormat">
+ <summary>
+ Response export format.
+ <para>Availbale values: <value> json, xml, csv.</value></para>
+ <remarks><para>Query parameter.</para></remarks>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GeocodingParameters.Pk">
+ <summary>
+ Rapis string data index.
+ <remarks><para>Query parameter.</para></remarks>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GeocodingParameters.Offset">
+ <summary>
+ Only records from that offset will be considered.
+ <remarks><para>Query parameter.</para></remarks>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GeocodingParameters.Limit">
+ <summary>
+ Limit the number of records in response.
+ <remarks><para>Query parameter.</para></remarks>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GeocodingParameters.Zipcode">
+ <summary>
+ Zipcode.
+ <remarks><para>Query parameter.</para></remarks>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GeocodingParameters.Housenumber">
+ <summary>
+ House number.
+ <remarks><para>Query parameter.</para></remarks>
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GPSParameters">
  <summary>
  Helper class, for setting GPS data
@@ -2950,9 +3005,37 @@ User email.
  <param name="errorString"> out: Error as string </param>
  <returns> Result status true/false </returns>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GeocodingRequest">
+ <summary>
+ The request parameters for the geocoding process.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GeocodingRequest.Addresses">
+ <value>The list of the addresses delimited by the symbol '|'</value>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GeocodingRequest.Format">
+ <value>The response format (son, xml)</value>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.RapidStreetResponse">
  <summary>
  </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.uploadAddressesToTemporaryStorageResponse">
+ <summary>
+ The response from the addresses uploading process to temporary storage.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.uploadAddressesToTemporaryStorageResponse.optimization_problem_id">
+ <value>The optimization problem ID</value>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.uploadAddressesToTemporaryStorageResponse.temporary_addresses_storage_id">
+ <value>The temporary addresses storage ID</value>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.uploadAddressesToTemporaryStorageResponse.address_count">
+ <value>Number of the uploaded addresses</value>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.uploadAddressesToTemporaryStorageResponse.status">
+ <value>Status of the process: true, false</value>
 </member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetVehicles(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.VehicleParameters,System.String@)">
  <summary>
