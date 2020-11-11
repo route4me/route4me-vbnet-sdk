@@ -20,6 +20,7 @@ Namespace Route4MeSDKTest.Examples
         Public RoutesToRemove As List(Of String)
         Public OptimizationsToRemove As List(Of String)
         Public addressBookGroupsToRemove As List(Of String)
+        Public configKeysToRemove As List(Of String) = New List(Of String)()
 
         Private dataObjectSD10Stops As DataObject
         Private SD10Stops_optimization_problem_id As String
@@ -44,6 +45,7 @@ Namespace Route4MeSDKTest.Examples
         Dim avoidanceZone As AvoidanceZone
 
 
+#Region "Optimizations, Routes, Destinations"
         Private Sub PrintExampleOptimizationResult(exampleName As String, dataObject As DataObject, errorString As String)
             Dim err1 As String
             Console.WriteLine("")
@@ -87,28 +89,6 @@ Namespace Route4MeSDKTest.Examples
             End If
         End Sub
 
-        Private Sub PrintExampleActivities(ByVal activities As Activity(), ByVal Optional errorString As String = "")
-            Dim testName As String = (New System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name
-
-            testName = If(testName IsNot Nothing, testName, "")
-
-            Console.WriteLine("")
-
-            If activities IsNot Nothing Then
-                Console.WriteLine("The test {0} executed successfully, " & "{1} activities returned", testName, activities.Length)
-                Console.WriteLine("")
-
-                activities.ToList().
-                    ForEach(Sub(activity)
-                                Console.WriteLine("Activity ID: {0}", activity.ActivityId)
-                            End Sub)
-
-                Console.WriteLine("")
-            Else
-                Console.WriteLine("{0} error: {1}", testName, errorString)
-            End If
-        End Sub
-
         ''' <summary>
         ''' Console print of an example results.
         ''' </summary>
@@ -141,25 +121,6 @@ Namespace Route4MeSDKTest.Examples
                 Console.WriteLine("Affected destinations: " & addresses.Length)
             Else
                 Console.WriteLine(If(CBool(obj), testName & " executed successfully", String.Format(testName & " error: {0}", errorString)))
-            End If
-        End Sub
-
-        Private Sub PrintExampleAvoidanceZone(
-                            ByVal avoidanceZone As Object,
-                            ByVal Optional errorString As String = "")
-
-            Dim testName As String = (New System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name
-
-            Console.WriteLine("")
-
-            If avoidanceZone IsNot Nothing Then
-                Console.WriteLine(testName & " executed successfully")
-
-                Dim avoidanceZoneId As String = If(avoidanceZone.[GetType]() = GetType(AvoidanceZone), (CType(avoidanceZone, AvoidanceZone)).TerritoryId, avoidanceZone.ToString())
-
-                Console.WriteLine("Territory ID: {0}", avoidanceZoneId)
-            Else
-                Console.WriteLine(testName & " error: {0}", errorString)
             End If
         End Sub
 
@@ -272,82 +233,6 @@ Namespace Route4MeSDKTest.Examples
 
         End Function
 
-        Public Sub CreateTestContacts()
-            Dim route4Me = New Route4MeManager(ActualApiKey)
-
-            Dim contact = New AddressBookContact() With {
-                .first_name = "Test FirstName " & (New Random()).[Next]().ToString(),
-                .address_1 = "Test Address1 " & (New Random()).[Next]().ToString(),
-                .cached_lat = 38.024654,
-                .cached_lng = -77.338814
-            }
-
-            Dim errorString As String = Nothing
-
-            contact1 = route4Me.AddAddressBookContact(contact, errorString)
-
-            Assert.IsNotNull(contact1, "AddAddressBookContactsTest failed... " & errorString)
-
-            Dim location1 As Integer = If(contact1.address_id IsNot Nothing, Convert.ToInt32(contact1.address_id), -1)
-
-            ContactsToRemove = New List(Of String)()
-
-            If location1 > 0 Then ContactsToRemove.Add(location1.ToString())
-
-            Dim dCustom = New Dictionary(Of String, Object)() From {
-                {"FirstFieldName1", "FirstFieldValue1"},
-                {"FirstFieldName2", "FirstFieldValue2"}
-            }
-
-            contact = New AddressBookContact() With {
-                .first_name = "Test FirstName " & (New Random()).[Next]().ToString(),
-                .address_1 = "Test Address1 " & (New Random()).[Next]().ToString(),
-                .cached_lat = 38.024654,
-                .cached_lng = -77.338814,
-                .address_custom_data = dCustom
-            }
-
-            contact2 = route4Me.AddAddressBookContact(contact, errorString)
-
-            Assert.IsNotNull(contact2, "AddAddressBookContactsTest failed... " & errorString)
-
-            Dim location2 As Integer = If(contact2.address_id IsNot Nothing, Convert.ToInt32(contact2.address_id), -1)
-
-            If location2 > 0 Then ContactsToRemove.Add(location2.ToString())
-
-            Dim contactParams = New AddressBookContact() With {
-                .first_name = "Test FirstName Rem" & (New Random()).[Next]().ToString(),
-                .address_1 = "Test Address1 Rem " & (New Random()).[Next]().ToString(),
-                .cached_lat = 38.02466,
-                .cached_lng = -77.33882
-            }
-
-            contactToRemove = route4Me.AddAddressBookContact(contactParams, errorString)
-
-            If contactToRemove IsNot Nothing AndAlso contactToRemove.[GetType]() = GetType(AddressBookContact) Then ContactsToRemove.Add(contactToRemove.address_id.ToString())
-        End Sub
-
-        ''' <summary>
-        ''' Remove the contacts created in an example.
-        ''' </summary>
-        Private Sub RemoveTestContacts()
-            Dim route4Me = New Route4MeManager(ActualApiKey)
-            Dim errorString As String = Nothing
-
-            If ContactsToRemove.Count > 0 Then
-
-                Try
-                    If contactToRemove IsNot Nothing Then ContactsToRemove.Add(contactToRemove.address_id.ToString())
-
-                    Dim removed As Boolean = route4Me.RemoveAddressBookContacts(ContactsToRemove.ToArray(), errorString)
-
-                    ContactsToRemove = New List(Of String)()
-                Catch ex As Exception
-                    Console.WriteLine("Cannot remove test contacts." & Environment.NewLine + ex.Message)
-                End Try
-            End If
-        End Sub
-
         Private Sub RemoveTestRoutes()
             Dim route4Me = New Route4MeManager(ActualApiKey)
 
@@ -375,54 +260,6 @@ Namespace Route4MeSDKTest.Examples
                 Catch ex As Exception
                     Console.WriteLine("Cannot remove test routes." & Environment.NewLine + ex.Message)
                 End Try
-            End If
-        End Sub
-
-        Private Sub PrintExampleContact(ByVal contacts As Object, ByVal total As UInteger, ByVal Optional errorString As String = "")
-            If contacts Is Nothing OrElse (contacts.[GetType]() <> GetType(AddressBookContact) AndAlso contacts.[GetType]() <> GetType(AddressBookContact())) Then
-                Console.WriteLine("Wrong contact(s). Cannot print." & Environment.NewLine & errorString)
-                Return
-            End If
-
-            Console.WriteLine("")
-
-            If contacts.[GetType]() = GetType(AddressBookContact) Then
-                Dim resultContact As AddressBookContact = CType(contacts, AddressBookContact)
-
-                Console.WriteLine("AddAddressBookContact executed successfully")
-                Console.WriteLine("AddressId: {0}", resultContact.address_id)
-                Console.WriteLine("Custom data:")
-
-                For Each cdata In CType(resultContact.address_custom_data, Dictionary(Of String, Object))
-                    Console.WriteLine(cdata.Key & ": " + cdata.Value)
-                Next
-            Else
-                Console.WriteLine("GetAddressBookContacts executed successfully, {0} contacts returned, total = {1}", (CType(contacts, AddressBookContact())).Length, total)
-                Console.WriteLine("")
-            End If
-        End Sub
-
-        ''' <summary>
-        ''' Console print of a scheduled contact response.
-        ''' </summary>
-        ''' <param name="contactResponse">Scheduled contact</param>
-        ''' <param name="scheduleType">Schedule type 'daily', 'weekly', monthly'</param>
-        Private Sub PrintExampleScheduledContact(
-                        ByVal contactResponse As AddressBookContact,
-                        ByVal scheduleType As String,
-                        ByVal Optional errorString As String = "")
-
-            Dim location1 As Integer = If(
-                contactResponse.address_id IsNot Nothing,
-                Convert.ToInt32(contactResponse.address_id),
-                -1)
-
-            If location1 > 0 Then
-                ContactsToRemove.Add(location1.ToString())
-
-                Console.WriteLine("A location with the " & scheduleType & " scheduling was created. AddressId: {0}", location1)
-            Else
-                Console.WriteLine("Creating of a location with " & scheduleType & " scheduling failed." & Environment.NewLine & errorString)
             End If
         End Sub
 
@@ -520,6 +357,85 @@ Namespace Route4MeSDKTest.Examples
             End Try
         End Function
 
+#End Region
+
+        Private Sub PrintExampleActivities(ByVal activities As Activity(), ByVal Optional errorString As String = "")
+            Dim testName As String = (New System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name
+
+            testName = If(testName IsNot Nothing, testName, "")
+
+            Console.WriteLine("")
+
+            If activities IsNot Nothing Then
+                Console.WriteLine("The test {0} executed successfully, " & "{1} activities returned", testName, activities.Length)
+                Console.WriteLine("")
+
+                activities.ToList().
+                    ForEach(Sub(activity)
+                                Console.WriteLine("Activity ID: {0}", activity.ActivityId)
+                            End Sub)
+
+                Console.WriteLine("")
+            Else
+                Console.WriteLine("{0} error: {1}", testName, errorString)
+            End If
+        End Sub
+
+        Public Sub PrintExampleGeocodings(ByVal result As Object, ByVal printOption As GeocodingPrintOption, ByVal errorString As String)
+
+            Dim testName As String = (New StackTrace()).GetFrame(1).GetMethod().Name
+            testName = If(testName IsNot Nothing, testName, "")
+
+            Select Case printOption
+                Case GeocodingPrintOption.Geocodings
+                    Console.WriteLine("")
+
+                    If result IsNot Nothing AndAlso result.ToString().Length > 0 Then
+                        Console.WriteLine(testName & " executed successfully")
+                    Else
+                        Console.WriteLine(testName & " error: {0}", errorString)
+                    End If
+
+                Case GeocodingPrintOption.StreetData,
+                     GeocodingPrintOption.StreetService,
+                     GeocodingPrintOption.StreetZipCode
+                    Console.WriteLine("")
+
+                    If result IsNot Nothing AndAlso result.[GetType]() = GetType(ArrayList) Then
+                        Console.WriteLine(testName & " executed successfully")
+
+                        For Each res1 As Dictionary(Of String, String) In CType(result, ArrayList)
+                            Console.WriteLine("Zipcode: " & res1("zipcode"))
+                            Console.WriteLine("Street name: " & res1("street_name"))
+                            Console.WriteLine("---------------------------")
+                        Next
+                    Else
+                        Console.WriteLine(testName & " error: {0}", errorString)
+                    End If
+            End Select
+        End Sub
+
+
+#Region "Avoidance Zones"
+        Private Sub PrintExampleAvoidanceZone(
+                            ByVal avoidanceZone As Object,
+                            ByVal Optional errorString As String = "")
+
+            Dim testName As String = (New System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name
+
+            Console.WriteLine("")
+
+            If avoidanceZone IsNot Nothing Then
+                Console.WriteLine(testName & " executed successfully")
+
+                Dim avoidanceZoneId As String = If(avoidanceZone.[GetType]() = GetType(AvoidanceZone), (CType(avoidanceZone, AvoidanceZone)).TerritoryId, avoidanceZone.ToString())
+
+                Console.WriteLine("Territory ID: {0}", avoidanceZoneId)
+            Else
+                Console.WriteLine(testName & " error: {0}", errorString)
+            End If
+        End Sub
+
         ''' <summary>
         ''' Remove an avoidance zone
         ''' </summary>
@@ -559,40 +475,136 @@ Namespace Route4MeSDKTest.Examples
             PrintExampleAvoidanceZone(avoidanceZone)
         End Sub
 
-        Public Sub PrintExampleGeocodings(ByVal result As Object, ByVal printOption As GeocodingPrintOption, ByVal errorString As String)
+#End Region
 
-            Dim testName As String = (New StackTrace()).GetFrame(1).GetMethod().Name
-            testName = If(testName IsNot Nothing, testName, "")
+#Region "Address Book Contacts"
+        Public Sub CreateTestContacts()
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Select Case printOption
-                Case GeocodingPrintOption.Geocodings
-                    Console.WriteLine("")
+            Dim contact = New AddressBookContact() With {
+                .first_name = "Test FirstName " & (New Random()).[Next]().ToString(),
+                .address_1 = "Test Address1 " & (New Random()).[Next]().ToString(),
+                .cached_lat = 38.024654,
+                .cached_lng = -77.338814
+            }
 
-                    If result IsNot Nothing AndAlso result.ToString().Length > 0 Then
-                        Console.WriteLine(testName & " executed successfully")
-                    Else
-                        Console.WriteLine(testName & " error: {0}", errorString)
-                    End If
+            Dim errorString As String = Nothing
 
-                Case GeocodingPrintOption.StreetData,
-                     GeocodingPrintOption.StreetService,
-                     GeocodingPrintOption.StreetZipCode
-                    Console.WriteLine("")
+            contact1 = route4Me.AddAddressBookContact(contact, errorString)
 
-                    If result IsNot Nothing AndAlso result.[GetType]() = GetType(ArrayList) Then
-                        Console.WriteLine(testName & " executed successfully")
+            Assert.IsNotNull(contact1, "AddAddressBookContactsTest failed... " & errorString)
 
-                        For Each res1 As Dictionary(Of String, String) In CType(result, ArrayList)
-                            Console.WriteLine("Zipcode: " & res1("zipcode"))
-                            Console.WriteLine("Street name: " & res1("street_name"))
-                            Console.WriteLine("---------------------------")
-                        Next
-                    Else
-                        Console.WriteLine(testName & " error: {0}", errorString)
-                    End If
-            End Select
+            Dim location1 As Integer = If(contact1.address_id IsNot Nothing, Convert.ToInt32(contact1.address_id), -1)
+
+            ContactsToRemove = New List(Of String)()
+
+            If location1 > 0 Then ContactsToRemove.Add(location1.ToString())
+
+            Dim dCustom = New Dictionary(Of String, Object)() From {
+                {"FirstFieldName1", "FirstFieldValue1"},
+                {"FirstFieldName2", "FirstFieldValue2"}
+            }
+
+            contact = New AddressBookContact() With {
+                .first_name = "Test FirstName " & (New Random()).[Next]().ToString(),
+                .address_1 = "Test Address1 " & (New Random()).[Next]().ToString(),
+                .cached_lat = 38.024654,
+                .cached_lng = -77.338814,
+                .address_custom_data = dCustom
+            }
+
+            contact2 = route4Me.AddAddressBookContact(contact, errorString)
+
+            Assert.IsNotNull(contact2, "AddAddressBookContactsTest failed... " & errorString)
+
+            Dim location2 As Integer = If(contact2.address_id IsNot Nothing, Convert.ToInt32(contact2.address_id), -1)
+
+            If location2 > 0 Then ContactsToRemove.Add(location2.ToString())
+
+            Dim contactParams = New AddressBookContact() With {
+                .first_name = "Test FirstName Rem" & (New Random()).[Next]().ToString(),
+                .address_1 = "Test Address1 Rem " & (New Random()).[Next]().ToString(),
+                .cached_lat = 38.02466,
+                .cached_lng = -77.33882
+            }
+
+            contactToRemove = route4Me.AddAddressBookContact(contactParams, errorString)
+
+            If contactToRemove IsNot Nothing AndAlso contactToRemove.[GetType]() = GetType(AddressBookContact) Then ContactsToRemove.Add(contactToRemove.address_id.ToString())
         End Sub
 
+        ''' <summary>
+        ''' Remove the contacts created in an example.
+        ''' </summary>
+        Private Sub RemoveTestContacts()
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+            Dim errorString As String = Nothing
+
+            If ContactsToRemove.Count > 0 Then
+
+                Try
+                    If contactToRemove IsNot Nothing Then ContactsToRemove.Add(contactToRemove.address_id.ToString())
+
+                    Dim removed As Boolean = route4Me.RemoveAddressBookContacts(ContactsToRemove.ToArray(), errorString)
+
+                    ContactsToRemove = New List(Of String)()
+                Catch ex As Exception
+                    Console.WriteLine("Cannot remove test contacts." & Environment.NewLine + ex.Message)
+                End Try
+            End If
+        End Sub
+
+        Private Sub PrintExampleContact(ByVal contacts As Object, ByVal total As UInteger, ByVal Optional errorString As String = "")
+            If contacts Is Nothing OrElse (contacts.[GetType]() <> GetType(AddressBookContact) AndAlso contacts.[GetType]() <> GetType(AddressBookContact())) Then
+                Console.WriteLine("Wrong contact(s). Cannot print." & Environment.NewLine & errorString)
+                Return
+            End If
+
+            Console.WriteLine("")
+
+            If contacts.[GetType]() = GetType(AddressBookContact) Then
+                Dim resultContact As AddressBookContact = CType(contacts, AddressBookContact)
+
+                Console.WriteLine("AddAddressBookContact executed successfully")
+                Console.WriteLine("AddressId: {0}", resultContact.address_id)
+                Console.WriteLine("Custom data:")
+
+                For Each cdata In CType(resultContact.address_custom_data, Dictionary(Of String, Object))
+                    Console.WriteLine(cdata.Key & ": " + cdata.Value)
+                Next
+            Else
+                Console.WriteLine("GetAddressBookContacts executed successfully, {0} contacts returned, total = {1}", (CType(contacts, AddressBookContact())).Length, total)
+                Console.WriteLine("")
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' Console print of a scheduled contact response.
+        ''' </summary>
+        ''' <param name="contactResponse">Scheduled contact</param>
+        ''' <param name="scheduleType">Schedule type 'daily', 'weekly', monthly'</param>
+        Private Sub PrintExampleScheduledContact(
+                        ByVal contactResponse As AddressBookContact,
+                        ByVal scheduleType As String,
+                        ByVal Optional errorString As String = "")
+
+            Dim location1 As Integer = If(
+                contactResponse.address_id IsNot Nothing,
+                Convert.ToInt32(contactResponse.address_id),
+                -1)
+
+            If location1 > 0 Then
+                ContactsToRemove.Add(location1.ToString())
+
+                Console.WriteLine("A location with the " & scheduleType & " scheduling was created. AddressId: {0}", location1)
+            Else
+                Console.WriteLine("Creating of a location with " & scheduleType & " scheduling failed." & Environment.NewLine & errorString)
+            End If
+        End Sub
+
+#End Region
+
+#Region "Address Book Groups"
         Public Sub AddAddressBookGroupToRemoveList(ByVal groupId As String)
             If addressBookGroupsToRemove Is Nothing Then addressBookGroupsToRemove = New List(Of String)()
             addressBookGroupsToRemove.Add(groupId)
@@ -648,6 +660,85 @@ Namespace Route4MeSDKTest.Examples
                 Console.WriteLine("")
             Next
         End Sub
+
+#End Region
+
+#Region "Member Configuration Group"
+        Public Sub CreateConfigKey()
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim parametersArray = New MemberConfigurationParameters() _
+            {
+                New MemberConfigurationParameters With {
+                    .config_key = "Test Config Key",
+                    .config_value = "Test Config Value"
+                }
+            }
+
+            Dim errorString As String = Nothing
+            Dim result = route4Me.CreateNewConfigurationKey(parametersArray, errorString)
+
+            Console.WriteLine(If(result.result IsNot Nothing, "Created config key " & "Test Config Key", "Cannot create config key " & "Test Config Key." & Environment.NewLine & errorString))
+
+            If (If(result?.result, Nothing)) IsNot Nothing Then configKeysToRemove.Add("Test Config Key")
+        End Sub
+
+        Public Sub PrintConfigKey(ByVal configResponse As MemberConfigurationResponse, ByVal Optional errorString As String = "")
+            Dim testName As String = (New StackTrace()).GetFrame(1).GetMethod().Name
+            testName = If(testName IsNot Nothing, testName, "")
+
+            Console.WriteLine("")
+
+            If configResponse IsNot Nothing Then
+                Console.WriteLine(testName & " executed successfully")
+                Console.WriteLine("Result: " & configResponse.result)
+                Console.WriteLine("Affected: " & configResponse.affected)
+                Console.WriteLine("---------------------------")
+            Else
+                Console.WriteLine(testName & " error: {0}", errorString)
+            End If
+        End Sub
+
+        Public Sub PrintConfigKey(
+                ByVal configDataResponse As MemberConfigurationDataResponse,
+                ByVal Optional errorString As String = "")
+
+            Dim testName As String = (New System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name
+            testName = If(testName IsNot Nothing, testName, "")
+
+            Console.WriteLine("")
+
+            If configDataResponse IsNot Nothing Then
+                Console.WriteLine(testName & " executed successfully")
+                Console.WriteLine("Result: " & configDataResponse.result)
+
+                For Each mc_data As MemberConfigurationData In configDataResponse.data
+                    Console.WriteLine("member_id= " & mc_data.member_id)
+                    Console.WriteLine("config_key= " & mc_data.config_key)
+                    Console.WriteLine("config_value= " & mc_data.config_value)
+                    Console.WriteLine("---------------------------")
+                Next
+            Else
+                Console.WriteLine(testName & " error: {0}", errorString)
+            End If
+        End Sub
+
+        Public Sub RemoveConfigKeys()
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim errorString As String = Nothing
+
+            For Each configKey As String In configKeysToRemove
+                Dim params = New MemberConfigurationParameters With {
+                    .config_key = configKey
+                }
+
+                Dim result = route4Me.RemoveConfigurationKey(params, errorString)
+
+                PrintConfigKey(result, errorString)
+            Next
+        End Sub
+#End Region
 
     End Class
 End Namespace

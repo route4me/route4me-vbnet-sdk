@@ -1163,14 +1163,20 @@ Namespace Route4MeSDK
 
         End Class
 
-        Public Function GetConfigurationData(confParams As MemberConfigurationParameters, ByRef errorString As String) As MemberConfigurationDataRersponse
+        Public Function GetConfigurationData(confParams As MemberConfigurationParameters, ByRef errorString As String) As MemberConfigurationDataResponse
             Dim mParams As GetConfigurationDataRequest
             mParams = New GetConfigurationDataRequest()
             If Not confParams Is Nothing Then
                 mParams.config_key = confParams.config_key
             End If
 
-            Dim response As MemberConfigurationDataRersponse = GetJsonObjectFromAPI(Of MemberConfigurationDataRersponse)(mParams, R4MEInfrastructureSettings.UserConfiguration, HttpMethodType.Get, errorString)
+            Dim response As MemberConfigurationDataResponse _
+            = GetJsonObjectFromAPI(Of MemberConfigurationDataResponse)(
+                mParams,
+                R4MEInfrastructureSettings.UserConfiguration,
+                HttpMethodType.Get,
+                errorString
+              )
 
             Return response
 

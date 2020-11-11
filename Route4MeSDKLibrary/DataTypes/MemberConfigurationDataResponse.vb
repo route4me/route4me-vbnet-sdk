@@ -1,13 +1,13 @@
 ﻿Imports System.Runtime.Serialization
 
 Namespace Route4MeSDK.QueryTypes
-    Public NotInheritable Class MemberConfigurationDataRersponse
+    Public NotInheritable Class MemberConfigurationDataResponse
         Inherits GenericParameters
 
-        <DataMember(Name:="config_key", EmitDefaultValue:=False)> _
+        <DataMember(Name:="config_key", EmitDefaultValue:=False)>
         Public Property result As String
 
-        <DataMember(Name:="data", EmitDefaultValue:=False)> _
+        <DataMember(Name:="data", EmitDefaultValue:=False)>
         Public Property data As MemberConfigurationData()
 
     End Class

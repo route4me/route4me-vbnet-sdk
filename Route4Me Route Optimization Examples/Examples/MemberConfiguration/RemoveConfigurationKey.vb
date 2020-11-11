@@ -9,26 +9,21 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub RemoveConfigurationKey()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim params As MemberConfigurationParameters = New MemberConfigurationParameters() With { _
-                .config_key = "My height" _
+            CreateConfigKey()
+
+            Dim newConfigKey As String = configKeysToRemove(configKeysToRemove.Count - 1)
+
+            Dim params = New MemberConfigurationParameters With {
+                .config_key = newConfigKey
             }
 
-            ' Run the query
-            Dim errorString As String = ""
-            Dim result As MemberConfigurationResponse = route4Me.RemoveConfigurationKey(params, errorString)
+            Dim errorString As String = Nothing
+            Dim result As MemberConfigurationResponse = route4Me.
+                RemoveConfigurationKey(params, errorString)
 
-            Console.WriteLine("")
-
-            If result IsNot Nothing Then
-                Console.WriteLine("RemoveConfigurationKey executed successfully")
-                Console.WriteLine("Result: " & result.result)
-                Console.WriteLine("Affected: " & result.affected)
-                Console.WriteLine("---------------------------")
-            Else
-                Console.WriteLine("UserRegistration error: {0}", errorString)
-            End If
+            PrintConfigKey(result, errorString)
         End Sub
     End Class
 End Namespace

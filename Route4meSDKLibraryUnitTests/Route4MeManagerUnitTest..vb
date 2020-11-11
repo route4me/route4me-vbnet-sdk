@@ -9841,7 +9841,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim result As MemberConfigurationDataRersponse = route4Me.GetConfigurationData(params, errorString)
+        Dim result As MemberConfigurationDataResponse = route4Me.GetConfigurationData(params, errorString)
 
         Assert.IsNotNull(result, Convert.ToString("GetAllConfigurationDataTest failed... ") & errorString)
     End Sub

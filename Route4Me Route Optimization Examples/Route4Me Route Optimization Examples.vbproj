@@ -182,6 +182,7 @@
     <Compile Include="Examples\Geocoding\RapidStreetZipcodeLimited.vb" />
     <Compile Include="Examples\Geocoding\ReverseGeocoding.vb" />
     <Compile Include="Examples\Geocoding\uploadAndGeocodeLargeJsonFile.vb" />
+    <Compile Include="Examples\MemberConfiguration\AddConfigurationKeyArray.vb" />
     <Compile Include="Examples\MemberConfiguration\AddNewConfigurationKey.vb" />
     <Compile Include="Examples\MemberConfiguration\GetAllConfigurationData.vb" />
     <Compile Include="Examples\MemberConfiguration\GetSpecificConfigurationKeyData.vb" />

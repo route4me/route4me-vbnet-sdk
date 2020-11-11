@@ -332,6 +332,13 @@ The example refers to the process of query all the activities from the last spec
  <param name="obj">An Address type object, Or boolean value</param>
  <param name="errorString">Error string</param>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveAvidanceZone(System.String)">
+ <summary>
+ Remove an avoidance zone
+ </summary>
+ <param name="avoidanceZoneId">Avoidance zone ID (territory ID)</param>
+ <returns>If true, an avoidance zone removed successfully</returns>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveTestContacts">
  <summary>
  Remove the contacts created in an example.
@@ -343,13 +350,6 @@ The example refers to the process of query all the activities from the last spec
  </summary>
  <param name="contactResponse">Scheduled contact</param>
  <param name="scheduleType">Schedule type 'daily', 'weekly', monthly'</param>
-</member>
-<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveAvidanceZone(System.String)">
- <summary>
- Remove an avoidance zone
- </summary>
- <param name="avoidanceZoneId">Avoidance zone ID (territory ID)</param>
- <returns>If true, an avoidance zone removed successfully</returns>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GenericExample">
  <summary>
@@ -433,6 +433,11 @@ The example refers to the process of query all the activities from the last spec
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ReverseGeocoding">
  <summary>
  Reverse Geocoding
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddConfigurationKeyArray">
+ <summary>
+ Add configuration key array to a user account
  </summary>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddNewConfigurationKey">
