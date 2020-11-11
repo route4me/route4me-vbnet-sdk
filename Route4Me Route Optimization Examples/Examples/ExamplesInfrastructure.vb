@@ -19,6 +19,7 @@ Namespace Route4MeSDKTest.Examples
         Public ContactsToRemove As List(Of String)
         Public RoutesToRemove As List(Of String)
         Public OptimizationsToRemove As List(Of String)
+        Public addressBookGroupsToRemove As List(Of String)
 
         Private dataObjectSD10Stops As DataObject
         Private SD10Stops_optimization_problem_id As String
@@ -591,5 +592,62 @@ Namespace Route4MeSDKTest.Examples
                     End If
             End Select
         End Sub
+
+        Public Sub AddAddressBookGroupToRemoveList(ByVal groupId As String)
+            If addressBookGroupsToRemove Is Nothing Then addressBookGroupsToRemove = New List(Of String)()
+            addressBookGroupsToRemove.Add(groupId)
+        End Sub
+
+        Public Sub CreateAddressBookGroup()
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim addressBookGroupRule = New AddressBookGroupRule() With {
+                .ID = "address_1",
+                .Field = "address_1",
+                .[Operator] = "not_equal",
+                .Value = "qwerty123456"
+            }
+
+            Dim addressBookGroupFilter = New AddressBookGroupFilter() With {
+                .Condition = "AND",
+                .Rules = New AddressBookGroupRule() {addressBookGroupRule}
+            }
+
+            Dim addressBookGroupParameters = New AddressBookGroup() With {
+                .groupName = "All Group",
+                .groupColor = "92e1c0",
+                .Filter = addressBookGroupFilter
+            }
+
+            Dim errorString As String = Nothing
+            Dim addressBookGroup = route4Me.AddAddressBookGroup(addressBookGroupParameters, errorString)
+
+            If addressBookGroup Is Nothing OrElse addressBookGroup.[GetType]() <> GetType(AddressBookGroup) Then
+                Console.WriteLine("Cannot create an address book group." & Environment.NewLine & errorString)
+                Return
+            End If
+
+            AddAddressBookGroupToRemoveList(addressBookGroup.groupID)
+        End Sub
+
+        Public Sub RemoveAddressBookGroups()
+            If addressBookGroupsToRemove Is Nothing OrElse addressBookGroupsToRemove.Count < 1 Then Return
+
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim errorString As String = Nothing
+
+            For Each groupId As String In addressBookGroupsToRemove
+                Dim addressGroupParams = New AddressBookGroupParameters() With {
+                    .GroupId = groupId
+                }
+
+                Dim response = route4Me.RemoveAddressBookGroup(addressGroupParams, errorString)
+
+                Console.WriteLine(If((If(response?.Status, False)), "Removed the address book group " & groupId, "Cannot removed the address book group " & groupId))
+                Console.WriteLine("")
+            Next
+        End Sub
+
     End Class
 End Namespace

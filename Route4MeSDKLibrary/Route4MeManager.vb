@@ -2387,7 +2387,14 @@ Namespace Route4MeSDK
 
         Public Function GetAddressBookContactsByGroup(ByVal addressBookGroupParameters As AddressBookGroupParameters, ByRef errorString As String) As AddressBookContactsResponse
             addressBookGroupParameters.PrepareForSerialization()
-            Dim response = GetJsonObjectFromAPI(Of AddressBookContactsResponse)(addressBookGroupParameters, R4MEInfrastructureSettings.AddressBookGroupSearch, HttpMethodType.Post, errorString)
+
+            Dim response = GetJsonObjectFromAPI(Of AddressBookContactsResponse) _
+                (
+                    addressBookGroupParameters,
+                    R4MEInfrastructureSettings.AddressBookGroupSearch,
+                    HttpMethodType.Post, errorString
+                )
+
             Return response
         End Function
 

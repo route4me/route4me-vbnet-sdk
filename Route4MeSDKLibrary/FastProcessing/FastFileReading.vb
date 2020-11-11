@@ -1,11 +1,6 @@
-﻿Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-Imports System.Text
-Imports System.Threading.Tasks
+﻿Imports System.Text
 Imports System.IO
 Imports System.IO.MemoryMappedFiles
-Imports System.Runtime.Serialization.Formatters.Binary
 Imports Newtonsoft.Json
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports System.Threading
@@ -111,6 +106,60 @@ Namespace Route4MeSDK.FastProcessing
                             sJsonAddressesChunk = ""
                             OnJsonFileChunkIsReady(chunkIsReady)
                             System.Threading.Thread.Sleep(5000)
+                        End If
+
+                        Dim args As JsonFileReadingIsDoneArgs = New JsonFileReadingIsDoneArgs() With {
+                    .IsDone = True
+                }
+                        OnJsonFileReadingIsDone(args)
+                    End Using
+                End Using
+            End Using
+        End Sub
+
+        Public Sub readingChunksFromLargeJsonFile_2(ByVal fileName As String)
+            Dim serializer As JsonSerializer = New JsonSerializer()
+            Dim o As AddressField = Nothing
+            Dim sJsonAddressesChunk As String = ""
+            Dim curJsonObjects As Integer = 0
+
+            Dim fullFileName As String = AppDomain.CurrentDomain.BaseDirectory & "\\" & fileName
+
+            Using s As FileStream = File.Open(fullFileName, FileMode.Open)
+
+                Using sr As StreamReader = New StreamReader(s)
+
+                    Using reader As JsonReader = New JsonTextReader(sr)
+                        Dim blStartAdresses As Boolean = False
+
+                        While reader.Read()
+                            If reader.TokenType = JsonToken.StartArray Then blStartAdresses = True
+
+                            If reader.TokenType = JsonToken.StartObject AndAlso blStartAdresses Then
+                                o = serializer.Deserialize(Of AddressField)(reader)
+                                If o.Address Is Nothing Then Continue While
+                                sJsonAddressesChunk += JsonConvert.SerializeObject(o, Formatting.None) & ","
+                                curJsonObjects += 1
+
+                                If curJsonObjects >= jsonObjectsChunkSize Then
+                                    sJsonAddressesChunk = "{""rows"":[" & sJsonAddressesChunk.TrimEnd(","c) & "]}"
+                                    Dim chunkIsReady As JsonFileChunkIsReadyArgs = New JsonFileChunkIsReadyArgs()
+                                    chunkIsReady.AddressesChunk = sJsonAddressesChunk
+                                    sJsonAddressesChunk = ""
+                                    curJsonObjects = 0
+                                    OnJsonFileChunkIsReady(chunkIsReady)
+                                    Thread.Sleep(5000)
+                                End If
+                            End If
+                        End While
+
+                        If sJsonAddressesChunk <> "" Then
+                            sJsonAddressesChunk = "{""rows"":[" & sJsonAddressesChunk.TrimEnd(","c) & "]}"
+                            Dim chunkIsReady As JsonFileChunkIsReadyArgs = New JsonFileChunkIsReadyArgs()
+                            chunkIsReady.AddressesChunk = sJsonAddressesChunk
+                            sJsonAddressesChunk = ""
+                            OnJsonFileChunkIsReady(chunkIsReady)
+                            Thread.Sleep(5000)
                         End If
 
                         Dim args As JsonFileReadingIsDoneArgs = New JsonFileReadingIsDoneArgs() With {

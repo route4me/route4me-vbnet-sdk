@@ -130,6 +130,13 @@
     <Compile Include="Examples\Activities\SearchRouteDeleted.vb" />
     <Compile Include="Examples\Activities\SearchRouteOptimized.vb" />
     <Compile Include="Examples\Activities\SearchRouteOwnerChanged.vb" />
+    <Compile Include="Examples\AddressBookGroup\AddAddressBookGroup.vb" />
+    <Compile Include="Examples\AddressBookGroup\GetAddressBookContactsByGroup.vb" />
+    <Compile Include="Examples\AddressBookGroup\GetAddressBookGroup.vb" />
+    <Compile Include="Examples\AddressBookGroup\GetAddressBookGroups.vb" />
+    <Compile Include="Examples\AddressBookGroup\RemoveAddressBookGroup.vb" />
+    <Compile Include="Examples\AddressBookGroup\SearchAddressBookContactsByFilter.vb" />
+    <Compile Include="Examples\AddressBookGroup\UpdateAddressBookGroup.vb" />
     <Compile Include="Examples\Addressbook\AddAddressBookContact.vb" />
     <Compile Include="Examples\Addressbook\AddScheduledAddressBookContact.vb" />
     <Compile Include="Examples\Addressbook\DeserializeDictionaryExample.vb" />
@@ -137,6 +144,7 @@
     <Compile Include="Examples\Addressbook\SearchLocationsByText.vb" />
     <Compile Include="Examples\Addressbook\UpdateWholeAddressBookContact.vb" />
     <Compile Include="Examples\Addresses\AddDestinationToOptimization.vb" />
+    <Compile Include="Examples\Addresses\AddRouteDestinationInSpecificPosition.vb" />
     <Compile Include="Examples\Addresses\AddRouteDestinations.vb" />
     <Compile Include="Examples\Addresses\GetAddress.vb" />
     <Compile Include="Examples\Addresses\InsertAddressIntoRouteOptimalPosition.vb" />
@@ -162,6 +170,8 @@
     <Compile Include="Examples\Addressbook\GetAddressBookContacts.vb" />
     <Compile Include="Examples\AvoidanceZone\GetAvoidanceZone.vb" />
     <Compile Include="Examples\AvoidanceZone\GetAvoidanceZones.vb" />
+    <Compile Include="Examples\Geocoding\BatchGeocodingForward.vb" />
+    <Compile Include="Examples\Geocoding\BatchGeocodingForwardAsync.vb" />
     <Compile Include="Examples\Geocoding\GeocodingForward.vb" />
     <Compile Include="Examples\Geocoding\RapidStreetDataAll.vb" />
     <Compile Include="Examples\Geocoding\RapidStreetDataLimited.vb" />
@@ -171,6 +181,7 @@
     <Compile Include="Examples\Geocoding\RapidStreetZipcodeAll.vb" />
     <Compile Include="Examples\Geocoding\RapidStreetZipcodeLimited.vb" />
     <Compile Include="Examples\Geocoding\ReverseGeocoding.vb" />
+    <Compile Include="Examples\Geocoding\uploadAndGeocodeLargeJsonFile.vb" />
     <Compile Include="Examples\MemberConfiguration\AddNewConfigurationKey.vb" />
     <Compile Include="Examples\MemberConfiguration\GetAllConfigurationData.vb" />
     <Compile Include="Examples\MemberConfiguration\GetSpecificConfigurationKeyData.vb" />

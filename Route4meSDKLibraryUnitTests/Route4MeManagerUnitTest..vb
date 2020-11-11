@@ -7442,7 +7442,7 @@ Public Class AddressbookGroupsGroup
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
         Dim addressBookGroupParameters As AddressBookGroupParameters = New AddressBookGroupParameters() With {
-            .GroupId_ = group2.groupID
+            .group_id = group2.groupID ' Payload parameter is group_id, url query parameter: GroupId
         }
 
         Dim errorString As String
@@ -7541,7 +7541,7 @@ Public Class AddressbookGroupsGroup
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
         Dim addressGroupParams As AddressBookGroupParameters = New AddressBookGroupParameters() With {
-            .GroupId_ = remeoveGroupID ' Payload parameter is GroupId_, url query parameter: GroupId
+            .group_id = remeoveGroupID ' Payload parameter is group_id, url query parameter: GroupId
         }
 
         errorString = ""

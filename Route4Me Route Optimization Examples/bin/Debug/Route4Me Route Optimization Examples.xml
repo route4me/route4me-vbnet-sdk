@@ -157,6 +157,41 @@ The example refers to the process of query all the activities from the last spec
  Get activities with the event Route Owner Changed
  </summary>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddAddressBookGroup">
+ <summary>
+ Add an address book group to the user's account.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetAddressBookContactsByGroup">
+ <summary>
+ Get the address book contacts by specified address book group.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetAddressBookGroup">
+ <summary>
+ Get an address book group
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetAddressBookGroups">
+ <summary>
+ Get the address book groups
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveAddressBookGroup">
+ <summary>
+ Remove specified address book group
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchAddressBookContactsByFilter">
+ <summary>
+ Search the address book contacts by filter
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateAddressBookGroup">
+ <summary>
+ Update an address book group
+ </summary>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddAddressBookContact">
  <summary>
  Add address book contact
@@ -180,6 +215,11 @@ The example refers to the process of query all the activities from the last spec
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddDestinationToOptimization">
  <summary>
  Add a destination to an optimization.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddRouteDestinationInSpecificPosition">
+ <summary>
+ Add route destination in specific position
  </summary>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddRouteDestinations(System.String)">
@@ -337,6 +377,18 @@ The example refers to the process of query all the activities from the last spec
  <summary>
  Get Avoidance Zone list
  </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.BatchGeocodingForward(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GeocodingParameters)">
+ <summary>
+ Forward batch geocoding
+ </summary>
+ <param name="geoParams">Geocoding parameters</param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.BatchGeocodingForwardAsync(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GeocodingParameters)">
+ <summary>
+ Asynchronous batch geocoding
+ </summary>
+ <param name="geoParams">Geocoding parameters</param>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GeocodingForward(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GeocodingParameters)">
  <summary>

@@ -6,7 +6,7 @@ Namespace Route4MeSDK.QueryTypes
         Inherits GenericParameters
 
         <DataMember(Name:="group_id")>
-        Public Property GroupId_ As String
+        Public Property group_id As String
 
         <DataMember(Name:="fields")>
         Public Property Fields As String()
