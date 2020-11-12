@@ -496,6 +496,48 @@ The example refers to the process of query all the activities from the last spec
  </summary>
  <param name="addressIds">An array of the address IDs</param>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddAddressNote">
+ <summary>
+ Add an address note to the user account.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddAddressNoteWithFile">
+ <summary>
+ Add a file note to the route address.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddComplexAddressNote">
+ <summary>
+ Add complex note to the specified route address.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddCustomNoteToRoute">
+ <summary>
+ Add custom note to the specified route
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddCustomNoteType">
+ <summary>
+ Add a custom note type to the user account.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetAddressNotes(System.String,System.Int32)">
+ <summary>
+ Get the address notes from the route address.
+ </summary>
+ <param name="routeId">Route ID</param>
+ <param name="routeDestinationId">Route destination ID</param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetAllCustomNoteTypes">
+ <summary>
+ Get all custom note types from the user account.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveCustomNoteType">
+ <summary>
+ Remove custom note type from the user account.
+ </summary>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveOptimization(System.String[])">
  <summary>
  Remove Optimization

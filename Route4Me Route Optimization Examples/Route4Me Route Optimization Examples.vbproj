@@ -199,8 +199,13 @@
     <Compile Include="Examples\MultipleDepotMultipleDriverWith24StopsTimeWindow.vb" />
     <Compile Include="Examples\Addressbook\RemoveAddressBookContacts.vb" />
     <Compile Include="Examples\Notes\AddAddressNote.vb" />
-    <Compile Include="Examples\Notes\AddNoteFileToAddress.vb" />
+    <Compile Include="Examples\Notes\AddAddressNoteWithFile.vb" />
+    <Compile Include="Examples\Notes\AddComplexAddressNote.vb" />
+    <Compile Include="Examples\Notes\AddCustomNoteToRoute.vb" />
+    <Compile Include="Examples\Notes\AddCustomNoteType.vb" />
     <Compile Include="Examples\Notes\GetAddressNotes.vb" />
+    <Compile Include="Examples\Notes\GetAllCustomNoteTypes.vb" />
+    <Compile Include="Examples\Notes\RemoveCustomNoteType.vb" />
     <Compile Include="Examples\Optimizations\GetOptimization.vb" />
     <Compile Include="Examples\Optimizations\GetOptimizations.vb" />
     <Compile Include="Examples\Optimizations\OptimizationWithCallbackUrl.vb" />

@@ -91,7 +91,7 @@ Namespace Route4MeSDKTest
             If routeIdToMoveTo IsNot Nothing AndAlso routeDestinationIdToMove <> 0 Then
                 examples.GetAddress(routeIdToMoveTo, routeDestinationIdToMove)
 
-                examples.AddAddressNote(routeIdToMoveTo, routeDestinationIdToMove)
+                examples.AddAddressNote()
                 examples.GetAddressNotes(routeIdToMoveTo, routeDestinationIdToMove)
             Else
                 Console.WriteLine("AddAddressNote, GetAddress, GetAddressNotes not called. routeIdToMoveTo == null || routeDestinationIdToMove == 0.")

@@ -1,19 +1,30 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Sub GetAddressNotes(routeId As String, routeDestinationId As Integer)
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+        ''' <summary>
+        ''' Get the address notes from the route address.
+        ''' </summary>
+        ''' <param name="routeId">Route ID</param>
+        ''' <param name="routeDestinationId">Route destination ID</param>
+        Public Sub GetAddressNotes(Optional ByVal routeId As String = Nothing,
+                                   Optional ByVal routeDestinationId As Integer = Nothing)
 
-            Dim noteParameters As New NoteParameters() With { _
-                .RouteId = routeId, _
-                .AddressId = routeDestinationId _
+            ' Create the manager with the api key
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim isInnerExample As Boolean = If(routeId Is Nothing, True, False)
+
+            If isInnerExample Then CreateAddressNote(routeId, routeDestinationId)
+
+            Dim noteParameters = New NoteParameters() With {
+                .RouteId = routeId,
+                .AddressId = CInt(routeDestinationId)
             }
 
-            ' Run the query
-            Dim errorString As String = ""
+            Dim errorString As String = Nothing
             Dim notes As AddressNote() = route4Me.GetAddressNotes(noteParameters, errorString)
 
             Console.WriteLine("")
@@ -25,6 +36,8 @@ Namespace Route4MeSDKTest.Examples
                 Console.WriteLine("GetAddressNotes error: {0}", errorString)
                 Console.WriteLine("")
             End If
+
+            If isInnerExample Then RemoveTestOptimizations()
         End Sub
     End Class
 End Namespace

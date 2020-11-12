@@ -21,6 +21,7 @@ Namespace Route4MeSDKTest.Examples
         Public OptimizationsToRemove As List(Of String)
         Public addressBookGroupsToRemove As List(Of String)
         Public configKeysToRemove As List(Of String) = New List(Of String)()
+        Public CustomNoteTypesToRemove As List(Of String) = New List(Of String)()
 
         Private dataObjectSD10Stops As DataObject
         Private SD10Stops_optimization_problem_id As String
@@ -740,5 +741,152 @@ Namespace Route4MeSDKTest.Examples
         End Sub
 #End Region
 
+#Region "Address Notes"
+        Private Sub PrintExampleAddressNote(ByVal note As Object, ByVal Optional errorString As String = "")
+            Console.WriteLine("")
+
+            If note IsNot Nothing AndAlso note.[GetType]() = GetType(AddressNote) Then
+                Console.WriteLine("AddAddressNote executed successfully")
+                Console.WriteLine("Note ID: {0}", (CType(note, AddressNote)).NoteId)
+            Else
+                Console.WriteLine("AddAddressNote error: {0}", errorString)
+            End If
+        End Sub
+
+        Private Sub CreateAddressNote(ByRef routeId As String, ByRef destinationId As Integer?)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            RunSingleDriverRoundTrip()
+
+            OptimizationsToRemove = New List(Of String)() From {
+                SDRT_optimization_problem_id
+            }
+
+            routeId = SDRT_route_id
+            destinationId = CInt(SDRT_route.Addresses(1).RouteDestinationId)
+
+            Dim lat As Double = If(SDRT_route.Addresses.Length > 1, SDRT_route.Addresses(1).Latitude, 33.132675170898)
+            Dim lng As Double = If(SDRT_route.Addresses.Length > 1, SDRT_route.Addresses(1).Longitude, -83.244743347168)
+
+            Dim noteParameters = New NoteParameters() With {
+                .RouteId = routeId,
+                .AddressId = CInt(destinationId),
+                .Latitude = lat,
+                .Longitude = lng,
+                .DeviceType = DeviceType.Web.GetEnumDescription(),
+                .ActivityType = StatusUpdateType.DropOff.GetEnumDescription()
+            }
+
+            Dim contents As String = "Test Note Contents " & DateTime.Now.ToString()
+
+            Dim errorString As String = Nothing
+            Dim note = route4Me.AddAddressNote(noteParameters, contents, errorString)
+
+            PrintExampleAddressNote(note, errorString)
+        End Sub
+
+        Private Sub RemoveCustomNoteTypes()
+            If CustomNoteTypesToRemove.Count < 1 Then Return
+
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim errString As String = Nothing
+            Dim response = route4Me.getAllCustomNoteTypes(errString)
+
+            Dim allCustomNoteTypes As List(Of CustomNoteType) =
+                If(
+                    (response IsNot Nothing AndAlso response.[GetType]() = GetType(CustomNoteType())),
+                    (CType(response, CustomNoteType())).ToList(),
+                    Nothing
+                )
+
+            If allCustomNoteTypes Is Nothing OrElse allCustomNoteTypes.Count < 1 Then Return
+
+            Dim errorString As String = Nothing
+
+            For Each customNoteType As String In CustomNoteTypesToRemove
+                Dim customNoteTypeId As Integer? =
+                    If(
+                        allCustomNoteTypes.
+                        Where(Function(x) x.NoteCustomType = customNoteType).
+                        FirstOrDefault()?.NoteCustomTypeID, -1
+                    )
+
+                If customNoteTypeId > 0 Then
+                    Dim removeResult = route4Me.removeCustomNoteType(CInt(customNoteTypeId), errorString)
+
+                    Console.WriteLine(
+                        If(
+                            (removeResult IsNot Nothing AndAlso removeResult.[GetType]() = GetType(Integer)),
+                            "The custom note type " & customNoteTypeId & " removed",
+                            "Cannot remove the custom note type " & customNoteTypeId)
+                        )
+                End If
+            Next
+        End Sub
+
+        Private Sub PrintExampleCustomNoteType(ByVal response As Object, ByVal Optional errorString As String = "")
+            Dim testName As String = (New StackTrace()).GetFrame(1).GetMethod().Name
+            testName = If(testName IsNot Nothing, testName, "")
+
+            Console.WriteLine("")
+
+            If response IsNot Nothing AndAlso response.[GetType]() = GetType(Integer) Then
+                Console.WriteLine(testName & " executed successfully")
+                Console.WriteLine("Affected custom note types: {0}", CInt(response))
+            Else
+                Console.WriteLine(testName & " error: {0}", errorString)
+            End If
+        End Sub
+
+        Private Function GetCustomNoteIdByName(ByVal customNoteTypeName As String) As Integer?
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim errString As String = Nothing
+            Dim response = route4Me.getAllCustomNoteTypes(errString)
+
+            Dim allCustomNoteTypes As List(Of CustomNoteType) =
+                If(
+                    (response IsNot Nothing AndAlso response.[GetType]() = GetType(CustomNoteType())),
+                    (CType(response, CustomNoteType())).ToList(),
+                    Nothing
+                )
+
+            If allCustomNoteTypes Is Nothing OrElse allCustomNoteTypes.Count < 1 Then Return Nothing
+
+            Dim customNoteTypeId As Integer? =
+                If(
+                    allCustomNoteTypes.
+                        Where(Function(x) x.NoteCustomType = customNoteTypeName).
+                        FirstOrDefault()?.
+                        NoteCustomTypeID,
+                        Nothing
+                )
+
+            Return customNoteTypeId
+        End Function
+
+        Private Sub CreateCustomNoteType()
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim customType As String = "To Do 5"
+            Dim customValues As String() = New String() _
+            {
+            "Pass a package 5", "Pickup package", "Do a service"
+            }
+
+            Dim errorString As String = Nothing
+            Dim response = route4Me.AddCustomNoteType(customType, customValues, errorString)
+
+            PrintExampleCustomNoteType(response, errorString)
+
+            CustomNoteTypesToRemove = New List(Of String)()
+
+            If response IsNot Nothing AndAlso response.[GetType]() = GetType(Integer) Then
+                CustomNoteTypesToRemove.Add("To Do 5")
+            End If
+        End Sub
+
+#End Region
     End Class
 End Namespace
