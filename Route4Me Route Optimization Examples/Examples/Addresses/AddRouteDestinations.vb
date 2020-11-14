@@ -39,7 +39,7 @@ Namespace Route4MeSDKTest.Examples
             Dim errorString As String = Nothing
             Dim destinationIds As Integer() = route4Me.AddRouteDestinations(routeId, addresses, optimalPosition, errorString)
 
-            PrintExampleRouteResult("AddRouteDestinations", SD10Stops_route, errorString)
+            PrintExampleRouteResult(SD10Stops_route, errorString)
 
             If isInnerExample Then
                 RemoveTestOptimizations()

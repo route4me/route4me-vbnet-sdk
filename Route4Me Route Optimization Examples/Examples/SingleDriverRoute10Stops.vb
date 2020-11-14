@@ -1,6 +1,7 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Function SingleDriverRoute10Stops() As DataObject
@@ -22,6 +23,7 @@ Namespace Route4MeSDKTest.Examples
             'input as many custom fields as needed, custom data is passed through to mobile devices and to the manifest
 
             '#End Region
+
             Dim addresses As Address() = New Address() {New Address() With {
                 .AddressString = "151 Arbor Way Milledgeville GA 31061",
                 .IsDepot = True,
@@ -81,7 +83,6 @@ Namespace Route4MeSDKTest.Examples
             }}
 
             ' Set parameters
-
             Dim parameters As New RouteParameters() With {
                 .AlgorithmType = AlgorithmType.TSP,
                 .RouteName = "Single Driver Route 10 Stops",
@@ -102,7 +103,7 @@ Namespace Route4MeSDKTest.Examples
             Dim dataObject As DataObject = route4Me.RunOptimization(optimizationParameters, errorString)
 
             ' Output the result
-            PrintExampleOptimizationResult("SingleDriverRoute10Stops", dataObject, errorString)
+            PrintExampleOptimizationResult(dataObject, errorString)
 
             Return dataObject
         End Function

@@ -5,19 +5,21 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
-        ''' Get limited number of the optimizations.
+        ''' Get optimizations scheduled to date from the specified date range.
         ''' </summary>
-        Public Sub GetOptimizations()
-            ' Create the manager with the api key
+        Public Sub GetOptimizationsFromDateRange()
             Dim route4Me = New Route4MeManager(ActualApiKey)
 
+            Dim today As DateTime = DateTime.Now
+            Dim days3 As TimeSpan = New TimeSpan(3, 0, 0, 0)
+
             Dim queryParameters = New RouteParametersQuery() With {
-                .Limit = 10,
-                .Offset = 5
+                .StartDate = (today - days3).ToString("yyyy-MM-dd"),
+                .EndDate = today.ToString("yyyy-MM-dd")
             }
 
             Dim errorString As String = Nothing
-            Dim dataObjects As DataObject() = route4Me.GetOptimizations(queryParameters, errorString)
+            Dim dataObjects = route4Me.GetOptimizations(queryParameters, errorString)
 
             PrintExampleOptimizationResult(dataObjects, errorString)
         End Sub

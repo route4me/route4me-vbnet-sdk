@@ -5,7 +5,8 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Function OptimizationWithCallbackUrl() As DataObject
-            Dim route4Me As Route4MeManager = New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
             Dim addresses As Address() = New Address() {New Address() With {
                 .AddressString = "3634 W Market St, Fairlawn, OH 44333",
                 .IsDepot = True,
@@ -116,27 +117,32 @@ Namespace Route4MeSDKTest.Examples
                 .TimeWindowEnd2 = 17 * 3600 + 0 * 60,
                 .Time = 50
             }}
-            Dim parameters As RouteParameters = New RouteParameters() With {
+
+            Dim parameters = New RouteParameters() With {
                 .AlgorithmType = AlgorithmType.TSP,
-                .StoreRoute = False,
                 .RouteName = "Single Driver Multiple TimeWindows 12 Stops",
-                .SharedPublicly = "true",
                 .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.Date.AddDays(1)),
                 .RouteTime = 5 * 3600 + 30 * 60,
                 .Optimize = Optimize.Distance.GetEnumDescription(),
                 .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
                 .DeviceType = DeviceType.Web.GetEnumDescription()
             }
-            Dim optimizationParameters As OptimizationParameters = New OptimizationParameters() With {
+
+            Dim optimizationParameters = New OptimizationParameters() With {
                 .Addresses = addresses,
                 .OptimizedCallbackURL = "https://requestb.in/1o6cgge1",
                 .ShowDirections = True,
                 .Redirect = False,
                 .Parameters = parameters
             }
-            Dim errorString As String = ""
-            Dim dataObject As DataObject = route4Me.RunOptimization(optimizationParameters, errorString)
-            PrintExampleOptimizationResult("SingleDriverMultipleTimeWindows", dataObject, errorString)
+
+            Dim errorString As String = Nothing
+            Dim dataObject As DataObject = route4Me.RunOptimization(
+                optimizationParameters,
+                errorString)
+
+            PrintExampleOptimizationResult(dataObject, errorString)
+
             Return dataObject
         End Function
     End Class

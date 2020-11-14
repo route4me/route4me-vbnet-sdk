@@ -47,35 +47,64 @@ Namespace Route4MeSDKTest.Examples
 
 
 #Region "Optimizations, Routes, Destinations"
-        Private Sub PrintExampleOptimizationResult(exampleName As String, dataObject As DataObject, errorString As String)
-            Dim err1 As String
+
+        Private Sub PrintExampleOptimizationResult(ByVal dataObject As Object, ByVal errorString As String)
+            Dim testName As String = (New System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name
+            testName = If(testName IsNot Nothing, testName, "")
+
             Console.WriteLine("")
 
             If dataObject IsNot Nothing Then
-                Console.WriteLine("{0} executed successfully", exampleName)
+                Console.WriteLine("{0} executed successfully", testName)
                 Console.WriteLine("")
 
-                Console.WriteLine("Optimization Problem ID: {0}", dataObject.OptimizationProblemId)
-                Console.WriteLine("State: {0}", dataObject.State)
-                For Each err1 In dataObject.UserErrors
-                    Console.WriteLine("UserError : '{0}'", err1)
-                Next
+                If dataObject.[GetType]() = GetType(DataObject) Then
+                    Dim dataObject1 = CType(dataObject, DataObject)
 
-                Console.WriteLine("")
-                For Each address As Address In dataObject.Addresses
-                    Console.WriteLine("Address: {0}", address.AddressString)
-                    Console.WriteLine("Route ID: {0}", address.RouteId)
-                Next
+                    Console.WriteLine("Optimization Problem ID: {0}", dataObject1.OptimizationProblemId)
+                    Console.WriteLine("State: {0}", dataObject1.State)
+
+                    dataObject1.UserErrors.ToList().ForEach(
+                        Sub([error]) Console.WriteLine("UserError : '{0}'", [error]))
+
+                    Console.WriteLine("")
+
+                    dataObject1.Addresses.ToList().ForEach(
+                        Sub(address)
+                            Console.WriteLine("Address: {0}", address.AddressString)
+                            Console.WriteLine("Route ID: {0}", address.RouteId)
+                        End Sub)
+                Else
+                    Dim optimizations = CType(dataObject, DataObject())
+
+                    Console.WriteLine(
+                        testName & " executed successfully, {0} optimizations returned",
+                        optimizations.Length)
+
+                    Console.WriteLine("")
+
+                    optimizations.ToList().ForEach(
+                        Sub(optimization)
+                            Console.WriteLine(
+                            "Optimization Problem ID: {0}",
+                            optimization.OptimizationProblemId)
+
+                            Console.WriteLine("")
+                        End Sub)
+                End If
             Else
-                Console.WriteLine("{0} error {1}", exampleName, errorString)
+                Console.WriteLine("{0} error {1}", testName, errorString)
             End If
         End Sub
 
-        Private Sub PrintExampleRouteResult(ByVal exampleName As String, ByVal dataObjectRoute As DataObjectRoute, ByVal errorString As String)
+        Private Sub PrintExampleRouteResult(ByVal dataObjectRoute As DataObjectRoute, ByVal errorString As String)
+            Dim testName As String = (New StackTrace()).GetFrame(1).GetMethod().Name
+            testName = If(testName IsNot Nothing, testName, "")
+
             Console.WriteLine("")
 
             If dataObjectRoute IsNot Nothing Then
-                Console.WriteLine("{0} executed successfully", exampleName)
+                Console.WriteLine("{0} executed successfully", testName)
                 Console.WriteLine("")
                 Console.WriteLine("Optimization Problem ID: {0}", dataObjectRoute.OptimizationProblemId)
                 Console.WriteLine("")
@@ -86,7 +115,7 @@ Namespace Route4MeSDKTest.Examples
                                 Console.WriteLine("Route ID: {0}", address.RouteId)
                             End Sub)
             Else
-                Console.WriteLine("{0} error {1}", exampleName, errorString)
+                Console.WriteLine("{0} error {1}", testName, errorString)
             End If
         End Sub
 

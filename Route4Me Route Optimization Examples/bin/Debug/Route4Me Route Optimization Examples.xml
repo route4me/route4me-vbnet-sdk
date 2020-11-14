@@ -538,11 +538,43 @@ The example refers to the process of query all the activities from the last spec
  Remove custom note type from the user account.
  </summary>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOptimization(System.String)">
+ <summary>
+ Get an optimization problem by ID.
+ </summary>
+ <param name="optimizationProblemID">Optimization problem ID</param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOptimizations">
+ <summary>
+ Get limited number of the optimizations.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOptimizationsByText">
+ <summary>
+ Get the optimizations by specified text.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOptimizationsFromDateRange">
+ <summary>
+ Get optimizations scheduled to date from the specified date range.
+ </summary>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveOptimization(System.String[])">
  <summary>
  Remove Optimization
  </summary>
  <param name="optimizationProblemIDs"> Optimization Problem IDs </param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ReOptimization(System.String)">
+ <summary>
+ Re-optimize an optimization
+ </summary>
+ <param name="optimizationProblemID">Optimization problem ID</param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateOptimizationDestination">
+ <summary>
+ Update an optimization destination
+ </summary>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddOrder">
  <summary>

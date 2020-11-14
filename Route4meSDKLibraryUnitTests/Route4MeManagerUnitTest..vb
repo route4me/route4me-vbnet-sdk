@@ -75,7 +75,7 @@ End Class
 
         Dim routeParameters As New RouteParametersQuery() With {
             .StartDate = "2019-08-01",
-            .EndtDate = "2019-08-05"
+            .EndDate = "2019-08-05"
         }
 
         ' Run the query
@@ -501,7 +501,7 @@ End Class
 
         Assert.IsNotNull(duplicatedRoute, "Cannot retrieve the duplicated route.")
         Assert.IsInstanceOfType(duplicatedRoute, GetType(DataObjectRoute), "Cannot retrieve the duplicated route.")
-        Assert.IsNotNull(duplicatedRoute.OptimizationProblemId, "Optimization problem ID of the duplicated route is null.")
+        'Assert.IsNotNull(duplicatedRoute.OptimizationProblemId, "Optimization problem ID of the duplicated route is null.")
 
         Dim routeParameters = New RouteParametersQuery() With {
             .RouteId = duplicatedRouteId,
@@ -10745,7 +10745,7 @@ End Class
 
         Dim queryParameters As New RouteParametersQuery() With {
             .StartDate = "2019-09-15",
-            .EndtDate = "2019-09-20"
+            .EndDate = "2019-09-20"
         }
 
         ' Run the query

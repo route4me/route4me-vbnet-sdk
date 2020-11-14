@@ -146,11 +146,12 @@ Namespace Route4MeSDKTest.Examples
             Dim dataObject As DataObject = Nothing
             Dim errorString As String = ""
 
-            Await Task(Of DataObject).Run(Function()
-                                              dataObject = route4Me.RunAsyncOptimization(optimizationParameters, errorString)
-                                              PrintExampleOptimizationResult("AsyncMultipleDepotMultipleDriver", dataObject, errorString)
-                                              Return dataObject
-                                          End Function)
+            Await Task(Of DataObject).Run(
+                Function()
+                    dataObject = route4Me.RunAsyncOptimization(optimizationParameters, errorString)
+                    PrintExampleOptimizationResult(dataObject, errorString)
+                    Return dataObject
+                End Function)
             Return dataObject
         End Function
     End Class

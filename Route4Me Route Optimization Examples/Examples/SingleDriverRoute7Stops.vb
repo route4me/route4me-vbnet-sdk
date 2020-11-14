@@ -78,7 +78,7 @@ Namespace Route4MeSDKTest.Examples
             Dim dataObject As DataObject = route4Me.RunOptimization(optimizationParameters, errorString)
 
             ' Output the result
-            PrintExampleOptimizationResult("SingleDriverRoute7Stops", dataObject, errorString)
+            PrintExampleOptimizationResult(dataObject, errorString)
 
             Return dataObject
         End Function

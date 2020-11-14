@@ -208,9 +208,12 @@
     <Compile Include="Examples\Notes\RemoveCustomNoteType.vb" />
     <Compile Include="Examples\Optimizations\GetOptimization.vb" />
     <Compile Include="Examples\Optimizations\GetOptimizations.vb" />
+    <Compile Include="Examples\Optimizations\GetOptimizationsByText.vb" />
+    <Compile Include="Examples\Optimizations\GetOptimizationsFromDateRange.vb" />
     <Compile Include="Examples\Optimizations\OptimizationWithCallbackUrl.vb" />
     <Compile Include="Examples\Optimizations\RemoveOptimization.vb" />
     <Compile Include="Examples\Optimizations\ReOptimization.vb" />
+    <Compile Include="Examples\Optimizations\UpdateOptimizationDestination.vb" />
     <Compile Include="Examples\Orders\AddOrder.vb" />
     <Compile Include="Examples\Orders\AddOrdersToOptimization.vb" />
     <Compile Include="Examples\Orders\AddOrdersToRoute.vb" />

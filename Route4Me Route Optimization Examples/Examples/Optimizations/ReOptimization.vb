@@ -1,31 +1,39 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Sub ReOptimization(optimizationProblemID As String)
+        ''' <summary>
+        ''' Re-optimize an optimization
+        ''' </summary>
+        ''' <param name="optimizationProblemID">Optimization problem ID</param>
+        Public Sub ReOptimization(Optional optimizationProblemID As String = Nothing)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim optimizationParameters As New OptimizationParameters() With { _
-                .OptimizationProblemID = optimizationProblemID, _
-                .ReOptimize = True _
+            Dim isInnerExample As Boolean = If(optimizationProblemID Is Nothing, True, False)
+
+            If isInnerExample Then
+                RunOptimizationSingleDriverRoute10Stops()
+                optimizationProblemID = SD10Stops_optimization_problem_id
+                OptimizationsToRemove = New List(Of String)()
+                OptimizationsToRemove.Add(optimizationProblemID)
+            End If
+
+            Dim optimizationParameters = New OptimizationParameters() With {
+                .OptimizationProblemID = optimizationProblemID,
+                .ReOptimize = True
             }
 
-            ' Run the query
-            Dim errorString As String = ""
-            Dim dataObject As DataObject = route4Me.UpdateOptimization(optimizationParameters, errorString)
+            Dim errorString As String = Nothing
+            Dim dataObject As DataObject = route4Me.UpdateOptimization(
+                optimizationParameters,
+                errorString)
 
-            Console.WriteLine("")
+            PrintExampleOptimizationResult(dataObject, errorString)
 
-            If dataObject IsNot Nothing Then
-                Console.WriteLine("ReOptimization executed successfully")
-
-                Console.WriteLine("Optimization Problem ID: {0}", dataObject.OptimizationProblemId)
-                Console.WriteLine("State: {0}", dataObject.State)
-            Else
-                Console.WriteLine("ReOptimization error: {0}", errorString)
-            End If
+            If isInnerExample Then RemoveTestOptimizations()
         End Sub
     End Class
 End Namespace

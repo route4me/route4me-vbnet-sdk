@@ -3,6 +3,7 @@
 Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Function SingleDriverRoundTrip() As DataObject
@@ -10,68 +11,65 @@ Namespace Route4MeSDKTest.Examples
             Dim route4Me As New Route4MeManager(ActualApiKey)
 
             ' Prepare the addresses
-            '#Region "Addresses"
-            '#End Region
-            Dim addresses As Address() = New Address() {New Address() With { _
-                .AddressString = "754 5th Ave New York, NY 10019", _
-                .[Alias] = "Bergdorf Goodman", _
-                .IsDepot = True, _
-                .Latitude = 40.7636197, _
-                .Longitude = -73.9744388, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "717 5th Ave New York, NY 10022", _
-                .[Alias] = "Giorgio Armani", _
-                .Latitude = 40.7669692, _
-                .Longitude = -73.9693864, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "888 Madison Ave New York, NY 10014", _
-                .[Alias] = "Ralph Lauren Women's and Home", _
-                .Latitude = 40.7715154, _
-                .Longitude = -73.9669241, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "1011 Madison Ave New York, NY 10075", _
-                .[Alias] = "Yigal Azrou'l", _
-                .Latitude = 40.7772129, _
-                .Longitude = -73.9669, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "440 Columbus Ave New York, NY 10024", _
-                .[Alias] = "Frank Stella Clothier", _
-                .Latitude = 40.7808364, _
-                .Longitude = -73.9732729, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "324 Columbus Ave #1 New York, NY 10023", _
-                .[Alias] = "Liana", _
-                .Latitude = 40.7803123, _
-                .Longitude = -73.9793079, _
-                .Time = 0 _
-            }, _
-                New Address() With { _
-                .AddressString = "110 W End Ave New York, NY 10023", _
-                .[Alias] = "Toga Bike Shop", _
-                .Latitude = 40.7753077, _
-                .Longitude = -73.9861529, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "555 W 57th St New York, NY 10019", _
-                .[Alias] = "BMW of Manhattan", _
-                .Latitude = 40.7718005, _
-                .Longitude = -73.9897716, _
-                .Time = 0 _
-            }, New Address() With { _
-                .AddressString = "57 W 57th St New York, NY 10019", _
-                .[Alias] = "Verizon Wireless", _
-                .Latitude = 40.7558695, _
-                .Longitude = -73.9862019, _
-                .Time = 0 _
+            Dim addresses As Address() = New Address() {New Address() With {
+                .AddressString = "754 5th Ave New York, NY 10019",
+                .[Alias] = "Bergdorf Goodman",
+                .IsDepot = True,
+                .Latitude = 40.7636197,
+                .Longitude = -73.9744388,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "717 5th Ave New York, NY 10022",
+                .[Alias] = "Giorgio Armani",
+                .Latitude = 40.7669692,
+                .Longitude = -73.9693864,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "888 Madison Ave New York, NY 10014",
+                .[Alias] = "Ralph Lauren Women's and Home",
+                .Latitude = 40.7715154,
+                .Longitude = -73.9669241,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "1011 Madison Ave New York, NY 10075",
+                .[Alias] = "Yigal Azrou'l",
+                .Latitude = 40.7772129,
+                .Longitude = -73.9669,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "440 Columbus Ave New York, NY 10024",
+                .[Alias] = "Frank Stella Clothier",
+                .Latitude = 40.7808364,
+                .Longitude = -73.9732729,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "324 Columbus Ave #1 New York, NY 10023",
+                .[Alias] = "Liana",
+                .Latitude = 40.7803123,
+                .Longitude = -73.9793079,
+                .Time = 0
+            },
+                New Address() With {
+                .AddressString = "110 W End Ave New York, NY 10023",
+                .[Alias] = "Toga Bike Shop",
+                .Latitude = 40.7753077,
+                .Longitude = -73.9861529,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "555 W 57th St New York, NY 10019",
+                .[Alias] = "BMW of Manhattan",
+                .Latitude = 40.7718005,
+                .Longitude = -73.9897716,
+                .Time = 0
+            }, New Address() With {
+                .AddressString = "57 W 57th St New York, NY 10019",
+                .[Alias] = "Verizon Wireless",
+                .Latitude = 40.7558695,
+                .Longitude = -73.9862019,
+                .Time = 0
             }}
 
             ' Set parameters
-
             Dim parameters As New RouteParameters() With {
                 .AlgorithmType = AlgorithmType.TSP,
                 .RouteName = "Single Driver Round Trip",
@@ -96,7 +94,7 @@ Namespace Route4MeSDKTest.Examples
             Dim dataObject As DataObject = route4Me.RunOptimization(OptimizationParameters, errorString)
 
             ' Output the result
-            PrintExampleOptimizationResult("SingleDriverRoundTrip", dataObject, errorString)
+            PrintExampleOptimizationResult(dataObject, errorString)
 
             Return dataObject
         End Function

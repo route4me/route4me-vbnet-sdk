@@ -35,7 +35,7 @@ Namespace Route4MeSDKTest.Examples
             Dim errorString As String = Nothing
             Dim dataObject As DataObject = route4Me.UpdateOptimization(optimizationParameters, errorString)
 
-            PrintExampleOptimizationResult("AddDestinationToOptimization", dataObject, errorString)
+            PrintExampleOptimizationResult(dataObject, errorString)
 
             RemoveTestOptimizations()
         End Sub

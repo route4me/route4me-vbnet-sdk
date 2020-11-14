@@ -37,7 +37,11 @@ Namespace Route4MeSDK.QueryTypes
 
         <IgnoreDataMember>
         <HttpQueryMemberAttribute(Name:="end_date", EmitDefaultValue:=False)>
-        Public Property EndtDate As String
+        Public Property EndDate As String
+
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="query", EmitDefaultValue:=False)>
+        Public Property Query As String
 
         ''' <summary>
         ''' If true will be redirected

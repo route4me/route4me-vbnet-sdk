@@ -25,9 +25,8 @@ Namespace Route4MeSDKTest.Examples
 
             'the number of seconds at destination
 
-
-
             '#End Region
+
             Dim addresses As Address() = New Address() {New Address() With { _
                 .AddressString = "3634 W Market St, Fairlawn, OH 44333", _
                 .IsDepot = True, _
@@ -142,15 +141,14 @@ Namespace Route4MeSDKTest.Examples
 
             ' Set parameters
 
-            Dim parameters As New RouteParameters() With { _
-                .AlgorithmType = AlgorithmType.TSP, _
-                .StoreRoute = False, _
-                .RouteName = "Single Driver Multiple TimeWindows 12 Stops", _
-                .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)), _
-                .RouteTime = 5 * 3600 + 30 * 60, _
-                .Optimize = EnumHelper.GetEnumDescription(Optimize.Distance), _
-                .DistanceUnit = EnumHelper.GetEnumDescription(DistanceUnit.MI), _
-                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.Web) _
+            Dim parameters As New RouteParameters() With {
+                .AlgorithmType = AlgorithmType.TSP,
+                .RouteName = "Single Driver Multiple TimeWindows 12 Stops",
+                .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)),
+                .RouteTime = 5 * 3600 + 30 * 60,
+                .Optimize = EnumHelper.GetEnumDescription(Optimize.Distance),
+                .DistanceUnit = EnumHelper.GetEnumDescription(DistanceUnit.MI),
+                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.Web)
             }
 
             Dim optimizationParameters As New OptimizationParameters() With { _
@@ -163,7 +161,7 @@ Namespace Route4MeSDKTest.Examples
             Dim dataObject As DataObject = route4Me.RunOptimization(optimizationParameters, errorString)
 
             ' Output the result
-            PrintExampleOptimizationResult("SingleDriverMultipleTimeWindows", dataObject, errorString)
+            PrintExampleOptimizationResult(dataObject, errorString)
 
             Return dataObject
         End Function

@@ -60,7 +60,7 @@ Namespace Route4MeSDK.QueryTypes
 
         <IgnoreDataMember>
         <HttpQueryMemberAttribute(Name:="end_date", EmitDefaultValue:=False)>
-        Public Property EndtDate As String
+        Public Property EndDate As String
 
         ''' <summary>
         ''' Output addresses and directions in the original optimization request sequence.
