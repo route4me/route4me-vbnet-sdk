@@ -2572,14 +2572,30 @@ Namespace Route4MeSDK
             Return response
         End Function
 
-        Public Function SearchOrders(orderQuery As OrderParameters, ByRef errorString As String) As Order()
-            Dim response As GetOrdersResponse = GetJsonObjectFromAPI(Of GetOrdersResponse)(orderQuery, R4MEInfrastructureSettings.Order, HttpMethodType.[Get], errorString)
+        ''' <summary>
+        ''' Searches for the orders.
+        ''' </summary>
+        ''' <param name="orderQuery">The OrderParameters type object as the query parameters</param>
+        ''' <param name="errorString">out: Error as string</param>
+        ''' <returns>List of the Order type objects</returns>
+        Public Function SearchOrders(ByVal orderQuery As OrderParameters, ByRef errorString As String) As Object
+            Dim showFields As Boolean = If((If(orderQuery?.fields?.Length, 0)) < 1, False, True)
 
-            Dim result As Order() = Nothing
-            If response IsNot Nothing Then
-                result = response.Results
+            If showFields Then
+                Return GetJsonObjectFromAPI(Of SearchOrdersResponse)(
+                    orderQuery,
+                    R4MEInfrastructureSettings.Order,
+                    HttpMethodType.[Get],
+                    errorString
+                  )
+            Else
+                Return GetJsonObjectFromAPI(Of GetOrdersResponse)(
+                    orderQuery,
+                    R4MEInfrastructureSettings.Order,
+                    HttpMethodType.[Get],
+                    errorString
+                  )
             End If
-            Return result
         End Function
 
         ''' <summary>
@@ -2589,7 +2605,12 @@ Namespace Route4MeSDK
         ''' <param name="errorString">out: Error as string</param>
         ''' <returns>Array of the Order type objects</returns>
         Public Function FilterOrders(ByVal orderFilter As OrderFilterParameters, ByRef errorString As String) As Order()
-            Dim response As GetOrdersResponse = GetJsonObjectFromAPI(Of GetOrdersResponse)(orderFilter, R4MEInfrastructureSettings.Order, HttpMethodType.Post, errorString)
+            Dim response As GetOrdersResponse = GetJsonObjectFromAPI(Of GetOrdersResponse)(
+                orderFilter,
+                R4MEInfrastructureSettings.Order,
+                HttpMethodType.Post,
+                errorString
+             )
 
             Return If((response IsNot Nothing), response.Results, Nothing)
         End Function
@@ -2641,30 +2662,43 @@ Namespace Route4MeSDK
             Return result
         End Function
 
+        ''' <summary>
+        ''' The response for the orders getting process.
+        ''' </summary>
         <DataContract>
-        Private NotInheritable Class GetOrdersResponse
+        Public NotInheritable Class GetOrdersResponse
+            ''' An arrary of the Order type objects
             <DataMember(Name:="results")>
-            Public Property Results() As Order()
-                Get
-                    Return m_Results
-                End Get
-                Set(value As Order())
-                    m_Results = value
-                End Set
-            End Property
-            Private m_Results As Order()
+            Public Property Results As Order()
 
+            ''' <value>Number of the returned orders</value>
             <DataMember(Name:="total")>
-            Public Property Total() As UInteger
-                Get
-                    Return m_Total
-                End Get
-                Set(value As UInteger)
-                    m_Total = value
-                End Set
-            End Property
-            Private m_Total As UInteger
+            Public Property Total As UInteger
+
+            ''' <value>Selected order fields to show</value>
+            <DataMember(Name:="fields", EmitDefaultValue:=False)>
+            Public Property Fields As String()
         End Class
+
+        ''' <summary>
+        ''' The response from the orders searching process (contains specified fields).
+        ''' </summary>
+        <DataContract>
+        Public NotInheritable Class SearchOrdersResponse
+            ''' <value>An arrary of the objects.
+            ''' The item type: Object[]</value>
+            <DataMember(Name:="results")>
+            Public Property Results As IList(Of Object())
+
+            ''' <value>Number of the returned orders</value>
+            <DataMember(Name:="total")>
+            Public Property Total As UInteger
+
+            ''' <value>Selected order fields to show</value>
+            <DataMember(Name:="fields", EmitDefaultValue:=False)>
+            Public Property Fields As String()
+        End Class
+
 
         ''' <summary>
         ''' Get Orders

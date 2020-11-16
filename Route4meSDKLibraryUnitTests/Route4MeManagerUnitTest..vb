@@ -10,6 +10,7 @@ Imports System.Reflection
 Imports System.CodeDom.Compiler
 Imports System.Threading
 Imports CsvHelper
+Imports Route4MeSDKLibrary.Route4MeSDK.Route4MeManager
 
 Public Class ApiKeys
     Public Shared actualApiKey As String = R4MeUtils.ReadSetting("actualApiKey")
@@ -24,7 +25,7 @@ End Class
     Shared tdr2 As TestDataRepository
     Shared lsOptimizationIDs As List(Of String)
 
-    <ClassInitialize> _
+    <ClassInitialize>
     Public Shared Sub RoutesGroupInitialize(context As TestContext)
         lsOptimizationIDs = New List(Of String)()
 
@@ -85,12 +86,12 @@ End Class
         Assert.IsInstanceOfType(dataObjects, GetType(DataObjectRoute()), Convert.ToString("GetRoutesFromDateRangeTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetRouteTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim routeParameters As New RouteParametersQuery() With { _
-            .RouteId = tdr.SD10Stops_route_id _
+        Dim routeParameters As New RouteParametersQuery() With {
+            .RouteId = tdr.SD10Stops_route_id
         }
 
         ' Run the query
@@ -121,15 +122,15 @@ End Class
         Assert.IsTrue(twoRoutes.Length = 2, "GetRoutesByIDsTest failed")
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetRouteDirectionsTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim routeId As String = tdr.SD10Stops_route_id
         Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null...")
 
-        Dim routeParameters As New RouteParametersQuery() With { _
-            .RouteId = routeId _
+        Dim routeParameters As New RouteParametersQuery() With {
+            .RouteId = routeId
         }
 
         routeParameters.Directions = True
@@ -141,15 +142,15 @@ End Class
         Assert.IsNotNull(dataObject, Convert.ToString("GetRouteDirectionsTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetRoutePathPointsTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim routeId As String = tdr.SD10Stops_route_id
         Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null...")
 
-        Dim routeParameters As New RouteParametersQuery() With { _
-            .RouteId = routeId _
+        Dim routeParameters As New RouteParametersQuery() With {
+            .RouteId = routeId
         }
 
         routeParameters.RoutePathOutput = RoutePathOutput.Points.ToString()
@@ -187,7 +188,7 @@ End Class
         Assert.IsNotNull(route1, "ResequenceRouteDestinationsTest failed...")
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub ResequenceReoptimizeRouteTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -195,10 +196,10 @@ End Class
 
         Assert.IsNotNull(route_id, "rote_id is null...")
 
-        Dim roParameters As New Dictionary(Of String, String)() From { _
-            {"route_id", route_id}, _
-            {"disable_optimization", "0"}, _
-            {"optimize", "Distance"} _
+        Dim roParameters As New Dictionary(Of String, String)() From {
+            {"route_id", route_id},
+            {"disable_optimization", "0"},
+            {"optimize", "Distance"}
         }
 
         ' Run the query
@@ -455,16 +456,16 @@ End Class
         Assert.IsInstanceOfType(route.OriginalRoute, GetType(DataObjectRoute), "RouteOriginParameterTest failed. " & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub ReoptimizeRouteTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim routeId As String = tdr.SD10Stops_route_id
         Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null...")
 
-        Dim routeParameters As New RouteParametersQuery() With { _
-            .RouteId = routeId, _
-            .ReOptimize = True _
+        Dim routeParameters As New RouteParametersQuery() With {
+            .RouteId = routeId,
+            .ReOptimize = True
         }
 
         ' Run the query
@@ -667,14 +668,14 @@ End Class
         Dim errorString As String = Nothing
         Dim dataObject As DataObject = route4Me.RunOptimization(optimizationParameters, errorString)
 
-        Assert.IsNotNull(DataObject, "RunSingleDriverRoundTripfailed... " & errorString)
-        Assert.AreEqual(DataObject.Parameters.RouteServiceTimeMultiplier, 15, "Cannot set service time slowdown")
-        Assert.AreEqual(DataObject.Parameters.RouteTimeMultiplier, 20, "Cannot set route travel time slowdown")
+        Assert.IsNotNull(dataObject, "RunSingleDriverRoundTripfailed... " & errorString)
+        Assert.AreEqual(dataObject.Parameters.RouteServiceTimeMultiplier, 15, "Cannot set service time slowdown")
+        Assert.AreEqual(dataObject.Parameters.RouteTimeMultiplier, 20, "Cannot set route travel time slowdown")
 
         tdr.RemoveOptimization(New String() {dataObject.OptimizationProblemId})
     End Sub
 
-    <ClassCleanup> _
+    <ClassCleanup>
     Public Shared Sub AddressGroupCleanup()
         Dim result As Boolean = tdr.RemoveOptimization(lsOptimizationIDs.ToArray())
 
@@ -691,7 +692,7 @@ End Class
     Shared lastCustomNoteTypeID As Integer
     Shared firstCustomNoteTypeID As Integer
 
-    <ClassInitialize> _
+    <ClassInitialize>
     Public Shared Sub NotesGroupInitialize(ByVal context As TestContext)
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
         lsOptimizationIDs = New List(Of String)()
@@ -770,13 +771,13 @@ End Class
         Dim lat As Double = If(tdr.SDRT_route.Addresses.Length > 1, tdr.SDRT_route.Addresses(1).Latitude, 33.132675170898)
         Dim lng As Double = If(tdr.SDRT_route.Addresses.Length > 1, tdr.SDRT_route.Addresses(1).Longitude, -83.244743347168)
 
-        Dim noteParameters As New NoteParameters() With { _
-            .RouteId = routeId, _
-            .AddressId = addressId, _
-            .Latitude = lat, _
-            .Longitude = lng, _
-            .DeviceType = DeviceType.Web.GetEnumDescription(), _
-            .ActivityType = StatusUpdateType.DropOff.GetEnumDescription() _
+        Dim noteParameters As New NoteParameters() With {
+            .RouteId = routeId,
+            .AddressId = addressId,
+            .Latitude = lat,
+            .Longitude = lng,
+            .DeviceType = DeviceType.Web.GetEnumDescription(),
+            .ActivityType = StatusUpdateType.DropOff.GetEnumDescription()
         }
 
         Dim tempFilePath As String = Nothing
@@ -812,7 +813,7 @@ End Class
 
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetAddressNotesTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -821,9 +822,9 @@ End Class
 
         Dim routeDestinationId As Integer = If((tdr.dataObjectSDRT IsNot Nothing AndAlso tdr.SDRT_route IsNot Nothing AndAlso tdr.SDRT_route.Addresses.Length > 1 AndAlso tdr.SDRT_route.Addresses(1).RouteDestinationId IsNot Nothing), tdr.SDRT_route.Addresses(1).RouteDestinationId.Value, 0)
 
-        Dim noteParameters As New NoteParameters() With { _
-            .RouteId = routeId, _
-            .AddressId = routeDestinationId _
+        Dim noteParameters As New NoteParameters() With {
+            .RouteId = routeId,
+            .AddressId = routeDestinationId
         }
 
         ' Run the query
@@ -887,7 +888,7 @@ End Class
         Assert.IsTrue(Convert.ToInt32(response) >= 0, "Can not remove the custom note type")
     End Sub
 
-    <ClassCleanup> _
+    <ClassCleanup>
     Public Shared Sub NotesGroupCleanup()
         Dim result As Boolean = tdr.RemoveOptimization(lsOptimizationIDs.ToArray())
 
@@ -915,7 +916,7 @@ End Class
         End If
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub MultipleDepotMultipleDriverTest()
         If skip = "yes" Then Return
 
@@ -923,143 +924,143 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         ' Prepare the addresses
-        Dim addresses As Address() = New Address() {New Address() With { _
-            .AddressString = "3634 W Market St, Fairlawn, OH 44333", _
-            .IsDepot = True, _
-            .Latitude = 41.135762259364, _
-            .Longitude = -81.629313826561, _
-            .Time = 300, _
-            .TimeWindowStart = 28800, _
-            .TimeWindowEnd = 29465 _
-        }, New Address() With { _
-            .AddressString = "1218 Ruth Ave, Cuyahoga Falls, OH 44221", _
-            .Latitude = 41.135762259364, _
-            .Longitude = -81.629313826561, _
-            .Time = 300, _
-            .TimeWindowStart = 29465, _
-            .TimeWindowEnd = 30529 _
-        }, New Address() With { _
-            .AddressString = "512 Florida Pl, Barberton, OH 44203", _
-            .Latitude = 41.003671512008, _
-            .Longitude = -81.598461046815, _
-            .Time = 300, _
-            .TimeWindowStart = 30529, _
-            .TimeWindowEnd = 33779 _
-        }, New Address() With { _
-            .AddressString = "512 Florida Pl, Barberton, OH 44203", _
-            .Latitude = 41.003671512008, _
-            .Longitude = -81.598461046815, _
-            .Time = 100, _
-            .TimeWindowStart = 33779, _
-            .TimeWindowEnd = 33944 _
-        }, New Address() With { _
-            .AddressString = "3495 Purdue St, Cuyahoga Falls, OH 44221", _
-            .Latitude = 41.162971496582, _
-            .Longitude = -81.479049682617, _
-            .Time = 300, _
-            .TimeWindowStart = 33944, _
-            .TimeWindowEnd = 34801 _
-        }, New Address() With { _
-            .AddressString = "1659 Hibbard Dr, Stow, OH 44224", _
-            .Latitude = 41.194505989552, _
-            .Longitude = -81.443351581693, _
-            .Time = 300, _
-            .TimeWindowStart = 34801, _
-            .TimeWindowEnd = 36366 _
-        }, _
-            New Address() With { _
-            .AddressString = "2705 N River Rd, Stow, OH 44224", _
-            .Latitude = 41.145240783691, _
-            .Longitude = -81.410247802734, _
-            .Time = 300, _
-            .TimeWindowStart = 36366, _
-            .TimeWindowEnd = 39173 _
-        }, New Address() With { _
-            .AddressString = "10159 Bissell Dr, Twinsburg, OH 44087", _
-            .Latitude = 41.340042114258, _
-            .Longitude = -81.421226501465, _
-            .Time = 300, _
-            .TimeWindowStart = 39173, _
-            .TimeWindowEnd = 41617 _
-        }, New Address() With { _
-            .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262", _
-            .Latitude = 41.148578643799, _
-            .Longitude = -81.429229736328, _
-            .Time = 300, _
-            .TimeWindowStart = 41617, _
-            .TimeWindowEnd = 43660 _
-        }, New Address() With { _
-            .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262", _
-            .Latitude = 41.148578643799, _
-            .Longitude = -81.429229736328, _
-            .Time = 300, _
-            .TimeWindowStart = 43660, _
-            .TimeWindowEnd = 46392 _
-        }, New Address() With { _
-            .AddressString = "512 Florida Pl, Barberton, OH 44203", _
-            .Latitude = 41.003671512008, _
-            .Longitude = -81.598461046815, _
-            .Time = 300, _
-            .TimeWindowStart = 46392, _
-            .TimeWindowEnd = 48389 _
-        }, New Address() With { _
-            .AddressString = "559 W Aurora Rd, Northfield, OH 44067", _
-            .Latitude = 41.315116882324, _
-            .Longitude = -81.558746337891, _
-            .Time = 50, _
-            .TimeWindowStart = 48389, _
-            .TimeWindowEnd = 48449 _
-        }, _
-            New Address() With { _
-            .AddressString = "3933 Klein Ave, Stow, OH 44224", _
-            .Latitude = 41.169467926025, _
-            .Longitude = -81.429420471191, _
-            .Time = 300, _
-            .TimeWindowStart = 48449, _
-            .TimeWindowEnd = 50152 _
-        }, New Address() With { _
-            .AddressString = "2148 8th St, Cuyahoga Falls, OH 44221", _
-            .Latitude = 41.136692047119, _
-            .Longitude = -81.493492126465, _
-            .Time = 300, _
-            .TimeWindowStart = 50152, _
-            .TimeWindowEnd = 51982 _
-        }, New Address() With { _
-            .AddressString = "3731 Osage St, Stow, OH 44224", _
-            .Latitude = 41.161357879639, _
-            .Longitude = -81.42293548584, _
-            .Time = 100, _
-            .TimeWindowStart = 51982, _
-            .TimeWindowEnd = 52180 _
-        }, New Address() With { _
-            .AddressString = "3731 Osage St, Stow, OH 44224", _
-            .Latitude = 41.161357879639, _
-            .Longitude = -81.42293548584, _
-            .Time = 300, _
-            .TimeWindowStart = 52180, _
-            .TimeWindowEnd = 54379 _
+        Dim addresses As Address() = New Address() {New Address() With {
+            .AddressString = "3634 W Market St, Fairlawn, OH 44333",
+            .IsDepot = True,
+            .Latitude = 41.135762259364,
+            .Longitude = -81.629313826561,
+            .Time = 300,
+            .TimeWindowStart = 28800,
+            .TimeWindowEnd = 29465
+        }, New Address() With {
+            .AddressString = "1218 Ruth Ave, Cuyahoga Falls, OH 44221",
+            .Latitude = 41.135762259364,
+            .Longitude = -81.629313826561,
+            .Time = 300,
+            .TimeWindowStart = 29465,
+            .TimeWindowEnd = 30529
+        }, New Address() With {
+            .AddressString = "512 Florida Pl, Barberton, OH 44203",
+            .Latitude = 41.003671512008,
+            .Longitude = -81.598461046815,
+            .Time = 300,
+            .TimeWindowStart = 30529,
+            .TimeWindowEnd = 33779
+        }, New Address() With {
+            .AddressString = "512 Florida Pl, Barberton, OH 44203",
+            .Latitude = 41.003671512008,
+            .Longitude = -81.598461046815,
+            .Time = 100,
+            .TimeWindowStart = 33779,
+            .TimeWindowEnd = 33944
+        }, New Address() With {
+            .AddressString = "3495 Purdue St, Cuyahoga Falls, OH 44221",
+            .Latitude = 41.162971496582,
+            .Longitude = -81.479049682617,
+            .Time = 300,
+            .TimeWindowStart = 33944,
+            .TimeWindowEnd = 34801
+        }, New Address() With {
+            .AddressString = "1659 Hibbard Dr, Stow, OH 44224",
+            .Latitude = 41.194505989552,
+            .Longitude = -81.443351581693,
+            .Time = 300,
+            .TimeWindowStart = 34801,
+            .TimeWindowEnd = 36366
+        },
+            New Address() With {
+            .AddressString = "2705 N River Rd, Stow, OH 44224",
+            .Latitude = 41.145240783691,
+            .Longitude = -81.410247802734,
+            .Time = 300,
+            .TimeWindowStart = 36366,
+            .TimeWindowEnd = 39173
+        }, New Address() With {
+            .AddressString = "10159 Bissell Dr, Twinsburg, OH 44087",
+            .Latitude = 41.340042114258,
+            .Longitude = -81.421226501465,
+            .Time = 300,
+            .TimeWindowStart = 39173,
+            .TimeWindowEnd = 41617
+        }, New Address() With {
+            .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262",
+            .Latitude = 41.148578643799,
+            .Longitude = -81.429229736328,
+            .Time = 300,
+            .TimeWindowStart = 41617,
+            .TimeWindowEnd = 43660
+        }, New Address() With {
+            .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262",
+            .Latitude = 41.148578643799,
+            .Longitude = -81.429229736328,
+            .Time = 300,
+            .TimeWindowStart = 43660,
+            .TimeWindowEnd = 46392
+        }, New Address() With {
+            .AddressString = "512 Florida Pl, Barberton, OH 44203",
+            .Latitude = 41.003671512008,
+            .Longitude = -81.598461046815,
+            .Time = 300,
+            .TimeWindowStart = 46392,
+            .TimeWindowEnd = 48389
+        }, New Address() With {
+            .AddressString = "559 W Aurora Rd, Northfield, OH 44067",
+            .Latitude = 41.315116882324,
+            .Longitude = -81.558746337891,
+            .Time = 50,
+            .TimeWindowStart = 48389,
+            .TimeWindowEnd = 48449
+        },
+            New Address() With {
+            .AddressString = "3933 Klein Ave, Stow, OH 44224",
+            .Latitude = 41.169467926025,
+            .Longitude = -81.429420471191,
+            .Time = 300,
+            .TimeWindowStart = 48449,
+            .TimeWindowEnd = 50152
+        }, New Address() With {
+            .AddressString = "2148 8th St, Cuyahoga Falls, OH 44221",
+            .Latitude = 41.136692047119,
+            .Longitude = -81.493492126465,
+            .Time = 300,
+            .TimeWindowStart = 50152,
+            .TimeWindowEnd = 51982
+        }, New Address() With {
+            .AddressString = "3731 Osage St, Stow, OH 44224",
+            .Latitude = 41.161357879639,
+            .Longitude = -81.42293548584,
+            .Time = 100,
+            .TimeWindowStart = 51982,
+            .TimeWindowEnd = 52180
+        }, New Address() With {
+            .AddressString = "3731 Osage St, Stow, OH 44224",
+            .Latitude = 41.161357879639,
+            .Longitude = -81.42293548584,
+            .Time = 300,
+            .TimeWindowStart = 52180,
+            .TimeWindowEnd = 54379
         }}
 
         ' Set parameters
 
-        Dim parameters As New RouteParameters() With { _
-            .AlgorithmType = AlgorithmType.CVRP_TW_MD, _
-            .RouteName = "Multiple Depot, Multiple Driver", _
-            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)), _
-            .RouteTime = 60 * 60 * 7, _
-            .RouteMaxDuration = 86400, _
-            .VehicleCapacity = "1", _
-            .VehicleMaxDistanceMI = "10000", _
-            .Optimize = Optimize.Distance.GetEnumDescription(), _
-            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(), _
-            .DeviceType = DeviceType.Web.GetEnumDescription(), _
-            .TravelMode = TravelMode.Driving.GetEnumDescription(), _
-            .Metric = Metric.Geodesic _
+        Dim parameters As New RouteParameters() With {
+            .AlgorithmType = AlgorithmType.CVRP_TW_MD,
+            .RouteName = "Multiple Depot, Multiple Driver",
+            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)),
+            .RouteTime = 60 * 60 * 7,
+            .RouteMaxDuration = 86400,
+            .VehicleCapacity = "1",
+            .VehicleMaxDistanceMI = "10000",
+            .Optimize = Optimize.Distance.GetEnumDescription(),
+            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
+            .DeviceType = DeviceType.Web.GetEnumDescription(),
+            .TravelMode = TravelMode.Driving.GetEnumDescription(),
+            .Metric = Metric.Geodesic
         }
 
-        Dim optimizationParameters As New OptimizationParameters() With { _
-            .Addresses = addresses, _
-            .Parameters = parameters _
+        Dim optimizationParameters As New OptimizationParameters() With {
+            .Addresses = addresses,
+            .Parameters = parameters
         }
 
         ' Run the query
@@ -1245,7 +1246,7 @@ End Class
         tdr.RemoveOptimization(New String() {dataObject.OptimizationProblemId})
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub MultipleDepotMultipleDriverTimeWindowTest()
         If skip = "yes" Then Return
 
@@ -1253,683 +1254,683 @@ End Class
 
         ' Prepare the addresses
 #Region "Addresses"
-        Dim addresses As Address() = New Address() {New Address() With { _
-            .AddressString = "455 S 4th St, Louisville, KY 40202", _
-            .IsDepot = True, _
-            .Latitude = 38.251698, _
-            .Longitude = -85.757308, _
-            .Time = 300, _
-            .TimeWindowStart = 28800, _
-            .TimeWindowEnd = 30477 _
-        }, New Address() With { _
-            .AddressString = "1604 PARKRIDGE PKWY, Louisville, KY, 40214", _
-            .Latitude = 38.141598, _
-            .Longitude = -85.793846, _
-            .Time = 300, _
-            .TimeWindowStart = 30477, _
-            .TimeWindowEnd = 33406 _
-        }, New Address() With { _
-            .AddressString = "1407 א53MCCOY, Louisville, KY, 40215", _
-            .Latitude = 38.202496, _
-            .Longitude = -85.786514, _
-            .Time = 300, _
-            .TimeWindowStart = 33406, _
-            .TimeWindowEnd = 36228 _
-        }, New Address() With { _
-            .AddressString = "4805 BELLEVUE AVE, Louisville, KY, 40215", _
-            .Latitude = 38.178844, _
-            .Longitude = -85.774864, _
-            .Time = 300, _
-            .TimeWindowStart = 36228, _
-            .TimeWindowEnd = 37518 _
-        }, New Address() With { _
-            .AddressString = "730 CECIL AVENUE, Louisville, KY, 40211", _
-            .Latitude = 38.248684, _
-            .Longitude = -85.821121, _
-            .Time = 300, _
-            .TimeWindowStart = 37518, _
-            .TimeWindowEnd = 39550 _
-        }, New Address() With { _
-            .AddressString = "650 SOUTH 29TH ST UNIT 315, Louisville, KY, 40211", _
-            .Latitude = 38.251923, _
-            .Longitude = -85.800034, _
-            .Time = 300, _
-            .TimeWindowStart = 39550, _
-            .TimeWindowEnd = 41348 _
-        }, _
-            New Address() With { _
-            .AddressString = "4629 HILLSIDE DRIVE, Louisville, KY, 40216", _
-            .Latitude = 38.176067, _
-            .Longitude = -85.824638, _
-            .Time = 300, _
-            .TimeWindowStart = 41348, _
-            .TimeWindowEnd = 42261 _
-        }, New Address() With { _
-            .AddressString = "4738 BELLEVUE AVE, Louisville, KY, 40215", _
-            .Latitude = 38.179806, _
-            .Longitude = -85.775558, _
-            .Time = 300, _
-            .TimeWindowStart = 42261, _
-            .TimeWindowEnd = 45195 _
-        }, New Address() With { _
-            .AddressString = "318 SO. 39TH STREET, Louisville, KY, 40212", _
-            .Latitude = 38.259335, _
-            .Longitude = -85.815094, _
-            .Time = 300, _
-            .TimeWindowStart = 45195, _
-            .TimeWindowEnd = 46549 _
-        }, New Address() With { _
-            .AddressString = "1324 BLUEGRASS AVE, Louisville, KY, 40215", _
-            .Latitude = 38.179253, _
-            .Longitude = -85.785118, _
-            .Time = 300, _
-            .TimeWindowStart = 46549, _
-            .TimeWindowEnd = 47353 _
-        }, New Address() With { _
-            .AddressString = "7305 ROYAL WOODS DR, Louisville, KY, 40214", _
-            .Latitude = 38.162472, _
-            .Longitude = -85.792854, _
-            .Time = 300, _
-            .TimeWindowStart = 47353, _
-            .TimeWindowEnd = 50924 _
-        }, New Address() With { _
-            .AddressString = "1661 W HILL ST, Louisville, KY, 40210", _
-            .Latitude = 38.229584, _
-            .Longitude = -85.783966, _
-            .Time = 300, _
-            .TimeWindowStart = 50924, _
-            .TimeWindowEnd = 51392 _
-        }, _
-            New Address() With { _
-            .AddressString = "3222 KINGSWOOD WAY, Louisville, KY, 40216", _
-            .Latitude = 38.210606, _
-            .Longitude = -85.822594, _
-            .Time = 300, _
-            .TimeWindowStart = 51392, _
-            .TimeWindowEnd = 52451 _
-        }, New Address() With { _
-            .AddressString = "1922 PALATKA RD, Louisville, KY, 40214", _
-            .Latitude = 38.153767, _
-            .Longitude = -85.796783, _
-            .Time = 300, _
-            .TimeWindowStart = 52451, _
-            .TimeWindowEnd = 55631 _
-        }, New Address() With { _
-            .AddressString = "1314 SOUTH 26TH STREET, Louisville, KY, 40210", _
-            .Latitude = 38.235847, _
-            .Longitude = -85.796852, _
-            .Time = 300, _
-            .TimeWindowStart = 55631, _
-            .TimeWindowEnd = 58516 _
-        }, New Address() With { _
-            .AddressString = "2135 MCCLOSKEY AVENUE, Louisville, KY, 40210", _
-            .Latitude = 38.218662, _
-            .Longitude = -85.789032, _
-            .Time = 300, _
-            .TimeWindowStart = 58516, _
-            .TimeWindowEnd = 61080 _
-        }, New Address() With { _
-            .AddressString = "1409 PHYLLIS AVE, Louisville, KY, 40215", _
-            .Latitude = 38.206154, _
-            .Longitude = -85.781387, _
-            .Time = 100, _
-            .TimeWindowStart = 61080, _
-            .TimeWindowEnd = 61504 _
-        }, New Address() With { _
-            .AddressString = "4504 SUNFLOWER AVE, Louisville, KY, 40216", _
-            .Latitude = 38.187511, _
-            .Longitude = -85.839149, _
-            .Time = 300, _
-            .TimeWindowStart = 61504, _
-            .TimeWindowEnd = 62061 _
-        }, _
-            New Address() With { _
-            .AddressString = "2512 GREENWOOD AVE, Louisville, KY, 40210", _
-            .Latitude = 38.241405, _
-            .Longitude = -85.795059, _
-            .Time = 300, _
-            .TimeWindowStart = 62061, _
-            .TimeWindowEnd = 65012 _
-        }, New Address() With { _
-            .AddressString = "5500 WILKE FARM AVE, Louisville, KY, 40216", _
-            .Latitude = 38.166065, _
-            .Longitude = -85.863319, _
-            .Time = 300, _
-            .TimeWindowStart = 65012, _
-            .TimeWindowEnd = 67541 _
-        }, New Address() With { _
-            .AddressString = "3640 LENTZ AVE, Louisville, KY, 40215", _
-            .Latitude = 38.193283, _
-            .Longitude = -85.786201, _
-            .Time = 300, _
-            .TimeWindowStart = 67541, _
-            .TimeWindowEnd = 69120 _
-        }, New Address() With { _
-            .AddressString = "1020 BLUEGRASS AVE, Louisville, KY, 40215", _
-            .Latitude = 38.17952, _
-            .Longitude = -85.780037, _
-            .Time = 300, _
-            .TimeWindowStart = 69120, _
-            .TimeWindowEnd = 70572 _
-        }, New Address() With { _
-            .AddressString = "123 NORTH 40TH ST, Louisville, KY, 40212", _
-            .Latitude = 38.26498, _
-            .Longitude = -85.814156, _
-            .Time = 300, _
-            .TimeWindowStart = 70572, _
-            .TimeWindowEnd = 73177 _
-        }, New Address() With { _
-            .AddressString = "7315 ST ANDREWS WOODS CIRCLE UNIT 104, Louisville, KY, 40214", _
-            .Latitude = 38.151072, _
-            .Longitude = -85.802867, _
-            .Time = 300, _
-            .TimeWindowStart = 73177, _
-            .TimeWindowEnd = 75231 _
-        }, _
-            New Address() With { _
-            .AddressString = "3210 POPLAR VIEW DR, Louisville, KY, 40216", _
-            .Latitude = 38.182594, _
-            .Longitude = -85.849937, _
-            .Time = 300, _
-            .TimeWindowStart = 75231, _
-            .TimeWindowEnd = 77663 _
-        }, New Address() With { _
-            .AddressString = "4519 LOUANE WAY, Louisville, KY, 40216", _
-            .Latitude = 38.1754, _
-            .Longitude = -85.811447, _
-            .Time = 300, _
-            .TimeWindowStart = 77663, _
-            .TimeWindowEnd = 79796 _
-        }, New Address() With { _
-            .AddressString = "6812 MANSLICK RD, Louisville, KY, 40214", _
-            .Latitude = 38.161839, _
-            .Longitude = -85.798279, _
-            .Time = 300, _
-            .TimeWindowStart = 79796, _
-            .TimeWindowEnd = 80813 _
-        }, New Address() With { _
-            .AddressString = "1524 HUNTOON AVENUE, Louisville, KY, 40215", _
-            .Latitude = 38.172031, _
-            .Longitude = -85.788353, _
-            .Time = 300, _
-            .TimeWindowStart = 80813, _
-            .TimeWindowEnd = 83956 _
-        }, New Address() With { _
-            .AddressString = "1307 LARCHMONT AVE, Louisville, KY, 40215", _
-            .Latitude = 38.209663, _
-            .Longitude = -85.779816, _
-            .Time = 300, _
-            .TimeWindowStart = 83956, _
-            .TimeWindowEnd = 84365 _
-        }, New Address() With { _
-            .AddressString = "434 N 26TH STREET #2, Louisville, KY, 40212", _
-            .Latitude = 38.26844, _
-            .Longitude = -85.791962, _
-            .Time = 300, _
-            .TimeWindowStart = 84365, _
-            .TimeWindowEnd = 85367 _
-        }, _
-            New Address() With { _
-            .AddressString = "678 WESTLAWN ST, Louisville, KY, 40211", _
-            .Latitude = 38.250397, _
-            .Longitude = -85.80629, _
-            .Time = 300, _
-            .TimeWindowStart = 85367, _
-            .TimeWindowEnd = 86400 _
-        }, New Address() With { _
-            .AddressString = "2308 W BROADWAY, Louisville, KY, 40211", _
-            .Latitude = 38.248882, _
-            .Longitude = -85.790421, _
-            .Time = 300, _
-            .TimeWindowStart = 86400, _
-            .TimeWindowEnd = 88703 _
-        }, New Address() With { _
-            .AddressString = "2332 WOODLAND AVE, Louisville, KY, 40210", _
-            .Latitude = 38.233579, _
-            .Longitude = -85.794257, _
-            .Time = 300, _
-            .TimeWindowStart = 88703, _
-            .TimeWindowEnd = 89320 _
-        }, New Address() With { _
-            .AddressString = "1706 WEST ST. CATHERINE, Louisville, KY, 40210", _
-            .Latitude = 38.239697, _
-            .Longitude = -85.783928, _
-            .Time = 300, _
-            .TimeWindowStart = 89320, _
-            .TimeWindowEnd = 90054 _
-        }, New Address() With { _
-            .AddressString = "1699 WATHEN LN, Louisville, KY, 40216", _
-            .Latitude = 38.216465, _
-            .Longitude = -85.792397, _
-            .Time = 300, _
-            .TimeWindowStart = 90054, _
-            .TimeWindowEnd = 91150 _
-        }, New Address() With { _
-            .AddressString = "2416 SUNSHINE WAY, Louisville, KY, 40216", _
-            .Latitude = 38.186245, _
-            .Longitude = -85.831787, _
-            .Time = 300, _
-            .TimeWindowStart = 91150, _
-            .TimeWindowEnd = 91915 _
-        }, _
-            New Address() With { _
-            .AddressString = "6925 MANSLICK RD, Louisville, KY, 40214", _
-            .Latitude = 38.158466, _
-            .Longitude = -85.798355, _
-            .Time = 300, _
-            .TimeWindowStart = 91915, _
-            .TimeWindowEnd = 93407 _
-        }, New Address() With { _
-            .AddressString = "2707 7TH ST, Louisville, KY, 40215", _
-            .Latitude = 38.212438, _
-            .Longitude = -85.785082, _
-            .Time = 300, _
-            .TimeWindowStart = 93407, _
-            .TimeWindowEnd = 95992 _
-        }, New Address() With { _
-            .AddressString = "2014 KENDALL LN, Louisville, KY, 40216", _
-            .Latitude = 38.179394, _
-            .Longitude = -85.826668, _
-            .Time = 300, _
-            .TimeWindowStart = 95992, _
-            .TimeWindowEnd = 99307 _
-        }, New Address() With { _
-            .AddressString = "612 N 39TH ST, Louisville, KY, 40212", _
-            .Latitude = 38.273354, _
-            .Longitude = -85.812012, _
-            .Time = 300, _
-            .TimeWindowStart = 99307, _
-            .TimeWindowEnd = 102906 _
-        }, New Address() With { _
-            .AddressString = "2215 ROWAN ST, Louisville, KY, 40212", _
-            .Latitude = 38.261703, _
-            .Longitude = -85.786781, _
-            .Time = 300, _
-            .TimeWindowStart = 102906, _
-            .TimeWindowEnd = 106021 _
-        }, New Address() With { _
-            .AddressString = "1826 W. KENTUCKY ST, Louisville, KY, 40210", _
-            .Latitude = 38.241611, _
-            .Longitude = -85.78653, _
-            .Time = 300, _
-            .TimeWindowStart = 106021, _
-            .TimeWindowEnd = 107276 _
-        }, _
-            New Address() With { _
-            .AddressString = "1810 GREGG AVE, Louisville, KY, 40210", _
-            .Latitude = 38.224716, _
-            .Longitude = -85.796211, _
-            .Time = 300, _
-            .TimeWindowStart = 107276, _
-            .TimeWindowEnd = 107948 _
-        }, New Address() With { _
-            .AddressString = "4103 BURRRELL DRIVE, Louisville, KY, 40216", _
-            .Latitude = 38.191753, _
-            .Longitude = -85.825836, _
-            .Time = 300, _
-            .TimeWindowStart = 107948, _
-            .TimeWindowEnd = 108414 _
-        }, New Address() With { _
-            .AddressString = "359 SOUTHWESTERN PKWY, Louisville, KY, 40212", _
-            .Latitude = 38.259903, _
-            .Longitude = -85.823463, _
-            .Time = 200, _
-            .TimeWindowStart = 108414, _
-            .TimeWindowEnd = 108685 _
-        }, New Address() With { _
-            .AddressString = "2407 W CHESTNUT ST, Louisville, KY, 40211", _
-            .Latitude = 38.252781, _
-            .Longitude = -85.792109, _
-            .Time = 300, _
-            .TimeWindowStart = 108685, _
-            .TimeWindowEnd = 110109 _
-        }, New Address() With { _
-            .AddressString = "225 S 22ND ST, Louisville, KY, 40212", _
-            .Latitude = 38.257616, _
-            .Longitude = -85.786658, _
-            .Time = 300, _
-            .TimeWindowStart = 110109, _
-            .TimeWindowEnd = 111375 _
-        }, New Address() With { _
-            .AddressString = "1404 MCCOY AVE, Louisville, KY, 40215", _
-            .Latitude = 38.202122, _
-            .Longitude = -85.786072, _
-            .Time = 300, _
-            .TimeWindowStart = 111375, _
-            .TimeWindowEnd = 112120 _
-        }, _
-            New Address() With { _
-            .AddressString = "117 FOUNT LANDING CT, Louisville, KY, 40212", _
-            .Latitude = 38.270061, _
-            .Longitude = -85.799438, _
-            .Time = 300, _
-            .TimeWindowStart = 112120, _
-            .TimeWindowEnd = 114095 _
-        }, New Address() With { _
-            .AddressString = "5504 SHOREWOOD DRIVE, Louisville, KY, 40214", _
-            .Latitude = 38.145851, _
-            .Longitude = -85.7798, _
-            .Time = 300, _
-            .TimeWindowStart = 114095, _
-            .TimeWindowEnd = 115743 _
-        }, New Address() With { _
-            .AddressString = "1406 CENTRAL AVE, Louisville, KY, 40208", _
-            .Latitude = 38.211025, _
-            .Longitude = -85.780251, _
-            .Time = 300, _
-            .TimeWindowStart = 115743, _
-            .TimeWindowEnd = 117716 _
-        }, New Address() With { _
-            .AddressString = "901 W WHITNEY AVE, Louisville, KY, 40215", _
-            .Latitude = 38.194115, _
-            .Longitude = -85.77494, _
-            .Time = 300, _
-            .TimeWindowStart = 117716, _
-            .TimeWindowEnd = 119078 _
-        }, New Address() With { _
-            .AddressString = "2109 SCHAFFNER AVE, Louisville, KY, 40210", _
-            .Latitude = 38.219699, _
-            .Longitude = -85.779363, _
-            .Time = 300, _
-            .TimeWindowStart = 119078, _
-            .TimeWindowEnd = 121147 _
-        }, New Address() With { _
-            .AddressString = "2906 DIXIE HWY, Louisville, KY, 40216", _
-            .Latitude = 38.209278, _
-            .Longitude = -85.798653, _
-            .Time = 300, _
-            .TimeWindowStart = 121147, _
-            .TimeWindowEnd = 124281 _
-        }, _
-            New Address() With { _
-            .AddressString = "814 WWHITNEY AVE, Louisville, KY, 40215", _
-            .Latitude = 38.193596, _
-            .Longitude = -85.773521, _
-            .Time = 300, _
-            .TimeWindowStart = 124281, _
-            .TimeWindowEnd = 124675 _
-        }, New Address() With { _
-            .AddressString = "1610 ALGONQUIN PWKY, Louisville, KY, 40210", _
-            .Latitude = 38.222153, _
-            .Longitude = -85.784187, _
-            .Time = 300, _
-            .TimeWindowStart = 124675, _
-            .TimeWindowEnd = 127148 _
-        }, New Address() With { _
-            .AddressString = "3524 WHEELER AVE, Louisville, KY, 40215", _
-            .Latitude = 38.195293, _
-            .Longitude = -85.788643, _
-            .Time = 300, _
-            .TimeWindowStart = 127148, _
-            .TimeWindowEnd = 130667 _
-        }, New Address() With { _
-            .AddressString = "5009 NEW CUT RD, Louisville, KY, 40214", _
-            .Latitude = 38.165905, _
-            .Longitude = -85.779701, _
-            .Time = 300, _
-            .TimeWindowStart = 130667, _
-            .TimeWindowEnd = 131980 _
-        }, New Address() With { _
-            .AddressString = "3122 ELLIOTT AVE, Louisville, KY, 40211", _
-            .Latitude = 38.251213, _
-            .Longitude = -85.804199, _
-            .Time = 300, _
-            .TimeWindowStart = 131980, _
-            .TimeWindowEnd = 134402 _
-        }, New Address() With { _
-            .AddressString = "911 GAGEL AVE, Louisville, KY, 40216", _
-            .Latitude = 38.173512, _
-            .Longitude = -85.807854, _
-            .Time = 300, _
-            .TimeWindowStart = 134402, _
-            .TimeWindowEnd = 136787 _
-        }, _
-            New Address() With { _
-            .AddressString = "4020 GARLAND AVE #lOOA, Louisville, KY, 40211", _
-            .Latitude = 38.246181, _
-            .Longitude = -85.818901, _
-            .Time = 300, _
-            .TimeWindowStart = 136787, _
-            .TimeWindowEnd = 138073 _
-        }, New Address() With { _
-            .AddressString = "5231 MT HOLYOKE DR, Louisville, KY, 40216", _
-            .Latitude = 38.169369, _
-            .Longitude = -85.85704, _
-            .Time = 300, _
-            .TimeWindowStart = 138073, _
-            .TimeWindowEnd = 141407 _
-        }, New Address() With { _
-            .AddressString = "1339 28TH S #2, Louisville, KY, 40211", _
-            .Latitude = 38.235275, _
-            .Longitude = -85.800156, _
-            .Time = 300, _
-            .TimeWindowStart = 141407, _
-            .TimeWindowEnd = 143561 _
-        }, New Address() With { _
-            .AddressString = "836 S 36TH ST, Louisville, KY, 40211", _
-            .Latitude = 38.24651, _
-            .Longitude = -85.811234, _
-            .Time = 300, _
-            .TimeWindowStart = 143561, _
-            .TimeWindowEnd = 145941 _
-        }, New Address() With { _
-            .AddressString = "2132 DUNCAN STREET, Louisville, KY, 40212", _
-            .Latitude = 38.262135, _
-            .Longitude = -85.785172, _
-            .Time = 300, _
-            .TimeWindowStart = 145941, _
-            .TimeWindowEnd = 148296 _
-        }, New Address() With { _
-            .AddressString = "3529 WHEELER AVE, Louisville, KY, 40215", _
-            .Latitude = 38.195057, _
-            .Longitude = -85.787949, _
-            .Time = 300, _
-            .TimeWindowStart = 148296, _
-            .TimeWindowEnd = 150177 _
-        }, _
-            New Address() With { _
-            .AddressString = "2829 DE MEL #11, Louisville, KY, 40214", _
-            .Latitude = 38.171662, _
-            .Longitude = -85.807271, _
-            .Time = 300, _
-            .TimeWindowStart = 150177, _
-            .TimeWindowEnd = 150981 _
-        }, New Address() With { _
-            .AddressString = "1325 EARL AVENUE, Louisville, KY, 40215", _
-            .Latitude = 38.204556, _
-            .Longitude = -85.781555, _
-            .Time = 300, _
-            .TimeWindowStart = 150981, _
-            .TimeWindowEnd = 151854 _
-        }, New Address() With { _
-            .AddressString = "3632 MANSLICK RD #10, Louisville, KY, 40215", _
-            .Latitude = 38.193542, _
-            .Longitude = -85.801147, _
-            .Time = 300, _
-            .TimeWindowStart = 151854, _
-            .TimeWindowEnd = 152613 _
-        }, New Address() With { _
-            .AddressString = "637 S 41ST ST, Louisville, KY, 40211", _
-            .Latitude = 38.253632, _
-            .Longitude = -85.81897, _
-            .Time = 300, _
-            .TimeWindowStart = 152613, _
-            .TimeWindowEnd = 156131 _
-        }, New Address() With { _
-            .AddressString = "3420 VIRGINIA AVENUE, Louisville, KY, 40211", _
-            .Latitude = 38.238693, _
-            .Longitude = -85.811386, _
-            .Time = 300, _
-            .TimeWindowStart = 156131, _
-            .TimeWindowEnd = 157212 _
-        }, New Address() With { _
-            .AddressString = "3501 MALIBU CT APT 6, Louisville, KY, 40216", _
-            .Latitude = 38.166481, _
-            .Longitude = -85.825928, _
-            .Time = 300, _
-            .TimeWindowStart = 157212, _
-            .TimeWindowEnd = 158655 _
-        }, _
-            New Address() With { _
-            .AddressString = "4912 DIXIE HWY, Louisville, KY, 40216", _
-            .Latitude = 38.170728, _
-            .Longitude = -85.826817, _
-            .Time = 300, _
-            .TimeWindowStart = 158655, _
-            .TimeWindowEnd = 159145 _
-        }, New Address() With { _
-            .AddressString = "7720 DINGLEDELL RD, Louisville, KY, 40214", _
-            .Latitude = 38.162472, _
-            .Longitude = -85.792854, _
-            .Time = 300, _
-            .TimeWindowStart = 159145, _
-            .TimeWindowEnd = 161831 _
-        }, New Address() With { _
-            .AddressString = "2123 RATCLIFFE AVE, Louisville, KY, 40210", _
-            .Latitude = 38.21978, _
-            .Longitude = -85.797615, _
-            .Time = 300, _
-            .TimeWindowStart = 161831, _
-            .TimeWindowEnd = 163705 _
-        }, New Address() With { _
-            .AddressString = "1321 OAKWOOD AVE, Louisville, KY, 40215", _
-            .Latitude = 38.17704, _
-            .Longitude = -85.783829, _
-            .Time = 300, _
-            .TimeWindowStart = 163705, _
-            .TimeWindowEnd = 164953 _
-        }, New Address() With { _
-            .AddressString = "2223 WEST KENTUCKY STREET, Louisville, KY, 40210", _
-            .Latitude = 38.242516, _
-            .Longitude = -85.790695, _
-            .Time = 300, _
-            .TimeWindowStart = 164953, _
-            .TimeWindowEnd = 166189 _
-        }, New Address() With { _
-            .AddressString = "8025 GLIMMER WAY #3308, Louisville, KY, 40214", _
-            .Latitude = 38.131981, _
-            .Longitude = -85.77935, _
-            .Time = 300, _
-            .TimeWindowStart = 166189, _
-            .TimeWindowEnd = 166640 _
-        }, _
-            New Address() With { _
-            .AddressString = "1155 S 28TH ST, Louisville, KY, 40211", _
-            .Latitude = 38.238621, _
-            .Longitude = -85.799911, _
-            .Time = 300, _
-            .TimeWindowStart = 166640, _
-            .TimeWindowEnd = 168147 _
-        }, New Address() With { _
-            .AddressString = "840 IROQUOIS AVE, Louisville, KY, 40214", _
-            .Latitude = 38.166355, _
-            .Longitude = -85.779396, _
-            .Time = 300, _
-            .TimeWindowStart = 168147, _
-            .TimeWindowEnd = 170385 _
-        }, New Address() With { _
-            .AddressString = "5573 BRUCE AVE, Louisville, KY, 40214", _
-            .Latitude = 38.145222, _
-            .Longitude = -85.779205, _
-            .Time = 300, _
-            .TimeWindowStart = 170385, _
-            .TimeWindowEnd = 171096 _
-        }, New Address() With { _
-            .AddressString = "1727 GALLAGHER, Louisville, KY, 40210", _
-            .Latitude = 38.239334, _
-            .Longitude = -85.784882, _
-            .Time = 300, _
-            .TimeWindowStart = 171096, _
-            .TimeWindowEnd = 171951 _
-        }, New Address() With { _
-            .AddressString = "1309 CATALPA ST APT 204, Louisville, KY, 40211", _
-            .Latitude = 38.236524, _
-            .Longitude = -85.801619, _
-            .Time = 300, _
-            .TimeWindowStart = 171951, _
-            .TimeWindowEnd = 172393 _
-        }, New Address() With { _
-            .AddressString = "1330 ALGONQUIN PKWY, Louisville, KY, 40208", _
-            .Latitude = 38.219846, _
-            .Longitude = -85.777344, _
-            .Time = 300, _
-            .TimeWindowStart = 172393, _
-            .TimeWindowEnd = 175337 _
-        }, _
-            New Address() With { _
-            .AddressString = "823 SUTCLIFFE, Louisville, KY, 40211", _
-            .Latitude = 38.246956, _
-            .Longitude = -85.811569, _
-            .Time = 300, _
-            .TimeWindowStart = 175337, _
-            .TimeWindowEnd = 176867 _
-        }, New Address() With { _
-            .AddressString = "4405 CHURCHMAN AVENUE #2, Louisville, KY, 40215", _
-            .Latitude = 38.177768, _
-            .Longitude = -85.792545, _
-            .Time = 300, _
-            .TimeWindowStart = 176867, _
-            .TimeWindowEnd = 178051 _
-        }, New Address() With { _
-            .AddressString = "3211 DUMESNIL ST #1, Louisville, KY, 40211", _
-            .Latitude = 38.237789, _
-            .Longitude = -85.807968, _
-            .Time = 300, _
-            .TimeWindowStart = 178051, _
-            .TimeWindowEnd = 179083 _
-        }, New Address() With { _
-            .AddressString = "3904 WEWOKA AVE, Louisville, KY, 40212", _
-            .Latitude = 38.270367, _
-            .Longitude = -85.813118, _
-            .Time = 300, _
-            .TimeWindowStart = 179083, _
-            .TimeWindowEnd = 181543 _
-        }, New Address() With { _
-            .AddressString = "660 SO. 42ND STREET, Louisville, KY, 40211", _
-            .Latitude = 38.252865, _
-            .Longitude = -85.822624, _
-            .Time = 300, _
-            .TimeWindowStart = 181543, _
-            .TimeWindowEnd = 184193 _
-        }, New Address() With { _
-            .AddressString = "3619  LENTZ  AVE, Louisville, KY, 40215", _
-            .Latitude = 38.193249, _
-            .Longitude = -85.785492, _
-            .Time = 300, _
-            .TimeWindowStart = 184193, _
-            .TimeWindowEnd = 185853 _
-        }, _
-            New Address() With { _
-            .AddressString = "4305  STOLTZ  CT, Louisville, KY, 40215", _
-            .Latitude = 38.178707, _
-            .Longitude = -85.787292, _
-            .Time = 300, _
-            .TimeWindowStart = 185853, _
-            .TimeWindowEnd = 187252 _
+        Dim addresses As Address() = New Address() {New Address() With {
+            .AddressString = "455 S 4th St, Louisville, KY 40202",
+            .IsDepot = True,
+            .Latitude = 38.251698,
+            .Longitude = -85.757308,
+            .Time = 300,
+            .TimeWindowStart = 28800,
+            .TimeWindowEnd = 30477
+        }, New Address() With {
+            .AddressString = "1604 PARKRIDGE PKWY, Louisville, KY, 40214",
+            .Latitude = 38.141598,
+            .Longitude = -85.793846,
+            .Time = 300,
+            .TimeWindowStart = 30477,
+            .TimeWindowEnd = 33406
+        }, New Address() With {
+            .AddressString = "1407 א53MCCOY, Louisville, KY, 40215",
+            .Latitude = 38.202496,
+            .Longitude = -85.786514,
+            .Time = 300,
+            .TimeWindowStart = 33406,
+            .TimeWindowEnd = 36228
+        }, New Address() With {
+            .AddressString = "4805 BELLEVUE AVE, Louisville, KY, 40215",
+            .Latitude = 38.178844,
+            .Longitude = -85.774864,
+            .Time = 300,
+            .TimeWindowStart = 36228,
+            .TimeWindowEnd = 37518
+        }, New Address() With {
+            .AddressString = "730 CECIL AVENUE, Louisville, KY, 40211",
+            .Latitude = 38.248684,
+            .Longitude = -85.821121,
+            .Time = 300,
+            .TimeWindowStart = 37518,
+            .TimeWindowEnd = 39550
+        }, New Address() With {
+            .AddressString = "650 SOUTH 29TH ST UNIT 315, Louisville, KY, 40211",
+            .Latitude = 38.251923,
+            .Longitude = -85.800034,
+            .Time = 300,
+            .TimeWindowStart = 39550,
+            .TimeWindowEnd = 41348
+        },
+            New Address() With {
+            .AddressString = "4629 HILLSIDE DRIVE, Louisville, KY, 40216",
+            .Latitude = 38.176067,
+            .Longitude = -85.824638,
+            .Time = 300,
+            .TimeWindowStart = 41348,
+            .TimeWindowEnd = 42261
+        }, New Address() With {
+            .AddressString = "4738 BELLEVUE AVE, Louisville, KY, 40215",
+            .Latitude = 38.179806,
+            .Longitude = -85.775558,
+            .Time = 300,
+            .TimeWindowStart = 42261,
+            .TimeWindowEnd = 45195
+        }, New Address() With {
+            .AddressString = "318 SO. 39TH STREET, Louisville, KY, 40212",
+            .Latitude = 38.259335,
+            .Longitude = -85.815094,
+            .Time = 300,
+            .TimeWindowStart = 45195,
+            .TimeWindowEnd = 46549
+        }, New Address() With {
+            .AddressString = "1324 BLUEGRASS AVE, Louisville, KY, 40215",
+            .Latitude = 38.179253,
+            .Longitude = -85.785118,
+            .Time = 300,
+            .TimeWindowStart = 46549,
+            .TimeWindowEnd = 47353
+        }, New Address() With {
+            .AddressString = "7305 ROYAL WOODS DR, Louisville, KY, 40214",
+            .Latitude = 38.162472,
+            .Longitude = -85.792854,
+            .Time = 300,
+            .TimeWindowStart = 47353,
+            .TimeWindowEnd = 50924
+        }, New Address() With {
+            .AddressString = "1661 W HILL ST, Louisville, KY, 40210",
+            .Latitude = 38.229584,
+            .Longitude = -85.783966,
+            .Time = 300,
+            .TimeWindowStart = 50924,
+            .TimeWindowEnd = 51392
+        },
+            New Address() With {
+            .AddressString = "3222 KINGSWOOD WAY, Louisville, KY, 40216",
+            .Latitude = 38.210606,
+            .Longitude = -85.822594,
+            .Time = 300,
+            .TimeWindowStart = 51392,
+            .TimeWindowEnd = 52451
+        }, New Address() With {
+            .AddressString = "1922 PALATKA RD, Louisville, KY, 40214",
+            .Latitude = 38.153767,
+            .Longitude = -85.796783,
+            .Time = 300,
+            .TimeWindowStart = 52451,
+            .TimeWindowEnd = 55631
+        }, New Address() With {
+            .AddressString = "1314 SOUTH 26TH STREET, Louisville, KY, 40210",
+            .Latitude = 38.235847,
+            .Longitude = -85.796852,
+            .Time = 300,
+            .TimeWindowStart = 55631,
+            .TimeWindowEnd = 58516
+        }, New Address() With {
+            .AddressString = "2135 MCCLOSKEY AVENUE, Louisville, KY, 40210",
+            .Latitude = 38.218662,
+            .Longitude = -85.789032,
+            .Time = 300,
+            .TimeWindowStart = 58516,
+            .TimeWindowEnd = 61080
+        }, New Address() With {
+            .AddressString = "1409 PHYLLIS AVE, Louisville, KY, 40215",
+            .Latitude = 38.206154,
+            .Longitude = -85.781387,
+            .Time = 100,
+            .TimeWindowStart = 61080,
+            .TimeWindowEnd = 61504
+        }, New Address() With {
+            .AddressString = "4504 SUNFLOWER AVE, Louisville, KY, 40216",
+            .Latitude = 38.187511,
+            .Longitude = -85.839149,
+            .Time = 300,
+            .TimeWindowStart = 61504,
+            .TimeWindowEnd = 62061
+        },
+            New Address() With {
+            .AddressString = "2512 GREENWOOD AVE, Louisville, KY, 40210",
+            .Latitude = 38.241405,
+            .Longitude = -85.795059,
+            .Time = 300,
+            .TimeWindowStart = 62061,
+            .TimeWindowEnd = 65012
+        }, New Address() With {
+            .AddressString = "5500 WILKE FARM AVE, Louisville, KY, 40216",
+            .Latitude = 38.166065,
+            .Longitude = -85.863319,
+            .Time = 300,
+            .TimeWindowStart = 65012,
+            .TimeWindowEnd = 67541
+        }, New Address() With {
+            .AddressString = "3640 LENTZ AVE, Louisville, KY, 40215",
+            .Latitude = 38.193283,
+            .Longitude = -85.786201,
+            .Time = 300,
+            .TimeWindowStart = 67541,
+            .TimeWindowEnd = 69120
+        }, New Address() With {
+            .AddressString = "1020 BLUEGRASS AVE, Louisville, KY, 40215",
+            .Latitude = 38.17952,
+            .Longitude = -85.780037,
+            .Time = 300,
+            .TimeWindowStart = 69120,
+            .TimeWindowEnd = 70572
+        }, New Address() With {
+            .AddressString = "123 NORTH 40TH ST, Louisville, KY, 40212",
+            .Latitude = 38.26498,
+            .Longitude = -85.814156,
+            .Time = 300,
+            .TimeWindowStart = 70572,
+            .TimeWindowEnd = 73177
+        }, New Address() With {
+            .AddressString = "7315 ST ANDREWS WOODS CIRCLE UNIT 104, Louisville, KY, 40214",
+            .Latitude = 38.151072,
+            .Longitude = -85.802867,
+            .Time = 300,
+            .TimeWindowStart = 73177,
+            .TimeWindowEnd = 75231
+        },
+            New Address() With {
+            .AddressString = "3210 POPLAR VIEW DR, Louisville, KY, 40216",
+            .Latitude = 38.182594,
+            .Longitude = -85.849937,
+            .Time = 300,
+            .TimeWindowStart = 75231,
+            .TimeWindowEnd = 77663
+        }, New Address() With {
+            .AddressString = "4519 LOUANE WAY, Louisville, KY, 40216",
+            .Latitude = 38.1754,
+            .Longitude = -85.811447,
+            .Time = 300,
+            .TimeWindowStart = 77663,
+            .TimeWindowEnd = 79796
+        }, New Address() With {
+            .AddressString = "6812 MANSLICK RD, Louisville, KY, 40214",
+            .Latitude = 38.161839,
+            .Longitude = -85.798279,
+            .Time = 300,
+            .TimeWindowStart = 79796,
+            .TimeWindowEnd = 80813
+        }, New Address() With {
+            .AddressString = "1524 HUNTOON AVENUE, Louisville, KY, 40215",
+            .Latitude = 38.172031,
+            .Longitude = -85.788353,
+            .Time = 300,
+            .TimeWindowStart = 80813,
+            .TimeWindowEnd = 83956
+        }, New Address() With {
+            .AddressString = "1307 LARCHMONT AVE, Louisville, KY, 40215",
+            .Latitude = 38.209663,
+            .Longitude = -85.779816,
+            .Time = 300,
+            .TimeWindowStart = 83956,
+            .TimeWindowEnd = 84365
+        }, New Address() With {
+            .AddressString = "434 N 26TH STREET #2, Louisville, KY, 40212",
+            .Latitude = 38.26844,
+            .Longitude = -85.791962,
+            .Time = 300,
+            .TimeWindowStart = 84365,
+            .TimeWindowEnd = 85367
+        },
+            New Address() With {
+            .AddressString = "678 WESTLAWN ST, Louisville, KY, 40211",
+            .Latitude = 38.250397,
+            .Longitude = -85.80629,
+            .Time = 300,
+            .TimeWindowStart = 85367,
+            .TimeWindowEnd = 86400
+        }, New Address() With {
+            .AddressString = "2308 W BROADWAY, Louisville, KY, 40211",
+            .Latitude = 38.248882,
+            .Longitude = -85.790421,
+            .Time = 300,
+            .TimeWindowStart = 86400,
+            .TimeWindowEnd = 88703
+        }, New Address() With {
+            .AddressString = "2332 WOODLAND AVE, Louisville, KY, 40210",
+            .Latitude = 38.233579,
+            .Longitude = -85.794257,
+            .Time = 300,
+            .TimeWindowStart = 88703,
+            .TimeWindowEnd = 89320
+        }, New Address() With {
+            .AddressString = "1706 WEST ST. CATHERINE, Louisville, KY, 40210",
+            .Latitude = 38.239697,
+            .Longitude = -85.783928,
+            .Time = 300,
+            .TimeWindowStart = 89320,
+            .TimeWindowEnd = 90054
+        }, New Address() With {
+            .AddressString = "1699 WATHEN LN, Louisville, KY, 40216",
+            .Latitude = 38.216465,
+            .Longitude = -85.792397,
+            .Time = 300,
+            .TimeWindowStart = 90054,
+            .TimeWindowEnd = 91150
+        }, New Address() With {
+            .AddressString = "2416 SUNSHINE WAY, Louisville, KY, 40216",
+            .Latitude = 38.186245,
+            .Longitude = -85.831787,
+            .Time = 300,
+            .TimeWindowStart = 91150,
+            .TimeWindowEnd = 91915
+        },
+            New Address() With {
+            .AddressString = "6925 MANSLICK RD, Louisville, KY, 40214",
+            .Latitude = 38.158466,
+            .Longitude = -85.798355,
+            .Time = 300,
+            .TimeWindowStart = 91915,
+            .TimeWindowEnd = 93407
+        }, New Address() With {
+            .AddressString = "2707 7TH ST, Louisville, KY, 40215",
+            .Latitude = 38.212438,
+            .Longitude = -85.785082,
+            .Time = 300,
+            .TimeWindowStart = 93407,
+            .TimeWindowEnd = 95992
+        }, New Address() With {
+            .AddressString = "2014 KENDALL LN, Louisville, KY, 40216",
+            .Latitude = 38.179394,
+            .Longitude = -85.826668,
+            .Time = 300,
+            .TimeWindowStart = 95992,
+            .TimeWindowEnd = 99307
+        }, New Address() With {
+            .AddressString = "612 N 39TH ST, Louisville, KY, 40212",
+            .Latitude = 38.273354,
+            .Longitude = -85.812012,
+            .Time = 300,
+            .TimeWindowStart = 99307,
+            .TimeWindowEnd = 102906
+        }, New Address() With {
+            .AddressString = "2215 ROWAN ST, Louisville, KY, 40212",
+            .Latitude = 38.261703,
+            .Longitude = -85.786781,
+            .Time = 300,
+            .TimeWindowStart = 102906,
+            .TimeWindowEnd = 106021
+        }, New Address() With {
+            .AddressString = "1826 W. KENTUCKY ST, Louisville, KY, 40210",
+            .Latitude = 38.241611,
+            .Longitude = -85.78653,
+            .Time = 300,
+            .TimeWindowStart = 106021,
+            .TimeWindowEnd = 107276
+        },
+            New Address() With {
+            .AddressString = "1810 GREGG AVE, Louisville, KY, 40210",
+            .Latitude = 38.224716,
+            .Longitude = -85.796211,
+            .Time = 300,
+            .TimeWindowStart = 107276,
+            .TimeWindowEnd = 107948
+        }, New Address() With {
+            .AddressString = "4103 BURRRELL DRIVE, Louisville, KY, 40216",
+            .Latitude = 38.191753,
+            .Longitude = -85.825836,
+            .Time = 300,
+            .TimeWindowStart = 107948,
+            .TimeWindowEnd = 108414
+        }, New Address() With {
+            .AddressString = "359 SOUTHWESTERN PKWY, Louisville, KY, 40212",
+            .Latitude = 38.259903,
+            .Longitude = -85.823463,
+            .Time = 200,
+            .TimeWindowStart = 108414,
+            .TimeWindowEnd = 108685
+        }, New Address() With {
+            .AddressString = "2407 W CHESTNUT ST, Louisville, KY, 40211",
+            .Latitude = 38.252781,
+            .Longitude = -85.792109,
+            .Time = 300,
+            .TimeWindowStart = 108685,
+            .TimeWindowEnd = 110109
+        }, New Address() With {
+            .AddressString = "225 S 22ND ST, Louisville, KY, 40212",
+            .Latitude = 38.257616,
+            .Longitude = -85.786658,
+            .Time = 300,
+            .TimeWindowStart = 110109,
+            .TimeWindowEnd = 111375
+        }, New Address() With {
+            .AddressString = "1404 MCCOY AVE, Louisville, KY, 40215",
+            .Latitude = 38.202122,
+            .Longitude = -85.786072,
+            .Time = 300,
+            .TimeWindowStart = 111375,
+            .TimeWindowEnd = 112120
+        },
+            New Address() With {
+            .AddressString = "117 FOUNT LANDING CT, Louisville, KY, 40212",
+            .Latitude = 38.270061,
+            .Longitude = -85.799438,
+            .Time = 300,
+            .TimeWindowStart = 112120,
+            .TimeWindowEnd = 114095
+        }, New Address() With {
+            .AddressString = "5504 SHOREWOOD DRIVE, Louisville, KY, 40214",
+            .Latitude = 38.145851,
+            .Longitude = -85.7798,
+            .Time = 300,
+            .TimeWindowStart = 114095,
+            .TimeWindowEnd = 115743
+        }, New Address() With {
+            .AddressString = "1406 CENTRAL AVE, Louisville, KY, 40208",
+            .Latitude = 38.211025,
+            .Longitude = -85.780251,
+            .Time = 300,
+            .TimeWindowStart = 115743,
+            .TimeWindowEnd = 117716
+        }, New Address() With {
+            .AddressString = "901 W WHITNEY AVE, Louisville, KY, 40215",
+            .Latitude = 38.194115,
+            .Longitude = -85.77494,
+            .Time = 300,
+            .TimeWindowStart = 117716,
+            .TimeWindowEnd = 119078
+        }, New Address() With {
+            .AddressString = "2109 SCHAFFNER AVE, Louisville, KY, 40210",
+            .Latitude = 38.219699,
+            .Longitude = -85.779363,
+            .Time = 300,
+            .TimeWindowStart = 119078,
+            .TimeWindowEnd = 121147
+        }, New Address() With {
+            .AddressString = "2906 DIXIE HWY, Louisville, KY, 40216",
+            .Latitude = 38.209278,
+            .Longitude = -85.798653,
+            .Time = 300,
+            .TimeWindowStart = 121147,
+            .TimeWindowEnd = 124281
+        },
+            New Address() With {
+            .AddressString = "814 WWHITNEY AVE, Louisville, KY, 40215",
+            .Latitude = 38.193596,
+            .Longitude = -85.773521,
+            .Time = 300,
+            .TimeWindowStart = 124281,
+            .TimeWindowEnd = 124675
+        }, New Address() With {
+            .AddressString = "1610 ALGONQUIN PWKY, Louisville, KY, 40210",
+            .Latitude = 38.222153,
+            .Longitude = -85.784187,
+            .Time = 300,
+            .TimeWindowStart = 124675,
+            .TimeWindowEnd = 127148
+        }, New Address() With {
+            .AddressString = "3524 WHEELER AVE, Louisville, KY, 40215",
+            .Latitude = 38.195293,
+            .Longitude = -85.788643,
+            .Time = 300,
+            .TimeWindowStart = 127148,
+            .TimeWindowEnd = 130667
+        }, New Address() With {
+            .AddressString = "5009 NEW CUT RD, Louisville, KY, 40214",
+            .Latitude = 38.165905,
+            .Longitude = -85.779701,
+            .Time = 300,
+            .TimeWindowStart = 130667,
+            .TimeWindowEnd = 131980
+        }, New Address() With {
+            .AddressString = "3122 ELLIOTT AVE, Louisville, KY, 40211",
+            .Latitude = 38.251213,
+            .Longitude = -85.804199,
+            .Time = 300,
+            .TimeWindowStart = 131980,
+            .TimeWindowEnd = 134402
+        }, New Address() With {
+            .AddressString = "911 GAGEL AVE, Louisville, KY, 40216",
+            .Latitude = 38.173512,
+            .Longitude = -85.807854,
+            .Time = 300,
+            .TimeWindowStart = 134402,
+            .TimeWindowEnd = 136787
+        },
+            New Address() With {
+            .AddressString = "4020 GARLAND AVE #lOOA, Louisville, KY, 40211",
+            .Latitude = 38.246181,
+            .Longitude = -85.818901,
+            .Time = 300,
+            .TimeWindowStart = 136787,
+            .TimeWindowEnd = 138073
+        }, New Address() With {
+            .AddressString = "5231 MT HOLYOKE DR, Louisville, KY, 40216",
+            .Latitude = 38.169369,
+            .Longitude = -85.85704,
+            .Time = 300,
+            .TimeWindowStart = 138073,
+            .TimeWindowEnd = 141407
+        }, New Address() With {
+            .AddressString = "1339 28TH S #2, Louisville, KY, 40211",
+            .Latitude = 38.235275,
+            .Longitude = -85.800156,
+            .Time = 300,
+            .TimeWindowStart = 141407,
+            .TimeWindowEnd = 143561
+        }, New Address() With {
+            .AddressString = "836 S 36TH ST, Louisville, KY, 40211",
+            .Latitude = 38.24651,
+            .Longitude = -85.811234,
+            .Time = 300,
+            .TimeWindowStart = 143561,
+            .TimeWindowEnd = 145941
+        }, New Address() With {
+            .AddressString = "2132 DUNCAN STREET, Louisville, KY, 40212",
+            .Latitude = 38.262135,
+            .Longitude = -85.785172,
+            .Time = 300,
+            .TimeWindowStart = 145941,
+            .TimeWindowEnd = 148296
+        }, New Address() With {
+            .AddressString = "3529 WHEELER AVE, Louisville, KY, 40215",
+            .Latitude = 38.195057,
+            .Longitude = -85.787949,
+            .Time = 300,
+            .TimeWindowStart = 148296,
+            .TimeWindowEnd = 150177
+        },
+            New Address() With {
+            .AddressString = "2829 DE MEL #11, Louisville, KY, 40214",
+            .Latitude = 38.171662,
+            .Longitude = -85.807271,
+            .Time = 300,
+            .TimeWindowStart = 150177,
+            .TimeWindowEnd = 150981
+        }, New Address() With {
+            .AddressString = "1325 EARL AVENUE, Louisville, KY, 40215",
+            .Latitude = 38.204556,
+            .Longitude = -85.781555,
+            .Time = 300,
+            .TimeWindowStart = 150981,
+            .TimeWindowEnd = 151854
+        }, New Address() With {
+            .AddressString = "3632 MANSLICK RD #10, Louisville, KY, 40215",
+            .Latitude = 38.193542,
+            .Longitude = -85.801147,
+            .Time = 300,
+            .TimeWindowStart = 151854,
+            .TimeWindowEnd = 152613
+        }, New Address() With {
+            .AddressString = "637 S 41ST ST, Louisville, KY, 40211",
+            .Latitude = 38.253632,
+            .Longitude = -85.81897,
+            .Time = 300,
+            .TimeWindowStart = 152613,
+            .TimeWindowEnd = 156131
+        }, New Address() With {
+            .AddressString = "3420 VIRGINIA AVENUE, Louisville, KY, 40211",
+            .Latitude = 38.238693,
+            .Longitude = -85.811386,
+            .Time = 300,
+            .TimeWindowStart = 156131,
+            .TimeWindowEnd = 157212
+        }, New Address() With {
+            .AddressString = "3501 MALIBU CT APT 6, Louisville, KY, 40216",
+            .Latitude = 38.166481,
+            .Longitude = -85.825928,
+            .Time = 300,
+            .TimeWindowStart = 157212,
+            .TimeWindowEnd = 158655
+        },
+            New Address() With {
+            .AddressString = "4912 DIXIE HWY, Louisville, KY, 40216",
+            .Latitude = 38.170728,
+            .Longitude = -85.826817,
+            .Time = 300,
+            .TimeWindowStart = 158655,
+            .TimeWindowEnd = 159145
+        }, New Address() With {
+            .AddressString = "7720 DINGLEDELL RD, Louisville, KY, 40214",
+            .Latitude = 38.162472,
+            .Longitude = -85.792854,
+            .Time = 300,
+            .TimeWindowStart = 159145,
+            .TimeWindowEnd = 161831
+        }, New Address() With {
+            .AddressString = "2123 RATCLIFFE AVE, Louisville, KY, 40210",
+            .Latitude = 38.21978,
+            .Longitude = -85.797615,
+            .Time = 300,
+            .TimeWindowStart = 161831,
+            .TimeWindowEnd = 163705
+        }, New Address() With {
+            .AddressString = "1321 OAKWOOD AVE, Louisville, KY, 40215",
+            .Latitude = 38.17704,
+            .Longitude = -85.783829,
+            .Time = 300,
+            .TimeWindowStart = 163705,
+            .TimeWindowEnd = 164953
+        }, New Address() With {
+            .AddressString = "2223 WEST KENTUCKY STREET, Louisville, KY, 40210",
+            .Latitude = 38.242516,
+            .Longitude = -85.790695,
+            .Time = 300,
+            .TimeWindowStart = 164953,
+            .TimeWindowEnd = 166189
+        }, New Address() With {
+            .AddressString = "8025 GLIMMER WAY #3308, Louisville, KY, 40214",
+            .Latitude = 38.131981,
+            .Longitude = -85.77935,
+            .Time = 300,
+            .TimeWindowStart = 166189,
+            .TimeWindowEnd = 166640
+        },
+            New Address() With {
+            .AddressString = "1155 S 28TH ST, Louisville, KY, 40211",
+            .Latitude = 38.238621,
+            .Longitude = -85.799911,
+            .Time = 300,
+            .TimeWindowStart = 166640,
+            .TimeWindowEnd = 168147
+        }, New Address() With {
+            .AddressString = "840 IROQUOIS AVE, Louisville, KY, 40214",
+            .Latitude = 38.166355,
+            .Longitude = -85.779396,
+            .Time = 300,
+            .TimeWindowStart = 168147,
+            .TimeWindowEnd = 170385
+        }, New Address() With {
+            .AddressString = "5573 BRUCE AVE, Louisville, KY, 40214",
+            .Latitude = 38.145222,
+            .Longitude = -85.779205,
+            .Time = 300,
+            .TimeWindowStart = 170385,
+            .TimeWindowEnd = 171096
+        }, New Address() With {
+            .AddressString = "1727 GALLAGHER, Louisville, KY, 40210",
+            .Latitude = 38.239334,
+            .Longitude = -85.784882,
+            .Time = 300,
+            .TimeWindowStart = 171096,
+            .TimeWindowEnd = 171951
+        }, New Address() With {
+            .AddressString = "1309 CATALPA ST APT 204, Louisville, KY, 40211",
+            .Latitude = 38.236524,
+            .Longitude = -85.801619,
+            .Time = 300,
+            .TimeWindowStart = 171951,
+            .TimeWindowEnd = 172393
+        }, New Address() With {
+            .AddressString = "1330 ALGONQUIN PKWY, Louisville, KY, 40208",
+            .Latitude = 38.219846,
+            .Longitude = -85.777344,
+            .Time = 300,
+            .TimeWindowStart = 172393,
+            .TimeWindowEnd = 175337
+        },
+            New Address() With {
+            .AddressString = "823 SUTCLIFFE, Louisville, KY, 40211",
+            .Latitude = 38.246956,
+            .Longitude = -85.811569,
+            .Time = 300,
+            .TimeWindowStart = 175337,
+            .TimeWindowEnd = 176867
+        }, New Address() With {
+            .AddressString = "4405 CHURCHMAN AVENUE #2, Louisville, KY, 40215",
+            .Latitude = 38.177768,
+            .Longitude = -85.792545,
+            .Time = 300,
+            .TimeWindowStart = 176867,
+            .TimeWindowEnd = 178051
+        }, New Address() With {
+            .AddressString = "3211 DUMESNIL ST #1, Louisville, KY, 40211",
+            .Latitude = 38.237789,
+            .Longitude = -85.807968,
+            .Time = 300,
+            .TimeWindowStart = 178051,
+            .TimeWindowEnd = 179083
+        }, New Address() With {
+            .AddressString = "3904 WEWOKA AVE, Louisville, KY, 40212",
+            .Latitude = 38.270367,
+            .Longitude = -85.813118,
+            .Time = 300,
+            .TimeWindowStart = 179083,
+            .TimeWindowEnd = 181543
+        }, New Address() With {
+            .AddressString = "660 SO. 42ND STREET, Louisville, KY, 40211",
+            .Latitude = 38.252865,
+            .Longitude = -85.822624,
+            .Time = 300,
+            .TimeWindowStart = 181543,
+            .TimeWindowEnd = 184193
+        }, New Address() With {
+            .AddressString = "3619  LENTZ  AVE, Louisville, KY, 40215",
+            .Latitude = 38.193249,
+            .Longitude = -85.785492,
+            .Time = 300,
+            .TimeWindowStart = 184193,
+            .TimeWindowEnd = 185853
+        },
+            New Address() With {
+            .AddressString = "4305  STOLTZ  CT, Louisville, KY, 40215",
+            .Latitude = 38.178707,
+            .Longitude = -85.787292,
+            .Time = 300,
+            .TimeWindowStart = 185853,
+            .TimeWindowEnd = 187252
         }}
 #End Region
         ' Set parameters
 
-        Dim parameters As New RouteParameters() With { _
-            .AlgorithmType = AlgorithmType.CVRP_TW_MD, _
-            .RouteName = "Multiple Depot, Multiple Driver, Time Window", _
-            .StoreRoute = False, _
-            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)), _
-            .RouteTime = 60 * 60 * 7, _
-            .RT = True, _
-            .RouteMaxDuration = 86400 * 3, _
-            .VehicleCapacity = "99", _
-            .VehicleMaxDistanceMI = "99999", _
-            .Optimize = Optimize.Time.GetEnumDescription(), _
-            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(), _
-            .DeviceType = DeviceType.Web.GetEnumDescription(), _
-            .TravelMode = TravelMode.Driving.GetEnumDescription(), _
-            .Metric = Metric.Geodesic _
+        Dim parameters As New RouteParameters() With {
+            .AlgorithmType = AlgorithmType.CVRP_TW_MD,
+            .RouteName = "Multiple Depot, Multiple Driver, Time Window",
+            .StoreRoute = False,
+            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)),
+            .RouteTime = 60 * 60 * 7,
+            .RT = True,
+            .RouteMaxDuration = 86400 * 3,
+            .VehicleCapacity = "99",
+            .VehicleMaxDistanceMI = "99999",
+            .Optimize = Optimize.Time.GetEnumDescription(),
+            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
+            .DeviceType = DeviceType.Web.GetEnumDescription(),
+            .TravelMode = TravelMode.Driving.GetEnumDescription(),
+            .Metric = Metric.Geodesic
         }
 
-        Dim optimizationParameters As New OptimizationParameters() With { _
-            .Addresses = addresses, _
-            .Parameters = parameters _
+        Dim optimizationParameters As New OptimizationParameters() With {
+            .Addresses = addresses,
+            .Parameters = parameters
         }
 
         ' Run the query
@@ -1941,1804 +1942,1804 @@ End Class
         tdr.RemoveOptimization(New String() {dataObject.OptimizationProblemId})
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub SingleDepotMultipleDriverNoTimeWindowTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         ' Prepare the addresses
 #Region "Addresses"
-        Dim addresses As Address() = New Address() {New Address() With { _
-            .AddressString = "40 Mercer st, New York, NY", _
-            .IsDepot = True, _
-            .Latitude = 40.7213583, _
-            .Longitude = -74.0013082, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "new york, ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Manhatten Island NYC", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "503 W139 St, NY,NY", _
-            .Latitude = 40.7109062, _
-            .Longitude = -74.0091848, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "203 grand st, new york, ny", _
-            .Latitude = 40.718899, _
-            .Longitude = -73.996732, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "119 Church Street", _
-            .Latitude = 40.7137757, _
-            .Longitude = -74.0088238, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "new york ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "broadway street, new york", _
-            .Latitude = 40.7191551, _
-            .Longitude = -74.0020849, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Ground Zero, Vesey-Liberty-Church-West Streets New York NY 10038", _
-            .Latitude = 40.7233126, _
-            .Longitude = -74.0116602, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "226 ilyssa way staten lsland ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "185 franklin st.", _
-            .Latitude = 40.7192099, _
-            .Longitude = -74.009767, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "new york city,", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "11 e. broaway 11038", _
-            .Latitude = 40.713206, _
-            .Longitude = -73.9974019, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Brooklyn Bridge, NY", _
-            .Latitude = 40.7053804, _
-            .Longitude = -73.9962503, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "World Trade Center Site, NY", _
-            .Latitude = 40.711498, _
-            .Longitude = -74.012299, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "New York Stock Exchange, NY", _
-            .Latitude = 40.7074242, _
-            .Longitude = -74.0116342, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Wall Street, NY", _
-            .Latitude = 40.7079825, _
-            .Longitude = -74.0079781, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "Trinity Church, NY", _
-            .Latitude = 40.7081426, _
-            .Longitude = -74.0120511, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "World Financial Center, NY", _
-            .Latitude = 40.710475, _
-            .Longitude = -74.015493, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Federal Hall, NY", _
-            .Latitude = 40.7073034, _
-            .Longitude = -74.0102734, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Flatiron Building, NY", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "South Street Seaport, NY", _
-            .Latitude = 40.706921, _
-            .Longitude = -74.003638, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Rockefeller Center, NY", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "FAO Schwarz, NY", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Woolworth Building, NY", _
-            .Latitude = 40.7123903, _
-            .Longitude = -74.0083309, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Met Life Building, NY", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "SOHO/Tribeca, NY", _
-            .Latitude = 40.718565, _
-            .Longitude = -74.012017, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "MacyГўв‚¬в„ўs, NY", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "City Hall, NY, NY", _
-            .Latitude = 40.7127047, _
-            .Longitude = -74.0058663, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "Macy&amp;acirc;в‚¬в„ўs, NY", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "1452 potter blvd bayshore ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "55 Church St. New York, NY", _
-            .Latitude = 40.711232, _
-            .Longitude = -74.010268, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "55 Church St, New York, NY", _
-            .Latitude = 40.711232, _
-            .Longitude = -74.010268, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "79 woodlawn dr revena ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "135 main st revena ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "250 greenwich st, new york, ny", _
-            .Latitude = 40.713159, _
-            .Longitude = -74.011889, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "79 grand, new york, ny", _
-            .Latitude = 40.7216958, _
-            .Longitude = -74.0024352, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "World trade center" & vbLf, _
-            .Latitude = 40.711626, _
-            .Longitude = -74.010714, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "World trade centern", _
-            .Latitude = 40.713291, _
-            .Longitude = -74.011835, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "391 broadway new york", _
-            .Latitude = 40.7183693, _
-            .Longitude = -74.00278, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Fletcher street", _
-            .Latitude = 40.7063954, _
-            .Longitude = -74.0056353, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "2 Plum LanenPlainview New York", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "50 Kennedy drivenPlainview New York", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "7 Crestwood DrivenPlainview New York", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "85 west street nyc", _
-            .Latitude = 40.709646, _
-            .Longitude = -74.014614, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "New York, New York", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "89 Reade St, New York City, New York 10013", _
-            .Latitude = 40.714297, _
-            .Longitude = -74.005966, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "100 white st", _
-            .Latitude = 40.7172477, _
-            .Longitude = -74.0014351, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "100 white st" & vbLf & "33040", _
-            .Latitude = 40.7172477, _
-            .Longitude = -74.0014351, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Canal st and mulberry", _
-            .Latitude = 40.717088, _
-            .Longitude = -73.9986025, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "91-83 111st st" & vbLf & "Richmond hills ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "122-09 liberty avenOzone park ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "80-16 101 avenOzone park ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "6302 woodhaven blvdnRego park ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "39-02 64th stnWoodside ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "New York City, NY,", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Pine st", _
-            .Latitude = 40.7069754, _
-            .Longitude = -74.0089557, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Wall st", _
-            .Latitude = 40.7079825, _
-            .Longitude = -74.0079781, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "32 avenue of the Americas, NY, NY", _
-            .Latitude = 40.720114, _
-            .Longitude = -74.005092, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "260 west broadway, NY, NY", _
-            .Latitude = 40.720621, _
-            .Longitude = -74.005567, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Long island, ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "27 Carley ave" & vbLf & "Huntington ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "17 west neck RdnHuntington ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "206 washington st", _
-            .Latitude = 40.7131577, _
-            .Longitude = -74.0126091, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Cipriani new york", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "Byshnell Basin. NY", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "89 Reade St, New York, New York 10013", _
-            .Latitude = 40.714297, _
-            .Longitude = -74.005966, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "250 Greenwich St, New York, New York 10007", _
-            .Latitude = 40.7133, _
-            .Longitude = -74.012, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "64 Bowery, New York, New York 10013", _
-            .Latitude = 40.716554, _
-            .Longitude = -73.99627, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "142-156 Mulberry St, New York, New York 10013", _
-            .Latitude = 40.7192764, _
-            .Longitude = -73.9973096, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "80 Spring St, New York, New York 10012", _
-            .Latitude = 40.722659, _
-            .Longitude = -73.998182, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "182 Duane street ny", _
-            .Latitude = 40.7170879, _
-            .Longitude = -74.010121, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "182 Duane St, New York, New York 10013", _
-            .Latitude = 40.7170879, _
-            .Longitude = -74.010121, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "462 broome street nyc", _
-            .Latitude = 40.72258, _
-            .Longitude = -74.000898, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "117 mercer street nyc", _
-            .Latitude = 40.7239679, _
-            .Longitude = -73.9991585, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Lucca antiques" & vbLf & "182 Duane St, New York, New York 10013", _
-            .Latitude = 40.7167516, _
-            .Longitude = -74.0087482, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Room and board" & vbLf & "105 Wooster street nyc", _
-            .Latitude = 40.7229097, _
-            .Longitude = -74.0021852, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "Lucca antiquesn182 Duane St, New York, New York 10013", _
-            .Latitude = 40.7167516, _
-            .Longitude = -74.0087482, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Room and boardn105 Wooster street nyc", _
-            .Latitude = 40.7229097, _
-            .Longitude = -74.0021852, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Lucca antiques 182 Duane st new York ny", _
-            .Latitude = 40.7170879, _
-            .Longitude = -74.010121, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Property" & vbLf & "14 Wooster street nyc", _
-            .Latitude = 40.7229097, _
-            .Longitude = -74.0021852, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "101 Crosby street nyc", _
-            .Latitude = 40.723573, _
-            .Longitude = -73.996954, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Room and board " & vbLf & "105 Wooster street nyc", _
-            .Latitude = 40.7229097, _
-            .Longitude = -74.0021852, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "Propertyn14 Wooster street nyc", _
-            .Latitude = 40.7229097, _
-            .Longitude = -74.0021852, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Room and board n105 Wooster street nyc", _
-            .Latitude = 40.7229097, _
-            .Longitude = -74.0021852, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Mecox gardens" & vbLf & "926 Lexington nyc", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "25 sybil&apos;s crossing Kent lakes, ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "10149 ASHDALE LANE" & vbTab & "67" & vbTab & "67393253" & vbTab & vbTab & vbTab & "SANTEE" & vbTab & "CA" & vbTab & "92071" & vbTab & vbTab & "280501691" & vbTab & "67393253" & vbTab & "IFI" & vbTab & "280501691" & vbTab & "05-JUN-10" & vbTab & "67393253", _
-            .Latitude = 40.7143, _
-            .Longitude = -74.0067, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "193 Lakebridge Dr, Kings Paark, NY", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "219 west creek", _
-            .Latitude = 40.7198564, _
-            .Longitude = -74.0121098, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "14 North Moore Street" & vbLf & "New York, ny", _
-            .Latitude = 40.719697, _
-            .Longitude = -74.00661, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "14 North Moore StreetnNew York, ny", _
-            .Latitude = 40.719697, _
-            .Longitude = -74.00661, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "14 North Moore Street New York, ny", _
-            .Latitude = 40.719697, _
-            .Longitude = -74.00661, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "30-38 Fulton St, New York, New York 10038", _
-            .Latitude = 40.7077737, _
-            .Longitude = -74.0043299, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "73 Spring Street Ny NY", _
-            .Latitude = 40.7225378, _
-            .Longitude = -73.9976742, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "119 Mercer Street Ny NY", _
-            .Latitude = 40.724139, _
-            .Longitude = -73.999311, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "525 Broadway Ny NY", _
-            .Latitude = 40.723041, _
-            .Longitude = -73.999165, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Church St", _
-            .Latitude = 40.7154338, _
-            .Longitude = -74.007543, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "135 union stnWatertown ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "21101 coffeen stnWatertown ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "215 Washington stnWatertown ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "619 mill stnWatertown ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "3 canel st, new York, ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "new york city new york", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "50 grand street", _
-            .Latitude = 40.722578, _
-            .Longitude = -74.0038019, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Orient ferry, li ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Hilton hotel river head li ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "116 park pl", _
-            .Latitude = 40.7140565, _
-            .Longitude = -74.0110155, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "long islans new york", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "1 prospect pointe niagra falls ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "New York City" & vbTab & "NY", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "pink berry ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "New York City" & vbTab & " NY", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "10108", _
-            .Latitude = 40.7143, _
-            .Longitude = -74.0067, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Ann st", _
-            .Latitude = 40.7105937, _
-            .Longitude = -74.0073715, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Hok 620 ave of Americas new York ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Som 14 wall st nyc", _
-            .Latitude = 40.7076179, _
-            .Longitude = -74.010763, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "New York ,ny", _
-            .Latitude = 40.7142691, _
-            .Longitude = -74.0059729, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "52 prince st. 10012", _
-            .Latitude = 40.723584, _
-            .Longitude = -73.996117, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "451 broadway 10013", _
-            .Latitude = 40.7205177, _
-            .Longitude = -74.0009557, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Dover street", _
-            .Latitude = 40.7087886, _
-            .Longitude = -74.0008644, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Murray st", _
-            .Latitude = 40.7148929, _
-            .Longitude = -74.0113349, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "85 West St, New York, New York", _
-            .Latitude = 40.709646, _
-            .Longitude = -74.014614, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "NYC", _
-            .Latitude = 40.7143528, _
-            .Longitude = -74.0059731, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "64 trinity place, ny, ny", _
-            .Latitude = 40.7081649, _
-            .Longitude = -74.0127168, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "150 broadway ny ny", _
-            .Latitude = 40.709185, _
-            .Longitude = -74.010033, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Pinegrove Dude Ranch 31 cherrytown Rd Kerhinkson Ny", _
-            .Latitude = 40.7143528, _
-            .Longitude = -74.0059731, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Front street", _
-            .Latitude = 40.706399, _
-            .Longitude = -74.0045493, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "234 canal St new York, NY 10013", _
-            .Latitude = 40.717701, _
-            .Longitude = -73.999957, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "72 spring street, new york ny 10012", _
-            .Latitude = 40.7225093, _
-            .Longitude = -73.997654, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "150 spring street, new york, ny 10012", _
-            .Latitude = 40.7242393, _
-            .Longitude = -74.0014922, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "580 broadway street, new york, ny 10012", _
-            .Latitude = 40.724421, _
-            .Longitude = -73.997026, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "42 trinity place, new york, ny 10007", _
-            .Latitude = 40.7074, _
-            .Longitude = -74.013551, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "baco ny", _
-            .Latitude = 40.7143528, _
-            .Longitude = -74.0059731, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Micro Tel Inn Alburn New York", _
-            .Latitude = 40.7143528, _
-            .Longitude = -74.0059731, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "20 Cedar Close", _
-            .Latitude = 40.7068734, _
-            .Longitude = -74.0078613, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "South street", _
-            .Latitude = 40.7080184, _
-            .Longitude = -73.9999414, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "47 Lafayette street", _
-            .Latitude = 40.7159204, _
-            .Longitude = -74.0027332, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Newyork", _
-            .Latitude = 40.7143528, _
-            .Longitude = -74.0059731, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Ground Zero, NY", _
-            .Latitude = 40.7143528, _
-            .Longitude = -74.0059731, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "GROUND ZERO NY", _
-            .Latitude = 40.7143528, _
-            .Longitude = -74.0059731, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "33400 SE Harrison", _
-            .Latitude = 40.71884, _
-            .Longitude = -74.010333, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "new york, new york", _
-            .Latitude = 40.7143528, _
-            .Longitude = -74.0059731, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "8 Greene St, New York, 10013", _
-            .Latitude = 40.720616, _
-            .Longitude = -74.00276, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "226 w 44st new york city", _
-            .Latitude = 40.7143528, _
-            .Longitude = -74.0059731, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "s street seaport 11 fulton st new york city", _
-            .Latitude = 40.706915, _
-            .Longitude = -74.0033215, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "30 Rockefeller Plaza w 49th St New York City", _
-            .Latitude = 40.7143528, _
-            .Longitude = -74.0059731, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "30 Rockefeller Plaza 50th St New York City", _
-            .Latitude = 40.7143528, _
-            .Longitude = -74.0059731, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "S. Street Seaport 11 Fulton St. New York City", _
-            .Latitude = 40.706915, _
-            .Longitude = -74.0033215, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "30 rockefeller plaza w 49th st, new york city", _
-            .Latitude = 40.7143528, _
-            .Longitude = -74.0059731, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "30 rockefeller plaza 50th st, new york city", _
-            .Latitude = 40.7143528, _
-            .Longitude = -74.0059731, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "11 fulton st, new york city", _
-            .Latitude = 40.706915, _
-            .Longitude = -74.0033215, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "new york city ny", _
-            .Latitude = 40.7143528, _
-            .Longitude = -74.0059731, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Big apple", _
-            .Latitude = 40.7143528, _
-            .Longitude = -74.0059731, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Ny", _
-            .Latitude = 40.7143528, _
-            .Longitude = -74.0059731, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "New York new York", _
-            .Latitude = 40.7143528, _
-            .Longitude = -74.0059731, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "83-85 Chambers St, New York, New York 10007", _
-            .Latitude = 40.714813, _
-            .Longitude = -74.006889, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "New York", _
-            .Latitude = 40.7145502, _
-            .Longitude = -74.0071249, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "102 North End Ave NY, NY", _
-            .Latitude = 40.714798, _
-            .Longitude = -74.015969, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "57 Thompson St, New York, New York 10012", _
-            .Latitude = 40.72414, _
-            .Longitude = -74.003586, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "new york city", _
-            .Latitude = 40.71455, _
-            .Longitude = -74.007125, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "nyc, ny", _
-            .Latitude = 40.7145502, _
-            .Longitude = -74.0071249, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "New York NY", _
-            .Latitude = 40.71455, _
-            .Longitude = -74.007125, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "285 West Broadway New York, NY 10013", _
-            .Latitude = 40.720875, _
-            .Longitude = -74.004631, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "100 avenue of the americas New York, NY 10013", _
-            .Latitude = 40.723312, _
-            .Longitude = -74.004395, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "270 Lafeyette st New York, NY 10012", _
-            .Latitude = 40.723879, _
-            .Longitude = -73.996527, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "560 Broadway New York, NY 10012", _
-            .Latitude = 40.723854, _
-            .Longitude = -73.997498, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "42 Wooster St New York, NY 10013", _
-            .Latitude = 40.722386, _
-            .Longitude = -74.002422, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "42 Wooster StreetNew York, NY 10013-2230", _
-            .Latitude = 40.7223633, _
-            .Longitude = -74.002624, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "504 Broadway, New York, NY 10012", _
-            .Latitude = 40.7221444, _
-            .Longitude = -73.9992714, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "426 Broome Street, New York, NY 10013", _
-            .Latitude = 40.7213295, _
-            .Longitude = -73.9987121, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "City hall, nyc", _
-            .Latitude = 40.7122066, _
-            .Longitude = -74.0055026, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "South street seaport, nyc", _
-            .Latitude = 40.7069501, _
-            .Longitude = -74.0030848, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "Ground zero, nyc", _
-            .Latitude = 40.711641, _
-            .Longitude = -74.012253, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Ground zero", _
-            .Latitude = 40.711641, _
-            .Longitude = -74.012253, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Mulberry and canal, NYC", _
-            .Latitude = 40.71709, _
-            .Longitude = -73.99859, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "World Trade Center, NYC", _
-            .Latitude = 40.711667, _
-            .Longitude = -74.0125, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "South Street Seaport", _
-            .Latitude = 40.7069501, _
-            .Longitude = -74.0030848, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Wall Street and Nassau Street, NYC", _
-            .Latitude = 40.70714, _
-            .Longitude = -74.01069, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "Trinity Church, NYC", _
-            .Latitude = 40.7081269, _
-            .Longitude = -74.0125691, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Federal Hall National Memorial", _
-            .Latitude = 40.7069515, _
-            .Longitude = -74.0101638, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Little Italy, NYC", _
-            .Latitude = 40.719692, _
-            .Longitude = -73.997765, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "New York, NY", _
-            .Latitude = 40.71455, _
-            .Longitude = -74.007125, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "New York City, NY,", _
-            .Latitude = 40.71455, _
-            .Longitude = -74.007125, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "new york,ny", _
-            .Latitude = 40.71455, _
-            .Longitude = -74.00713, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "Odeon cinema", _
-            .Latitude = 40.71683, _
-            .Longitude = -74.00803, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "New York City", _
-            .Latitude = 40.71455, _
-            .Longitude = -74.00713, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "52 broadway, ny,ny 1004", _
-            .Latitude = 40.7065, _
-            .Longitude = -74.0123, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "52 broadway, ny,ny 10004", _
-            .Latitude = 40.7065, _
-            .Longitude = -74.0123, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "22 beaver st, ny,ny 10004", _
-            .Latitude = 40.70482, _
-            .Longitude = -74.01218, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "54 pine st,ny,ny 10005", _
-            .Latitude = 40.70686, _
-            .Longitude = -74.00849, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "114 liberty st, ny,ny 10006", _
-            .Latitude = 40.70977, _
-            .Longitude = -74.0122, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "215 canal st,ny,ny 10013", _
-            .Latitude = 40.71747, _
-            .Longitude = -73.99895, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "new york city ny", _
-            .Latitude = 40.71455, _
-            .Longitude = -74.00713, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "World Trade Center, New York, NY", _
-            .Latitude = 40.71167, _
-            .Longitude = -74.0125, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Chinatown, New York, NY", _
-            .Latitude = 40.71596, _
-            .Longitude = -73.99741, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "101 murray street new york, ny", _
-            .Latitude = 40.71526, _
-            .Longitude = -74.01251, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "nyc", _
-            .Latitude = 40.71455, _
-            .Longitude = -74.00712, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "510 broadway new york", _
-            .Latitude = 40.72234, _
-            .Longitude = -73.999016, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "nyc", _
-            .Latitude = 40.7145502, _
-            .Longitude = -74.0071249, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Little Italy", _
-            .Latitude = 40.719692, _
-            .Longitude = -73.9977647, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "463 Broadway, New York, NY", _
-            .Latitude = 40.721059, _
-            .Longitude = -74.000688, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "222 West Broadway, New York, NY", _
-            .Latitude = 40.719352, _
-            .Longitude = -74.006417, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "270 Lafayette street new York new york", _
-            .Latitude = 40.723879, _
-            .Longitude = -73.996527, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "New York, NY USA", _
-            .Latitude = 40.71455, _
-            .Longitude = -74.007125, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "97 Kenmare Street, New York, NY 10012", _
-            .Latitude = 40.721437, _
-            .Longitude = -73.996911, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "19 Beekman St, New York, New York 10038", _
-            .Latitude = 40.710754, _
-            .Longitude = -74.006287, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Soho", _
-            .Latitude = 40.7241404, _
-            .Longitude = -74.0020213, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Bergen, New York", _
-            .Latitude = 40.71455, _
-            .Longitude = -74.007125, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "478 Broadway, NY, NY", _
-            .Latitude = 40.721336, _
-            .Longitude = -73.999771, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "555 broadway, ny, ny", _
-            .Latitude = 40.723883, _
-            .Longitude = -73.998296, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "375 West Broadway, NY, NY", _
-            .Latitude = 40.7235, _
-            .Longitude = -74.002602, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "35 howard st, NY, NY", _
-            .Latitude = 40.719524, _
-            .Longitude = -74.00103, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Pier 17 NYC", _
-            .Latitude = 40.706366, _
-            .Longitude = -74.002689, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "120 Liberty St NYC", _
-            .Latitude = 40.709774, _
-            .Longitude = -74.012451, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "80 White Street, NY, NY", _
-            .Latitude = 40.717834, _
-            .Longitude = -74.002052, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "Manhattan, NY", _
-            .Latitude = 40.71443, _
-            .Longitude = -74.0061, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "22 read st, ny", _
-            .Latitude = 40.714201, _
-            .Longitude = -74.004491, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "130 Mulberry St, New York, NY 10013-5547", _
-            .Latitude = 40.718288, _
-            .Longitude = -73.997711, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "new york city, ny", _
-            .Latitude = 40.71455, _
-            .Longitude = -74.007125, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "10038", _
-            .Latitude = 40.7092119, _
-            .Longitude = -74.0033631, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "11 Wall St, New York, NY 10005-1905", _
-            .Latitude = 40.70729, _
-            .Longitude = -74.011201, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "89 Reade St, New York, New York 10007", _
-            .Latitude = 40.713456, _
-            .Longitude = -74.003499, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "265 Canal St, New York, NY 10013-6010", _
-            .Latitude = 40.718885, _
-            .Longitude = -74.0009, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "39 Broadway, New York, NY 10006-3003", _
-            .Latitude = 40.713345, _
-            .Longitude = -73.996132, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "25 beaver street new york ny", _
-            .Latitude = 40.705111, _
-            .Longitude = -74.012007, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "100 church street new york ny", _
-            .Latitude = 40.713043, _
-            .Longitude = -74.009637, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "69 Mercer St, New York, NY 10012-4440", _
-            .Latitude = 40.722649, _
-            .Longitude = -74.00061, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "111 Worth St, New York, NY 10013-4008", _
-            .Latitude = 40.715921, _
-            .Longitude = -74.00341, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "240-248 Broadway, New York, New York 10038", _
-            .Latitude = 40.712769, _
-            .Longitude = -74.007681, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "12 Maiden Ln, New York, NY 10038-4002", _
-            .Latitude = 40.709446, _
-            .Longitude = -74.009576, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "291 Broadway, New York, NY 10007-1814", _
-            .Latitude = 40.715, _
-            .Longitude = -74.006134, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "55 Liberty St, New York, NY 10005-1003", _
-            .Latitude = 40.708843, _
-            .Longitude = -74.009384, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "Brooklyn Bridge, NY", _
-            .Latitude = 40.706344, _
-            .Longitude = -73.997439, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "wall street", _
-            .Latitude = 40.7063889, _
-            .Longitude = -74.0094444, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "south street seaport, ny", _
-            .Latitude = 40.7069501, _
-            .Longitude = -74.0030848, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "little italy, ny", _
-            .Latitude = 40.719692, _
-            .Longitude = -73.9977647, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "47 Pine St, New York, NY 10005-1513", _
-            .Latitude = 40.706734, _
-            .Longitude = -74.008928, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "22 cortlandt street new york ny", _
-            .Latitude = 40.710082, _
-            .Longitude = -74.010251, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "105 reade street new york ny", _
-            .Latitude = 40.715633, _
-            .Longitude = -74.008522, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "2 lafayette street new york ny", _
-            .Latitude = 40.714031, _
-            .Longitude = -74.003891, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "53 crosby street new york ny", _
-            .Latitude = 40.721977, _
-            .Longitude = -73.998245, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "2 Lafayette St, New York, NY 10007-1307", _
-            .Latitude = 40.714031, _
-            .Longitude = -74.003891, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "105 Reade St, New York, NY 10013-3840", _
-            .Latitude = 40.715633, _
-            .Longitude = -74.008522, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "chinatown, ny", _
-            .Latitude = 40.7159556, _
-            .Longitude = -73.9974133, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, _
-            New Address() With { _
-            .AddressString = "250 Broadway, New York, NY 10007-2516", _
-            .Latitude = 40.713018, _
-            .Longitude = -74.00747, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "156 William St, New York, NY 10038-2609", _
-            .Latitude = 40.709797, _
-            .Longitude = -74.005577, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "100 Church St, New York, NY 10007-2601", _
-            .Latitude = 40.713043, _
-            .Longitude = -74.009637, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
-        }, New Address() With { _
-            .AddressString = "33 Beaver St, New York, NY 10004-2736", _
-            .Latitude = 40.705098, _
-            .Longitude = -74.01172, _
-            .Time = 0, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing _
+        Dim addresses As Address() = New Address() {New Address() With {
+            .AddressString = "40 Mercer st, New York, NY",
+            .IsDepot = True,
+            .Latitude = 40.7213583,
+            .Longitude = -74.0013082,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "new york, ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Manhatten Island NYC",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "503 W139 St, NY,NY",
+            .Latitude = 40.7109062,
+            .Longitude = -74.0091848,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "203 grand st, new york, ny",
+            .Latitude = 40.718899,
+            .Longitude = -73.996732,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "119 Church Street",
+            .Latitude = 40.7137757,
+            .Longitude = -74.0088238,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "new york ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "broadway street, new york",
+            .Latitude = 40.7191551,
+            .Longitude = -74.0020849,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Ground Zero, Vesey-Liberty-Church-West Streets New York NY 10038",
+            .Latitude = 40.7233126,
+            .Longitude = -74.0116602,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "226 ilyssa way staten lsland ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "185 franklin st.",
+            .Latitude = 40.7192099,
+            .Longitude = -74.009767,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "new york city,",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "11 e. broaway 11038",
+            .Latitude = 40.713206,
+            .Longitude = -73.9974019,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Brooklyn Bridge, NY",
+            .Latitude = 40.7053804,
+            .Longitude = -73.9962503,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "World Trade Center Site, NY",
+            .Latitude = 40.711498,
+            .Longitude = -74.012299,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "New York Stock Exchange, NY",
+            .Latitude = 40.7074242,
+            .Longitude = -74.0116342,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Wall Street, NY",
+            .Latitude = 40.7079825,
+            .Longitude = -74.0079781,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "Trinity Church, NY",
+            .Latitude = 40.7081426,
+            .Longitude = -74.0120511,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "World Financial Center, NY",
+            .Latitude = 40.710475,
+            .Longitude = -74.015493,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Federal Hall, NY",
+            .Latitude = 40.7073034,
+            .Longitude = -74.0102734,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Flatiron Building, NY",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "South Street Seaport, NY",
+            .Latitude = 40.706921,
+            .Longitude = -74.003638,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Rockefeller Center, NY",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "FAO Schwarz, NY",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Woolworth Building, NY",
+            .Latitude = 40.7123903,
+            .Longitude = -74.0083309,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Met Life Building, NY",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "SOHO/Tribeca, NY",
+            .Latitude = 40.718565,
+            .Longitude = -74.012017,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "MacyГўв‚¬в„ўs, NY",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "City Hall, NY, NY",
+            .Latitude = 40.7127047,
+            .Longitude = -74.0058663,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "Macy&amp;acirc;в‚¬в„ўs, NY",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "1452 potter blvd bayshore ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "55 Church St. New York, NY",
+            .Latitude = 40.711232,
+            .Longitude = -74.010268,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "55 Church St, New York, NY",
+            .Latitude = 40.711232,
+            .Longitude = -74.010268,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "79 woodlawn dr revena ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "135 main st revena ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "250 greenwich st, new york, ny",
+            .Latitude = 40.713159,
+            .Longitude = -74.011889,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "79 grand, new york, ny",
+            .Latitude = 40.7216958,
+            .Longitude = -74.0024352,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "World trade center" & vbLf,
+            .Latitude = 40.711626,
+            .Longitude = -74.010714,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "World trade centern",
+            .Latitude = 40.713291,
+            .Longitude = -74.011835,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "391 broadway new york",
+            .Latitude = 40.7183693,
+            .Longitude = -74.00278,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Fletcher street",
+            .Latitude = 40.7063954,
+            .Longitude = -74.0056353,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "2 Plum LanenPlainview New York",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "50 Kennedy drivenPlainview New York",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "7 Crestwood DrivenPlainview New York",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "85 west street nyc",
+            .Latitude = 40.709646,
+            .Longitude = -74.014614,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "New York, New York",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "89 Reade St, New York City, New York 10013",
+            .Latitude = 40.714297,
+            .Longitude = -74.005966,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "100 white st",
+            .Latitude = 40.7172477,
+            .Longitude = -74.0014351,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "100 white st" & vbLf & "33040",
+            .Latitude = 40.7172477,
+            .Longitude = -74.0014351,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Canal st and mulberry",
+            .Latitude = 40.717088,
+            .Longitude = -73.9986025,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "91-83 111st st" & vbLf & "Richmond hills ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "122-09 liberty avenOzone park ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "80-16 101 avenOzone park ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "6302 woodhaven blvdnRego park ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "39-02 64th stnWoodside ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "New York City, NY,",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Pine st",
+            .Latitude = 40.7069754,
+            .Longitude = -74.0089557,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Wall st",
+            .Latitude = 40.7079825,
+            .Longitude = -74.0079781,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "32 avenue of the Americas, NY, NY",
+            .Latitude = 40.720114,
+            .Longitude = -74.005092,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "260 west broadway, NY, NY",
+            .Latitude = 40.720621,
+            .Longitude = -74.005567,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Long island, ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "27 Carley ave" & vbLf & "Huntington ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "17 west neck RdnHuntington ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "206 washington st",
+            .Latitude = 40.7131577,
+            .Longitude = -74.0126091,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Cipriani new york",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "Byshnell Basin. NY",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "89 Reade St, New York, New York 10013",
+            .Latitude = 40.714297,
+            .Longitude = -74.005966,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "250 Greenwich St, New York, New York 10007",
+            .Latitude = 40.7133,
+            .Longitude = -74.012,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "64 Bowery, New York, New York 10013",
+            .Latitude = 40.716554,
+            .Longitude = -73.99627,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "142-156 Mulberry St, New York, New York 10013",
+            .Latitude = 40.7192764,
+            .Longitude = -73.9973096,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "80 Spring St, New York, New York 10012",
+            .Latitude = 40.722659,
+            .Longitude = -73.998182,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "182 Duane street ny",
+            .Latitude = 40.7170879,
+            .Longitude = -74.010121,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "182 Duane St, New York, New York 10013",
+            .Latitude = 40.7170879,
+            .Longitude = -74.010121,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "462 broome street nyc",
+            .Latitude = 40.72258,
+            .Longitude = -74.000898,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "117 mercer street nyc",
+            .Latitude = 40.7239679,
+            .Longitude = -73.9991585,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Lucca antiques" & vbLf & "182 Duane St, New York, New York 10013",
+            .Latitude = 40.7167516,
+            .Longitude = -74.0087482,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Room and board" & vbLf & "105 Wooster street nyc",
+            .Latitude = 40.7229097,
+            .Longitude = -74.0021852,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "Lucca antiquesn182 Duane St, New York, New York 10013",
+            .Latitude = 40.7167516,
+            .Longitude = -74.0087482,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Room and boardn105 Wooster street nyc",
+            .Latitude = 40.7229097,
+            .Longitude = -74.0021852,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Lucca antiques 182 Duane st new York ny",
+            .Latitude = 40.7170879,
+            .Longitude = -74.010121,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Property" & vbLf & "14 Wooster street nyc",
+            .Latitude = 40.7229097,
+            .Longitude = -74.0021852,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "101 Crosby street nyc",
+            .Latitude = 40.723573,
+            .Longitude = -73.996954,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Room and board " & vbLf & "105 Wooster street nyc",
+            .Latitude = 40.7229097,
+            .Longitude = -74.0021852,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "Propertyn14 Wooster street nyc",
+            .Latitude = 40.7229097,
+            .Longitude = -74.0021852,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Room and board n105 Wooster street nyc",
+            .Latitude = 40.7229097,
+            .Longitude = -74.0021852,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Mecox gardens" & vbLf & "926 Lexington nyc",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "25 sybil&apos;s crossing Kent lakes, ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "10149 ASHDALE LANE" & vbTab & "67" & vbTab & "67393253" & vbTab & vbTab & vbTab & "SANTEE" & vbTab & "CA" & vbTab & "92071" & vbTab & vbTab & "280501691" & vbTab & "67393253" & vbTab & "IFI" & vbTab & "280501691" & vbTab & "05-JUN-10" & vbTab & "67393253",
+            .Latitude = 40.7143,
+            .Longitude = -74.0067,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "193 Lakebridge Dr, Kings Paark, NY",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "219 west creek",
+            .Latitude = 40.7198564,
+            .Longitude = -74.0121098,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "14 North Moore Street" & vbLf & "New York, ny",
+            .Latitude = 40.719697,
+            .Longitude = -74.00661,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "14 North Moore StreetnNew York, ny",
+            .Latitude = 40.719697,
+            .Longitude = -74.00661,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "14 North Moore Street New York, ny",
+            .Latitude = 40.719697,
+            .Longitude = -74.00661,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "30-38 Fulton St, New York, New York 10038",
+            .Latitude = 40.7077737,
+            .Longitude = -74.0043299,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "73 Spring Street Ny NY",
+            .Latitude = 40.7225378,
+            .Longitude = -73.9976742,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "119 Mercer Street Ny NY",
+            .Latitude = 40.724139,
+            .Longitude = -73.999311,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "525 Broadway Ny NY",
+            .Latitude = 40.723041,
+            .Longitude = -73.999165,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Church St",
+            .Latitude = 40.7154338,
+            .Longitude = -74.007543,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "135 union stnWatertown ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "21101 coffeen stnWatertown ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "215 Washington stnWatertown ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "619 mill stnWatertown ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "3 canel st, new York, ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "new york city new york",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "50 grand street",
+            .Latitude = 40.722578,
+            .Longitude = -74.0038019,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Orient ferry, li ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Hilton hotel river head li ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "116 park pl",
+            .Latitude = 40.7140565,
+            .Longitude = -74.0110155,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "long islans new york",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "1 prospect pointe niagra falls ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "New York City" & vbTab & "NY",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "pink berry ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "New York City" & vbTab & " NY",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "10108",
+            .Latitude = 40.7143,
+            .Longitude = -74.0067,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Ann st",
+            .Latitude = 40.7105937,
+            .Longitude = -74.0073715,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Hok 620 ave of Americas new York ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Som 14 wall st nyc",
+            .Latitude = 40.7076179,
+            .Longitude = -74.010763,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "New York ,ny",
+            .Latitude = 40.7142691,
+            .Longitude = -74.0059729,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "52 prince st. 10012",
+            .Latitude = 40.723584,
+            .Longitude = -73.996117,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "451 broadway 10013",
+            .Latitude = 40.7205177,
+            .Longitude = -74.0009557,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Dover street",
+            .Latitude = 40.7087886,
+            .Longitude = -74.0008644,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Murray st",
+            .Latitude = 40.7148929,
+            .Longitude = -74.0113349,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "85 West St, New York, New York",
+            .Latitude = 40.709646,
+            .Longitude = -74.014614,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "NYC",
+            .Latitude = 40.7143528,
+            .Longitude = -74.0059731,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "64 trinity place, ny, ny",
+            .Latitude = 40.7081649,
+            .Longitude = -74.0127168,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "150 broadway ny ny",
+            .Latitude = 40.709185,
+            .Longitude = -74.010033,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Pinegrove Dude Ranch 31 cherrytown Rd Kerhinkson Ny",
+            .Latitude = 40.7143528,
+            .Longitude = -74.0059731,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Front street",
+            .Latitude = 40.706399,
+            .Longitude = -74.0045493,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "234 canal St new York, NY 10013",
+            .Latitude = 40.717701,
+            .Longitude = -73.999957,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "72 spring street, new york ny 10012",
+            .Latitude = 40.7225093,
+            .Longitude = -73.997654,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "150 spring street, new york, ny 10012",
+            .Latitude = 40.7242393,
+            .Longitude = -74.0014922,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "580 broadway street, new york, ny 10012",
+            .Latitude = 40.724421,
+            .Longitude = -73.997026,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "42 trinity place, new york, ny 10007",
+            .Latitude = 40.7074,
+            .Longitude = -74.013551,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "baco ny",
+            .Latitude = 40.7143528,
+            .Longitude = -74.0059731,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Micro Tel Inn Alburn New York",
+            .Latitude = 40.7143528,
+            .Longitude = -74.0059731,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "20 Cedar Close",
+            .Latitude = 40.7068734,
+            .Longitude = -74.0078613,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "South street",
+            .Latitude = 40.7080184,
+            .Longitude = -73.9999414,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "47 Lafayette street",
+            .Latitude = 40.7159204,
+            .Longitude = -74.0027332,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Newyork",
+            .Latitude = 40.7143528,
+            .Longitude = -74.0059731,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Ground Zero, NY",
+            .Latitude = 40.7143528,
+            .Longitude = -74.0059731,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "GROUND ZERO NY",
+            .Latitude = 40.7143528,
+            .Longitude = -74.0059731,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "33400 SE Harrison",
+            .Latitude = 40.71884,
+            .Longitude = -74.010333,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "new york, new york",
+            .Latitude = 40.7143528,
+            .Longitude = -74.0059731,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "8 Greene St, New York, 10013",
+            .Latitude = 40.720616,
+            .Longitude = -74.00276,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "226 w 44st new york city",
+            .Latitude = 40.7143528,
+            .Longitude = -74.0059731,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "s street seaport 11 fulton st new york city",
+            .Latitude = 40.706915,
+            .Longitude = -74.0033215,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "30 Rockefeller Plaza w 49th St New York City",
+            .Latitude = 40.7143528,
+            .Longitude = -74.0059731,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "30 Rockefeller Plaza 50th St New York City",
+            .Latitude = 40.7143528,
+            .Longitude = -74.0059731,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "S. Street Seaport 11 Fulton St. New York City",
+            .Latitude = 40.706915,
+            .Longitude = -74.0033215,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "30 rockefeller plaza w 49th st, new york city",
+            .Latitude = 40.7143528,
+            .Longitude = -74.0059731,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "30 rockefeller plaza 50th st, new york city",
+            .Latitude = 40.7143528,
+            .Longitude = -74.0059731,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "11 fulton st, new york city",
+            .Latitude = 40.706915,
+            .Longitude = -74.0033215,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "new york city ny",
+            .Latitude = 40.7143528,
+            .Longitude = -74.0059731,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Big apple",
+            .Latitude = 40.7143528,
+            .Longitude = -74.0059731,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Ny",
+            .Latitude = 40.7143528,
+            .Longitude = -74.0059731,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "New York new York",
+            .Latitude = 40.7143528,
+            .Longitude = -74.0059731,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "83-85 Chambers St, New York, New York 10007",
+            .Latitude = 40.714813,
+            .Longitude = -74.006889,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "New York",
+            .Latitude = 40.7145502,
+            .Longitude = -74.0071249,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "102 North End Ave NY, NY",
+            .Latitude = 40.714798,
+            .Longitude = -74.015969,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "57 Thompson St, New York, New York 10012",
+            .Latitude = 40.72414,
+            .Longitude = -74.003586,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "new york city",
+            .Latitude = 40.71455,
+            .Longitude = -74.007125,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "nyc, ny",
+            .Latitude = 40.7145502,
+            .Longitude = -74.0071249,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "New York NY",
+            .Latitude = 40.71455,
+            .Longitude = -74.007125,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "285 West Broadway New York, NY 10013",
+            .Latitude = 40.720875,
+            .Longitude = -74.004631,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "100 avenue of the americas New York, NY 10013",
+            .Latitude = 40.723312,
+            .Longitude = -74.004395,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "270 Lafeyette st New York, NY 10012",
+            .Latitude = 40.723879,
+            .Longitude = -73.996527,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "560 Broadway New York, NY 10012",
+            .Latitude = 40.723854,
+            .Longitude = -73.997498,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "42 Wooster St New York, NY 10013",
+            .Latitude = 40.722386,
+            .Longitude = -74.002422,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "42 Wooster StreetNew York, NY 10013-2230",
+            .Latitude = 40.7223633,
+            .Longitude = -74.002624,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "504 Broadway, New York, NY 10012",
+            .Latitude = 40.7221444,
+            .Longitude = -73.9992714,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "426 Broome Street, New York, NY 10013",
+            .Latitude = 40.7213295,
+            .Longitude = -73.9987121,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "City hall, nyc",
+            .Latitude = 40.7122066,
+            .Longitude = -74.0055026,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "South street seaport, nyc",
+            .Latitude = 40.7069501,
+            .Longitude = -74.0030848,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "Ground zero, nyc",
+            .Latitude = 40.711641,
+            .Longitude = -74.012253,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Ground zero",
+            .Latitude = 40.711641,
+            .Longitude = -74.012253,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Mulberry and canal, NYC",
+            .Latitude = 40.71709,
+            .Longitude = -73.99859,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "World Trade Center, NYC",
+            .Latitude = 40.711667,
+            .Longitude = -74.0125,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "South Street Seaport",
+            .Latitude = 40.7069501,
+            .Longitude = -74.0030848,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Wall Street and Nassau Street, NYC",
+            .Latitude = 40.70714,
+            .Longitude = -74.01069,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "Trinity Church, NYC",
+            .Latitude = 40.7081269,
+            .Longitude = -74.0125691,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Federal Hall National Memorial",
+            .Latitude = 40.7069515,
+            .Longitude = -74.0101638,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Little Italy, NYC",
+            .Latitude = 40.719692,
+            .Longitude = -73.997765,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "New York, NY",
+            .Latitude = 40.71455,
+            .Longitude = -74.007125,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "New York City, NY,",
+            .Latitude = 40.71455,
+            .Longitude = -74.007125,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "new york,ny",
+            .Latitude = 40.71455,
+            .Longitude = -74.00713,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "Odeon cinema",
+            .Latitude = 40.71683,
+            .Longitude = -74.00803,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "New York City",
+            .Latitude = 40.71455,
+            .Longitude = -74.00713,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "52 broadway, ny,ny 1004",
+            .Latitude = 40.7065,
+            .Longitude = -74.0123,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "52 broadway, ny,ny 10004",
+            .Latitude = 40.7065,
+            .Longitude = -74.0123,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "22 beaver st, ny,ny 10004",
+            .Latitude = 40.70482,
+            .Longitude = -74.01218,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "54 pine st,ny,ny 10005",
+            .Latitude = 40.70686,
+            .Longitude = -74.00849,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "114 liberty st, ny,ny 10006",
+            .Latitude = 40.70977,
+            .Longitude = -74.0122,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "215 canal st,ny,ny 10013",
+            .Latitude = 40.71747,
+            .Longitude = -73.99895,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "new york city ny",
+            .Latitude = 40.71455,
+            .Longitude = -74.00713,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "World Trade Center, New York, NY",
+            .Latitude = 40.71167,
+            .Longitude = -74.0125,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Chinatown, New York, NY",
+            .Latitude = 40.71596,
+            .Longitude = -73.99741,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "101 murray street new york, ny",
+            .Latitude = 40.71526,
+            .Longitude = -74.01251,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "nyc",
+            .Latitude = 40.71455,
+            .Longitude = -74.00712,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "510 broadway new york",
+            .Latitude = 40.72234,
+            .Longitude = -73.999016,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "nyc",
+            .Latitude = 40.7145502,
+            .Longitude = -74.0071249,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Little Italy",
+            .Latitude = 40.719692,
+            .Longitude = -73.9977647,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "463 Broadway, New York, NY",
+            .Latitude = 40.721059,
+            .Longitude = -74.000688,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "222 West Broadway, New York, NY",
+            .Latitude = 40.719352,
+            .Longitude = -74.006417,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "270 Lafayette street new York new york",
+            .Latitude = 40.723879,
+            .Longitude = -73.996527,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "New York, NY USA",
+            .Latitude = 40.71455,
+            .Longitude = -74.007125,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "97 Kenmare Street, New York, NY 10012",
+            .Latitude = 40.721437,
+            .Longitude = -73.996911,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "19 Beekman St, New York, New York 10038",
+            .Latitude = 40.710754,
+            .Longitude = -74.006287,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Soho",
+            .Latitude = 40.7241404,
+            .Longitude = -74.0020213,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Bergen, New York",
+            .Latitude = 40.71455,
+            .Longitude = -74.007125,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "478 Broadway, NY, NY",
+            .Latitude = 40.721336,
+            .Longitude = -73.999771,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "555 broadway, ny, ny",
+            .Latitude = 40.723883,
+            .Longitude = -73.998296,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "375 West Broadway, NY, NY",
+            .Latitude = 40.7235,
+            .Longitude = -74.002602,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "35 howard st, NY, NY",
+            .Latitude = 40.719524,
+            .Longitude = -74.00103,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Pier 17 NYC",
+            .Latitude = 40.706366,
+            .Longitude = -74.002689,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "120 Liberty St NYC",
+            .Latitude = 40.709774,
+            .Longitude = -74.012451,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "80 White Street, NY, NY",
+            .Latitude = 40.717834,
+            .Longitude = -74.002052,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "Manhattan, NY",
+            .Latitude = 40.71443,
+            .Longitude = -74.0061,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "22 read st, ny",
+            .Latitude = 40.714201,
+            .Longitude = -74.004491,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "130 Mulberry St, New York, NY 10013-5547",
+            .Latitude = 40.718288,
+            .Longitude = -73.997711,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "new york city, ny",
+            .Latitude = 40.71455,
+            .Longitude = -74.007125,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "10038",
+            .Latitude = 40.7092119,
+            .Longitude = -74.0033631,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "11 Wall St, New York, NY 10005-1905",
+            .Latitude = 40.70729,
+            .Longitude = -74.011201,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "89 Reade St, New York, New York 10007",
+            .Latitude = 40.713456,
+            .Longitude = -74.003499,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "265 Canal St, New York, NY 10013-6010",
+            .Latitude = 40.718885,
+            .Longitude = -74.0009,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "39 Broadway, New York, NY 10006-3003",
+            .Latitude = 40.713345,
+            .Longitude = -73.996132,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "25 beaver street new york ny",
+            .Latitude = 40.705111,
+            .Longitude = -74.012007,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "100 church street new york ny",
+            .Latitude = 40.713043,
+            .Longitude = -74.009637,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "69 Mercer St, New York, NY 10012-4440",
+            .Latitude = 40.722649,
+            .Longitude = -74.00061,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "111 Worth St, New York, NY 10013-4008",
+            .Latitude = 40.715921,
+            .Longitude = -74.00341,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "240-248 Broadway, New York, New York 10038",
+            .Latitude = 40.712769,
+            .Longitude = -74.007681,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "12 Maiden Ln, New York, NY 10038-4002",
+            .Latitude = 40.709446,
+            .Longitude = -74.009576,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "291 Broadway, New York, NY 10007-1814",
+            .Latitude = 40.715,
+            .Longitude = -74.006134,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "55 Liberty St, New York, NY 10005-1003",
+            .Latitude = 40.708843,
+            .Longitude = -74.009384,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "Brooklyn Bridge, NY",
+            .Latitude = 40.706344,
+            .Longitude = -73.997439,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "wall street",
+            .Latitude = 40.7063889,
+            .Longitude = -74.0094444,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "south street seaport, ny",
+            .Latitude = 40.7069501,
+            .Longitude = -74.0030848,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "little italy, ny",
+            .Latitude = 40.719692,
+            .Longitude = -73.9977647,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "47 Pine St, New York, NY 10005-1513",
+            .Latitude = 40.706734,
+            .Longitude = -74.008928,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "22 cortlandt street new york ny",
+            .Latitude = 40.710082,
+            .Longitude = -74.010251,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "105 reade street new york ny",
+            .Latitude = 40.715633,
+            .Longitude = -74.008522,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "2 lafayette street new york ny",
+            .Latitude = 40.714031,
+            .Longitude = -74.003891,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "53 crosby street new york ny",
+            .Latitude = 40.721977,
+            .Longitude = -73.998245,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "2 Lafayette St, New York, NY 10007-1307",
+            .Latitude = 40.714031,
+            .Longitude = -74.003891,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "105 Reade St, New York, NY 10013-3840",
+            .Latitude = 40.715633,
+            .Longitude = -74.008522,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "chinatown, ny",
+            .Latitude = 40.7159556,
+            .Longitude = -73.9974133,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        },
+            New Address() With {
+            .AddressString = "250 Broadway, New York, NY 10007-2516",
+            .Latitude = 40.713018,
+            .Longitude = -74.00747,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "156 William St, New York, NY 10038-2609",
+            .Latitude = 40.709797,
+            .Longitude = -74.005577,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "100 Church St, New York, NY 10007-2601",
+            .Latitude = 40.713043,
+            .Longitude = -74.009637,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
+        }, New Address() With {
+            .AddressString = "33 Beaver St, New York, NY 10004-2736",
+            .Latitude = 40.705098,
+            .Longitude = -74.01172,
+            .Time = 0,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing
         }}
 #End Region
         ' Set parameters
@@ -3761,9 +3762,9 @@ End Class
             .Metric = Metric.Geodesic
         }
 
-        Dim optimizationParameters As New OptimizationParameters() With { _
-            .Addresses = addresses, _
-            .Parameters = parameters _
+        Dim optimizationParameters As New OptimizationParameters() With {
+            .Addresses = addresses,
+            .Parameters = parameters
         }
 
         If skip = "yes" Then
@@ -3779,7 +3780,7 @@ End Class
 
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub MultipleDepotMultipleDriverWith24StopsTimeWindowTest()
         If skip = "yes" Then Return
 
@@ -3787,201 +3788,201 @@ End Class
 
         ' Prepare the addresses
 #Region "Addresses"
-        Dim addresses As Address() = New Address() {New Address() With { _
-            .AddressString = "3634 W Market St, Fairlawn, OH 44333", _
-            .IsDepot = True, _
-            .Latitude = 41.135762259364, _
-            .Longitude = -81.629313826561, _
-            .Time = 300, _
-            .TimeWindowStart = 28800, _
-            .TimeWindowEnd = 29465 _
-        }, New Address() With { _
-            .AddressString = "1218 Ruth Ave, Cuyahoga Falls, OH 44221", _
-            .Latitude = 41.143505096435, _
-            .Longitude = -81.46549987793, _
-            .Time = 300, _
-            .TimeWindowStart = 29465, _
-            .TimeWindowEnd = 30529 _
-        }, New Address() With { _
-            .AddressString = "512 Florida Pl, Barberton, OH 44203", _
-            .Latitude = 41.003671512008, _
-            .Longitude = -81.598461046815, _
-            .Time = 300, _
-            .TimeWindowStart = 30529, _
-            .TimeWindowEnd = 33479 _
-        }, New Address() With { _
-            .AddressString = "512 Florida Pl, Barberton, OH 44203", _
-            .Latitude = 41.003671512008, _
-            .Longitude = -81.598461046815, _
-            .Time = 300, _
-            .TimeWindowStart = 33479, _
-            .TimeWindowEnd = 33944 _
-        }, New Address() With { _
-            .AddressString = "3495 Purdue St, Cuyahoga Falls, OH 44221", _
-            .Latitude = 41.162971496582, _
-            .Longitude = -81.479049682617, _
-            .Time = 300, _
-            .TimeWindowStart = 33944, _
-            .TimeWindowEnd = 34801 _
-        }, New Address() With { _
-            .AddressString = "1659 Hibbard Dr, Stow, OH 44224", _
-            .Latitude = 41.194505989552, _
-            .Longitude = -81.443351581693, _
-            .Time = 300, _
-            .TimeWindowStart = 34801, _
-            .TimeWindowEnd = 36366 _
-        }, _
-            New Address() With { _
-            .AddressString = "2705 N River Rd, Stow, OH 44224", _
-            .Latitude = 41.145240783691, _
-            .Longitude = -81.410247802734, _
-            .Time = 300, _
-            .TimeWindowStart = 36366, _
-            .TimeWindowEnd = 39173 _
-        }, New Address() With { _
-            .AddressString = "10159 Bissell Dr, Twinsburg, OH 44087", _
-            .Latitude = 41.340042114258, _
-            .Longitude = -81.421226501465, _
-            .Time = 300, _
-            .TimeWindowStart = 39173, _
-            .TimeWindowEnd = 41617 _
-        }, New Address() With { _
-            .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262", _
-            .Latitude = 41.148578643799, _
-            .Longitude = -81.429229736328, _
-            .Time = 300, _
-            .TimeWindowStart = 41617, _
-            .TimeWindowEnd = 43660 _
-        }, New Address() With { _
-            .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262", _
-            .Latitude = 41.148579, _
-            .Longitude = -81.42923, _
-            .Time = 300, _
-            .TimeWindowStart = 43660, _
-            .TimeWindowEnd = 46392 _
-        }, New Address() With { _
-            .AddressString = "512 Florida Pl, Barberton, OH 44203", _
-            .Latitude = 41.003671512008, _
-            .Longitude = -81.598461046815, _
-            .Time = 300, _
-            .TimeWindowStart = 46392, _
-            .TimeWindowEnd = 48089 _
-        }, New Address() With { _
-            .AddressString = "559 W Aurora Rd, Northfield, OH 44067", _
-            .Latitude = 41.315116882324, _
-            .Longitude = -81.558746337891, _
-            .Time = 300, _
-            .TimeWindowStart = 48089, _
-            .TimeWindowEnd = 48449 _
-        }, _
-            New Address() With { _
-            .AddressString = "3933 Klein Ave, Stow, OH 44224", _
-            .Latitude = 41.169467926025, _
-            .Longitude = -81.429420471191, _
-            .Time = 300, _
-            .TimeWindowStart = 48449, _
-            .TimeWindowEnd = 50152 _
-        }, New Address() With { _
-            .AddressString = "2148 8th St, Cuyahoga Falls, OH 44221", _
-            .Latitude = 41.136692047119, _
-            .Longitude = -81.493492126465, _
-            .Time = 300, _
-            .TimeWindowStart = 50152, _
-            .TimeWindowEnd = 51682 _
-        }, New Address() With { _
-            .AddressString = "3731 Osage St, Stow, OH 44224", _
-            .Latitude = 41.161357879639, _
-            .Longitude = -81.42293548584, _
-            .Time = 300, _
-            .TimeWindowStart = 51682, _
-            .TimeWindowEnd = 54379 _
-        }, New Address() With { _
-            .AddressString = "3862 Klein Ave, Stow, OH 44224", _
-            .Latitude = 41.167895123363, _
-            .Longitude = -81.429973393679, _
-            .Time = 300, _
-            .TimeWindowStart = 54379, _
-            .TimeWindowEnd = 54879 _
-        }, New Address() With { _
-            .AddressString = "138 Northwood Ln, Tallmadge, OH 44278", _
-            .Latitude = 41.085464134812, _
-            .Longitude = -81.447411775589, _
-            .Time = 300, _
-            .TimeWindowStart = 54879, _
-            .TimeWindowEnd = 56613 _
-        }, New Address() With { _
-            .AddressString = "3401 Saratoga Blvd, Stow, OH 44224", _
-            .Latitude = 41.148849487305, _
-            .Longitude = -81.407363891602, _
-            .Time = 300, _
-            .TimeWindowStart = 56613, _
-            .TimeWindowEnd = 57052 _
-        }, _
-            New Address() With { _
-            .AddressString = "5169 Brockton Dr, Stow, OH 44224", _
-            .Latitude = 41.195003509521, _
-            .Longitude = -81.392700195312, _
-            .Time = 300, _
-            .TimeWindowStart = 57052, _
-            .TimeWindowEnd = 59004 _
-        }, New Address() With { _
-            .AddressString = "5169 Brockton Dr, Stow, OH 44224", _
-            .Latitude = 41.195003509521, _
-            .Longitude = -81.392700195312, _
-            .Time = 300, _
-            .TimeWindowStart = 59004, _
-            .TimeWindowEnd = 60027 _
-        }, New Address() With { _
-            .AddressString = "458 Aintree Dr, Munroe Falls, OH 44262", _
-            .Latitude = 41.1266746521, _
-            .Longitude = -81.445808410645, _
-            .Time = 300, _
-            .TimeWindowStart = 60027, _
-            .TimeWindowEnd = 60375 _
-        }, New Address() With { _
-            .AddressString = "512 Florida Pl, Barberton, OH 44203", _
-            .Latitude = 41.003671512008, _
-            .Longitude = -81.598461046815, _
-            .Time = 300, _
-            .TimeWindowStart = 60375, _
-            .TimeWindowEnd = 63891 _
-        }, New Address() With { _
-            .AddressString = "2299 Tyre Dr, Hudson, OH 44236", _
-            .Latitude = 41.250511169434, _
-            .Longitude = -81.420433044434, _
-            .Time = 300, _
-            .TimeWindowStart = 63891, _
-            .TimeWindowEnd = 65277 _
-        }, New Address() With { _
-            .AddressString = "2148 8th St, Cuyahoga Falls, OH 44221", _
-            .Latitude = 41.136692047119, _
-            .Longitude = -81.493492126465, _
-            .Time = 300, _
-            .TimeWindowStart = 65277, _
-            .TimeWindowEnd = 68545 _
+        Dim addresses As Address() = New Address() {New Address() With {
+            .AddressString = "3634 W Market St, Fairlawn, OH 44333",
+            .IsDepot = True,
+            .Latitude = 41.135762259364,
+            .Longitude = -81.629313826561,
+            .Time = 300,
+            .TimeWindowStart = 28800,
+            .TimeWindowEnd = 29465
+        }, New Address() With {
+            .AddressString = "1218 Ruth Ave, Cuyahoga Falls, OH 44221",
+            .Latitude = 41.143505096435,
+            .Longitude = -81.46549987793,
+            .Time = 300,
+            .TimeWindowStart = 29465,
+            .TimeWindowEnd = 30529
+        }, New Address() With {
+            .AddressString = "512 Florida Pl, Barberton, OH 44203",
+            .Latitude = 41.003671512008,
+            .Longitude = -81.598461046815,
+            .Time = 300,
+            .TimeWindowStart = 30529,
+            .TimeWindowEnd = 33479
+        }, New Address() With {
+            .AddressString = "512 Florida Pl, Barberton, OH 44203",
+            .Latitude = 41.003671512008,
+            .Longitude = -81.598461046815,
+            .Time = 300,
+            .TimeWindowStart = 33479,
+            .TimeWindowEnd = 33944
+        }, New Address() With {
+            .AddressString = "3495 Purdue St, Cuyahoga Falls, OH 44221",
+            .Latitude = 41.162971496582,
+            .Longitude = -81.479049682617,
+            .Time = 300,
+            .TimeWindowStart = 33944,
+            .TimeWindowEnd = 34801
+        }, New Address() With {
+            .AddressString = "1659 Hibbard Dr, Stow, OH 44224",
+            .Latitude = 41.194505989552,
+            .Longitude = -81.443351581693,
+            .Time = 300,
+            .TimeWindowStart = 34801,
+            .TimeWindowEnd = 36366
+        },
+            New Address() With {
+            .AddressString = "2705 N River Rd, Stow, OH 44224",
+            .Latitude = 41.145240783691,
+            .Longitude = -81.410247802734,
+            .Time = 300,
+            .TimeWindowStart = 36366,
+            .TimeWindowEnd = 39173
+        }, New Address() With {
+            .AddressString = "10159 Bissell Dr, Twinsburg, OH 44087",
+            .Latitude = 41.340042114258,
+            .Longitude = -81.421226501465,
+            .Time = 300,
+            .TimeWindowStart = 39173,
+            .TimeWindowEnd = 41617
+        }, New Address() With {
+            .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262",
+            .Latitude = 41.148578643799,
+            .Longitude = -81.429229736328,
+            .Time = 300,
+            .TimeWindowStart = 41617,
+            .TimeWindowEnd = 43660
+        }, New Address() With {
+            .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262",
+            .Latitude = 41.148579,
+            .Longitude = -81.42923,
+            .Time = 300,
+            .TimeWindowStart = 43660,
+            .TimeWindowEnd = 46392
+        }, New Address() With {
+            .AddressString = "512 Florida Pl, Barberton, OH 44203",
+            .Latitude = 41.003671512008,
+            .Longitude = -81.598461046815,
+            .Time = 300,
+            .TimeWindowStart = 46392,
+            .TimeWindowEnd = 48089
+        }, New Address() With {
+            .AddressString = "559 W Aurora Rd, Northfield, OH 44067",
+            .Latitude = 41.315116882324,
+            .Longitude = -81.558746337891,
+            .Time = 300,
+            .TimeWindowStart = 48089,
+            .TimeWindowEnd = 48449
+        },
+            New Address() With {
+            .AddressString = "3933 Klein Ave, Stow, OH 44224",
+            .Latitude = 41.169467926025,
+            .Longitude = -81.429420471191,
+            .Time = 300,
+            .TimeWindowStart = 48449,
+            .TimeWindowEnd = 50152
+        }, New Address() With {
+            .AddressString = "2148 8th St, Cuyahoga Falls, OH 44221",
+            .Latitude = 41.136692047119,
+            .Longitude = -81.493492126465,
+            .Time = 300,
+            .TimeWindowStart = 50152,
+            .TimeWindowEnd = 51682
+        }, New Address() With {
+            .AddressString = "3731 Osage St, Stow, OH 44224",
+            .Latitude = 41.161357879639,
+            .Longitude = -81.42293548584,
+            .Time = 300,
+            .TimeWindowStart = 51682,
+            .TimeWindowEnd = 54379
+        }, New Address() With {
+            .AddressString = "3862 Klein Ave, Stow, OH 44224",
+            .Latitude = 41.167895123363,
+            .Longitude = -81.429973393679,
+            .Time = 300,
+            .TimeWindowStart = 54379,
+            .TimeWindowEnd = 54879
+        }, New Address() With {
+            .AddressString = "138 Northwood Ln, Tallmadge, OH 44278",
+            .Latitude = 41.085464134812,
+            .Longitude = -81.447411775589,
+            .Time = 300,
+            .TimeWindowStart = 54879,
+            .TimeWindowEnd = 56613
+        }, New Address() With {
+            .AddressString = "3401 Saratoga Blvd, Stow, OH 44224",
+            .Latitude = 41.148849487305,
+            .Longitude = -81.407363891602,
+            .Time = 300,
+            .TimeWindowStart = 56613,
+            .TimeWindowEnd = 57052
+        },
+            New Address() With {
+            .AddressString = "5169 Brockton Dr, Stow, OH 44224",
+            .Latitude = 41.195003509521,
+            .Longitude = -81.392700195312,
+            .Time = 300,
+            .TimeWindowStart = 57052,
+            .TimeWindowEnd = 59004
+        }, New Address() With {
+            .AddressString = "5169 Brockton Dr, Stow, OH 44224",
+            .Latitude = 41.195003509521,
+            .Longitude = -81.392700195312,
+            .Time = 300,
+            .TimeWindowStart = 59004,
+            .TimeWindowEnd = 60027
+        }, New Address() With {
+            .AddressString = "458 Aintree Dr, Munroe Falls, OH 44262",
+            .Latitude = 41.1266746521,
+            .Longitude = -81.445808410645,
+            .Time = 300,
+            .TimeWindowStart = 60027,
+            .TimeWindowEnd = 60375
+        }, New Address() With {
+            .AddressString = "512 Florida Pl, Barberton, OH 44203",
+            .Latitude = 41.003671512008,
+            .Longitude = -81.598461046815,
+            .Time = 300,
+            .TimeWindowStart = 60375,
+            .TimeWindowEnd = 63891
+        }, New Address() With {
+            .AddressString = "2299 Tyre Dr, Hudson, OH 44236",
+            .Latitude = 41.250511169434,
+            .Longitude = -81.420433044434,
+            .Time = 300,
+            .TimeWindowStart = 63891,
+            .TimeWindowEnd = 65277
+        }, New Address() With {
+            .AddressString = "2148 8th St, Cuyahoga Falls, OH 44221",
+            .Latitude = 41.136692047119,
+            .Longitude = -81.493492126465,
+            .Time = 300,
+            .TimeWindowStart = 65277,
+            .TimeWindowEnd = 68545
         }}
 #End Region
         ' Set parameters
 
-        Dim parameters As New RouteParameters() With { _
-            .AlgorithmType = AlgorithmType.CVRP_TW_MD, _
-            .RouteName = "Multiple Depot, Multiple Driver with 24 Stops, Time Window", _
-            .StoreRoute = False, _
-            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)), _
-            .RouteTime = 60 * 60 * 7, _
-            .RouteMaxDuration = 86400, _
-            .VehicleCapacity = "1", _
-            .VehicleMaxDistanceMI = "10000", _
-            .Optimize = Optimize.Distance.GetEnumDescription(), _
-            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(), _
-            .DeviceType = DeviceType.Web.GetEnumDescription(), _
-            .TravelMode = TravelMode.Driving.GetEnumDescription(), _
-            .Metric = Metric.Geodesic _
+        Dim parameters As New RouteParameters() With {
+            .AlgorithmType = AlgorithmType.CVRP_TW_MD,
+            .RouteName = "Multiple Depot, Multiple Driver with 24 Stops, Time Window",
+            .StoreRoute = False,
+            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)),
+            .RouteTime = 60 * 60 * 7,
+            .RouteMaxDuration = 86400,
+            .VehicleCapacity = "1",
+            .VehicleMaxDistanceMI = "10000",
+            .Optimize = Optimize.Distance.GetEnumDescription(),
+            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
+            .DeviceType = DeviceType.Web.GetEnumDescription(),
+            .TravelMode = TravelMode.Driving.GetEnumDescription(),
+            .Metric = Metric.Geodesic
         }
 
-        Dim optimizationParameters As New OptimizationParameters() With { _
-            .Addresses = addresses, _
-            .Parameters = parameters _
+        Dim optimizationParameters As New OptimizationParameters() With {
+            .Addresses = addresses,
+            .Parameters = parameters
         }
 
         ' Run the query
@@ -4038,12 +4039,12 @@ End Class
 
         Dim route2 As DataObjectRoute = dataObjectMDMD24.Routes(1)
 
-        Dim mergeRoutesParameters As New MergeRoutesQuery() With { _
-            .RouteIds = route1.RouteID + "," + route2.RouteID, _
-            .DepotAddress = route1.Addresses(0).AddressString.ToString(), _
-            .RemoveOrigin = False, _
-            .DepotLat = route1.Addresses(0).Latitude, _
-            .DepotLng = route1.Addresses(0).Longitude _
+        Dim mergeRoutesParameters As New MergeRoutesQuery() With {
+            .RouteIds = route1.RouteID + "," + route2.RouteID,
+            .DepotAddress = route1.Addresses(0).AddressString.ToString(),
+            .RemoveOrigin = False,
+            .DepotLat = route1.Addresses(0).Latitude,
+            .DepotLng = route1.Addresses(0).Longitude
         }
 
         Dim errorString As String = ""
@@ -4058,101 +4059,101 @@ End Class
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
 #Region "Addresses"
-        Dim addresses As Address() = New Address() {New Address() With { _
-            .AddressString = "455 S 4th St, Louisville, KY 40202", _
-            .IsDepot = True, _
-            .Latitude = 38.251698, _
-            .Longitude = -85.757308 _
-        }, New Address() With { _
-            .AddressString = "1604 PARKRIDGE PKWY, Louisville, KY, 40214", _
-            .Latitude = 38.141598, _
-            .Longitude = -85.7938461, _
-            .TimeWindowStart = 7 * 3600 + 30 * 60, _
-            .TimeWindowEnd = 7 * 3600 + 40 * 60, _
-            .TimeWindowStart2 = 8 * 3600 + 0 * 60, _
-            .TimeWindowEnd2 = 8 * 3600 + 10 * 60, _
-            .Time = 300 _
-        }, New Address() With { _
-            .AddressString = "1407 MCCOY, Louisville, KY, 40215", _
-            .Latitude = 38.202496, _
-            .Longitude = -85.786514, _
-            .TimeWindowStart = 8 * 3600 + 30 * 60, _
-            .TimeWindowEnd = 8 * 3600 + 40 * 60, _
-            .TimeWindowStart2 = 8 * 3600 + 50 * 60, _
-            .TimeWindowEnd2 = 9 * 3600 + 0 * 60, _
-            .Time = 300 _
-        }, New Address() With { _
-            .AddressString = "4805 BELLEVUE AVE, Louisville, KY, 40215", _
-            .Latitude = 38.178844, _
-            .Longitude = -85.774864, _
-            .TimeWindowStart = 9 * 3600 + 0 * 60, _
-            .TimeWindowEnd = 9 * 3600 + 15 * 60, _
-            .TimeWindowStart2 = 9 * 3600 + 30 * 60, _
-            .TimeWindowEnd2 = 9 * 3600 + 45 * 60, _
-            .Time = 100 _
-        }, New Address() With { _
-            .AddressString = "730 CECIL AVENUE, Louisville, KY, 40211", _
-            .Latitude = 38.248684, _
-            .Longitude = -85.821121, _
-            .TimeWindowStart = 10 * 3600 + 0 * 60, _
-            .TimeWindowEnd = 10 * 3600 + 15 * 60, _
-            .TimeWindowStart2 = 10 * 3600 + 30 * 60, _
-            .TimeWindowEnd2 = 10 * 3600 + 45 * 60, _
-            .Time = 300 _
-        }, New Address() With { _
-            .AddressString = "650 SOUTH 29TH ST UNIT 315, Louisville, KY, 40211", _
-            .Latitude = 38.251923, _
-            .Longitude = -85.800034, _
-            .TimeWindowStart = 11 * 3600 + 0 * 60, _
-            .TimeWindowEnd = 11 * 3600 + 15 * 60, _
-            .TimeWindowStart2 = 11 * 3600 + 30 * 60, _
-            .TimeWindowEnd2 = 11 * 3600 + 45 * 60, _
-            .Time = 300 _
-        }, New Address() With { _
-            .AddressString = "4629 HILLSIDE DRIVE, Louisville, KY, 40216", _
-            .Latitude = 38.176067, _
-            .Longitude = -85.824638, _
-            .TimeWindowStart = 12 * 3600 + 0 * 60, _
-            .TimeWindowEnd = 12 * 3600 + 15 * 60, _
-            .TimeWindowStart2 = 12 * 3600 + 30 * 60, _
-            .TimeWindowEnd2 = 12 * 3600 + 45 * 60, _
-            .Time = 300 _
-        }, New Address() With { _
-            .AddressString = "4738 BELLEVUE AVE, Louisville, KY, 40215", _
-            .Latitude = 38.179806, _
-            .Longitude = -85.775558, _
-            .TimeWindowStart = 13 * 3600 + 0 * 60, _
-            .TimeWindowEnd = 13 * 3600 + 15 * 60, _
-            .TimeWindowStart2 = 13 * 3600 + 30 * 60, _
-            .TimeWindowEnd2 = 13 * 3600 + 45 * 60, _
-            .Time = 300 _
-        }, New Address() With { _
-            .AddressString = "318 SO. 39TH STREET, Louisville, KY, 40212", _
-            .Latitude = 38.259335, _
-            .Longitude = -85.815094, _
-            .TimeWindowStart = 14 * 3600 + 0 * 60, _
-            .TimeWindowEnd = 14 * 3600 + 15 * 60, _
-            .TimeWindowStart2 = 14 * 3600 + 30 * 60, _
-            .TimeWindowEnd2 = 14 * 3600 + 45 * 60, _
-            .Time = 300 _
-        }, New Address() With { _
-            .AddressString = "1324 BLUEGRASS AVE, Louisville, KY, 40215", _
-            .Latitude = 38.179253, _
-            .Longitude = -85.785118, _
-            .TimeWindowStart = 15 * 3600 + 0 * 60, _
-            .TimeWindowEnd = 15 * 3600 + 15 * 60, _
-            .TimeWindowStart2 = 15 * 3600 + 30 * 60, _
-            .TimeWindowEnd2 = 15 * 3600 + 45 * 60, _
-            .Time = 300 _
-        }, New Address() With { _
-            .AddressString = "7305 ROYAL WOODS DR, Louisville, KY, 40214", _
-            .Latitude = 38.162472, _
-            .Longitude = -85.792854, _
-            .TimeWindowStart = 16 * 3600 + 0 * 60, _
-            .TimeWindowEnd = 16 * 3600 + 15 * 60, _
-            .TimeWindowStart2 = 16 * 3600 + 30 * 60, _
-            .TimeWindowEnd2 = 16 * 3600 + 45 * 60, _
-            .Time = 300 _
+        Dim addresses As Address() = New Address() {New Address() With {
+            .AddressString = "455 S 4th St, Louisville, KY 40202",
+            .IsDepot = True,
+            .Latitude = 38.251698,
+            .Longitude = -85.757308
+        }, New Address() With {
+            .AddressString = "1604 PARKRIDGE PKWY, Louisville, KY, 40214",
+            .Latitude = 38.141598,
+            .Longitude = -85.7938461,
+            .TimeWindowStart = 7 * 3600 + 30 * 60,
+            .TimeWindowEnd = 7 * 3600 + 40 * 60,
+            .TimeWindowStart2 = 8 * 3600 + 0 * 60,
+            .TimeWindowEnd2 = 8 * 3600 + 10 * 60,
+            .Time = 300
+        }, New Address() With {
+            .AddressString = "1407 MCCOY, Louisville, KY, 40215",
+            .Latitude = 38.202496,
+            .Longitude = -85.786514,
+            .TimeWindowStart = 8 * 3600 + 30 * 60,
+            .TimeWindowEnd = 8 * 3600 + 40 * 60,
+            .TimeWindowStart2 = 8 * 3600 + 50 * 60,
+            .TimeWindowEnd2 = 9 * 3600 + 0 * 60,
+            .Time = 300
+        }, New Address() With {
+            .AddressString = "4805 BELLEVUE AVE, Louisville, KY, 40215",
+            .Latitude = 38.178844,
+            .Longitude = -85.774864,
+            .TimeWindowStart = 9 * 3600 + 0 * 60,
+            .TimeWindowEnd = 9 * 3600 + 15 * 60,
+            .TimeWindowStart2 = 9 * 3600 + 30 * 60,
+            .TimeWindowEnd2 = 9 * 3600 + 45 * 60,
+            .Time = 100
+        }, New Address() With {
+            .AddressString = "730 CECIL AVENUE, Louisville, KY, 40211",
+            .Latitude = 38.248684,
+            .Longitude = -85.821121,
+            .TimeWindowStart = 10 * 3600 + 0 * 60,
+            .TimeWindowEnd = 10 * 3600 + 15 * 60,
+            .TimeWindowStart2 = 10 * 3600 + 30 * 60,
+            .TimeWindowEnd2 = 10 * 3600 + 45 * 60,
+            .Time = 300
+        }, New Address() With {
+            .AddressString = "650 SOUTH 29TH ST UNIT 315, Louisville, KY, 40211",
+            .Latitude = 38.251923,
+            .Longitude = -85.800034,
+            .TimeWindowStart = 11 * 3600 + 0 * 60,
+            .TimeWindowEnd = 11 * 3600 + 15 * 60,
+            .TimeWindowStart2 = 11 * 3600 + 30 * 60,
+            .TimeWindowEnd2 = 11 * 3600 + 45 * 60,
+            .Time = 300
+        }, New Address() With {
+            .AddressString = "4629 HILLSIDE DRIVE, Louisville, KY, 40216",
+            .Latitude = 38.176067,
+            .Longitude = -85.824638,
+            .TimeWindowStart = 12 * 3600 + 0 * 60,
+            .TimeWindowEnd = 12 * 3600 + 15 * 60,
+            .TimeWindowStart2 = 12 * 3600 + 30 * 60,
+            .TimeWindowEnd2 = 12 * 3600 + 45 * 60,
+            .Time = 300
+        }, New Address() With {
+            .AddressString = "4738 BELLEVUE AVE, Louisville, KY, 40215",
+            .Latitude = 38.179806,
+            .Longitude = -85.775558,
+            .TimeWindowStart = 13 * 3600 + 0 * 60,
+            .TimeWindowEnd = 13 * 3600 + 15 * 60,
+            .TimeWindowStart2 = 13 * 3600 + 30 * 60,
+            .TimeWindowEnd2 = 13 * 3600 + 45 * 60,
+            .Time = 300
+        }, New Address() With {
+            .AddressString = "318 SO. 39TH STREET, Louisville, KY, 40212",
+            .Latitude = 38.259335,
+            .Longitude = -85.815094,
+            .TimeWindowStart = 14 * 3600 + 0 * 60,
+            .TimeWindowEnd = 14 * 3600 + 15 * 60,
+            .TimeWindowStart2 = 14 * 3600 + 30 * 60,
+            .TimeWindowEnd2 = 14 * 3600 + 45 * 60,
+            .Time = 300
+        }, New Address() With {
+            .AddressString = "1324 BLUEGRASS AVE, Louisville, KY, 40215",
+            .Latitude = 38.179253,
+            .Longitude = -85.785118,
+            .TimeWindowStart = 15 * 3600 + 0 * 60,
+            .TimeWindowEnd = 15 * 3600 + 15 * 60,
+            .TimeWindowStart2 = 15 * 3600 + 30 * 60,
+            .TimeWindowEnd2 = 15 * 3600 + 45 * 60,
+            .Time = 300
+        }, New Address() With {
+            .AddressString = "7305 ROYAL WOODS DR, Louisville, KY, 40214",
+            .Latitude = 38.162472,
+            .Longitude = -85.792854,
+            .TimeWindowStart = 16 * 3600 + 0 * 60,
+            .TimeWindowEnd = 16 * 3600 + 15 * 60,
+            .TimeWindowStart2 = 16 * 3600 + 30 * 60,
+            .TimeWindowEnd2 = 16 * 3600 + 45 * 60,
+            .Time = 300
         }}
 #End Region
         Dim parameters As New RouteParameters() With {
@@ -4181,9 +4182,9 @@ End Class
             .RT = True
         }
 
-        Dim optimizationParameters As OptimizationParameters = New OptimizationParameters() With { _
-            .Addresses = addresses, _
-            .Parameters = parameters _
+        Dim optimizationParameters As OptimizationParameters = New OptimizationParameters() With {
+            .Addresses = addresses,
+            .Parameters = parameters
         }
         Dim errorString As String
 
@@ -4194,140 +4195,140 @@ End Class
         tdr.RemoveOptimization(New String() {dataObject.OptimizationProblemId})
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub SingleDriverMultipleTimeWindowsTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         ' Prepare the addresses
 #Region "Addresses"
-        Dim addresses As Address() = New Address() {New Address() With { _
-            .AddressString = "3634 W Market St, Fairlawn, OH 44333", _
-            .IsDepot = True, _
-            .Latitude = 41.135762259364, _
-            .Longitude = -81.629313826561, _
-            .TimeWindowStart = Nothing, _
-            .TimeWindowEnd = Nothing, _
-            .TimeWindowStart2 = Nothing, _
-            .TimeWindowEnd2 = Nothing, _
-            .Time = Nothing _
-        }, New Address() With { _
-            .AddressString = "1218 Ruth Ave, Cuyahoga Falls, OH 44221", _
-            .Latitude = 41.135762259364, _
-            .Longitude = -81.629313826561, _
-            .TimeWindowStart = 6 * 3600 + 0 * 60, _
-            .TimeWindowEnd = 6 * 3600 + 30 * 60, _
-            .TimeWindowStart2 = 7 * 3600 + 0 * 60, _
-            .TimeWindowEnd2 = 7 * 3600 + 20 * 60, _
-            .Time = 300 _
-        }, New Address() With { _
-            .AddressString = "512 Florida Pl, Barberton, OH 44203", _
-            .Latitude = 41.003671512008, _
-            .Longitude = -81.598461046815, _
-            .TimeWindowStart = 7 * 3600 + 30 * 60, _
-            .TimeWindowEnd = 7 * 3600 + 40 * 60, _
-            .TimeWindowStart2 = 8 * 3600 + 0 * 60, _
-            .TimeWindowEnd2 = 8 * 3600 + 10 * 60, _
-            .Time = 300 _
-        }, New Address() With { _
-            .AddressString = "512 Florida Pl, Barberton, OH 44203", _
-            .Latitude = 41.003671512008, _
-            .Longitude = -81.598461046815, _
-            .TimeWindowStart = 8 * 3600 + 30 * 60, _
-            .TimeWindowEnd = 8 * 3600 + 40 * 60, _
-            .TimeWindowStart2 = 8 * 3600 + 50 * 60, _
-            .TimeWindowEnd2 = 9 * 3600 + 0 * 60, _
-            .Time = 100 _
-        }, New Address() With { _
-            .AddressString = "3495 Purdue St, Cuyahoga Falls, OH 44221", _
-            .Latitude = 41.162971496582, _
-            .Longitude = -81.479049682617, _
-            .TimeWindowStart = 9 * 3600 + 0 * 60, _
-            .TimeWindowEnd = 9 * 3600 + 15 * 60, _
-            .TimeWindowStart2 = 9 * 3600 + 30 * 60, _
-            .TimeWindowEnd2 = 9 * 3600 + 45 * 60, _
-            .Time = 300 _
-        }, New Address() With { _
-            .AddressString = "1659 Hibbard Dr, Stow, OH 44224", _
-            .Latitude = 41.194505989552, _
-            .Longitude = -81.443351581693, _
-            .TimeWindowStart = 10 * 3600 + 0 * 60, _
-            .TimeWindowEnd = 10 * 3600 + 15 * 60, _
-            .TimeWindowStart2 = 10 * 3600 + 30 * 60, _
-            .TimeWindowEnd2 = 10 * 3600 + 45 * 60, _
-            .Time = 300 _
-        }, _
-            New Address() With { _
-            .AddressString = "2705 N River Rd, Stow, OH 44224", _
-            .Latitude = 41.145240783691, _
-            .Longitude = -81.410247802734, _
-            .TimeWindowStart = 11 * 3600 + 0 * 60, _
-            .TimeWindowEnd = 11 * 3600 + 15 * 60, _
-            .TimeWindowStart2 = 11 * 3600 + 30 * 60, _
-            .TimeWindowEnd2 = 11 * 3600 + 45 * 60, _
-            .Time = 300 _
-        }, New Address() With { _
-            .AddressString = "10159 Bissell Dr, Twinsburg, OH 44087", _
-            .Latitude = 41.340042114258, _
-            .Longitude = -81.421226501465, _
-            .TimeWindowStart = 12 * 3600 + 0 * 60, _
-            .TimeWindowEnd = 12 * 3600 + 15 * 60, _
-            .TimeWindowStart2 = 12 * 3600 + 30 * 60, _
-            .TimeWindowEnd2 = 12 * 3600 + 45 * 60, _
-            .Time = 300 _
-        }, New Address() With { _
-            .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262", _
-            .Latitude = 41.148578643799, _
-            .Longitude = -81.429229736328, _
-            .TimeWindowStart = 13 * 3600 + 0 * 60, _
-            .TimeWindowEnd = 13 * 3600 + 15 * 60, _
-            .TimeWindowStart2 = 13 * 3600 + 30 * 60, _
-            .TimeWindowEnd2 = 13 * 3600 + 45 * 60, _
-            .Time = 300 _
-        }, New Address() With { _
-            .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262", _
-            .Latitude = 41.148578643799, _
-            .Longitude = -81.429229736328, _
-            .TimeWindowStart = 14 * 3600 + 0 * 60, _
-            .TimeWindowEnd = 14 * 3600 + 15 * 60, _
-            .TimeWindowStart2 = 14 * 3600 + 30 * 60, _
-            .TimeWindowEnd2 = 14 * 3600 + 45 * 60, _
-            .Time = 300 _
-        }, New Address() With { _
-            .AddressString = "512 Florida Pl, Barberton, OH 44203", _
-            .Latitude = 41.003671512008, _
-            .Longitude = -81.598461046815, _
-            .TimeWindowStart = 15 * 3600 + 0 * 60, _
-            .TimeWindowEnd = 15 * 3600 + 15 * 60, _
-            .TimeWindowStart2 = 15 * 3600 + 30 * 60, _
-            .TimeWindowEnd2 = 15 * 3600 + 45 * 60, _
-            .Time = 300 _
-        }, New Address() With { _
-            .AddressString = "559 W Aurora Rd, Northfield, OH 44067", _
-            .Latitude = 41.315116882324, _
-            .Longitude = -81.558746337891, _
-            .TimeWindowStart = 16 * 3600 + 0 * 60, _
-            .TimeWindowEnd = 16 * 3600 + 15 * 60, _
-            .TimeWindowStart2 = 16 * 3600 + 30 * 60, _
-            .TimeWindowEnd2 = 17 * 3600 + 0 * 60, _
-            .Time = 50 _
+        Dim addresses As Address() = New Address() {New Address() With {
+            .AddressString = "3634 W Market St, Fairlawn, OH 44333",
+            .IsDepot = True,
+            .Latitude = 41.135762259364,
+            .Longitude = -81.629313826561,
+            .TimeWindowStart = Nothing,
+            .TimeWindowEnd = Nothing,
+            .TimeWindowStart2 = Nothing,
+            .TimeWindowEnd2 = Nothing,
+            .Time = Nothing
+        }, New Address() With {
+            .AddressString = "1218 Ruth Ave, Cuyahoga Falls, OH 44221",
+            .Latitude = 41.135762259364,
+            .Longitude = -81.629313826561,
+            .TimeWindowStart = 6 * 3600 + 0 * 60,
+            .TimeWindowEnd = 6 * 3600 + 30 * 60,
+            .TimeWindowStart2 = 7 * 3600 + 0 * 60,
+            .TimeWindowEnd2 = 7 * 3600 + 20 * 60,
+            .Time = 300
+        }, New Address() With {
+            .AddressString = "512 Florida Pl, Barberton, OH 44203",
+            .Latitude = 41.003671512008,
+            .Longitude = -81.598461046815,
+            .TimeWindowStart = 7 * 3600 + 30 * 60,
+            .TimeWindowEnd = 7 * 3600 + 40 * 60,
+            .TimeWindowStart2 = 8 * 3600 + 0 * 60,
+            .TimeWindowEnd2 = 8 * 3600 + 10 * 60,
+            .Time = 300
+        }, New Address() With {
+            .AddressString = "512 Florida Pl, Barberton, OH 44203",
+            .Latitude = 41.003671512008,
+            .Longitude = -81.598461046815,
+            .TimeWindowStart = 8 * 3600 + 30 * 60,
+            .TimeWindowEnd = 8 * 3600 + 40 * 60,
+            .TimeWindowStart2 = 8 * 3600 + 50 * 60,
+            .TimeWindowEnd2 = 9 * 3600 + 0 * 60,
+            .Time = 100
+        }, New Address() With {
+            .AddressString = "3495 Purdue St, Cuyahoga Falls, OH 44221",
+            .Latitude = 41.162971496582,
+            .Longitude = -81.479049682617,
+            .TimeWindowStart = 9 * 3600 + 0 * 60,
+            .TimeWindowEnd = 9 * 3600 + 15 * 60,
+            .TimeWindowStart2 = 9 * 3600 + 30 * 60,
+            .TimeWindowEnd2 = 9 * 3600 + 45 * 60,
+            .Time = 300
+        }, New Address() With {
+            .AddressString = "1659 Hibbard Dr, Stow, OH 44224",
+            .Latitude = 41.194505989552,
+            .Longitude = -81.443351581693,
+            .TimeWindowStart = 10 * 3600 + 0 * 60,
+            .TimeWindowEnd = 10 * 3600 + 15 * 60,
+            .TimeWindowStart2 = 10 * 3600 + 30 * 60,
+            .TimeWindowEnd2 = 10 * 3600 + 45 * 60,
+            .Time = 300
+        },
+            New Address() With {
+            .AddressString = "2705 N River Rd, Stow, OH 44224",
+            .Latitude = 41.145240783691,
+            .Longitude = -81.410247802734,
+            .TimeWindowStart = 11 * 3600 + 0 * 60,
+            .TimeWindowEnd = 11 * 3600 + 15 * 60,
+            .TimeWindowStart2 = 11 * 3600 + 30 * 60,
+            .TimeWindowEnd2 = 11 * 3600 + 45 * 60,
+            .Time = 300
+        }, New Address() With {
+            .AddressString = "10159 Bissell Dr, Twinsburg, OH 44087",
+            .Latitude = 41.340042114258,
+            .Longitude = -81.421226501465,
+            .TimeWindowStart = 12 * 3600 + 0 * 60,
+            .TimeWindowEnd = 12 * 3600 + 15 * 60,
+            .TimeWindowStart2 = 12 * 3600 + 30 * 60,
+            .TimeWindowEnd2 = 12 * 3600 + 45 * 60,
+            .Time = 300
+        }, New Address() With {
+            .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262",
+            .Latitude = 41.148578643799,
+            .Longitude = -81.429229736328,
+            .TimeWindowStart = 13 * 3600 + 0 * 60,
+            .TimeWindowEnd = 13 * 3600 + 15 * 60,
+            .TimeWindowStart2 = 13 * 3600 + 30 * 60,
+            .TimeWindowEnd2 = 13 * 3600 + 45 * 60,
+            .Time = 300
+        }, New Address() With {
+            .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262",
+            .Latitude = 41.148578643799,
+            .Longitude = -81.429229736328,
+            .TimeWindowStart = 14 * 3600 + 0 * 60,
+            .TimeWindowEnd = 14 * 3600 + 15 * 60,
+            .TimeWindowStart2 = 14 * 3600 + 30 * 60,
+            .TimeWindowEnd2 = 14 * 3600 + 45 * 60,
+            .Time = 300
+        }, New Address() With {
+            .AddressString = "512 Florida Pl, Barberton, OH 44203",
+            .Latitude = 41.003671512008,
+            .Longitude = -81.598461046815,
+            .TimeWindowStart = 15 * 3600 + 0 * 60,
+            .TimeWindowEnd = 15 * 3600 + 15 * 60,
+            .TimeWindowStart2 = 15 * 3600 + 30 * 60,
+            .TimeWindowEnd2 = 15 * 3600 + 45 * 60,
+            .Time = 300
+        }, New Address() With {
+            .AddressString = "559 W Aurora Rd, Northfield, OH 44067",
+            .Latitude = 41.315116882324,
+            .Longitude = -81.558746337891,
+            .TimeWindowStart = 16 * 3600 + 0 * 60,
+            .TimeWindowEnd = 16 * 3600 + 15 * 60,
+            .TimeWindowStart2 = 16 * 3600 + 30 * 60,
+            .TimeWindowEnd2 = 17 * 3600 + 0 * 60,
+            .Time = 50
         }}
 #End Region
         ' Set parameters
 
-        Dim parameters As New RouteParameters() With { _
-            .AlgorithmType = AlgorithmType.TSP, _
-            .StoreRoute = False, _
-            .RouteName = "Single Driver Multiple TimeWindows 12 Stops", _
-            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)), _
-            .RouteTime = 5 * 3600 + 30 * 60, _
-            .Optimize = Optimize.Distance.GetEnumDescription(), _
-            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(), _
-            .DeviceType = DeviceType.Web.GetEnumDescription() _
+        Dim parameters As New RouteParameters() With {
+            .AlgorithmType = AlgorithmType.TSP,
+            .StoreRoute = False,
+            .RouteName = "Single Driver Multiple TimeWindows 12 Stops",
+            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)),
+            .RouteTime = 5 * 3600 + 30 * 60,
+            .Optimize = Optimize.Distance.GetEnumDescription(),
+            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
+            .DeviceType = DeviceType.Web.GetEnumDescription()
         }
 
-        Dim optimizationParameters As New OptimizationParameters() With { _
-            .Addresses = addresses, _
-            .Parameters = parameters _
+        Dim optimizationParameters As New OptimizationParameters() With {
+            .Addresses = addresses,
+            .Parameters = parameters
         }
 
         ' Run the query
@@ -4339,7 +4340,7 @@ End Class
         tdr.RemoveOptimization(New String() {dataObject.OptimizationProblemId})
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub SingleDriverRoundTripGenericTest()
         Const uri As String = R4MEInfrastructureSettings.MainHost + "/api.v4/optimization_problem.php"
         Dim myApiKey As String = ApiKeys.actualApiKey
@@ -4349,84 +4350,84 @@ End Class
 
         ' Prepare the addresses
 #Region "Addresses"
-        Dim addresses As Address() = New Address() {New Address() With { _
-            .AddressString = "754 5th Ave New York, NY 10019", _
-            .[Alias] = "Bergdorf Goodman", _
-            .IsDepot = True, _
-            .Latitude = 40.7636197, _
-            .Longitude = -73.9744388, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "717 5th Ave New York, NY 10022", _
-            .[Alias] = "Giorgio Armani", _
-            .Latitude = 40.7669692, _
-            .Longitude = -73.9693864, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "888 Madison Ave New York, NY 10014", _
-            .[Alias] = "Ralph Lauren Women's and Home", _
-            .Latitude = 40.7715154, _
-            .Longitude = -73.9669241, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "1011 Madison Ave New York, NY 10075", _
-            .[Alias] = "Yigal Azrou'l", _
-            .Latitude = 40.7772129, _
-            .Longitude = -73.9669, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "440 Columbus Ave New York, NY 10024", _
-            .[Alias] = "Frank Stella Clothier", _
-            .Latitude = 40.7808364, _
-            .Longitude = -73.9732729, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "324 Columbus Ave #1 New York, NY 10023", _
-            .[Alias] = "Liana", _
-            .Latitude = 40.7803123, _
-            .Longitude = -73.9793079, _
-            .Time = 0 _
-        }, _
-            New Address() With { _
-            .AddressString = "110 W End Ave New York, NY 10023", _
-            .[Alias] = "Toga Bike Shop", _
-            .Latitude = 40.7753077, _
-            .Longitude = -73.9861529, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "555 W 57th St New York, NY 10019", _
-            .[Alias] = "BMW of Manhattan", _
-            .Latitude = 40.7718005, _
-            .Longitude = -73.9897716, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "57 W 57th St New York, NY 10019", _
-            .[Alias] = "Verizon Wireless", _
-            .Latitude = 40.7558695, _
-            .Longitude = -73.9862019, _
-            .Time = 0 _
+        Dim addresses As Address() = New Address() {New Address() With {
+            .AddressString = "754 5th Ave New York, NY 10019",
+            .[Alias] = "Bergdorf Goodman",
+            .IsDepot = True,
+            .Latitude = 40.7636197,
+            .Longitude = -73.9744388,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "717 5th Ave New York, NY 10022",
+            .[Alias] = "Giorgio Armani",
+            .Latitude = 40.7669692,
+            .Longitude = -73.9693864,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "888 Madison Ave New York, NY 10014",
+            .[Alias] = "Ralph Lauren Women's and Home",
+            .Latitude = 40.7715154,
+            .Longitude = -73.9669241,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "1011 Madison Ave New York, NY 10075",
+            .[Alias] = "Yigal Azrou'l",
+            .Latitude = 40.7772129,
+            .Longitude = -73.9669,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "440 Columbus Ave New York, NY 10024",
+            .[Alias] = "Frank Stella Clothier",
+            .Latitude = 40.7808364,
+            .Longitude = -73.9732729,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "324 Columbus Ave #1 New York, NY 10023",
+            .[Alias] = "Liana",
+            .Latitude = 40.7803123,
+            .Longitude = -73.9793079,
+            .Time = 0
+        },
+            New Address() With {
+            .AddressString = "110 W End Ave New York, NY 10023",
+            .[Alias] = "Toga Bike Shop",
+            .Latitude = 40.7753077,
+            .Longitude = -73.9861529,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "555 W 57th St New York, NY 10019",
+            .[Alias] = "BMW of Manhattan",
+            .Latitude = 40.7718005,
+            .Longitude = -73.9897716,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "57 W 57th St New York, NY 10019",
+            .[Alias] = "Verizon Wireless",
+            .Latitude = 40.7558695,
+            .Longitude = -73.9862019,
+            .Time = 0
         }}
 #End Region
         ' Set parameters
 
-        Dim parameters As New RouteParameters() With { _
-            .AlgorithmType = AlgorithmType.TSP, _
-            .StoreRoute = False, _
-            .RouteName = "Single Driver Round Trip", _
-            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)), _
-            .RouteTime = 60 * 60 * 7, _
-            .RouteMaxDuration = 86400, _
-            .VehicleCapacity = "1", _
-            .VehicleMaxDistanceMI = "10000", _
-            .Optimize = Optimize.Distance.GetEnumDescription(), _
-            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(), _
-            .DeviceType = DeviceType.Web.GetEnumDescription(), _
-            .TravelMode = TravelMode.Driving.GetEnumDescription() _
+        Dim parameters As New RouteParameters() With {
+            .AlgorithmType = AlgorithmType.TSP,
+            .StoreRoute = False,
+            .RouteName = "Single Driver Round Trip",
+            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)),
+            .RouteTime = 60 * 60 * 7,
+            .RouteMaxDuration = 86400,
+            .VehicleCapacity = "1",
+            .VehicleMaxDistanceMI = "10000",
+            .Optimize = Optimize.Distance.GetEnumDescription(),
+            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
+            .DeviceType = DeviceType.Web.GetEnumDescription(),
+            .TravelMode = TravelMode.Driving.GetEnumDescription()
         }
 
-        Dim myParameters As New MyAddressAndParametersHolder() With { _
-            .addresses = addresses, _
-            .parameters = parameters _
+        Dim myParameters As New MyAddressAndParametersHolder() With {
+            .addresses = addresses,
+            .parameters = parameters
         }
 
         ' Run the query
@@ -4438,90 +4439,90 @@ End Class
         tdr.RemoveOptimization(New String() {dataObject0.OptimizationProblemId})
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub SingleDriverRoundTripTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         ' Prepare the addresses
 #Region "Addresses"
-        Dim addresses As Address() = New Address() {New Address() With { _
-            .AddressString = "754 5th Ave New York, NY 10019", _
-            .[Alias] = "Bergdorf Goodman", _
-            .IsDepot = True, _
-            .Latitude = 40.7636197, _
-            .Longitude = -73.9744388, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "717 5th Ave New York, NY 10022", _
-            .[Alias] = "Giorgio Armani", _
-            .Latitude = 40.7669692, _
-            .Longitude = -73.9693864, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "888 Madison Ave New York, NY 10014", _
-            .[Alias] = "Ralph Lauren Women's and Home", _
-            .Latitude = 40.7715154, _
-            .Longitude = -73.9669241, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "1011 Madison Ave New York, NY 10075", _
-            .[Alias] = "Yigal Azrou'l", _
-            .Latitude = 40.7772129, _
-            .Longitude = -73.9669, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "440 Columbus Ave New York, NY 10024", _
-            .[Alias] = "Frank Stella Clothier", _
-            .Latitude = 40.7808364, _
-            .Longitude = -73.9732729, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "324 Columbus Ave #1 New York, NY 10023", _
-            .[Alias] = "Liana", _
-            .Latitude = 40.7803123, _
-            .Longitude = -73.9793079, _
-            .Time = 0 _
-        }, _
-            New Address() With { _
-            .AddressString = "110 W End Ave New York, NY 10023", _
-            .[Alias] = "Toga Bike Shop", _
-            .Latitude = 40.7753077, _
-            .Longitude = -73.9861529, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "555 W 57th St New York, NY 10019", _
-            .[Alias] = "BMW of Manhattan", _
-            .Latitude = 40.7718005, _
-            .Longitude = -73.9897716, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "57 W 57th St New York, NY 10019", _
-            .[Alias] = "Verizon Wireless", _
-            .Latitude = 40.7558695, _
-            .Longitude = -73.9862019, _
-            .Time = 0 _
+        Dim addresses As Address() = New Address() {New Address() With {
+            .AddressString = "754 5th Ave New York, NY 10019",
+            .[Alias] = "Bergdorf Goodman",
+            .IsDepot = True,
+            .Latitude = 40.7636197,
+            .Longitude = -73.9744388,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "717 5th Ave New York, NY 10022",
+            .[Alias] = "Giorgio Armani",
+            .Latitude = 40.7669692,
+            .Longitude = -73.9693864,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "888 Madison Ave New York, NY 10014",
+            .[Alias] = "Ralph Lauren Women's and Home",
+            .Latitude = 40.7715154,
+            .Longitude = -73.9669241,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "1011 Madison Ave New York, NY 10075",
+            .[Alias] = "Yigal Azrou'l",
+            .Latitude = 40.7772129,
+            .Longitude = -73.9669,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "440 Columbus Ave New York, NY 10024",
+            .[Alias] = "Frank Stella Clothier",
+            .Latitude = 40.7808364,
+            .Longitude = -73.9732729,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "324 Columbus Ave #1 New York, NY 10023",
+            .[Alias] = "Liana",
+            .Latitude = 40.7803123,
+            .Longitude = -73.9793079,
+            .Time = 0
+        },
+            New Address() With {
+            .AddressString = "110 W End Ave New York, NY 10023",
+            .[Alias] = "Toga Bike Shop",
+            .Latitude = 40.7753077,
+            .Longitude = -73.9861529,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "555 W 57th St New York, NY 10019",
+            .[Alias] = "BMW of Manhattan",
+            .Latitude = 40.7718005,
+            .Longitude = -73.9897716,
+            .Time = 0
+        }, New Address() With {
+            .AddressString = "57 W 57th St New York, NY 10019",
+            .[Alias] = "Verizon Wireless",
+            .Latitude = 40.7558695,
+            .Longitude = -73.9862019,
+            .Time = 0
         }}
 #End Region
         ' Set parameters
 
-        Dim parameters As New RouteParameters() With { _
-            .AlgorithmType = AlgorithmType.TSP, _
-            .StoreRoute = False, _
-            .RouteName = "Single Driver Round Trip", _
-            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)), _
-            .RouteTime = 60 * 60 * 7, _
-            .RouteMaxDuration = 86400, _
-            .VehicleCapacity = "1", _
-            .VehicleMaxDistanceMI = "10000", _
-            .Optimize = Optimize.Distance.GetEnumDescription(), _
-            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(), _
-            .DeviceType = DeviceType.Web.GetEnumDescription(), _
-            .TravelMode = TravelMode.Driving.GetEnumDescription() _
+        Dim parameters As New RouteParameters() With {
+            .AlgorithmType = AlgorithmType.TSP,
+            .StoreRoute = False,
+            .RouteName = "Single Driver Round Trip",
+            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)),
+            .RouteTime = 60 * 60 * 7,
+            .RouteMaxDuration = 86400,
+            .VehicleCapacity = "1",
+            .VehicleMaxDistanceMI = "10000",
+            .Optimize = Optimize.Distance.GetEnumDescription(),
+            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
+            .DeviceType = DeviceType.Web.GetEnumDescription(),
+            .TravelMode = TravelMode.Driving.GetEnumDescription()
         }
 
-        Dim optimizationParameters As New OptimizationParameters() With { _
-            .Addresses = addresses, _
-            .Parameters = parameters _
+        Dim optimizationParameters As New OptimizationParameters() With {
+            .Addresses = addresses,
+            .Parameters = parameters
         }
 
         ' Run the query
@@ -4533,7 +4534,7 @@ End Class
         tdr.RemoveOptimization(New String() {dataObject.OptimizationProblemId})
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub RunOptimizationSingleDriverRoute10StopsTest()
         Dim r4mm As New Route4MeManager(c_ApiKey)
 
@@ -4599,20 +4600,20 @@ End Class
 
         ' Set parameters
 
-        Dim parameters As New RouteParameters() With { _
-            .AlgorithmType = AlgorithmType.TSP, _
-            .StoreRoute = False, _
-            .RouteName = "Single Driver Route 10 Stops Test", _
-            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)), _
-            .RouteTime = 60 * 60 * 7, _
-            .Optimize = Optimize.Distance.GetEnumDescription(), _
-            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(), _
-            .DeviceType = DeviceType.Web.GetEnumDescription() _
+        Dim parameters As New RouteParameters() With {
+            .AlgorithmType = AlgorithmType.TSP,
+            .StoreRoute = False,
+            .RouteName = "Single Driver Route 10 Stops Test",
+            .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)),
+            .RouteTime = 60 * 60 * 7,
+            .Optimize = Optimize.Distance.GetEnumDescription(),
+            .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
+            .DeviceType = DeviceType.Web.GetEnumDescription()
         }
 
-        Dim optimizationParameters As New OptimizationParameters() With { _
-            .Addresses = addresses, _
-            .Parameters = parameters _
+        Dim optimizationParameters As New OptimizationParameters() With {
+            .Addresses = addresses,
+            .Parameters = parameters
         }
 
         ' Run the query
@@ -7576,17 +7577,17 @@ End Class
 
     Shared lsAvoidanceZones As New List(Of String)()
 
-    <ClassInitialize> _
+    <ClassInitialize>
     Public Shared Sub AvoidanseZonesGroupInitialize(context As TestContext)
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim circleAvoidanceZoneParameters As New AvoidanceZoneParameters() With { _
-            .TerritoryName = "Test Circle Territory", _
-            .TerritoryColor = "ff0000", _
-            .Territory = New Territory() With { _
-                .Type = TerritoryType.Circle.GetEnumDescription(), _
-                .Data = New String() {"37.569752822786455,-77.47833251953125", "5000"} _
-            } _
+        Dim circleAvoidanceZoneParameters As New AvoidanceZoneParameters() With {
+            .TerritoryName = "Test Circle Territory",
+            .TerritoryColor = "ff0000",
+            .Territory = New Territory() With {
+                .Type = TerritoryType.Circle.GetEnumDescription(),
+                .Data = New String() {"37.569752822786455,-77.47833251953125", "5000"}
+            }
         }
 
         Dim errorString As String = ""
@@ -7598,22 +7599,22 @@ End Class
 
         Assert.IsNotNull(circleAvoidanceZone, Convert.ToString("Add Circle Avoidance Zone test failed... ") & errorString)
 
-        Dim polyAvoidanceZoneParameters As New AvoidanceZoneParameters() With { _
-            .TerritoryName = "Test Poly Territory", _
-            .TerritoryColor = "ff0000", _
-            .Territory = New Territory() With { _
-                .Type = TerritoryType.Poly.GetEnumDescription(), _
-                .Data = New String() { _
-                    "37.569752822786455,-77.47833251953125", _
-                    "37.75886716305343,-77.68974800109863", _
-                    "37.74763966054455,-77.6917221069336", _
-                    "37.74655084306813,-77.68863220214844", _
-                    "37.7502255383101,-77.68125076293945", _
-                    "37.74797991274437,-77.67498512268066", _
-                    "37.73327960206065,-77.6411678314209", _
-                    "37.74430510679532,-77.63172645568848", _
-                    "37.76641925847049,-77.66846199035645"} _
-            } _
+        Dim polyAvoidanceZoneParameters As New AvoidanceZoneParameters() With {
+            .TerritoryName = "Test Poly Territory",
+            .TerritoryColor = "ff0000",
+            .Territory = New Territory() With {
+                .Type = TerritoryType.Poly.GetEnumDescription(),
+                .Data = New String() {
+                    "37.569752822786455,-77.47833251953125",
+                    "37.75886716305343,-77.68974800109863",
+                    "37.74763966054455,-77.6917221069336",
+                    "37.74655084306813,-77.68863220214844",
+                    "37.7502255383101,-77.68125076293945",
+                    "37.74797991274437,-77.67498512268066",
+                    "37.73327960206065,-77.6411678314209",
+                    "37.74430510679532,-77.63172645568848",
+                    "37.76641925847049,-77.66846199035645"}
+            }
         }
 
         Dim polyAvoidanceZone As AvoidanceZone = route4Me.AddAvoidanceZone(polyAvoidanceZoneParameters, errorString)
@@ -7624,15 +7625,15 @@ End Class
             lsAvoidanceZones.Add(polyAvoidanceZone.TerritoryId)
         End If
 
-        Dim rectAvoidanceZoneParameters As New AvoidanceZoneParameters() With { _
-            .TerritoryName = "Test Rect Territory", _
-            .TerritoryColor = "ff0000", _
-            .Territory = New Territory() With { _
-                .Type = TerritoryType.Rect.GetEnumDescription(), _
-                .Data = New String() { _
-                    "43.51668853502909,-109.3798828125", _
-                    "46.98025235521883,-101.865234375"} _
-            } _
+        Dim rectAvoidanceZoneParameters As New AvoidanceZoneParameters() With {
+            .TerritoryName = "Test Rect Territory",
+            .TerritoryColor = "ff0000",
+            .Territory = New Territory() With {
+                .Type = TerritoryType.Rect.GetEnumDescription(),
+                .Data = New String() {
+                    "43.51668853502909,-109.3798828125",
+                    "46.98025235521883,-101.865234375"}
+            }
         }
 
         Dim rectAvoidanceZone As AvoidanceZone = route4Me.AddAvoidanceZone(rectAvoidanceZoneParameters, errorString)
@@ -7644,17 +7645,17 @@ End Class
         End If
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub AddAvoidanceZonesTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim circleAvoidanceZoneParameters As New AvoidanceZoneParameters() With { _
-            .TerritoryName = "Test Circle Territory", _
-            .TerritoryColor = "ff0000", _
-            .Territory = New Territory() With { _
-                .Type = TerritoryType.Circle.GetEnumDescription(), _
-                .Data = New String() {"37.569752822786455,-77.47833251953125", "5000"} _
-            } _
+        Dim circleAvoidanceZoneParameters As New AvoidanceZoneParameters() With {
+            .TerritoryName = "Test Circle Territory",
+            .TerritoryColor = "ff0000",
+            .Territory = New Territory() With {
+                .Type = TerritoryType.Circle.GetEnumDescription(),
+                .Data = New String() {"37.569752822786455,-77.47833251953125", "5000"}
+            }
         }
 
         Dim errorString As String = ""
@@ -7668,7 +7669,7 @@ End Class
 
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetAvoidanceZonesTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -7682,7 +7683,7 @@ End Class
         Assert.IsInstanceOfType(avoidanceZones, GetType(AvoidanceZone()), Convert.ToString("GetAvoidanceZonesTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetAvoidanceZoneTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -7691,8 +7692,8 @@ End Class
             territoryId = lsAvoidanceZones(1)
         End If
 
-        Dim avoidanceZoneQuery As New AvoidanceZoneQuery() With { _
-            .TerritoryId = territoryId _
+        Dim avoidanceZoneQuery As New AvoidanceZoneQuery() With {
+            .TerritoryId = territoryId
         }
 
         ' Run the query
@@ -7702,7 +7703,7 @@ End Class
         Assert.IsNotNull(avoidanceZone, Convert.ToString("GetAvoidanceZonesTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub UpdateAvoidanceZoneTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -7711,14 +7712,14 @@ End Class
             territoryId = lsAvoidanceZones(1)
         End If
 
-        Dim avoidanceZoneParameters As New AvoidanceZoneParameters() With { _
-            .TerritoryId = territoryId, _
-            .TerritoryName = "Test Territory Updated", _
-            .TerritoryColor = "ff00ff", _
-            .Territory = New Territory() With { _
-                .Type = TerritoryType.Circle.GetEnumDescription(), _
-                .Data = New String() {"38.41322259056806,-78.501953234", "3000"} _
-            } _
+        Dim avoidanceZoneParameters As New AvoidanceZoneParameters() With {
+            .TerritoryId = territoryId,
+            .TerritoryName = "Test Territory Updated",
+            .TerritoryColor = "ff00ff",
+            .Territory = New Territory() With {
+                .Type = TerritoryType.Circle.GetEnumDescription(),
+                .Data = New String() {"38.41322259056806,-78.501953234", "3000"}
+            }
         }
 
         ' Run the query
@@ -7728,7 +7729,7 @@ End Class
         Assert.IsNotNull(avoidanceZone, Convert.ToString("UpdateAvoidanceZoneTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub RemoveAvoidanceZoneTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -7737,8 +7738,8 @@ End Class
             territoryId = lsAvoidanceZones(0)
         End If
 
-        Dim avoidanceZoneQuery As New AvoidanceZoneQuery() With { _
-            .TerritoryId = territoryId _
+        Dim avoidanceZoneQuery As New AvoidanceZoneQuery() With {
+            .TerritoryId = territoryId
         }
 
         ' Run the query
@@ -7750,13 +7751,13 @@ End Class
         If result Then lsAvoidanceZones.RemoveAt(0)
     End Sub
 
-    <ClassCleanup> _
+    <ClassCleanup>
     Public Shared Sub AvoidanseZonesGroupCleanup()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         For Each territoryId As String In lsAvoidanceZones
-            Dim avoidanceZoneQuery As New AvoidanceZoneQuery() With { _
-                .TerritoryId = territoryId _
+            Dim avoidanceZoneQuery As New AvoidanceZoneQuery() With {
+                .TerritoryId = territoryId
             }
 
             ' Run the query
@@ -7824,17 +7825,17 @@ End Class
         If lsTerritories IsNot Nothing Then lsTerritories.Add(rectTerritory.TerritoryId)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub AddTerritoriesTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim circleTerritoryParameters As New AvoidanceZoneParameters() With { _
-            .TerritoryName = "Test Circle Territory", _
-            .TerritoryColor = "ff0000", _
-            .Territory = New Territory() With { _
-                .Type = TerritoryType.Circle.GetEnumDescription(), _
-                .Data = New String() {"37.569752822786455,-77.47833251953125", "5000"} _
-            } _
+        Dim circleTerritoryParameters As New AvoidanceZoneParameters() With {
+            .TerritoryName = "Test Circle Territory",
+            .TerritoryColor = "ff0000",
+            .Territory = New Territory() With {
+                .Type = TerritoryType.Circle.GetEnumDescription(),
+                .Data = New String() {"37.569752822786455,-77.47833251953125", "5000"}
+            }
         }
 
         Dim errorString As String = ""
@@ -7848,7 +7849,7 @@ End Class
 
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetTerritoriesTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -7861,7 +7862,7 @@ End Class
         Assert.IsInstanceOfType(territories, GetType(AvoidanceZone()), Convert.ToString("GetTerritoriesTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetTerritoryTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -7884,7 +7885,7 @@ End Class
         Assert.IsNotNull(territory, Convert.ToString("GetTerritoryTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub UpdateTerritoryTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -7893,14 +7894,14 @@ End Class
             territoryId = lsTerritories(1)
         End If
 
-        Dim territoryParameters As New AvoidanceZoneParameters() With { _
-            .TerritoryId = territoryId, _
-            .TerritoryName = "Test Territory Updated", _
-            .TerritoryColor = "ff00ff", _
-            .Territory = New Territory() With { _
-                .Type = TerritoryType.Circle.GetEnumDescription(), _
-                .Data = New String() {"38.41322259056806,-78.501953234", "3000"} _
-            } _
+        Dim territoryParameters As New AvoidanceZoneParameters() With {
+            .TerritoryId = territoryId,
+            .TerritoryName = "Test Territory Updated",
+            .TerritoryColor = "ff00ff",
+            .Territory = New Territory() With {
+                .Type = TerritoryType.Circle.GetEnumDescription(),
+                .Data = New String() {"38.41322259056806,-78.501953234", "3000"}
+            }
         }
 
         ' Run the query
@@ -7910,7 +7911,7 @@ End Class
         Assert.IsNotNull(territory, Convert.ToString("UpdateTerritoryTest failed... ") & errorString)
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub RemoveTerritoriesTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
@@ -7919,8 +7920,8 @@ End Class
             territoryId = lsTerritories(0)
         End If
 
-        Dim territoryQuery As New TerritoryQuery() With { _
-            .TerritoryId = territoryId _
+        Dim territoryQuery As New TerritoryQuery() With {
+            .TerritoryId = territoryId
         }
 
         ' Run the query
@@ -7932,13 +7933,13 @@ End Class
         If result Then lsTerritories.RemoveAt(0)
     End Sub
 
-    <ClassCleanup> _
+    <ClassCleanup>
     Public Shared Sub TerritoriesGroupCleanup()
         For Each territoryId As String In lsTerritories
             Dim route4Me As New Route4MeManager(c_ApiKey)
 
-            Dim territoryQuery As New TerritoryQuery() With { _
-                .TerritoryId = territoryId _
+            Dim territoryQuery As New TerritoryQuery() With {
+                .TerritoryId = territoryId
             }
 
             ' Run the query
@@ -7997,25 +7998,29 @@ End Class
         End If
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetOrdersTest()
         If skip = "yes" Then Return
 
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim orderParameters As New OrderParameters() With { _
-            .offset = 0, _
-            .limit = 10 _
+        Dim orderParameters As New OrderParameters() With {
+            .offset = 0,
+            .limit = 10
         }
 
         Dim total As UInteger
         Dim errorString As String = ""
         Dim orders As Order() = route4Me.GetOrders(orderParameters, total, errorString)
 
-        Assert.IsInstanceOfType(orders, GetType(Order()), Convert.ToString("GetOrdersTest failed... ") & errorString)
+        Assert.IsInstanceOfType(
+            orders,
+            GetType(Order()),
+            Convert.ToString("GetOrdersTest failed. ") & errorString
+         )
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetOrderByIDTest()
         If skip = "yes" Then Return
 
@@ -8028,43 +8033,55 @@ End Class
         Dim errorString As String = ""
         Dim orders As Order = route4Me.GetOrderByID(orderParameters, errorString)
 
-        Assert.IsInstanceOfType(orders, GetType(Order), Convert.ToString("GetOrderByIDTest failed... ") & errorString)
+        Assert.IsInstanceOfType(
+            orders,
+            GetType(Order),
+            Convert.ToString("GetOrderByIDTest failed. ") & errorString
+         )
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetOrderByInsertedDateTest()
         If skip = "yes" Then Return
 
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me = New Route4MeManager(c_ApiKey)
 
         Dim InsertedDate As String = DateTime.Now.ToString("yyyy-MM-dd")
 
-        Dim oParams As New OrderParameters() With { _
-            .day_added_YYMMDD = InsertedDate _
+        Dim oParams = New OrderParameters With {
+            .day_added_YYMMDD = InsertedDate
         }
 
-        Dim errorString As String = ""
-        Dim orders As Order() = route4Me.SearchOrders(oParams, errorString)
+        Dim errorString As String = Nothing
+        Dim orders = route4Me.SearchOrders(oParams, errorString)
 
-        Assert.IsInstanceOfType(orders, GetType(Order()), Convert.ToString("GetOrderByInsertedDateTest failed... ") & errorString)
+        Assert.IsInstanceOfType(
+            orders,
+            GetType(GetOrdersResponse),
+            "GetOrderByInsertedDateTest failed. " & errorString
+         )
     End Sub
 
     <TestMethod>
     Public Sub GetOrderByScheduledDateTest()
         If skip = "yes" Then Return
 
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me = New Route4MeManager(c_ApiKey)
 
-        Dim dtTomorrow As DateTime = DateTime.Now + (New TimeSpan(1, 0, 0, 0))
+        Dim dtTomorrow = DateTime.Now + (New TimeSpan(1, 0, 0, 0))
 
-        Dim oParams As New OrderParameters() With {
+        Dim oParams = New OrderParameters() With {
             .scheduled_for_YYMMDD = dtTomorrow.ToString("yyyy-MM-dd")
         }
 
-        Dim errorString As String = ""
-        Dim orders As Order() = route4Me.SearchOrders(oParams, errorString)
+        Dim errorString As String = Nothing
+        Dim orders = route4Me.SearchOrders(oParams, errorString)
 
-        Assert.IsInstanceOfType(orders, GetType(Order()), Convert.ToString("GetOrderByScheduledDateTest failed... ") & errorString)
+        Assert.IsInstanceOfType(
+            orders,
+            GetType(GetOrdersResponse),
+            "GetOrderByScheduledDateTest failed. " & errorString
+         )
     End Sub
 
     <TestMethod>
@@ -8077,9 +8094,9 @@ End Class
         Dim endDate As String = (DateTime.Now + (New TimeSpan(31, 0, 0, 0))).ToString("yyyy-MM-dd")
 
         Dim oParams = New OrderFilterParameters() With {
+            .Limit = 10,
             .Filter = New FilterDetails() With {
                 .Display = "all",
-                .Limit = 10,
                 .Scheduled_for_YYMMDD = New String() {startDate, endDate}
             }
         }
@@ -8087,27 +8104,35 @@ End Class
         Dim errorString As String = Nothing
         Dim orders As Order() = route4Me.FilterOrders(oParams, errorString)
 
-        Assert.IsInstanceOfType(orders, GetType(Order()), "GetOrdersByScheduleFilter failed... " & errorString)
+        Assert.IsInstanceOfType(
+            orders,
+            GetType(Order()),
+            "GetOrdersByScheduleFilter failed. " & errorString
+         )
     End Sub
 
     <TestMethod> _
     Public Sub GetOrdersBySpecifiedTextTest()
         If skip = "yes" Then Return
 
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me = New Route4MeManager(c_ApiKey)
 
         Dim query As String = "Test Address1"
 
-        Dim oParams As New OrderParameters() With { _
-            .query = query, _
-            .offset = 0, _
-            .limit = 20 _
+        Dim oParams = New OrderParameters() With {
+            .query = query,
+            .offset = 0,
+            .limit = 20
         }
 
-        Dim errorString As String = ""
-        Dim orders As Order() = route4Me.SearchOrders(oParams, errorString)
+        Dim errorString As String = Nothing
+        Dim orders = route4Me.SearchOrders(oParams, errorString)
 
-        Assert.IsInstanceOfType(orders, GetType(Order()), Convert.ToString("GetOrdersBySpecifiedTextTest failed... ") & errorString)
+        Assert.IsInstanceOfType(
+            orders,
+            GetType(GetOrdersResponse),
+            "GetOrdersBySpecifiedTextTest failed. " & errorString
+         )
     End Sub
 
     <TestMethod> _
@@ -8134,27 +8159,26 @@ End Class
     Public Sub UpdateOrderTest()
         If skip = "yes" Then Return
 
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me = New Route4MeManager(c_ApiKey)
 
         Dim orderId As String = If(lsOrderiDs.Count > 0, lsOrderiDs(0), "")
 
-        Assert.IsFalse(orderId = "", "There is no order for updating...")
+        Assert.IsFalse(orderId = "", "There is no order for updating.")
 
-        Dim orderParameters As New OrderParameters() With { _
-            .order_id = orderId _
+        Dim orderParameters = New OrderParameters() With {
+            .order_id = orderId
         }
 
-        Dim errorString As String = ""
+        Dim errorString As String = Nothing
         Dim order As Order = route4Me.GetOrderByID(orderParameters, errorString)
 
-        Assert.IsTrue(order IsNot Nothing, Convert.ToString("There is no order for updating... ") & errorString)
+        Assert.IsTrue(order IsNot Nothing, "There is no order for updating. " & errorString)
 
-        order.EXT_FIELD_last_name = "Updated " + (New Random()).[Next]().ToString()
+        order.EXT_FIELD_last_name = "Updated " & (New Random()).[Next]().ToString()
 
-        ' Run the query
-        Dim updatedOrder As Order = route4Me.UpdateOrder(order, errorString)
+        Dim updatedOrder = route4Me.UpdateOrder(order, errorString)
 
-        Assert.IsNotNull(updatedOrder, Convert.ToString("UpdateOrderTest failed... ") & errorString)
+        Assert.IsNotNull(updatedOrder, "UpdateOrderTest failed. " & errorString)
     End Sub
 
     <TestMethod>
@@ -8162,6 +8186,7 @@ End Class
         If skip = "yes" Then Return
 
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
         Dim orderParams As Order = New Order() With {
             .address_1 = "318 S 39th St, Louisville, KY 40212, USA",
             .cached_lat = 38.259326,
@@ -8187,7 +8212,8 @@ End Class
         }
         Dim errorString As String = ""
         Dim newOrder = route4Me.AddOrder(orderParams, errorString)
-        Assert.IsNotNull(newOrder, "AddScheduledOrdersTest failed... " & errorString)
+
+        Assert.IsNotNull(newOrder, "AddScheduledOrdersTest failed. " & errorString)
     End Sub
 
     <TestMethod>
@@ -8281,6 +8307,7 @@ End Class
                 .OrderId = 7205703
             }
         }
+
         Dim rParams As RouteParameters = New RouteParameters() With {
             .RouteName = "Wednesday 15th of June 2016 07:01 PM (+03:00)",
             .RouteDate = 1465948800,
@@ -8295,9 +8322,13 @@ End Class
         }
 
         Dim errorString As String = ""
-        Dim dataObject As DataObject = route4Me.AddOrdersToOptimization(rQueryParams, addresses, rParams, errorString)
+        Dim dataObject As DataObject = route4Me.AddOrdersToOptimization(
+            rQueryParams,
+            addresses,
+            rParams,
+            errorString)
 
-        Assert.IsNotNull(dataObject, "AddOrdersToOptimizationTest failed... " & errorString)
+        Assert.IsNotNull(dataObject, "AddOrdersToOptimizationTest failed. " & errorString)
 
     End Sub
 
@@ -8322,7 +8353,7 @@ End Class
         Dim errorString As String = Nothing
         Dim result = route4Me.AddOrder(orderParams, errorString)
 
-        Assert.IsNotNull(result, "AddOrdersToRouteTest failed... " & errorString)
+        Assert.IsNotNull(result, "AddOrdersToRouteTest failed. " & errorString)
 
         lsOrderiDs.Add(result.order_id.ToString())
         lsOrders.Add(result)
@@ -8333,15 +8364,21 @@ End Class
         If skip = "yes" Then Return
 
         Dim route4Me = New Route4MeManager(c_ApiKey)
+
         Dim order = lsOrders(lsOrders.Count - 1)
 
-        order.custom_user_fields = New OrderCustomField() {New OrderCustomField() With {
-        .OrderCustomFieldId = 93,
-        .OrderCustomFieldValue = "true"
-    }}
+        order.custom_user_fields = New OrderCustomField() _
+        {
+            New OrderCustomField() With {
+                .OrderCustomFieldId = 93,
+                .OrderCustomFieldValue = "true"
+            }
+        }
+
         Dim errorString As String = Nothing
         Dim result = route4Me.UpdateOrder(order, errorString)
-        Assert.IsNotNull(result, "AddOrdersToRouteTest failed... " & errorString)
+
+        Assert.IsNotNull(result, "AddOrdersToRouteTest failed. " & errorString)
     End Sub
 
     <TestMethod>
@@ -8414,9 +8451,13 @@ End Class
         }
 
         Dim errorString As String
-        Dim result As RouteResponse = route4Me.AddOrdersToRoute(rQueryParams, addresses, rParams, errorString)
+        Dim result As RouteResponse = route4Me.AddOrdersToRoute(
+            rQueryParams,
+            addresses,
+            rParams,
+            errorString)
 
-        Assert.IsNotNull(result, "AddOrdersToRouteTest failed... " & errorString)
+        Assert.IsNotNull(result, "AddOrdersToRouteTest failed. " & errorString)
     End Sub
 
     <ClassCleanup> _

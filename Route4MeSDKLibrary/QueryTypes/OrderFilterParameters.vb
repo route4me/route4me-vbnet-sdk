@@ -8,6 +8,18 @@ Namespace Route4MeSDK.QueryTypes
     Public NotInheritable Class OrderFilterParameters
         Inherits GenericParameters
 
+        ''' <summary>
+        ''' Limit per page, if you use 0 you will get all records
+        ''' </summary>
+        <DataMember(Name:="limit")>
+        Public Property Limit As UInteger?
+
+        ''' <summary>
+        ''' Offset.
+        ''' </summary>
+        <DataMember(Name:="offset")>
+        Public Property Offset As UInteger?
+
         <DataMember(Name:="filter")>
         Public Property Filter As FilterDetails
     End Class
@@ -29,16 +41,5 @@ Namespace Route4MeSDK.QueryTypes
         <DataMember(Name:="scheduled_for_YYMMDD")>
         Public Property Scheduled_for_YYMMDD As String()
 
-        ''' <summary>
-        ''' Limit per page, if you use 0 you will get all records
-        ''' </summary>
-        <DataMember(Name:="limit")>
-        Public Property Limit As UInteger?
-
-        ''' <summary>
-        ''' Offset.
-        ''' </summary>
-        <DataMember(Name:="offset")>
-        Public Property Offset As UInteger?
     End Class
 End Namespace

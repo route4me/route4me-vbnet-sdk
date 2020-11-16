@@ -1,5 +1,4 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
-Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDKTest.Examples
@@ -7,26 +6,23 @@ Namespace Route4MeSDKTest.Examples
         ''' <summary>
         ''' Get Orders by Custom Fields
         ''' </summary>
-        Public Sub GetOrdersByCustomFields(CustomFields As String)
+        Public Sub GetOrdersByCustomFields(Optional CustomFields As String = Nothing)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim oParams As New OrderParameters() With { _
-                .Fields = CustomFields, _
-                .Offset = 0, _
-                .Limit = 20 _
+            Dim oParams = New OrderParameters() With {
+                .fields = If(
+                    CustomFields Is Nothing,
+                    "order_id,member_id",
+                    CustomFields),
+                .offset = 0,
+                .limit = 20
             }
 
-            Dim errorString As String = ""
-            Dim results As List(Of Integer()) = route4Me.SearchOrdersByCustomFields(oParams, errorString)
+            Dim errorString As String = Nothing
+            Dim result = route4Me.SearchOrders(oParams, errorString)
 
-            Console.WriteLine("")
-
-            If results IsNot Nothing Then
-                Console.WriteLine("GetOrderByCustomFields executed successfully, orders searched total = {0}", results.Count)
-            Else
-                Console.WriteLine("GetOrderByInsertedDate error: {0}", errorString)
-            End If
+            PrintExampleOrder(result, errorString)
         End Sub
     End Class
 End Namespace

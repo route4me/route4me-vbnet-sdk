@@ -2464,6 +2464,16 @@ User email.
  Available values: "all", "routed", "unrouted"
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderFilterParameters.Limit">
+ <summary>
+ Limit per page, if you use 0 you will get all records
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderFilterParameters.Offset">
+ <summary>
+ Offset.
+ </summary>
+</member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.FilterDetails.Display">
  <summary>
  Available values: "all", "routed", "unrouted"
@@ -2473,16 +2483,6 @@ User email.
  <summary>
  Start and end dates for filter the orders by schedule.
  e.g. ["2019-06-01", "2019-06-18"]
- </summary>
-</member>
-<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.FilterDetails.Limit">
- <summary>
- Limit per page, if you use 0 you will get all records
- </summary>
-</member>
-<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.FilterDetails.Offset">
- <summary>
- Offset.
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.limit">
@@ -2964,6 +2964,14 @@ User email.
  <param name="errorString"> out: Error as string </param>
  <returns> Territory Object </returns>
 </member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.SearchOrders(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters,System.String@)">
+ <summary>
+ Searches for the orders.
+ </summary>
+ <param name="orderQuery">The OrderParameters type object as the query parameters</param>
+ <param name="errorString">out: Error as string</param>
+ <returns>List of the Order type objects</returns>
+</member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.FilterOrders(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderFilterParameters,System.String@)">
  <summary>
  Filter for the orders filtering
@@ -2971,6 +2979,35 @@ User email.
  <param name="orderFilter">>The OrderFilterParameters object as a HTTP request payload</param>
  <param name="errorString">out: Error as string</param>
  <returns>Array of the Order type objects</returns>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetOrdersResponse">
+ <summary>
+ The response for the orders getting process.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetOrdersResponse.Results">
+ An arrary of the Order type objects
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetOrdersResponse.Total">
+ <value>Number of the returned orders</value>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetOrdersResponse.Fields">
+ <value>Selected order fields to show</value>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.SearchOrdersResponse">
+ <summary>
+ The response from the orders searching process (contains specified fields).
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.SearchOrdersResponse.Results">
+ <value>An arrary of the objects.
+ The item type: Object[]</value>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.SearchOrdersResponse.Total">
+ <value>Number of the returned orders</value>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.SearchOrdersResponse.Fields">
+ <value>Selected order fields to show</value>
 </member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetOrders(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters,System.UInt32@,System.String@)">
  <summary>

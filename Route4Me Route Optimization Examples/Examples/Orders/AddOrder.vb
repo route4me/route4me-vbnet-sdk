@@ -1,41 +1,32 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
-Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
         ''' Add Order
         ''' </summary>
-        ''' <returns> Added Order </returns>
-        Public Function AddOrder() As Order
+        Public Sub AddOrder()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim order As New Order() With { _
-                .address_1 = "Test Address1 " + (New Random()).[Next]().ToString(), _
-                .address_alias = "Test AddressAlias " + (New Random()).[Next]().ToString(), _
-                .cached_lat = 37.773972, _
-                .cached_lng = -122.431297 _
+            Dim order = New Order() With {
+                .address_1 = "Test Address1 " & (New Random()).[Next]().ToString(),
+                .address_alias = "Test AddressAlias " & (New Random()).[Next]().ToString(),
+                .cached_lat = 37.773972,
+                .cached_lng = -122.431297
             }
 
-            ' Run the query
-            Dim errorString As String = ""
+            Dim errorString As String = Nothing
             Dim resultOrder As Order = route4Me.AddOrder(order, errorString)
 
-            Console.WriteLine("")
-
-            If resultOrder IsNot Nothing Then
-                Console.WriteLine("AddOrder executed successfully")
-
-                Console.WriteLine("Order ID: {0}", resultOrder.order_id)
-
-                Return resultOrder
-            Else
-                Console.WriteLine("AddOrder error: {0}", errorString)
-
-                Return Nothing
+            If resultOrder IsNot Nothing AndAlso resultOrder.[GetType]() = GetType(Order) Then
+                OrdersToRemove.Add(resultOrder.order_id.ToString())
             End If
-        End Function
+
+            PrintExampleOrder(resultOrder, errorString)
+
+            RemoveTestOrders()
+        End Sub
     End Class
 End Namespace

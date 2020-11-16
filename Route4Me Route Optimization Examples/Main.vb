@@ -191,23 +191,10 @@ Namespace Route4MeSDKTest
             '}
 
             ' Orders
-            Dim order1 As Order = examples.AddOrder()
-            Dim order2 As Order = examples.AddOrder()
+            examples.AddOrder()
+            examples.UpdateOrder()
             examples.GetOrders()
-            If order1 IsNot Nothing Then
-                order1.EXT_FIELD_last_name = "Updated " + (New Random()).[Next]().ToString()
-                examples.UpdateOrder(order1)
-            Else
-                Console.WriteLine("order1 == null. UpdateOrder not called.")
-            End If
-            Dim orderIdsToRemove As New List(Of String)()
-            If order1 IsNot Nothing Then
-                orderIdsToRemove.Add(order1.order_id)
-            End If
-            If order2 IsNot Nothing Then
-                orderIdsToRemove.Add(order2.order_id)
-            End If
-            examples.RemoveOrders(orderIdsToRemove.ToArray())
+            examples.RemoveOrders()
 
             examples.GenericExample()
             examples.GenericExampleShortcut()

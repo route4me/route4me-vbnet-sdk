@@ -7,24 +7,30 @@ Namespace Route4MeSDKTest.Examples
         ''' <summary>
         ''' Get single Order by order_id
         ''' </summary>
-        Public Sub GetOrderByID(OrderId As Integer)
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+        ''' <param name="orderIds">Comma-delimited list of the order IDs</param>
+        Public Sub GetOrderByID(Optional orderIds As String = Nothing)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim orderParameters As New OrderParameters() With {
-                .order_id = OrderId
+            Dim isInnerExample As Boolean = If(orderIds Is Nothing, True, False)
+
+            If isInnerExample Then CreateExampleOrder()
+
+            Dim orderId = If(
+                isInnerExample,
+                OrdersToRemove(OrdersToRemove.Count - 1),
+                orderIds
+            )
+
+            Dim orderParameters = New OrderParameters() With {
+                .order_id = orderId
             }
 
-            Dim errorString As String = ""
+            Dim errorString As String = Nothing
             Dim order As Order = route4Me.GetOrderByID(orderParameters, errorString)
 
-            Console.WriteLine("")
+            PrintExampleOrder(order, errorString)
 
-            If order IsNot Nothing Then
-                Console.WriteLine("GetOrderByID executed successfully, order_id = {0}", order.order_id)
-            Else
-                Console.WriteLine("GetOrderByID error: {0}", errorString)
-            End If
+            If isInnerExample Then RemoveTestOrders()
         End Sub
     End Class
 End Namespace

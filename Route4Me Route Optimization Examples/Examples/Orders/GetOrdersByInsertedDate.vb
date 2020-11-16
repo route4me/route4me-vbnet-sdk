@@ -6,44 +6,33 @@ Imports Route4MeSDKLibrary.Route4MeSDK.Route4MeManager
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
-        ''' Get Orders by Scheduled Date
+        ''' Get Orders by Inserted Date
         ''' </summary>
-        Public Sub GetOrdersByScheduledDate(Optional ScheduleddDate As String = Nothing)
+        Public Sub GetOrdersByInsertedDate()
             ' Create the manager with the api key
             Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim isInnerExample As Boolean = If(
-                ScheduleddDate Is Nothing,
-                True,
-                False
-            )
+            CreateExampleOrder()
 
-            If isInnerExample Then
-                CreateExampleOrder()
-                ScheduleddDate = DateTime.Now.ToString("yyyy-MM-dd")
-            End If
+            Dim InsertedDate As String = DateTime.Now.ToString("yyyy-MM-dd")
 
             Dim oParams = New OrderParameters With {
-                .scheduled_for_YYMMDD = ScheduleddDate
+                .day_added_YYMMDD = InsertedDate
             }
 
             Dim errorString As String = Nothing
             Dim result = route4Me.SearchOrders(oParams, errorString)
 
-            PrintExampleOrder(result, errorString)
-
-            If isInnerExample AndAlso
-                result IsNot Nothing AndAlso
-                result.[GetType]() = GetType(GetOrdersResponse) Then
-
+            If result IsNot Nothing AndAlso result.[GetType]() = GetType(GetOrdersResponse) Then
                 OrdersToRemove = New List(Of String)()
 
                 For Each ord As Order In (CType(result, GetOrdersResponse)).Results
                     OrdersToRemove.Add(ord.order_id.ToString())
                 Next
-
-                RemoveTestOrders()
             End If
+
+            PrintExampleOrder(result, errorString)
+            RemoveTestOrders()
         End Sub
     End Class
 End Namespace

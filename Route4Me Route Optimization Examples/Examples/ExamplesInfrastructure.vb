@@ -2,6 +2,7 @@
 Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+Imports Route4MeSDKLibrary.Route4MeSDK.Route4MeManager
 
 Namespace Route4MeSDKTest.Examples
     Public Enum GeocodingPrintOption
@@ -22,6 +23,9 @@ Namespace Route4MeSDKTest.Examples
         Public addressBookGroupsToRemove As List(Of String)
         Public configKeysToRemove As List(Of String) = New List(Of String)()
         Public CustomNoteTypesToRemove As List(Of String) = New List(Of String)()
+        Public OrdersToRemove As List(Of String) = New List(Of String)()
+
+        Private lastCreatedOrder As Order
 
         Private dataObjectSD10Stops As DataObject
         Private SD10Stops_optimization_problem_id As String
@@ -97,23 +101,49 @@ Namespace Route4MeSDKTest.Examples
             End If
         End Sub
 
-        Private Sub PrintExampleRouteResult(ByVal dataObjectRoute As DataObjectRoute, ByVal errorString As String)
+        Private Sub PrintExampleRouteResult(ByVal dataObjectRoute As Object, ByVal errorString As String)
             Dim testName As String = (New StackTrace()).GetFrame(1).GetMethod().Name
             testName = If(testName IsNot Nothing, testName, "")
 
             Console.WriteLine("")
 
             If dataObjectRoute IsNot Nothing Then
+                Dim route1 = If(
+                    dataObjectRoute.[GetType]() = GetType(DataObjectRoute),
+                    CType(dataObjectRoute, DataObjectRoute),
+                    Nothing
+                )
+                Dim route2 = If(
+                    dataObjectRoute.[GetType]() = GetType(RouteResponse),
+                    CType(dataObjectRoute, RouteResponse),
+                    Nothing
+                )
+
                 Console.WriteLine("{0} executed successfully", testName)
                 Console.WriteLine("")
-                Console.WriteLine("Optimization Problem ID: {0}", dataObjectRoute.OptimizationProblemId)
+                Console.WriteLine(
+                    "Optimization Problem ID: {0}",
+                    If(
+                        route1 IsNot Nothing,
+                        route1.OptimizationProblemId,
+                        route2.OptimizationProblemId
+                      )
+                )
                 Console.WriteLine("")
 
-                dataObjectRoute.Addresses.ToList().
-                    ForEach(Sub(address)
-                                Console.WriteLine("Address: {0}", address.AddressString)
-                                Console.WriteLine("Route ID: {0}", address.RouteId)
-                            End Sub)
+                If route1 IsNot Nothing Then
+                    route1.Addresses.ToList().ForEach(
+                        Sub(address)
+                            Console.WriteLine("Address: {0}", address.AddressString)
+                            Console.WriteLine("Route ID: {0}", address.RouteId)
+                        End Sub)
+                Else
+                    route2.Addresses.ToList().ForEach(
+                        Sub(address)
+                            Console.WriteLine("Address: {0}", address.AddressString)
+                            Console.WriteLine("Route ID: {0}", address.RouteId)
+                        End Sub)
+                End If
             Else
                 Console.WriteLine("{0} error {1}", testName, errorString)
             End If
@@ -914,6 +944,110 @@ Namespace Route4MeSDKTest.Examples
             If response IsNot Nothing AndAlso response.[GetType]() = GetType(Integer) Then
                 CustomNoteTypesToRemove.Add("To Do 5")
             End If
+        End Sub
+
+#End Region
+
+#Region "Orders"
+        Private Sub CreateExampleOrder()
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim orderParams = New Order() With {
+                .address_1 = "318 S 39th St, Louisville, KY 40212, USA",
+                .cached_lat = 38.259326,
+                .cached_lng = -85.814979,
+                .curbside_lat = 38.259326,
+                .curbside_lng = -85.814979,
+                .address_alias = "318 S 39th St 40212",
+                .address_city = "Louisville",
+                .EXT_FIELD_first_name = "Lui",
+                .EXT_FIELD_last_name = "Carol",
+                .EXT_FIELD_email = "lcarol654@yahoo.com",
+                .EXT_FIELD_phone = "897946541",
+                .EXT_FIELD_custom_data = New Dictionary(Of String, String)() From {
+                    {"order_type", "scheduled order"}
+                },
+                .day_scheduled_for_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd"),
+                .local_time_window_end = 39000,
+                .local_time_window_end_2 = 46200,
+                .local_time_window_start = 37800,
+                .local_time_window_start_2 = 45000,
+                .local_timezone_string = "America/New_York",
+                .order_icon = "emoji/emoji-bank"
+            }
+
+            Dim errorString As String = Nothing
+            Dim newOrder = route4Me.AddOrder(orderParams, errorString)
+
+            If newOrder IsNot Nothing Then
+                OrdersToRemove.Add(newOrder.order_id.ToString())
+                lastCreatedOrder = newOrder
+            End If
+        End Sub
+
+        Private Sub PrintExampleOrder(ByVal result As Object, ByVal errorString As String)
+            Dim testName As String = (New StackTrace()).GetFrame(1).GetMethod().Name
+            testName = If(testName IsNot Nothing, testName, "")
+
+            Console.WriteLine("")
+
+            If result IsNot Nothing Then
+                Console.WriteLine(testName & " executed successfully")
+
+                If result.[GetType]() = GetType(Order) Then
+                    Console.WriteLine("Order ID: {0}", (CType(result, Order)).order_id)
+                ElseIf result.[GetType]() = GetType(Order()) Then
+
+                    For Each ord As Order In CType(result, Order())
+                        Console.WriteLine("Order ID: {0}", ord.order_id)
+                    Next
+                Else
+
+                    If result.[GetType]() = GetType(GetOrdersResponse) Then
+
+                        For Each ord As Order In CType((CType(result, GetOrdersResponse)).Results, Order())
+                            Console.WriteLine("Order ID: {0}", ord.order_id)
+                        Next
+                    ElseIf result.[GetType]() = GetType(SearchOrdersResponse) Then
+                        Dim fieldValueList = CType((CType(result, SearchOrdersResponse)).Results, Object())
+
+                        For Each fieldValues As Object In fieldValueList
+                            Dim fieldValueString As String = ""
+
+                            For Each fieldValue As Object In CType(fieldValues, Object())
+                                fieldValueString += fieldValue.ToString() & ","
+                            Next
+
+                            fieldValueString = fieldValueString.TrimEnd(","c)
+                            Console.WriteLine("Field values: {0}", fieldValueString)
+                        Next
+
+                        Console.WriteLine("")
+
+                        For Each fieldName As String In (CType(result, SearchOrdersResponse)).Fields
+                            Console.WriteLine(fieldName)
+                        Next
+                    Else
+                        Console.WriteLine("Wrong orders search response type")
+                    End If
+                End If
+            Else
+                Console.WriteLine(testName & " error: {0}", errorString)
+            End If
+        End Sub
+
+        Private Sub RemoveTestOrders()
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            If OrdersToRemove Is Nothing OrElse OrdersToRemove.Count < 1 Then Return
+
+            Dim errorString As String = Nothing
+            Dim removed As Boolean = route4Me.RemoveOrders(OrdersToRemove.ToArray(), errorString)
+
+            Console.WriteLine("")
+            Console.WriteLine(If(removed, "The test orders removed", "Cannot remove the test orders"))
+
+            lastCreatedOrder = Nothing
         End Sub
 
 #End Region

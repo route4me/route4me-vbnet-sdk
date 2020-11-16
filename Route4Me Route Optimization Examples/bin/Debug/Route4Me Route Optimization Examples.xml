@@ -580,21 +580,36 @@ The example refers to the process of query all the activities from the last spec
  <summary>
  Add Order
  </summary>
- <returns> Added Order </returns>
 </member>
-<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrders">
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddOrdersToOptimization">
  <summary>
- Get Orders
+ Add Orders to an Optimization Problem object
  </summary>
 </member>
-<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrderByID(System.Int32)">
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddScheduledOrder">
+ <summary>
+ Add Scheduled Order
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.CreateOrderWithCustomField">
+ <summary>
+ Create an order with custom fields.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrderByID(System.String)">
  <summary>
  Get single Order by order_id
  </summary>
+ <param name="orderIds">Comma-delimited list of the order IDs</param>
 </member>
-<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrderByInsertedDate(System.String)">
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrdersByInsertedDate">
  <summary>
  Get Orders by Inserted Date
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrders">
+ <summary>
+ Get limited number of the Orders
  </summary>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrdersByCustomFields(System.String)">
@@ -602,15 +617,21 @@ The example refers to the process of query all the activities from the last spec
  Get Orders by Custom Fields
  </summary>
 </member>
-<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrderByScheduledDate(System.String)">
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrdersByScheduledDate(System.String)">
  <summary>
  Get Orders by Scheduled Date
  </summary>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrdersByScheduleFilter">
+ <summary>
+ Get orders by schedule filter
+ </summary>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrdersBySpecifiedText(System.String)">
  <summary>
- Get Orders by Specified Text
+ Get Orders be containing specified text in any text field.
  </summary>
+ <param name="query">The query text</param>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveOrders(System.String[])">
  <summary>
@@ -622,7 +643,12 @@ The example refers to the process of query all the activities from the last spec
  <summary>
  Update Order
  </summary>
- <param name="order"> Order with updated attributes </param>
+ <param name="order1"> Order with updated attributes </param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateOrderWithCustomField">
+ <summary>
+ Update an order with custom field.
+ </summary>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ResequenceReoptimizeRoute(System.String)">
  <summary>
