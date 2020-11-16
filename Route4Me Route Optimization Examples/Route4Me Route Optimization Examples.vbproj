@@ -214,6 +214,10 @@
     <Compile Include="Examples\Optimizations\RemoveOptimization.vb" />
     <Compile Include="Examples\Optimizations\ReOptimization.vb" />
     <Compile Include="Examples\Optimizations\UpdateOptimizationDestination.vb" />
+    <Compile Include="Examples\OrderCustomUserFields\CreateOrderCustomUserField.vb" />
+    <Compile Include="Examples\OrderCustomUserFields\GetOrderCustomUserFields.vb" />
+    <Compile Include="Examples\OrderCustomUserFields\RemoveOrderCustomUserField.vb" />
+    <Compile Include="Examples\OrderCustomUserFields\updateOrderCustomUserField.vb" />
     <Compile Include="Examples\Orders\AddOrder.vb" />
     <Compile Include="Examples\Orders\AddOrdersToOptimization.vb" />
     <Compile Include="Examples\Orders\AddOrdersToRoute.vb" />

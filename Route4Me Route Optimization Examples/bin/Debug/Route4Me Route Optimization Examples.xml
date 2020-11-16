@@ -576,6 +576,26 @@ The example refers to the process of query all the activities from the last spec
  Update an optimization destination
  </summary>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.CreateOrderCustomUserField">
+ <summary>
+ Create an order custom user field.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetOrderCustomUserFields">
+ <summary>
+ Get the order custom user fields.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveOrderCustomUserField">
+ <summary>
+ Remove an order custom user field.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.updateOrderCustomUserField">
+ <summary>
+ Update an order custom user field. 
+ </summary>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AddOrder">
  <summary>
  Add Order

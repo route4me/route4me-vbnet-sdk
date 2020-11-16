@@ -24,6 +24,7 @@ Namespace Route4MeSDKTest.Examples
         Public configKeysToRemove As List(Of String) = New List(Of String)()
         Public CustomNoteTypesToRemove As List(Of String) = New List(Of String)()
         Public OrdersToRemove As List(Of String) = New List(Of String)()
+        Public OrderCustomFieldsToRemove As List(Of Integer) = New List(Of Integer)()
 
         Private lastCreatedOrder As Order
 
@@ -1051,5 +1052,97 @@ Namespace Route4MeSDKTest.Examples
         End Sub
 
 #End Region
+
+#Region "Order Custom Users Fields"
+
+        Private Sub CreateTestOrderCustomUserField()
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim orderCustomFieldParams = New OrderCustomFieldParameters() With {
+                .OrderCustomFieldName = "CustomField77",
+                .OrderCustomFieldLabel = "Custom Field 77",
+                .OrderCustomFieldType = "checkbox",
+                .OrderCustomFieldTypeInfo = New Dictionary(Of String, Object)() From {
+                    {"short_label", "cFl77"},
+                    {"description", "This is test order custom field"},
+                    {"custom field no", 11}
+                }
+            }
+
+            Dim errorString As String = Nothing
+            Dim orderCustomUserField = route4Me.CreateOrderCustomUserField(orderCustomFieldParams, errorString)
+
+            If (If(orderCustomUserField?.Data?.OrderCustomFieldId, -1)) > 0 Then
+                OrderCustomFieldsToRemove.Add(orderCustomUserField.Data.OrderCustomFieldId)
+            End If
+
+            PrintOrderCustomField(orderCustomUserField, errorString)
+        End Sub
+
+        Private Sub PrintOrderCustomField(ByVal result As Object, ByVal Optional errorString As String = "")
+            Dim testName As String = (New StackTrace()).GetFrame(1).GetMethod().Name
+            testName = If(testName IsNot Nothing, testName, "")
+
+            Console.WriteLine("")
+
+            If result IsNot Nothing Then
+                Console.WriteLine(testName & " executed successfully")
+
+                If result.[GetType]() = GetType(OrderCustomFieldCreateResponse) Then
+                    Dim ocfResponse = CType(result, OrderCustomFieldCreateResponse)
+
+                    If (If(ocfResponse?.Data?.OrderCustomFieldId, -1)) > 0 Then
+                        Console.WriteLine(
+                            "Order Custom user field ID: {0}",
+                            ocfResponse.Data.OrderCustomFieldId)
+                    Else
+                        Console.WriteLine(
+                            "Order Custom user fields affected: {0}",
+                            ocfResponse.Affected)
+                    End If
+                Else
+
+                    For Each customField In CType(result, OrderCustomField())
+                        Console.WriteLine(
+                            "Order Custom user field ID: {0}",
+                            customField.OrderCustomFieldId)
+                    Next
+                End If
+            Else
+                Console.WriteLine(testName & " error: {0}", errorString)
+            End If
+        End Sub
+
+        Private Sub RemoveTestOrderCustomField()
+            If OrderCustomFieldsToRemove Is Nothing OrElse OrderCustomFieldsToRemove.Count < 1 Then
+                Return
+            End If
+
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+            Dim errorString As String = Nothing
+
+            For Each fieldId As Integer In OrderCustomFieldsToRemove
+                Dim orderCustomFieldParams = New OrderCustomFieldParameters() With {
+                    .OrderCustomFieldId = fieldId
+                }
+
+                Dim response = route4Me.RemoveOrderCustomUserField(
+                    orderCustomFieldParams,
+                    errorString
+                )
+
+                Console.WriteLine(
+                    If(
+                        If(response?.Affected, 0) > 0,
+                        String.Format("The custom field {0} removed.", fieldId),
+                        String.Format("Cannot remove the custom field {0}.", fieldId)
+                      )
+                )
+            Next
+        End Sub
+
+#End Region
+
+
     End Class
 End Namespace
