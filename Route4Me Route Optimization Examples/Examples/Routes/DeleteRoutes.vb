@@ -1,26 +1,38 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
-Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
-Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Sub DeleteRoutes(routeIds As String())
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+        ''' <summary>
+        ''' Remove specified routes.
+        ''' </summary>
+        ''' <param name="routeIds">An array of the route IDs</param>
+        Public Sub DeleteRoutes(ByVal Optional routeIds As String() = Nothing)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            'routeIds = new string[] { "1" }
+            Dim isInnerExample As Boolean = If(routeIds Is Nothing, True, False)
 
-            ' Run the query
-            Dim errorString As String = ""
+            If isInnerExample Then
+                RunOptimizationSingleDriverRoute10Stops()
+                OptimizationsToRemove = New List(Of String)() From {
+                    SD10Stops_optimization_problem_id
+                }
+                RunSingleDriverRoundTrip()
+                OptimizationsToRemove.Add(SDRT_optimization_problem_id)
+                routeIds = New String() {SD10Stops_route_id, SDRT_route_id}
+            End If
+
+            Dim errorString As String = Nothing
             Dim deletedRouteIds As String() = route4Me.DeleteRoutes(routeIds, errorString)
 
             Console.WriteLine("")
+            Console.WriteLine(
+                If(
+                    deletedRouteIds IsNot Nothing,
+                    String.Format("DeleteRoutes executed successfully, {0} routes deleted", deletedRouteIds.Length),
+                    String.Format("DeleteRoutes error {0}", errorString))
+                )
 
-            If deletedRouteIds IsNot Nothing Then
-                Console.WriteLine("DeleteRoutes executed successfully, {0} routes deleted", deletedRouteIds.Length)
-                Console.WriteLine("")
-            Else
-                Console.WriteLine("DeleteRoutes error {0}", errorString)
-            End If
+            RemoveTestOptimizations()
         End Sub
     End Class
 End Namespace

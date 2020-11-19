@@ -1,30 +1,33 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Sub GetRoutePathPoints(routeId As String)
+        ''' <summary>
+        ''' Get route path points
+        ''' </summary>
+        Public Sub GetRoutePathPoints()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim routeParameters As New RouteParametersQuery() With { _
-                .RouteId = routeId, _
-                .RoutePathOutput = "Points"
+            RunOptimizationSingleDriverRoute10Stops()
+
+            OptimizationsToRemove = New List(Of String)() From {
+                SD10Stops_optimization_problem_id
             }
 
-            ' Run the query
-            Dim errorString As String = ""
-            Dim dataObject As DataObjectRoute = route4Me.GetRoute(routeParameters, errorString)
+            Dim routeParameters = New RouteParametersQuery() With {
+                .RouteId = SD10Stops_route_id,
+                .RoutePathOutput = RoutePathOutput.Points.ToString()
+            }
 
-            Console.WriteLine("")
+            Dim errorString As String = Nothing
+            Dim dataObject = route4Me.GetRoute(routeParameters, errorString)
 
-            If dataObject IsNot Nothing Then
-                Console.WriteLine("GetRoutePathPoints executed successfully")
+            PrintExampleRouteResult(dataObject, errorString)
 
-                Console.WriteLine("Route ID: {0}", dataObject.RouteID)
-            Else
-                Console.WriteLine("GetRoutePathPoints error: {0}", errorString)
-            End If
+            RemoveTestOptimizations()
         End Sub
     End Class
 End Namespace

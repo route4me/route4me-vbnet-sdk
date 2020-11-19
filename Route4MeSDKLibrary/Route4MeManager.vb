@@ -3174,7 +3174,12 @@ Namespace Route4MeSDK
         ''' <param name="errorString"> out: Error as string </param>
         ''' <returns> Vehicle object list </returns>
         Public Function GetVehicles(ByVal vehParams As VehicleParameters, ByRef errorString As String) As VehiclesPaginated
-            Dim response As VehiclesPaginated = GetJsonObjectFromAPI(Of VehiclesPaginated)(vehParams, R4MEInfrastructureSettings.Vehicle_V4, HttpMethodType.[Get], errorString)
+            Dim response As VehiclesPaginated = GetJsonObjectFromAPI(Of VehiclesPaginated)(
+                vehParams,
+                R4MEInfrastructureSettings.Vehicle_V4,
+                HttpMethodType.[Get],
+                errorString
+            )
 
             Return response
         End Function

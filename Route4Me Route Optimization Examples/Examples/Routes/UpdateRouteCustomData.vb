@@ -5,29 +5,47 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
 
     Partial Public NotInheritable Class Route4MeExamples
-        Public Sub UpdateRouteCustomData(routeId As String, routeDestionationId As Integer, CustomData As Dictionary(Of String, String))
-            ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+        ''' <summary>
+        ''' The example refers to the process of updating a route 
+        ''' by sending custom data of an address with HTTP PUT method.
+        ''' </summary>
+        ''' <param name="routeId">Route ID</param>
+        ''' <param name="routeDestionationId">Route destination ID</param>
+        ''' <param name="CustomData">Custom data</param>
+        Public Sub UpdateRouteCustomData(
+                    ByVal Optional routeId As String = Nothing,
+                    ByVal Optional routeDestionationId As Integer? = Nothing,
+                    ByVal Optional CustomData As Dictionary(Of String, String) = Nothing)
 
-            Dim routeParameters As New RouteParametersQuery() With { _
-                .RouteId = routeId, _
+            ' Create the manager with the api key
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim isInnerExample As Boolean = If(routeId Is Nothing, True, False)
+
+            If isInnerExample Then
+                RunOptimizationSingleDriverRoute10Stops()
+
+                OptimizationsToRemove = New List(Of String)() From {
+                    SD10Stops_optimization_problem_id
+                }
+
+                routeId = SD10Stops_route_id
+                routeDestionationId = SD10Stops_route.Addresses(1).RouteDestinationId
+            End If
+
+            Dim parameters = New RouteParametersQuery() With {
+                .RouteId = routeId,
                 .RouteDestinationId = routeDestionationId
             }
 
             ' Run the query
-            Dim errorString As String = ""
-            Dim dataObject As Address = route4Me.UpdateRouteCustomData(routeParameters, CustomData, errorString)
+            Dim errorString As String = Nothing
+            Dim result As Address = route4Me.
+                UpdateRouteCustomData(parameters, CustomData, errorString)
 
-            Console.WriteLine("")
+            PrintExampleDestination(result, errorString)
 
-            If dataObject IsNot Nothing Then
-                Console.WriteLine("UpdateRouteCustomData executed successfully")
-
-                Console.WriteLine("Route ID: {0}", dataObject.RouteId)
-                Console.WriteLine("Route Destination ID: {0}", dataObject.RouteDestinationId)
-            Else
-                Console.WriteLine("UpdateRouteCustomData error: {0}", errorString)
-            End If
+            If isInnerExample Then RemoveTestOptimizations()
         End Sub
     End Class
 End Namespace

@@ -1,30 +1,51 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
-Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Function DuplicateRoute(routeId As String) As String
+        ''' <summary>
+        ''' Duplicate a route
+        ''' </summary>
+        ''' <param name="routeId">Route ID</param>
+        Public Sub DuplicateRoute(ByVal Optional routeId As String = Nothing)
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim routeParameters As New RouteParametersQuery() With { _
-                .RouteId = routeId _
-            }
+            Dim isInnerEample As Boolean = If(routeId Is Nothing, True, False)
 
-            ' Run the query
-            Dim errorString As String = ""
-            Dim duplicatedRouteId As String = route4Me.DuplicateRoute(routeParameters, errorString)
+            If isInnerEample Then
+                RunOptimizationSingleDriverRoute10Stops()
 
-            Console.WriteLine("")
+                OptimizationsToRemove = New List(Of String)() From {
+                    SD10Stops_optimization_problem_id
+                }
 
-            If duplicatedRouteId IsNot Nothing Then
-                Console.WriteLine("DuplicateRoute executed successfully, duplicated route ID: {0}", duplicatedRouteId)
-                Console.WriteLine("")
-            Else
-                Console.WriteLine("DuplicateRoute error {0}", errorString)
+                routeId = SD10Stops_route_id
             End If
 
-            Return duplicatedRouteId
-        End Function
+            Dim routeParameters = New RouteParametersQuery() With {
+                .RouteId = routeId
+            }
+
+            Dim errorString As String = Nothing
+            Dim duplicatedRouteId As String = route4Me.DuplicateRoute(routeParameters, errorString)
+
+            If duplicatedRouteId IsNot Nothing Then RoutesToRemove = New List(Of String)() From {
+                duplicatedRouteId
+            }
+
+            Console.WriteLine(
+                If(
+                    duplicatedRouteId IsNot Nothing,
+                    String.Format("DuplicateRoute executed successfully, duplicated route ID: {0}", duplicatedRouteId),
+                    String.Format("DuplicateRoute error {0}", errorString)
+                  )
+            )
+
+            If isInnerEample Then
+                RemoveTestRoutes()
+                RemoveTestOptimizations()
+            End If
+        End Sub
     End Class
 End Namespace

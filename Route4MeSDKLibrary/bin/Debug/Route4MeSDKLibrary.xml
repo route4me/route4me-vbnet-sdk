@@ -2237,6 +2237,341 @@ User email.
  <c>true</c> True, if the vehicle Is New.
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response">
+ <summary>
+ Response from the vehicle request. See also <seealso cref="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehiclesPaginated"/>.
+ </summary>
+ <seealso cref="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.GenericParameters" />
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.VehicleId">
+ <summary>
+ The vehicle ID.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.MemberId">
+ <summary>
+ Member ID assigned to the vehicle.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.VehicleAlias">
+ <summary>
+ Vehicle alias.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.VehicleVin">
+ <summary>
+ Vehicle VIN.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.VehicleRegStateId">
+ <summary>
+ Vehicle registration state ID.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.VehicleRegCountryId">
+ <summary>
+ Vehicle registration country ID.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.VehicleLicensePlate">
+ <summary>
+ A license plate of the vehicle.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.VehicleTypeID">
+ <summary>
+ Vehicle type.
+ <para>Availbale values:</para>
+ <value>
+ 'sedan', 'suv', 'pickup_truck', 'van', '18wheeler', 'cabin', 'hatchback', 
+ '<para>motorcyle', 'waste_disposal', 'tree_cutting', 'bigrig', 'cement_mixer', </para>
+ 'livestock_carrier', 'dairy','tractor_trailer'.
+ </value>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.TimestampAdded">
+ <summary>
+ timestamp_added
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.VehicleMake">
+ <summary>
+ Vehicle maker brend. 
+ <para>Available values:</para>
+ <value>
+ "american coleman", "bmw", "chevrolet", "ford", "freightliner", "gmc", 
+ <para>"hino", "honda", "isuzu", "kenworth", "mack", "mercedes-benz", "mitsubishi", </para>
+ "navistar", "nissan", "peterbilt", "renault", "scania", "sterling", "toyota", 
+ <para>"volvo", "western star" </para>
+ </value>"
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.VehicleModelYear">
+ <summary>
+ Vehicle model year.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.VehicleModel">
+ <summary>
+ Vehicle model.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.VehicleYearAcquired">
+ <summary>
+ The year, vehicle was acquired.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.VehicleCostNew">
+ <summary>
+ A cost of the new vehicle.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.PurchasedNew">
+ <summary>
+ If true, the vehicle was purchased New.
+ TO DO: this Property should be Boolean> type, but there Is bug And it can contain
+ wrong value (e.g. \u0001). Until fixing of the bug this property will be object type.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.LicenseStartDate">
+ <summary>
+ Start date of the license.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.LicenseEndDate">
+ <summary>
+ End date of the license.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.VehicleAxleCount">
+ <summary>
+ A number of the vecile's axles.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.IsOperational">
+ <summary>
+ If equal to '1', the vehicle is operational.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.MpgCity">
+ <summary>
+ Miles per gallon in the city area.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.MpgHighway">
+ <summary>
+ Miles per gallon in the highway area.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.FuelType">
+ <summary>
+ A type of the fuel.
+ <para>Available values:</para>
+ <value>unleaded 87, unleaded 89, unleaded 91, unleaded 93, diesel, electric, hybrid</value>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.HeightInches">
+ <summary>
+ Height of the vehicle in the inches.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.WeightLb">
+ <summary>
+ Weight of the vehicle in the pounds.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.Route4meTelematicsInternalApiKey">
+ <summary>
+ Gets Or sets the route4me telematics internal API key.
+ </summary>
+ <value>
+ The route4me telematics internal API key.
+ </value>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.ExternalTelematicsVehicleID">
+ <summary>
+ External telematics vehicle ID.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.R4mTelematicsGatewayConnectionId">
+ <summary>
+ Gets Or sets the R4M telematics gateway connection identifier.
+ </summary>
+ <value>
+ The R4M telematics gateway connection identifier.
+ </value>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.R4mTelematicsGatewayVehicleId">
+ <summary>
+ Gets Or sets the R4M telematics gateway vehicle identifier.
+ </summary>
+ <value>
+ The R4M telematics gateway vehicle identifier.
+ </value>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.HasTrailer">
+ <summary>
+ If true, the vehicle has trailer.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.HeightInInches">
+ <summary>
+ Vehicle height in inches.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.LengthInInches">
+ <summary>
+ Vehicle length in inches.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.WidthInInches">
+ <summary>
+ Vehicle width in inches.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.MaxWeightPerAxleGroupInPounds">
+ <summary>
+ Maximum weight per axle group in pounds.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.NumAxles">
+ <summary>
+ Number of the axles.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.WeightInPounds">
+ <summary>
+ Weight in pounds.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.HazmatType">
+ <summary>
+ Hazardous materials type.
+ <para>Available values:</para>
+ <value>'INVALID', 'NONE', 'GENERAL', 'EXPLOSIVE', 
+ 'INHALANT', 'RADIOACTIVE', 'CAUSTIC', 'FLAMMABLE', 'HARMFUL_TO_WATER'</value>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.LowEmissionZonePref">
+ <summary>
+ Low emission zone preference.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.Use53FootTrailerRouting">
+ <summary>
+ If equal to 'YES', optimization algorithm will use 53 foot trailer routing.
+ <para>Available values:</para>
+ <value>'YES', 'NO'</value>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.UseNationalNetwork">
+ <summary>
+ If equal to 'YES', optimization algorithm will use national network.
+ <para>Available values:</para>
+ <value>'YES', 'NO'</value>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.UseTruckRestrictions">
+ <summary>
+ If equal to 'YES', optimization algorithm will use truck restrictions.
+ <para>Available values:</para>
+ <value>'YES', 'NO'</value>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.AvoidFerries">
+ <summary>
+ If equal to 'YES', optimization algorithm will avoid ferries.
+ <para>Available values:</para>
+ <value>'YES', 'NO'</value>.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.DividedHighwayAvoidPreference">
+ <summary>
+ Divided highway avoid preference (e.g. NEUTRAL).
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.FreewayAvoidPreference">
+ <summary>
+ Freeway avoid preference.
+ <para>Available values:</para>
+ <value>'STRONG_AVOID', 'AVOID', 'NEUTRAL', 'FAVOR', 'STRONG_FAVOR'</value>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.InternationalBordersOpen">
+ <summary>
+ If equal to 'YES', optimization algorithm will use 'International borders open' option.
+ <para>Available values:</para>
+ <value>'YES', 'NO'</value>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.TollRoadUsage">
+ <summary>
+ Toll road usage.
+ <para>Available values:</para>
+ <value>'STRONG_AVOID', 'AVOID', 'NEUTRAL', 'FAVOR', 'STRONG_FAVOR'</value>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.HwyOnly">
+ <summary>
+ If equal to 'YES', the vehicle uses only highway. default = 'NO'.
+ <para>Available values:</para>
+ <value>'YES', 'NO'</value>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.LongCombinationVehicle">
+ <summary>
+ If equal to 'YES', the vehicle is long combination. default = 'NO'.
+ <para>Available values:</para>
+ <value>'YES', 'NO'</value>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.AvoidHighways">
+ <summary>
+ If equal to 'YES', the vehicle should avoid highways. default = 'NO'.
+ <para>Available values:</para>
+ <value>'YES', 'NO'</value>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.SideStreetAdherence">
+ <summary>
+ Side street adherence.
+ <para>Available values:</para>
+ <value>'OFF', 'MINIMAL', 'MODERATE', 'AVERAGE', 'STRICT', 'ADHERE', 'STRONGLYHERE'</value>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.TruckConfig">
+ <summary>
+ Truck configuration.
+ <para>Available values:</para>
+ <value>'NONE', 'PASSENGER', '28_DOUBLETRAILER', '48_STRAIGHT_TRUCK', '48_SEMI_TRAILER', 
+ '53_SEMI_TRAILER', 'FULLSIZEVAN', '26_STRAIGHT_TRUCK'</value>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.HeightMetric">
+ <summary>
+ Vehicle height in metric unit.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.LengthMetric">
+ <summary>
+ Vehicle length in metric unit.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.WidthMetric">
+ <summary>
+ Vehicle width in metric unit.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.MaxWeightPerAxleGroupMetric">
+ <summary>
+ Maximum weight per axle group in metric unit.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response.WeightMetric">
+ <summary>
+ Vehicle weight in metric unit.
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters">
  <summary>
  Avoidance zone parameters
@@ -2380,6 +2715,18 @@ User email.
  <summary>
  Route parameters accepted by endpoints
  </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.MergeRoutesQuery.RouteIds">
+ Don't serialize as JSON
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.MergeRoutesQuery.ToRouteId">
+ Where to merge routes (optional)
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.MergeRoutesQuery.RouteDestinationId">
+ Depot ID
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.MergeRoutesQuery.RouteDestinationIDs">
+ Comma-delimited list of the depot IDs.
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.NoteParameters.ActivityType">
  <summary>

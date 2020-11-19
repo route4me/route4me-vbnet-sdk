@@ -17,6 +17,7 @@ Namespace Route4MeSDKTest.Examples
         Public ActualApiKey As String = R4MeUtils.ReadSetting("actualApiKey")
         Public DemoApiKey As String = R4MeUtils.ReadSetting("demoApiKey")
 
+        Public AvoidanceZonesToRemove As List(Of String) = New List(Of String)()
         Public ContactsToRemove As List(Of String)
         Public RoutesToRemove As List(Of String)
         Public OptimizationsToRemove As List(Of String)
@@ -102,18 +103,33 @@ Namespace Route4MeSDKTest.Examples
             End If
         End Sub
 
-        Private Sub PrintExampleRouteResult(ByVal dataObjectRoute As Object, ByVal errorString As String)
-            Dim testName As String = (New StackTrace()).GetFrame(1).GetMethod().Name
+        Private Sub PrintExampleRouteResult(ByVal dataObjectRoute As Object,
+                                            ByVal errorString As String)
+
+            Dim testName As String = (New StackTrace()).
+                GetFrame(1).
+                GetMethod().
+                Name
+
             testName = If(testName IsNot Nothing, testName, "")
 
             Console.WriteLine("")
 
-            If dataObjectRoute IsNot Nothing Then
+            If dataObjectRoute Is Nothing Then
+                Console.WriteLine("{0} error {1}", testName, errorString)
+            ElseIf dataObjectRoute.[GetType]() = GetType(DataObjectRoute()) Then
+                Console.WriteLine("{0} executed successfully", testName)
+
+                For Each route In CType(dataObjectRoute, DataObjectRoute())
+                    Console.WriteLine("Route ID: {0}", route.RouteID)
+                Next
+            Else
                 Dim route1 = If(
                     dataObjectRoute.[GetType]() = GetType(DataObjectRoute),
                     CType(dataObjectRoute, DataObjectRoute),
                     Nothing
                 )
+
                 Dim route2 = If(
                     dataObjectRoute.[GetType]() = GetType(RouteResponse),
                     CType(dataObjectRoute, RouteResponse),
@@ -122,14 +138,11 @@ Namespace Route4MeSDKTest.Examples
 
                 Console.WriteLine("{0} executed successfully", testName)
                 Console.WriteLine("")
-                Console.WriteLine(
-                    "Optimization Problem ID: {0}",
-                    If(
-                        route1 IsNot Nothing,
-                        route1.OptimizationProblemId,
-                        route2.OptimizationProblemId
-                      )
-                )
+                Console.WriteLine("Optimization Problem ID: {0}",
+                                   If(route1 IsNot Nothing,
+                                      route1.OptimizationProblemId,
+                                      route2.OptimizationProblemId)
+                                 )
                 Console.WriteLine("")
 
                 If route1 IsNot Nothing Then
@@ -138,15 +151,43 @@ Namespace Route4MeSDKTest.Examples
                             Console.WriteLine("Address: {0}", address.AddressString)
                             Console.WriteLine("Route ID: {0}", address.RouteId)
                         End Sub)
+
+                    If (If(route1?.Directions?.Length, 0)) > 0 Then
+                        Console.WriteLine("")
+                        Console.WriteLine(
+                            String.Format("Directions length: {0}",
+                            route1.Directions.Length)
+                        )
+                    End If
+
+                    If (If(route1?.Path?.Length, 0)) > 0 Then
+                        Console.WriteLine("")
+                        Console.WriteLine(String.Format("Path points: {0}", route1.Path.Length))
+                    End If
                 Else
                     route2.Addresses.ToList().ForEach(
                         Sub(address)
                             Console.WriteLine("Address: {0}", address.AddressString)
                             Console.WriteLine("Route ID: {0}", address.RouteId)
                         End Sub)
+
+                    If (If(route2?.Directions?.Length, 0)) > 0 Then
+                        Console.WriteLine("")
+                        Console.WriteLine(
+                            String.Format(
+                                "Directions length: {0}",
+                                route2.Directions.Length)
+                            )
+                    End If
+
+                    If (If(route2?.Path?.Length, 0)) > 0 Then
+                        Console.WriteLine("")
+                        Console.WriteLine(
+                            String.Format("Path points: {0}",
+                            route2.Path.Length)
+                        )
+                    End If
                 End If
-            Else
-                Console.WriteLine("{0} error {1}", testName, errorString)
             End If
         End Sub
 
@@ -185,7 +226,7 @@ Namespace Route4MeSDKTest.Examples
             End If
         End Sub
 
-        Public Function RunOptimizationSingleDriverRoute10Stops()
+        Public Function RunOptimizationSingleDriverRoute10Stops(ByVal Optional routeName As String = Nothing)
             Dim r4mm As New Route4MeManager(ActualApiKey)
 
 #Region "Prepare the addresses"
@@ -254,7 +295,11 @@ Namespace Route4MeSDKTest.Examples
 
             Dim parameters As New RouteParameters() With {
                 .AlgorithmType = AlgorithmType.TSP,
-                .RouteName = "Single Driver Route 10 Stops Test",
+                .RouteName = If(
+                                routeName Is Nothing,
+                                "SD Route 10 Stops Test " & DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                                routeName
+                             ),
                 .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)),
                 .RouteTime = 60 * 60 * 7,
                 .Optimize = Optimize.Distance.GetEnumDescription(),
@@ -517,6 +562,14 @@ Namespace Route4MeSDKTest.Examples
 
             Return deleted
         End Function
+
+        Private Sub RemoveAvoidanceZones()
+            If AvoidanceZonesToRemove IsNot Nothing OrElse AvoidanceZonesToRemove.Count < 1 Then Return
+
+            For Each avZone As String In AvoidanceZonesToRemove
+                RemoveAvidanceZone(avZone)
+            Next
+        End Sub
 
         Public Sub CreateAvoidanceZone()
             Dim route4Me = New Route4MeManager(ActualApiKey)

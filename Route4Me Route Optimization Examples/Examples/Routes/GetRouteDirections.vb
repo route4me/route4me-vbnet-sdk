@@ -1,32 +1,32 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
-Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Sub GetRouteDirections(routeId As String)
+        ''' <summary>
+        ''' Get route directions
+        ''' </summary>
+        Public Sub GetRouteDirections()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim routeParameters As New RouteParametersQuery() With { _
-                .RouteId = routeId, _
+            RunOptimizationSingleDriverRoute10Stops()
+
+            OptimizationsToRemove = New List(Of String)() From {
+                SD10Stops_optimization_problem_id
+            }
+
+            Dim routeParameters = New RouteParametersQuery() With {
+                .RouteId = SD10Stops_route_id,
                 .Directions = True
             }
 
-            ' Run the query
-            Dim errorString As String = ""
-            Dim routeResponse As RouteResponse = route4Me.GetRouteDirections(routeParameters, errorString)
+            Dim errorString As String = Nothing
+            Dim dataObject = route4Me.GetRoute(routeParameters, errorString)
 
-            Console.WriteLine("")
+            PrintExampleRouteResult(dataObject, errorString)
 
-            If routeResponse IsNot Nothing Then
-                Console.WriteLine("GetRouteDirections executed successfully")
-
-                Console.WriteLine("Route ID: {0}", routeResponse.RouteID)
-
-                Console.WriteLine("Total directions: {0}", routeResponse.Directions.Count())
-            Else
-                Console.WriteLine("GetRouteDirections error: {0}", errorString)
-            End If
+            RemoveTestOptimizations()
         End Sub
     End Class
 End Namespace

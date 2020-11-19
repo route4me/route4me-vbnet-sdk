@@ -5,32 +5,24 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
-        ''' Example refers to the process of searching for the specified text 
-        ''' throughout all routes names belonging to the user's account.
+        ''' Gets the routes from specified date range.
         ''' </summary>
-        Public Sub SearchRoutesForText()
-            ' Create the manager with the api key
+        Public Sub GetRoutesFromDateRange()
             Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            RunOptimizationSingleDriverRoute10Stops("Nonstandard route name")
-
-            OptimizationsToRemove = New List(Of String)() From {
-                SD10Stops_optimization_problem_id
-            }
+            Dim t10days As TimeSpan = New TimeSpan(10, 0, 0, 0)
+            Dim dtNow As DateTime = DateTime.Now
 
             Dim routeParameters = New RouteParametersQuery() With {
-                .Query = "Nonstandard"
+                .StartDate = (dtNow - t10days).ToString("yyyy-MM-dd"),
+                .EndDate = dtNow.ToString("yyyy-MM-dd")
             }
 
-            ' Run the query
             Dim errorString As String = Nothing
             Dim dataObjects As DataObjectRoute() = route4Me.
                 GetRoutes(routeParameters, errorString)
 
             PrintExampleRouteResult(dataObjects, errorString)
-
-            RemoveTestOptimizations()
-
         End Sub
     End Class
 End Namespace

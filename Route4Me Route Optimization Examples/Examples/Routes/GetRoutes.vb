@@ -1,34 +1,26 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
+        ''' <summary>
+        ''' Get limited number of the routes.
+        ''' </summary>
         Public Sub GetRoutes()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim routeParameters As New RouteParametersQuery() With { _
-                .Limit = 10, _
-                .Offset = 5 _
+            Dim routeParameters = New RouteParametersQuery() With {
+                .Limit = 10,
+                .Offset = 5
             }
 
-            ' Run the query
-            Dim errorString As String = ""
-            Dim dataObjects As DataObjectRoute() = route4Me.GetRoutes(routeParameters, errorString)
+            Dim errorString As String = Nothing
+            Dim dataObjects As DataObjectRoute() = route4Me.
+                        GetRoutes(routeParameters, errorString)
 
-            Console.WriteLine("")
-
-            If dataObjects IsNot Nothing Then
-                Console.WriteLine("GetRoutes executed successfully, {0} routes returned", dataObjects.Length)
-                Console.WriteLine("")
-
-                For Each dataobject As DataObjectRoute In dataObjects
-                    Console.WriteLine("RouteID: {0}", dataobject.RouteID)
-                    Console.WriteLine("")
-                Next
-            Else
-                Console.WriteLine("GetRoutes error {0}", errorString)
-            End If
+            PrintExampleRouteResult(dataObjects, errorString)
         End Sub
     End Class
 End Namespace
