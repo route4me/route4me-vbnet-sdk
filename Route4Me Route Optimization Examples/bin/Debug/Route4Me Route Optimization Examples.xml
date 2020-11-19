@@ -670,19 +670,144 @@ The example refers to the process of query all the activities from the last spec
  Update an order with custom field.
  </summary>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AssignMemberToRoute">
+ <summary>
+ Assign a team member to a route.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AssignVehicleToRoute">
+ <summary>
+ Assign a vehicle to a route.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ChangeRouteDepote">
+ <summary>
+ Change a route depot.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.DeleteRoutes(System.String[])">
+ <summary>
+ Remove specified routes.
+ </summary>
+ <param name="routeIds">An array of the route IDs</param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.DuplicateRoute(System.String)">
+ <summary>
+ Duplicate a route
+ </summary>
+ <param name="routeId">Route ID</param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetRoute(System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
+ <summary>
+ Get a route by route ID
+ </summary>
+ <param name="routeId">Route ID</param>
+ <param name="getRouteDirections">If true. the directions included in the response</param>
+ <param name="getRoutePathPoints">If true. the path points included in the response</param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetRouteDirections">
+ <summary>
+ Get route directions
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetRoutePathPoints">
+ <summary>
+ Get route path points
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetRoutes">
+ <summary>
+ Get limited number of the routes.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetRoutesByIDs">
+ <summary>
+ Get the routes by list of the route IDs.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetRoutesFromDateRange">
+ <summary>
+ Gets the routes from specified date range.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MergeRoutes(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.MergeRoutesQuery)">
+ <summary>
+ Merge two routes in one.
+ </summary>
+ <param name="mergeRoutesParameters">MergeRoutesQuery type parameters</param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ReoptimizeRoute(System.String)">
+ <summary>
+ Reoptimize a route
+ </summary>
+ <param name="routeId">Route Id</param>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ResequenceReoptimizeRoute(System.String)">
  <summary>
  Resequence and Reoptimze a Route
  </summary>
+ <param name="routeId">Route ID</param>
 </member>
-<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ResequenceRouteDestination(System.String,System.Int32)">
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ResequenceRouteDestination">
  <summary>
  Resequence Route Destination
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RouteOriginParameter">
+ <summary>
+ Get origin route of the duplicated route.
  </summary>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RouteSharing(System.String,System.String)">
  <summary>
  Sharing a Route with someone by email
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchRoutesForText">
+ <summary>
+ Example refers to the process of searching for the specified text 
+ throughout all routes names belonging to the user's account.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.ShareRoute">
+ <summary>
+ Share a route by email.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UnlinkRouteFromOptimization">
+ <summary>
+ Unlink a route from an optimization.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateRoute(System.String)">
+ <summary>
+ Update Route Parameters
+ </summary>
+ <param name="routeId">Route ID</param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateRouteAvoidanceZones">
+ <summary>
+ Update route avoidance zones.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateRouteCustomData(System.String,System.Nullable{System.Int32},System.Collections.Generic.Dictionary{System.String,System.String})">
+ <summary>
+ The example refers to the process of updating a route 
+ by sending custom data of an address with HTTP PUT method.
+ </summary>
+ <param name="routeId">Route ID</param>
+ <param name="routeDestionationId">Route destination ID</param>
+ <param name="CustomData">Custom data</param>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateRouteDestination">
+ <summary>
+ The example refers to the process of updating many parameters 
+ simultaneously of the route destination by sending the HTTP parameters.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateWholeRoute">
+ <summary>
+ Update route by sending a modified whole route object.
  </summary>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.CreatePolygonTerritory">

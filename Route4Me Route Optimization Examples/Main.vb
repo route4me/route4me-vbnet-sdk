@@ -69,21 +69,12 @@ Namespace Route4MeSDKTest
                 Console.WriteLine("ReOptimization not called. optimizationProblemID == null.")
             End If
 
-            If routeId_SingleDriverRoute10Stops IsNot Nothing Then
-                examples.GetRoute(routeId_SingleDriverRoute10Stops)
-            Else
-                Console.WriteLine("GetRoute not called. routeId_SingleDriverRoute10Stops == null.")
-            End If
-
-            If routeId_SingleDriverRoute10Stops IsNot Nothing Then
-                examples.UpdateRoute(routeId_SingleDriverRoute10Stops)
-                examples.ReoptimizeRoute(routeId_SingleDriverRoute10Stops)
-                examples.GetRoute(routeId_SingleDriverRoute10Stops)
-            Else
-                Console.WriteLine("UpdateRoute, ReoptimizeRoute, GetRoute not called. routeId_SingleDriverRoute10Stops == null.")
-            End If
-
+            examples.UpdateRoute()
+            examples.ReoptimizeRoute()
+            examples.GetRoute()
             examples.GetRoutes()
+            examples.DuplicateRoute()
+
             examples.GetUsers()
 
             examples.GetActivities()
@@ -97,12 +88,6 @@ Namespace Route4MeSDKTest
                 Console.WriteLine("AddAddressNote, GetAddress, GetAddressNotes not called. routeIdToMoveTo == null || routeDestinationIdToMove == 0.")
             End If
 
-            Dim routeId_DuplicateRoute As String = Nothing
-            If routeId_SingleDriverRoute10Stops IsNot Nothing Then
-                routeId_DuplicateRoute = examples.DuplicateRoute(routeId_SingleDriverRoute10Stops)
-            Else
-                Console.WriteLine("DuplicateRoute not called. routeId_SingleDriverRoute10Stops == null.")
-            End If
 
             Dim routeIdsToDelete As New List(Of String)()
             If routeId_SingleDriverRoute10Stops IsNot Nothing Then
@@ -110,9 +95,6 @@ Namespace Route4MeSDKTest
             End If
             If routeId_SingleDriverRoundTrip IsNot Nothing Then
                 routeIdsToDelete.Add(routeId_SingleDriverRoundTrip)
-            End If
-            If routeId_DuplicateRoute IsNot Nothing Then
-                routeIdsToDelete.Add(routeId_DuplicateRoute)
             End If
             If routeId_MultipleDepotMultipleDriver IsNot Nothing Then
                 routeIdsToDelete.Add(routeId_MultipleDepotMultipleDriver)
