@@ -1,14 +1,16 @@
-' See video tutorial here: http://support.route4me.com/route-planning-help.php?id=manual0:tutorial2:chapter2:subchapter4
-
 Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Function MultipleDepotMultipleDriverWith24StopsTimeWindow() As DataObject
+        ''' <summary>
+        ''' The example refers to the process of creating an optimization 
+        ''' with 24 stops And options: multi-depot, multi-driver, time windows options.
+        ''' </summary>
+        Public Sub MultipleDepotMultipleDriverWith24StopsTimeWindow()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
             ' Prepare the addresses
             Dim addresses As Address() = New Address() {New Address() With {
@@ -54,8 +56,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 34801,
                 .TimeWindowEnd = 36366
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "2705 N River Rd, Stow, OH 44224",
                 .Latitude = 41.145240783691,
                 .Longitude = -81.410247802734,
@@ -97,8 +98,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 48089,
                 .TimeWindowEnd = 48449
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "3933 Klein Ave, Stow, OH 44224",
                 .Latitude = 41.169467926025,
                 .Longitude = -81.429420471191,
@@ -140,8 +140,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 56613,
                 .TimeWindowEnd = 57052
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "5169 Brockton Dr, Stow, OH 44224",
                 .Latitude = 41.195003509521,
                 .Longitude = -81.392700195312,
@@ -186,34 +185,39 @@ Namespace Route4MeSDKTest.Examples
             }}
 
             ' Set parameters
-            Dim parameters As New RouteParameters() With {
+            Dim parameters = New RouteParameters() With {
                 .AlgorithmType = AlgorithmType.CVRP_TW_MD,
                 .RouteName = "Multiple Depot, Multiple Driver with 24 Stops, Time Window",
-                .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)),
+                .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.Date.AddDays(1)),
                 .RouteTime = 60 * 60 * 7,
                 .RouteMaxDuration = 86400,
-                .VehicleCapacity = "1",
-                .VehicleMaxDistanceMI = "10000",
-                .Optimize = EnumHelper.GetEnumDescription(Optimize.Distance),
-                .DistanceUnit = EnumHelper.GetEnumDescription(DistanceUnit.MI),
-                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.Web),
-                .TravelMode = EnumHelper.GetEnumDescription(TravelMode.Driving),
-                .Metric = Metric.Geodesic
+                .VehicleCapacity = 1,
+                .VehicleMaxDistanceMI = 10000,
+                .Optimize = Optimize.Distance.GetEnumDescription(),
+                .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
+                .DeviceType = DeviceType.Web.GetEnumDescription(),
+                .TravelMode = TravelMode.Driving.GetEnumDescription(),
+                .Metric = Metric.Matrix
             }
 
-            Dim optimizationParameters As New OptimizationParameters() With { _
-                .Addresses = addresses, _
-                .Parameters = parameters _
+            Dim optimizationParameters = New OptimizationParameters() With {
+                .Addresses = addresses,
+                .Parameters = parameters
             }
 
             ' Run the query
-            Dim errorString As String = ""
-            Dim dataObject As DataObject = route4Me.RunOptimization(optimizationParameters, errorString)
+            Dim errorString As String = Nothing
+            Dim dataObject As DataObject = route4Me.RunOptimization(
+                                                        optimizationParameters,
+                                                        errorString)
 
-            ' Output the result
+            OptimizationsToRemove = New List(Of String)() From {
+                If(dataObject?.OptimizationProblemId, Nothing)
+            }
+
             PrintExampleOptimizationResult(dataObject, errorString)
 
-            Return dataObject
-        End Function
+            RemoveTestOptimizations()
+        End Sub
     End Class
 End Namespace

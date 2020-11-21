@@ -180,6 +180,27 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="route_max_duration", EmitDefaultValue:=False)>
         Public Property RouteMaxDuration As Long?
 
+        ''' <summary>
+        ''' The parameter specifies fine-tuning of an optimization process
+        ''' by route duration.
+        ''' </summary>
+        <DataMember(Name:="target_duration", EmitDefaultValue:=False)>
+        Public Property TargetDuration As Double?
+
+        ''' <summary>
+        ''' The parameter specifies fine-tuning of an optimization process 
+        ''' by route distance.
+        ''' </summary>
+        <DataMember(Name:="target_distance", EmitDefaultValue:=False)>
+        Public Property TargetDistance As Double?
+
+        ''' <summary>
+        ''' The parameter specifies fine-tuning of an optimization process 
+        ''' by waiting time.
+        ''' </summary>
+        <DataMember(Name:="target_wait_by_tail_size", EmitDefaultValue:=False)>
+        Public Property WaitingTime As Double?
+
         ''' <summary>The email address to notify upon completion of an optimization request</summary>
         ''' <value>The route email.</value>
         <DataMember(Name:="route_email", EmitDefaultValue:=False)>

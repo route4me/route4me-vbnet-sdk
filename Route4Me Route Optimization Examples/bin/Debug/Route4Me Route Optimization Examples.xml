@@ -490,6 +490,24 @@ The example refers to the process of query all the activities from the last spec
  Update an User
  </summary>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MultipleDepotMultipleDriver">
+ <summary>
+ The example refers to the process of creating an optimization 
+ with multi-depot, multi-driver options.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MultipleDepotMultipleDriverTimeWindow">
+ <summary>
+ The example refers to the process of creating an optimization 
+ with multi-depot, multi-driver, time windows options.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MultipleDepotMultipleDriverWith24StopsTimeWindow">
+ <summary>
+ The example refers to the process of creating an optimization 
+ with 24 stops And options: multi-depot, multi-driver, time windows options.
+ </summary>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RemoveAddressBookContacts(System.String[])">
  <summary>
  Remove an array of the address book contacts.
@@ -670,6 +688,42 @@ The example refers to the process of query all the activities from the last spec
  Update an order with custom field.
  </summary>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.BundledAddresses">
+ <summary>
+ The example referes to the process of creating an optimization 
+ with bundled addresses.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetScheduleCalendar">
+ <summary>
+ Get schedule calendar of the contacts, orders, routes.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MultipleDepotMultipleDriverFineTuning">
+ <summary>
+ The example refers to the process of creating an optimization 
+ with multi-depot, multi-driver options, And fine-tuning.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.MultipleSeparateDepostMultipleDriver">
+ <summary>
+ The example refers to the process of creating an optimization 
+ with separate depot segment And multi-depot, multi-driver, 
+ time windows options.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.Route300Stops">
+ <summary>
+ The example refers to the process of creating  
+ an optimization with 300 stops.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.RouteSlowdown">
+ <summary>
+ The example refers to the process of creating an optimization 
+ with slow-down parameters.
+ </summary>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.AssignMemberToRoute">
  <summary>
  Assign a team member to a route.
@@ -808,6 +862,36 @@ The example refers to the process of query all the activities from the last spec
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateWholeRoute">
  <summary>
  Update route by sending a modified whole route object.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SingleDepotMultipleDriverNoTimeWindow">
+ <summary>
+ The example refers to the process of creating an optimization 
+ with single-depot, multi-driver, no time windows options.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SingleDriverMultipleTimeWindows">
+ <summary>
+ The example refers to the process of creating an optimization 
+ with single-driver, multiple time windows options.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SingleDriverRoundTrip">
+ <summary>
+ The example refers to the process of creating 
+ an optimization with round trip option.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SingleDriverRoundTripGeneric">
+ <summary>
+ This example demonstares how to use the API in a generic way, Not bounded to the proposed Route4MeManager shortcucts
+ For the same functionality using shortcuts check the Route4MeExamples.SingleDriverRoundTrip()
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SingleDriverRoute10Stops">
+ <summary>
+ The example refers to the process of creating an optimization 
+ with 10 stops And single-driver option.
  </summary>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.CreatePolygonTerritory">

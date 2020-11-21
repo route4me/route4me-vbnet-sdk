@@ -4,12 +4,15 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Function SingleDriverRoute10Stops() As DataObject
+        ''' <summary>
+        ''' The example refers to the process of creating an optimization 
+        ''' with 10 stops And single-driver option.
+        ''' </summary>
+        Public Sub SingleDriverRoute10Stops()
             ' Create the manager with the api key
             Dim route4Me As New Route4MeManager(ActualApiKey)
 
-            ' Prepare the addresses
-            '#Region "Addresses"
+#Region "Prepare the addresses"
 
             'indicate that this is a departure stop
             'single depot routes can only have one departure depot 
@@ -19,10 +22,7 @@ Namespace Route4MeSDKTest.Examples
             'the expected time on site, in seconds. this value is incorporated into the optimization engine
             'it also adjusts the estimated and dynamic eta's for a route
 
-
             'input as many custom fields as needed, custom data is passed through to mobile devices and to the manifest
-
-            '#End Region
 
             Dim addresses As Address() = New Address() {New Address() With {
                 .AddressString = "151 Arbor Way Milledgeville GA 31061",
@@ -59,8 +59,7 @@ Namespace Route4MeSDKTest.Examples
                 .Latitude = 33.142036437988,
                 .Longitude = -83.238845825195,
                 .Time = 0
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "138 Bill Johnson Rd NE Milledgeville GA 31061",
                 .Latitude = 33.14307,
                 .Longitude = -83.239334,
@@ -82,30 +81,35 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0
             }}
 
+#End Region
+
             ' Set parameters
-            Dim parameters As New RouteParameters() With {
+            Dim parameters = New RouteParameters() With {
                 .AlgorithmType = AlgorithmType.TSP,
                 .RouteName = "Single Driver Route 10 Stops",
-                .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)),
+                .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.Date.AddDays(1)),
                 .RouteTime = 60 * 60 * 7,
-                .Optimize = EnumHelper.GetEnumDescription(Optimize.Distance),
-                .DistanceUnit = EnumHelper.GetEnumDescription(DistanceUnit.MI),
-                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.Web)
+                .Optimize = Optimize.Distance.GetEnumDescription(),
+                .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
+                .DeviceType = DeviceType.Web.GetEnumDescription()
             }
 
-            Dim optimizationParameters As New OptimizationParameters() With { _
-                .Addresses = addresses, _
-                .Parameters = parameters _
+            Dim optimizationParameters = New OptimizationParameters() With {
+                .Addresses = addresses,
+                .Parameters = parameters
             }
 
             ' Run the query
-            Dim errorString As String = ""
+            Dim errorString As String = Nothing
             Dim dataObject As DataObject = route4Me.RunOptimization(optimizationParameters, errorString)
 
-            ' Output the result
+            OptimizationsToRemove = New List(Of String)() From {
+                If(dataObject?.OptimizationProblemId, Nothing)
+            }
+
             PrintExampleOptimizationResult(dataObject, errorString)
 
-            Return dataObject
-        End Function
+            RemoveTestOptimizations()
+        End Sub
     End Class
 End Namespace

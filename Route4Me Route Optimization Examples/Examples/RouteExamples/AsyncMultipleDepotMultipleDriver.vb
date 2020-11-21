@@ -135,7 +135,7 @@ Namespace Route4MeSDKTest.Examples
                 .DistanceUnit = EnumHelper.GetEnumDescription(DistanceUnit.MI),
                 .DeviceType = EnumHelper.GetEnumDescription(DeviceType.Web),
                 .TravelMode = EnumHelper.GetEnumDescription(TravelMode.Driving),
-                .Metric = Metric.Geodesic
+                .Metric = Metric.Matrix
             }
 
             Dim optimizationParameters As OptimizationParameters = New OptimizationParameters() With {
@@ -152,6 +152,7 @@ Namespace Route4MeSDKTest.Examples
                     PrintExampleOptimizationResult(dataObject, errorString)
                     Return dataObject
                 End Function)
+
             Return dataObject
         End Function
     End Class

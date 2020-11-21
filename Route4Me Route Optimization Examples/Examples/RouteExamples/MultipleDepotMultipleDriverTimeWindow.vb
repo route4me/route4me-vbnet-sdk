@@ -1,16 +1,19 @@
-' See video tutorial here: http://support.route4me.com/route-planning-help.php?id=manual0:tutorial2:chapter2:subchapter2
-
 Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Function MultipleDepotMultipleDriverTimeWindow() As DataObject
+        ''' <summary>
+        ''' The example refers to the process of creating an optimization 
+        ''' with multi-depot, multi-driver, time windows options.
+        ''' </summary>
+        Public Sub MultipleDepotMultipleDriverTimeWindow()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
             ' Prepare the addresses
-            Dim addresses As Address() = New Address() {New Address() With {
+            Dim addresses = New Address() {New Address() With {
                 .AddressString = "455 S 4th St, Louisville, KY 40202",
                 .IsDepot = True,
                 .Latitude = 38.251698,
@@ -53,8 +56,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 39550,
                 .TimeWindowEnd = 41348
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "4629 HILLSIDE DRIVE, Louisville, KY, 40216",
                 .Latitude = 38.176067,
                 .Longitude = -85.824638,
@@ -96,8 +98,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 50924,
                 .TimeWindowEnd = 51392
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "3222 KINGSWOOD WAY, Louisville, KY, 40216",
                 .Latitude = 38.210606,
                 .Longitude = -85.822594,
@@ -139,8 +140,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 61504,
                 .TimeWindowEnd = 62061
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "2512 GREENWOOD AVE, Louisville, KY, 40210",
                 .Latitude = 38.241405,
                 .Longitude = -85.795059,
@@ -182,8 +182,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 73177,
                 .TimeWindowEnd = 75231
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "3210 POPLAR VIEW DR, Louisville, KY, 40216",
                 .Latitude = 38.182594,
                 .Longitude = -85.849937,
@@ -225,8 +224,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 84365,
                 .TimeWindowEnd = 85367
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "678 WESTLAWN ST, Louisville, KY, 40211",
                 .Latitude = 38.250397,
                 .Longitude = -85.80629,
@@ -268,8 +266,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 91150,
                 .TimeWindowEnd = 91915
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "6925 MANSLICK RD, Louisville, KY, 40214",
                 .Latitude = 38.158466,
                 .Longitude = -85.798355,
@@ -311,8 +308,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 106021,
                 .TimeWindowEnd = 107276
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "1810 GREGG AVE, Louisville, KY, 40210",
                 .Latitude = 38.224716,
                 .Longitude = -85.796211,
@@ -354,8 +350,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 111375,
                 .TimeWindowEnd = 112120
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "117 FOUNT LANDING CT, Louisville, KY, 40212",
                 .Latitude = 38.270061,
                 .Longitude = -85.799438,
@@ -397,8 +392,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 121147,
                 .TimeWindowEnd = 124281
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "814 WWHITNEY AVE, Louisville, KY, 40215",
                 .Latitude = 38.193596,
                 .Longitude = -85.773521,
@@ -440,8 +434,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 134402,
                 .TimeWindowEnd = 136787
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "4020 GARLAND AVE #lOOA, Louisville, KY, 40211",
                 .Latitude = 38.246181,
                 .Longitude = -85.818901,
@@ -483,8 +476,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 148296,
                 .TimeWindowEnd = 150177
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "2829 DE MEL #11, Louisville, KY, 40214",
                 .Latitude = 38.171662,
                 .Longitude = -85.807271,
@@ -526,8 +518,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 157212,
                 .TimeWindowEnd = 158655
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "4912 DIXIE HWY, Louisville, KY, 40216",
                 .Latitude = 38.170728,
                 .Longitude = -85.826817,
@@ -569,8 +560,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 166189,
                 .TimeWindowEnd = 166640
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "1155 S 28TH ST, Louisville, KY, 40211",
                 .Latitude = 38.238621,
                 .Longitude = -85.799911,
@@ -612,8 +602,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 172393,
                 .TimeWindowEnd = 175337
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "823 SUTCLIFFE, Louisville, KY, 40211",
                 .Latitude = 38.246956,
                 .Longitude = -85.811569,
@@ -655,8 +644,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 300,
                 .TimeWindowStart = 184193,
                 .TimeWindowEnd = 185853
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "4305  STOLTZ  CT, Louisville, KY, 40215",
                 .Latitude = 38.178707,
                 .Longitude = -85.787292,
@@ -666,35 +654,40 @@ Namespace Route4MeSDKTest.Examples
             }}
 
             ' Set parameters
-            Dim parameters As New RouteParameters() With {
+            Dim parameters = New RouteParameters() With {
                 .AlgorithmType = AlgorithmType.CVRP_TW_MD,
                 .RouteName = "Multiple Depot, Multiple Driver, Time Window",
-                .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)),
+                .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.Date.AddDays(1)),
                 .RouteTime = 60 * 60 * 7,
                 .RT = True,
                 .RouteMaxDuration = 86400 * 3,
-                .VehicleCapacity = "99",
-                .VehicleMaxDistanceMI = "99999",
-                .Optimize = EnumHelper.GetEnumDescription(Optimize.Time),
-                .DistanceUnit = EnumHelper.GetEnumDescription(DistanceUnit.MI),
-                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.Web),
-                .TravelMode = EnumHelper.GetEnumDescription(TravelMode.Driving),
+                .VehicleCapacity = 99,
+                .VehicleMaxDistanceMI = 99999,
+                .Optimize = Optimize.Time.GetEnumDescription(),
+                .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
+                .DeviceType = DeviceType.Web.GetEnumDescription(),
+                .TravelMode = TravelMode.Driving.GetEnumDescription(),
                 .Metric = Metric.Geodesic
             }
 
-            Dim optimizationParameters As New OptimizationParameters() With { _
-                .Addresses = addresses, _
-                .Parameters = parameters _
+            Dim optimizationParameters = New OptimizationParameters() With {
+                .Addresses = addresses,
+                .Parameters = parameters
             }
 
             ' Run the query
-            Dim errorString As String = ""
-            Dim dataObject As DataObject = route4Me.RunOptimization(optimizationParameters, errorString)
+            Dim errorString As String = Nothing
+            Dim dataObject = route4Me.RunOptimization(
+                                        optimizationParameters,
+                                        errorString)
 
-            ' Output the result
+            OptimizationsToRemove = New List(Of String)() From {
+                If(dataObject?.OptimizationProblemId, Nothing)
+            }
+
             PrintExampleOptimizationResult(dataObject, errorString)
 
-            Return dataObject
-        End Function
+            RemoveTestOptimizations()
+        End Sub
     End Class
 End Namespace

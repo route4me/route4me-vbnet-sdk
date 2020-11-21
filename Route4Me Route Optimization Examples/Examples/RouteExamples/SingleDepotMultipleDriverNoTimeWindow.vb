@@ -1,17 +1,19 @@
-' See video tutorial here: http://support.route4me.com/route-planning-help.php?id=manual0:tutorial2:chapter1:subchapter2
-
 Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Function SingleDepotMultipleDriverNoTimeWindow() As DataObject
+        ''' <summary>
+        ''' The example refers to the process of creating an optimization 
+        ''' with single-depot, multi-driver, no time windows options.
+        ''' </summary>
+        Public Sub SingleDepotMultipleDriverNoTimeWindow()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
             ' Prepare the addresses
-            Dim addresses As Address() = New Address() {New Address() With {
+            Dim addresses = New Address() {New Address() With {
                 .AddressString = "40 Mercer st, New York, NY",
                 .IsDepot = True,
                 .Latitude = 40.7213583,
@@ -54,8 +56,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "new york ny",
                 .Latitude = 40.7142691,
                 .Longitude = -74.0059729,
@@ -97,8 +98,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "new york city,",
                 .Latitude = 40.7142691,
                 .Longitude = -74.0059729,
@@ -140,8 +140,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "Trinity Church, NY",
                 .Latitude = 40.7081426,
                 .Longitude = -74.0120511,
@@ -183,8 +182,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "FAO Schwarz, NY",
                 .Latitude = 40.7142691,
                 .Longitude = -74.0059729,
@@ -226,8 +224,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "Macy&amp;acirc;в‚¬в„ўs, NY",
                 .Latitude = 40.7142691,
                 .Longitude = -74.0059729,
@@ -269,8 +266,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "250 greenwich st, new york, ny",
                 .Latitude = 40.713159,
                 .Longitude = -74.011889,
@@ -312,8 +308,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "2 Plum LanenPlainview New York",
                 .Latitude = 40.7142691,
                 .Longitude = -74.0059729,
@@ -355,8 +350,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "100 white st",
                 .Latitude = 40.7172477,
                 .Longitude = -74.0014351,
@@ -398,8 +392,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "6302 woodhaven blvdnRego park ny",
                 .Latitude = 40.7142691,
                 .Longitude = -74.0059729,
@@ -441,8 +434,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "260 west broadway, NY, NY",
                 .Latitude = 40.720621,
                 .Longitude = -74.005567,
@@ -484,8 +476,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "Byshnell Basin. NY",
                 .Latitude = 40.7142691,
                 .Longitude = -74.0059729,
@@ -527,8 +518,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "182 Duane street ny",
                 .Latitude = 40.7170879,
                 .Longitude = -74.010121,
@@ -570,8 +560,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "Lucca antiquesn182 Duane St, New York, New York 10013",
                 .Latitude = 40.7167516,
                 .Longitude = -74.0087482,
@@ -613,8 +602,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "Propertyn14 Wooster street nyc",
                 .Latitude = 40.7229097,
                 .Longitude = -74.0021852,
@@ -656,8 +644,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "219 west creek",
                 .Latitude = 40.7198564,
                 .Longitude = -74.0121098,
@@ -699,8 +686,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "119 Mercer Street Ny NY",
                 .Latitude = 40.724139,
                 .Longitude = -73.999311,
@@ -742,8 +728,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "619 mill stnWatertown ny",
                 .Latitude = 40.7142691,
                 .Longitude = -74.0059729,
@@ -785,8 +770,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "116 park pl",
                 .Latitude = 40.7140565,
                 .Longitude = -74.0110155,
@@ -828,8 +812,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "10108",
                 .Latitude = 40.7143,
                 .Longitude = -74.0067,
@@ -871,8 +854,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "451 broadway 10013",
                 .Latitude = 40.7205177,
                 .Longitude = -74.0009557,
@@ -914,8 +896,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "150 broadway ny ny",
                 .Latitude = 40.709185,
                 .Longitude = -74.010033,
@@ -957,8 +938,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "580 broadway street, new york, ny 10012",
                 .Latitude = 40.724421,
                 .Longitude = -73.997026,
@@ -1000,8 +980,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "47 Lafayette street",
                 .Latitude = 40.7159204,
                 .Longitude = -74.0027332,
@@ -1043,8 +1022,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "8 Greene St, New York, 10013",
                 .Latitude = 40.720616,
                 .Longitude = -74.00276,
@@ -1086,8 +1064,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "30 rockefeller plaza w 49th st, new york city",
                 .Latitude = 40.7143528,
                 .Longitude = -74.0059731,
@@ -1129,8 +1106,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "New York new York",
                 .Latitude = 40.7143528,
                 .Longitude = -74.0059731,
@@ -1172,8 +1148,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "nyc, ny",
                 .Latitude = 40.7145502,
                 .Longitude = -74.0071249,
@@ -1215,8 +1190,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "42 Wooster St New York, NY 10013",
                 .Latitude = 40.722386,
                 .Longitude = -74.002422,
@@ -1258,8 +1232,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "Ground zero, nyc",
                 .Latitude = 40.711641,
                 .Longitude = -74.012253,
@@ -1301,8 +1274,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "Trinity Church, NYC",
                 .Latitude = 40.7081269,
                 .Longitude = -74.0125691,
@@ -1344,8 +1316,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "Odeon cinema",
                 .Latitude = 40.71683,
                 .Longitude = -74.00803,
@@ -1387,8 +1358,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "114 liberty st, ny,ny 10006",
                 .Latitude = 40.70977,
                 .Longitude = -74.0122,
@@ -1430,8 +1400,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "nyc",
                 .Latitude = 40.71455,
                 .Longitude = -74.00712,
@@ -1473,8 +1442,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "270 Lafayette street new York new york",
                 .Latitude = 40.723879,
                 .Longitude = -73.996527,
@@ -1516,8 +1484,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "478 Broadway, NY, NY",
                 .Latitude = 40.721336,
                 .Longitude = -73.999771,
@@ -1559,8 +1526,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "80 White Street, NY, NY",
                 .Latitude = 40.717834,
                 .Longitude = -74.002052,
@@ -1602,8 +1568,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "11 Wall St, New York, NY 10005-1905",
                 .Latitude = 40.70729,
                 .Longitude = -74.011201,
@@ -1645,8 +1610,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "69 Mercer St, New York, NY 10012-4440",
                 .Latitude = 40.722649,
                 .Longitude = -74.00061,
@@ -1688,8 +1652,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "Brooklyn Bridge, NY",
                 .Latitude = 40.706344,
                 .Longitude = -73.997439,
@@ -1731,8 +1694,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "105 reade street new york ny",
                 .Latitude = 40.715633,
                 .Longitude = -74.008522,
@@ -1774,8 +1736,7 @@ Namespace Route4MeSDKTest.Examples
                 .Time = 0,
                 .TimeWindowStart = Nothing,
                 .TimeWindowEnd = Nothing
-            },
-                New Address() With {
+            }, New Address() With {
                 .AddressString = "250 Broadway, New York, NY 10007-2516",
                 .Latitude = 40.713018,
                 .Longitude = -74.00747,
@@ -1806,36 +1767,41 @@ Namespace Route4MeSDKTest.Examples
             }}
 
             ' Set parameters
-            Dim parameters As New RouteParameters() With {
+            Dim parameters = New RouteParameters() With {
                 .AlgorithmType = AlgorithmType.CVRP_TW_MD,
                 .RouteName = "Single Depot, Multiple Driver, No Time Window",
-                .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)),
+                .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.Date.AddDays(1)),
                 .RouteTime = 60 * 60 * 7,
                 .RT = True,
                 .RouteMaxDuration = 86400,
-                .VehicleCapacity = "20",
-                .VehicleMaxDistanceMI = "99999",
+                .VehicleCapacity = 20,
+                .VehicleMaxDistanceMI = 99999,
                 .Parts = 4,
-                .Optimize = Optimize.Time,
-                .DistanceUnit = DistanceUnit.MI,
-                .DeviceType = DeviceType.Web,
-                .TravelMode = TravelMode.Driving,
-                .Metric = Metric.Geodesic
+                .Optimize = Optimize.Time.GetEnumDescription(),
+                .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
+                .DeviceType = DeviceType.Web.GetEnumDescription(),
+                .TravelMode = TravelMode.Driving.GetEnumDescription(),
+                .Metric = Metric.Matrix
             }
 
-            Dim optimizationParameters As New OptimizationParameters() With { _
-                .Addresses = addresses, _
-                .Parameters = parameters _
+            Dim optimizationParameters = New OptimizationParameters() With {
+                .Addresses = addresses,
+                .Parameters = parameters
             }
 
             ' Run the query
-            Dim errorString As String = ""
-            Dim dataObject As DataObject = route4Me.RunOptimization(optimizationParameters, errorString)
+            Dim errorString As String = Nothing
+            Dim dataObject As DataObject = route4Me.RunOptimization(
+                                                        optimizationParameters,
+                                                        errorString)
 
-            ' Output the result
+            OptimizationsToRemove = New List(Of String)() From {
+                If(dataObject?.OptimizationProblemId, Nothing)
+            }
+
             PrintExampleOptimizationResult(dataObject, errorString)
 
-            Return dataObject
-        End Function
+            RemoveTestOptimizations()
+        End Sub
     End Class
 End Namespace

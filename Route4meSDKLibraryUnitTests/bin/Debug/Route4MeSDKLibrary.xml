@@ -1596,6 +1596,24 @@ Route4MeSDKLibrary
  </summary>
  <value>The maximum duration of the route.</value>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.TargetDuration">
+ <summary>
+ The parameter specifies fine-tuning of an optimization process
+ by route duration.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.TargetDistance">
+ <summary>
+ The parameter specifies fine-tuning of an optimization process 
+ by route distance.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.WaitingTime">
+ <summary>
+ The parameter specifies fine-tuning of an optimization process 
+ by waiting time.
+ </summary>
+</member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.RouteEmail">
  <summary>The email address to notify upon completion of an optimization request</summary>
  <value>The route email.</value>
