@@ -157,7 +157,6 @@
     <Compile Include="DataTypes\TelematicsVendorResponse.vb" />
     <Compile Include="DataTypes\TelematicsVendors.vb" />
     <Compile Include="DataTypes\TelematicsVendorsResponse.vb" />
-    <Compile Include="DataTypes\TelematicsVendorsSearchResponse.vb" />
     <Compile Include="DataTypes\Territory.vb" />
     <Compile Include="DataTypes\TerritoryZone.vb" />
     <Compile Include="DataTypes\TrackingHistory.vb" />

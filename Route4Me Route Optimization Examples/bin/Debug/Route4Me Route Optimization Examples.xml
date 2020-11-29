@@ -894,6 +894,21 @@ The example refers to the process of query all the activities from the last spec
  with 10 stops And single-driver option.
  </summary>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetAllVendors">
+ <summary>
+ The example refers to the process of getting all telematics vendors.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SearchVendors">
+ <summary>
+ The example refers to the process of searching by query text. 
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.VendorsComparison">
+ <summary>
+ The example refers to the process of comparing selected vendors. 
+ </summary>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.CreatePolygonTerritory">
  <summary>
  Add Polygon Territory

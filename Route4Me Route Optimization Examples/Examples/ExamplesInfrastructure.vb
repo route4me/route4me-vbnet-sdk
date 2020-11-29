@@ -18,6 +18,7 @@ Namespace Route4MeSDKTest.Examples
         Public DemoApiKey As String = R4MeUtils.ReadSetting("demoApiKey")
 
         Public AvoidanceZonesToRemove As List(Of String) = New List(Of String)()
+        Public TerritoryZonesToRemove As List(Of String) = New List(Of String)()
         Public ContactsToRemove As List(Of String)
         Public RoutesToRemove As List(Of String)
         Public OptimizationsToRemove As List(Of String)
@@ -50,7 +51,7 @@ Namespace Route4MeSDKTest.Examples
         Public SDRT_route_id As String
 
         Dim avoidanceZone As AvoidanceZone
-
+        Dim territoryZone As TerritoryZone
 
 #Region "Optimizations, Routes, Destinations"
 
@@ -586,7 +587,15 @@ Namespace Route4MeSDKTest.Examples
             Dim errorString As String = Nothing
             avoidanceZone = route4Me.AddAvoidanceZone(avoidanceZoneParameters, errorString)
 
-            PrintExampleAvoidanceZone(avoidanceZone)
+            If avoidanceZone IsNot Nothing Then
+                If (If(AvoidanceZonesToRemove?.Count, 0)) < 1 Then
+                    AvoidanceZonesToRemove = New List(Of String)()
+                End If
+
+                AvoidanceZonesToRemove.Add(avoidanceZone.TerritoryId)
+            End If
+
+            PrintExampleAvoidanceZone(avoidanceZone, errorString)
         End Sub
 
 #End Region
@@ -1196,6 +1205,123 @@ Namespace Route4MeSDKTest.Examples
 
 #End Region
 
+#Region "Territories"
+
+        Private Sub PrintExampleTerritory(ByVal territory As Object, ByVal Optional errorString As String = "")
+            Dim testName As String = (New StackTrace()).GetFrame(1).GetMethod().Name
+
+            Console.WriteLine("")
+
+            If territory IsNot Nothing Then
+                Console.WriteLine(testName & " executed successfully")
+
+                If territory.[GetType]() = GetType(TerritoryZone) Then
+                    Dim territoryZoneId As String = If(
+                        territory.[GetType]() = GetType(TerritoryZone),
+                        (CType(territory, TerritoryZone)).TerritoryId,
+                        territory.ToString()
+                    )
+
+                    Console.WriteLine("Territory ID: {0}", territoryZoneId)
+                ElseIf territory.[GetType]() = GetType(AvoidanceZone()) Then
+                    Dim territories = CType(territory, AvoidanceZone())
+
+                    For Each terr In territories
+                        Console.WriteLine("Territory ID: {0}", terr.TerritoryId)
+                    Next
+                ElseIf territory.[GetType]() = GetType(TerritoryZone()) Then
+                    Dim territories = CType(territory, TerritoryZone())
+
+                    For Each terr In territories
+                        Console.WriteLine("Territory ID: {0}", terr.TerritoryId)
+                    Next
+                Else
+                    Console.WriteLine("Unexpected territory type")
+                End If
+            Else
+                Console.WriteLine(testName & " error: {0}", errorString)
+            End If
+        End Sub
+
+        Public Function RemoveTestTerritoryZone(ByVal territoryZoneId As String) As Boolean
+            Dim terrZoneQuery = New TerritoryQuery() With {
+                .TerritoryId = territoryZoneId
+            }
+
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim errorString As String = Nothing
+            Dim deleted As Boolean = route4Me.RemoveTerritory(terrZoneQuery, errorString)
+
+            Console.WriteLine("")
+            Console.WriteLine(If(
+                              deleted,
+                              "The territory zone " & terrZoneQuery.TerritoryId & " removed successfully",
+                              "Cannot remove territory zone " & terrZoneQuery.TerritoryId)
+            )
+
+            Return deleted
+        End Function
+
+        Private Sub RemoveTestTerritoryZones()
+            If (If(TerritoryZonesToRemove?.Count, 0)) < 1 Then Return
+
+            For Each terrZone As String In TerritoryZonesToRemove
+                RemoveTestTerritoryZone(terrZone)
+            Next
+        End Sub
+
+        Public Sub CreateTerritoryZone()
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim territoryZoneParameters = New AvoidanceZoneParameters() With {
+                .TerritoryName = "Test Territory",
+                .TerritoryColor = "ff0000",
+                .Territory = New Territory() With {
+                    .Type = TerritoryType.Circle.GetEnumDescription(),
+                    .Data = New String() {"37.569752822786455,-77.47833251953125", "5000"}
+                }
+            }
+            Dim errorString As String = Nothing
+            territoryZone = route4Me.CreateTerritory(territoryZoneParameters, errorString)
+
+            If territoryZone IsNot Nothing Then
+                If (If(TerritoryZonesToRemove?.Count, 0)) < 1 Then
+                    TerritoryZonesToRemove = New List(Of String)()
+                End If
+
+                TerritoryZonesToRemove.Add(territoryZone.TerritoryId)
+            End If
+
+            PrintExampleTerritory(territoryZone, errorString)
+        End Sub
+
+#End Region
+
+#Region "Telematics GateWay API"
+
+        Private Sub PrintExampleTelematicsVendor(ByVal result As Object, ByVal errorString As String)
+            Dim testName As String = (New StackTrace()).GetFrame(1).GetMethod().Name
+            testName = If(testName IsNot Nothing, testName, "")
+
+            Console.WriteLine("")
+
+            If result IsNot Nothing Then
+                Console.WriteLine(testName & " executed successfully")
+
+                If result.[GetType]() = GetType(TelematicsVendorResponse) Then
+                    Console.WriteLine("Vendor :" & (CType(result, TelematicsVendorResponse)).Vendor.Name)
+                Else
+                    For Each vendor In (CType(result, TelematicsVendorsResponse)).Vendors
+                        Console.WriteLine("Vendor :" & vendor.Name)
+                    Next
+                End If
+            Else
+                Console.WriteLine(testName & " error: {0}", errorString)
+            End If
+        End Sub
+
+#End Region
 
     End Class
 End Namespace

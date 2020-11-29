@@ -1,22 +1,22 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
-Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
-        ''' Get Territories
+        ''' The example refers to the process of getting all telematics vendors.
         ''' </summary>
-        Public Sub GetTerritories()
+        Public Sub GetAllVendors()
             ' Create the manager with the api key
             Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim territoryQuery = New AvoidanceZoneQuery()
+            Dim vendorParameters = New TelematicsVendorParameters()
 
+            ' Run the query
             Dim errorString As String = Nothing
-            Dim territories As AvoidanceZone() = route4Me.GetTerritories(territoryQuery, errorString)
+            Dim vendors = route4Me.GetAllTelematicsVendors(vendorParameters, errorString)
 
-            PrintExampleTerritory(territories, errorString)
+            PrintExampleTelematicsVendor(vendors, errorString)
         End Sub
     End Class
 End Namespace

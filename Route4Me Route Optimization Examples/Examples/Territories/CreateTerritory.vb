@@ -1,6 +1,7 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
@@ -8,30 +9,27 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub CreateTerritory()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim territoryParameters As New AvoidanceZoneParameters() With { _
-                .TerritoryName = "Test Territory", _
-                .TerritoryColor = "ff0000", _
-                .Territory = New Territory() With { _
-                    .Type = EnumHelper.GetEnumDescription(TerritoryType.Circle), _
-                    .Data = New String() {"37.569752822786455,-77.47833251953125", "5000"} _
-                } _
+            Dim territoryParameters = New AvoidanceZoneParameters With {
+                .TerritoryName = "Test Territory",
+                .TerritoryColor = "ff0000",
+                .Territory = New Territory With {
+                    .Type = TerritoryType.Rect.GetEnumDescription(),
+                    .Data = New String() {"43.51668853502909,-109.3798828125", "46.98025235521883,-101.865234375"}
+                }
             }
 
-            ' Run the query
-            Dim errorString As String = ""
+            Dim errorString As String = Nothing
             Dim territory As TerritoryZone = route4Me.CreateTerritory(territoryParameters, errorString)
 
-            Console.WriteLine("")
-
-            If territory IsNot Nothing Then
-                Console.WriteLine("CreateTerritory executed successfully")
-
-                Console.WriteLine("Territory ID: {0}", territory.TerritoryId)
-            Else
-                Console.WriteLine("CreateTerritory error: {0}", errorString)
+            If (If(territory?.TerritoryId, Nothing)) IsNot Nothing Then
+                TerritoryZonesToRemove.Add(territory.TerritoryId)
             End If
+
+            PrintExampleTerritory(territory, errorString)
+
+            RemoveTestTerritoryZones()
         End Sub
     End Class
 End Namespace

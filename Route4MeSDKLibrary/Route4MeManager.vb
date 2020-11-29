@@ -2604,7 +2604,9 @@ Namespace Route4MeSDK
         ''' <param name="orderFilter">>The OrderFilterParameters object as a HTTP request payload</param>
         ''' <param name="errorString">out: Error as string</param>
         ''' <returns>Array of the Order type objects</returns>
-        Public Function FilterOrders(ByVal orderFilter As OrderFilterParameters, ByRef errorString As String) As Order()
+        Public Function FilterOrders(ByVal orderFilter As OrderFilterParameters,
+                                     ByRef errorString As String) As Order()
+
             Dim response As GetOrdersResponse = GetJsonObjectFromAPI(Of GetOrdersResponse)(
                 orderFilter,
                 R4MEInfrastructureSettings.Order,
@@ -2707,7 +2709,9 @@ Namespace Route4MeSDK
         ''' <param name="total"> out: Total number of orders </param>
         ''' <param name="errorString"> out: Error as string </param>
         ''' <returns> Order object list </returns>
-        Public Function GetOrders(ordersQuery As OrderParameters, ByRef total As UInteger, ByRef errorString As String) As Order()
+        Public Function GetOrders(ordersQuery As OrderParameters,
+                                  ByRef total As UInteger,
+                                  ByRef errorString As String) As Order()
             total = 0
             Dim response As GetOrdersResponse = GetJsonObjectFromAPI(Of GetOrdersResponse)(ordersQuery, R4MEInfrastructureSettings.Order, HttpMethodType.[Get], errorString)
             Dim result As Order() = Nothing
@@ -3173,7 +3177,9 @@ Namespace Route4MeSDK
         ''' <param name="vehParams"> Parameters for request </param>
         ''' <param name="errorString"> out: Error as string </param>
         ''' <returns> Vehicle object list </returns>
-        Public Function GetVehicles(ByVal vehParams As VehicleParameters, ByRef errorString As String) As VehiclesPaginated
+        Public Function GetVehicles(ByVal vehParams As VehicleParameters,
+                                    ByRef errorString As String) As VehiclesPaginated
+
             Dim response As VehiclesPaginated = GetJsonObjectFromAPI(Of VehiclesPaginated)(
                 vehParams,
                 R4MEInfrastructureSettings.Vehicle_V4,
@@ -3184,26 +3190,54 @@ Namespace Route4MeSDK
             Return response
         End Function
 
-        Public Function CreateVehicle(ByVal vehicle As VehicleV4Parameters, ByRef errorString As String) As VehicleV4CreateResponse
-            Dim newVehicle As VehicleV4CreateResponse = GetJsonObjectFromAPI(Of VehicleV4CreateResponse)(vehicle, R4MEInfrastructureSettings.Vehicle_V4_API, HttpMethodType.Post, errorString)
+        Public Function CreateVehicle(ByVal vehicle As VehicleV4Parameters,
+                                      ByRef errorString As String) As VehicleV4CreateResponse
+
+            Dim newVehicle As VehicleV4CreateResponse = GetJsonObjectFromAPI(
+                Of VehicleV4CreateResponse)(
+                vehicle,
+                R4MEInfrastructureSettings.Vehicle_V4_API,
+                HttpMethodType.Post,
+                errorString)
 
             Return newVehicle
         End Function
 
-        Public Function GetVehicle(ByVal vehParams As VehicleParameters, ByRef errorString As String) As VehicleV4Response
-            Dim response As VehicleV4Response = GetJsonObjectFromAPI(Of VehicleV4Response)(vehParams, R4MEInfrastructureSettings.Vehicle_V4, HttpMethodType.[Get], errorString)
+        Public Function GetVehicle(ByVal vehParams As VehicleParameters,
+                                   ByRef errorString As String) As VehicleV4Response
+
+            Dim response As VehicleV4Response = GetJsonObjectFromAPI(
+                Of VehicleV4Response)(
+                vehParams,
+                R4MEInfrastructureSettings.Vehicle_V4,
+                HttpMethodType.[Get],
+                errorString)
 
             Return response
         End Function
 
-        Public Function updateVehicle(ByVal vehParams As VehicleV4Parameters, ByVal vehicleId As String, ByRef errorString As String) As VehicleV4Response
-            Dim response As VehicleV4Response = GetJsonObjectFromAPI(Of VehicleV4Response)(vehParams, R4MEInfrastructureSettings.Vehicle_V4 & "/" + vehicleId, HttpMethodType.Put, errorString)
+        Public Function updateVehicle(ByVal vehParams As VehicleV4Parameters,
+                                      ByVal vehicleId As String,
+                                      ByRef errorString As String) As VehicleV4Response
+
+            Dim response As VehicleV4Response = GetJsonObjectFromAPI(
+                Of VehicleV4Response)(
+                vehParams,
+                R4MEInfrastructureSettings.Vehicle_V4 & "/" + vehicleId,
+                HttpMethodType.Put,
+                errorString)
 
             Return response
         End Function
 
-        Public Function deleteVehicle(ByVal vehParams As VehicleV4Parameters, ByRef errorString As String) As VehicleV4Response
-            Dim response As VehicleV4Response = GetJsonObjectFromAPI(Of VehicleV4Response)(vehParams, R4MEInfrastructureSettings.Vehicle_V4 & "/" + vehParams.VehicleId, HttpMethodType.Delete, errorString)
+        Public Function deleteVehicle(ByVal vehParams As VehicleV4Parameters,
+                                      ByRef errorString As String) As VehicleV4Response
+            Dim response As VehicleV4Response = GetJsonObjectFromAPI(
+                Of VehicleV4Response)(
+                vehParams,
+                R4MEInfrastructureSettings.Vehicle_V4 & "/" + vehParams.VehicleId,
+                HttpMethodType.Delete,
+                errorString)
 
             Return response
         End Function
@@ -3211,56 +3245,135 @@ Namespace Route4MeSDK
 #End Region
 
 #Region "Telematics Vendors"
-        Public Function GetAllTelematicsVendors(ByVal vendorParams As TelematicsVendorParameters, ByRef errorString As String) As TelematicsVendorsResponse
-            Dim response As TelematicsVendorsResponse = GetJsonObjectFromAPI(Of TelematicsVendorsResponse)(vendorParams, R4MEInfrastructureSettings.TelematicsVendorsHost, HttpMethodType.[Get], errorString)
+        Public Function GetAllTelematicsVendors(ByVal vendorParams As TelematicsVendorParameters,
+                                                ByRef errorString As String) As TelematicsVendorsResponse
+
+            Dim response As TelematicsVendorsResponse = GetJsonObjectFromAPI(
+                Of TelematicsVendorsResponse)(
+                vendorParams,
+                R4MEInfrastructureSettings.TelematicsVendorsHost, HttpMethodType.[Get],
+                errorString)
+
             Return response
         End Function
 
-        Public Function GetTelematicsVendor(ByVal vendorParams As TelematicsVendorParameters, ByRef errorString As String) As TelematicsVendorResponse
-            Dim response As TelematicsVendorResponse = GetJsonObjectFromAPI(Of TelematicsVendorResponse)(vendorParams, R4MEInfrastructureSettings.TelematicsVendorsHost, HttpMethodType.[Get], errorString)
+        Public Function GetTelematicsVendor(ByVal vendorParams As TelematicsVendorParameters,
+                                            ByRef errorString As String) As TelematicsVendorResponse
+
+            Dim response As TelematicsVendorResponse = GetJsonObjectFromAPI(
+                Of TelematicsVendorResponse)(
+                vendorParams,
+                R4MEInfrastructureSettings.TelematicsVendorsHost,
+                HttpMethodType.[Get],
+                errorString)
+
             Return response
         End Function
 
-        Public Function SearchTelematicsVendors(ByVal vendorParams As TelematicsVendorParameters, ByRef errorString As String) As TelematicsVendorsSearchResponse
-            Dim response As TelematicsVendorsSearchResponse = GetJsonObjectFromAPI(Of TelematicsVendorsSearchResponse)(vendorParams, R4MEInfrastructureSettings.TelematicsVendorsHost, HttpMethodType.[Get], errorString)
+        Public Function SearchTelematicsVendors(ByVal vendorParams As TelematicsVendorParameters,
+                                                ByRef errorString As String) As TelematicsVendorsResponse
+
+            Dim response As TelematicsVendorsResponse = GetJsonObjectFromAPI(
+                Of TelematicsVendorsResponse)(
+                vendorParams,
+                R4MEInfrastructureSettings.TelematicsVendorsHost,
+                HttpMethodType.[Get],
+                errorString)
+
             Return response
         End Function
 #End Region
 
 #Region "Generic Methods"
 
-        Public Function GetStringResponseFromAPI(optimizationParameters As GenericParameters, url As String, httpMethod As HttpMethodType, ByRef errorMessage As String) As String
-            Dim result As String = GetJsonObjectFromAPI(Of String)(optimizationParameters, url, httpMethod, True, errorMessage)
+        Public Function GetStringResponseFromAPI(optimizationParameters As GenericParameters,
+                                                 url As String, httpMethod As HttpMethodType,
+                                                 ByRef errorMessage As String) As String
+
+            Dim result As String = GetJsonObjectFromAPI(Of String)(
+                optimizationParameters,
+                url, httpMethod,
+                True,
+                errorMessage)
 
             Return result
         End Function
 
-        Public Function GetJsonObjectFromAPI(Of T As Class)(optimizationParameters As GenericParameters, url As String, httpMethod As HttpMethodType, ByRef errorMessage As String) As T
-            Dim result As T = GetJsonObjectFromAPI(Of T)(optimizationParameters, url, httpMethod, False, errorMessage)
+        Public Function GetJsonObjectFromAPI(Of T As Class)(
+                                                           optimizationParameters As GenericParameters,
+                                                           url As String,
+                                                           httpMethod As HttpMethodType,
+                                                           ByRef errorMessage As String) As T
+
+            Dim result As T = GetJsonObjectFromAPI(Of T)(
+                optimizationParameters,
+                url,
+                httpMethod,
+                False,
+                errorMessage)
 
             Return result
         End Function
 
-        Public Function GetJsonObjectFromAPI(Of T As Class)(optimizationParameters As GenericParameters, url As String, httpMethod As HttpMethodType, httpContent As HttpContent, ByRef errorMessage As String) As T
-            Dim result As T = GetJsonObjectFromAPI(Of T)(optimizationParameters, url, httpMethod, httpContent, False, errorMessage)
+        Public Function GetJsonObjectFromAPI(Of T As Class)(
+                                                           optimizationParameters As GenericParameters,
+                                                           url As String,
+                                                           httpMethod As HttpMethodType,
+                                                           httpContent As HttpContent,
+                                                           ByRef errorMessage As String) As T
+
+            Dim result As T = GetJsonObjectFromAPI(Of T)(
+                optimizationParameters,
+                url,
+                httpMethod,
+                httpContent,
+                False,
+                errorMessage)
 
             Return result
         End Function
 
-        Private Function GetJsonObjectFromAPI(Of T As Class)(optimizationParameters As GenericParameters, url As String, httpMethod As HttpMethodType, isString As Boolean, ByRef errorMessage As String) As T
-            Dim result As T = GetJsonObjectFromAPI(Of T)(optimizationParameters, url, httpMethod, DirectCast(Nothing, HttpContent), isString, errorMessage)
+        Private Function GetJsonObjectFromAPI(Of T As Class)(
+                                                            optimizationParameters As GenericParameters,
+                                                            url As String,
+                                                            httpMethod As HttpMethodType,
+                                                            isString As Boolean,
+                                                            ByRef errorMessage As String) As T
+
+            Dim result As T = GetJsonObjectFromAPI(Of T)(
+                optimizationParameters,
+                url,
+                httpMethod,
+                DirectCast(Nothing, HttpContent),
+                isString,
+                errorMessage)
 
             Return result
         End Function
 
-        Private Async Function GetJsonObjectFromAPIAsync(Of T As Class)(ByVal optimizationParameters As GenericParameters, ByVal url As String, ByVal httpMethod As HttpMethodType, ByVal isString As Boolean) As Task(Of Tuple(Of T, String))
-            Return Await Task.Run(Function()
-                                      Dim result As Task(Of Tuple(Of T, String)) = GetJsonObjectFromAPIAsync(Of T)(optimizationParameters, url, httpMethod, CType(Nothing, HttpContent), isString)
-                                      Return result
-                                  End Function)
+        Private Async Function GetJsonObjectFromAPIAsync(Of T As Class)(
+                                                                       ByVal optimizationParameters As GenericParameters,
+                                                                       ByVal url As String,
+                                                                       ByVal httpMethod As HttpMethodType,
+                                                                       ByVal isString As Boolean) As Task(Of Tuple(Of T, String))
+
+            Return Await Task.Run(
+                Function()
+                    Dim result As Task(Of Tuple(Of T, String)) = GetJsonObjectFromAPIAsync(Of T)(
+                                                                    optimizationParameters,
+                                                                    url,
+                                                                    httpMethod,
+                                                                    CType(Nothing, HttpContent), isString)
+
+                    Return result
+                End Function)
         End Function
 
-        Private Async Function GetJsonObjectFromAPIAsync(Of T As Class)(ByVal optimizationParameters As GenericParameters, ByVal url As String, ByVal httpMethod As HttpMethodType, ByVal httpContent As HttpContent, ByVal isString As Boolean) As Task(Of Tuple(Of T, String))
+        Private Async Function GetJsonObjectFromAPIAsync(Of T As Class)(ByVal optimizationParameters As GenericParameters,
+                                                                        ByVal url As String, ByVal httpMethod As HttpMethodType,
+                                                                        ByVal httpContent As HttpContent,
+                                                                        ByVal isString As Boolean) As Task(Of Tuple(Of T, String))
+
             Dim result As T = Nothing
             Dim errorMessage As String = String.Empty
 
@@ -3345,7 +3458,12 @@ Namespace Route4MeSDK
             Return New Tuple(Of T, String)(result, errorMessage)
         End Function
 
-        Private Function GetJsonObjectFromAPI(Of T As Class)(ByVal optimizationParameters As GenericParameters, ByVal url As String, ByVal httpMethod As HttpMethodType, ByVal httpContent As HttpContent, ByVal isString As Boolean, ByRef errorMessage As String) As T
+        Private Function GetJsonObjectFromAPI(Of T As Class)(ByVal optimizationParameters As GenericParameters,
+                                                             ByVal url As String,
+                                                             ByVal httpMethod As HttpMethodType,
+                                                             ByVal httpContent As HttpContent,
+                                                             ByVal isString As Boolean,
+                                                             ByRef errorMessage As String) As T
             Dim result As T = Nothing
             errorMessage = String.Empty
 
@@ -3446,7 +3564,12 @@ Namespace Route4MeSDK
             Return result
         End Function
 
-        Private Function GetXmlObjectFromAPI(Of T As Class)(optimizationParameters As GenericParameters, url As String, httpMethod__1 As HttpMethodType, httpContent As HttpContent, isString As Boolean, ByRef errorMessage As String) As String
+        Private Function GetXmlObjectFromAPI(Of T As Class)(optimizationParameters As GenericParameters,
+                                                            url As String,
+                                                            httpMethod__1 As HttpMethodType,
+                                                            httpContent As HttpContent,
+                                                            isString As Boolean,
+                                                            ByRef errorMessage As String) As String
             Dim result As String = String.Empty
             errorMessage = String.Empty
 

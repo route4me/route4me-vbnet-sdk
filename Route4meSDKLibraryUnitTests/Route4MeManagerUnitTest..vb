@@ -11361,9 +11361,12 @@ Public Class TelematicsGateWayAPI
     <TestMethod>
     Public Sub getAllVendorsTest()
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
         Dim vendorParameters As TelematicsVendorParameters = New TelematicsVendorParameters()
+
         Dim errorString As String = ""
         Dim vendors As TelematicsVendorsResponse = route4Me.GetAllTelematicsVendors(vendorParameters, errorString)
+
         Assert.IsNotNull(vendors, "The test getAllVendorsTest failed. " & errorString)
         Assert.IsInstanceOfType(vendors, GetType(TelematicsVendorsResponse), "The test getAllVendorsTest failed. " & errorString)
     End Sub
@@ -11371,15 +11374,21 @@ Public Class TelematicsGateWayAPI
     <TestMethod>
     Public Sub getVendorTest()
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
         Dim errorString As String = ""
         Dim vendors As TelematicsVendorsResponse = route4Me.GetAllTelematicsVendors(New TelematicsVendorParameters(), errorString)
+
         Dim randomNumber As Integer = (New Random()).[Next](0, vendors.Vendors.Count() - 1)
+
         Dim randomVendorID As String = vendors.Vendors(randomNumber).ID
+
         Dim vendorParameters As TelematicsVendorParameters = New TelematicsVendorParameters() With {
             .vendorID = Convert.ToUInt32(randomVendorID)
         }
+
         errorString = ""
         Dim vendor As TelematicsVendorResponse = route4Me.GetTelematicsVendor(vendorParameters, errorString)
+
         Assert.IsNotNull(vendors, "The test getVendorTest failed. " & errorString)
         Assert.IsInstanceOfType(vendors, GetType(TelematicsVendorsResponse), "The test getVendorTest failed. " & errorString)
     End Sub
@@ -11387,16 +11396,23 @@ Public Class TelematicsGateWayAPI
     <TestMethod>
     Public Sub searchVendorsTest()
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
+
         Dim vendorParameters As TelematicsVendorParameters = New TelematicsVendorParameters() With {
             .isIntegrated = 1,
             .Search = "Fleet",
             .Page = 1,
             .perPage = 15
         }
+
         Dim errorString As String = ""
-        Dim vendors As TelematicsVendorsSearchResponse = route4Me.SearchTelematicsVendors(vendorParameters, errorString)
+        Dim vendors As TelematicsVendorsResponse = route4Me.SearchTelematicsVendors(vendorParameters, errorString)
+
         Assert.IsNotNull(vendors, "The test searchVendorsTest failed. " & errorString)
-        Assert.IsInstanceOfType(vendors, GetType(TelematicsVendorsSearchResponse), "The test searchVendorsTest failed. " & errorString)
+        Assert.IsInstanceOfType(
+            vendors,
+            GetType(TelematicsVendorsResponse),
+            "The test searchVendorsTest failed. " & errorString
+        )
     End Sub
 
     <TestMethod>
@@ -11406,9 +11422,14 @@ Public Class TelematicsGateWayAPI
             .Vendors = "55,56,57"
         }
         Dim errorString As String = ""
-        Dim vendors As TelematicsVendorsSearchResponse = route4Me.SearchTelematicsVendors(vendorParameters, errorString)
+        Dim vendors As TelematicsVendorsResponse = route4Me.SearchTelematicsVendors(vendorParameters, errorString)
+
         Assert.IsNotNull(vendors, "The test vendorsComparisonTest failed. " & errorString)
-        Assert.IsInstanceOfType(vendors, GetType(TelematicsVendorsSearchResponse), "The test vendorsComparisonTest failed. " & errorString)
+        Assert.IsInstanceOfType(
+            vendors,
+            GetType(TelematicsVendorsResponse),
+            "The test vendorsComparisonTest failed. " & errorString
+        )
     End Sub
 End Class
 

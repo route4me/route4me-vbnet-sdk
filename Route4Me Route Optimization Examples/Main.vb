@@ -1,4 +1,5 @@
-﻿Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
+﻿Imports Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples
+Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Imports System
 Imports System.Collections.Generic
@@ -6,107 +7,283 @@ Imports System.Collections.Generic
 Namespace Route4MeSDKTest
     Public Module Main
         Public Sub Main()
-            Dim examples = New Route4MeSDKTest.Examples.Route4MeExamples()
+            Dim examples = New Route4MeExamples()
 
-            examples.SingleDriverRoute10Stops()
-            examples.AddRouteDestinations()
-            examples.RemoveRouteDestination()
-            examples.RemoveDestinationFromOptimization()
-            examples.SingleDriverRoundTrip()
-            examples.MoveDestinationToRoute()
-            examples.SingleDriverRoundTripGeneric()
-            examples.MultipleDepotMultipleDriver()
-            examples.MultipleDepotMultipleDriverTimeWindow()
-            examples.SingleDepotMultipleDriverNoTimeWindow()
-            examples.MultipleDepotMultipleDriverWith24StopsTimeWindow()
-            examples.SingleDriverMultipleTimeWindows()
-            examples.GetOptimization()
-            examples.GetOptimizations()
-            examples.AddDestinationToOptimization()
-            examples.ReOptimization()
+            ' Available values for the variable executeOption
+            ' "api4" - execute all the examples related to the API 4 
+            ' "api5" - execute all the examples related to the API 5 
+            ' a method name - execute a specifed example method (e.g. "GetTeamMemberById")
+            Dim executeOption As String = "VendorsComparison"
 
-            examples.UpdateRoute()
-            examples.ReoptimizeRoute()
-            examples.GetRoute()
-            examples.GetRoutes()
-            examples.DuplicateRoute()
+            If executeOption.ToLower() = "api4" Then
+#Region "API 4"
+#Region "==== Optimizations ====="
+                examples.GetOptimization()
+                examples.GetOptimizationsByText()
+                examples.GetOptimizationsFromDateRange()
+                examples.OptimizationWithCallbackUrl()
+                examples.GetOptimizations()
+                examples.ReOptimization()
+                examples.RemoveOptimization()
+                examples.UpdateOptimizationDestination()
+                examples.ExampleOptimization()
+                examples.SingleDriverRoute7Stops()
+                examples.SingleDriverRoundTripGeneric()
+                'examples.HybridOptimizationFrom1000Orders()
+                'examples.HybridOptimizationFrom1000Addresses()
+                Dim dataobject = examples.AsyncMultipleDepotMultipleDriver().GetAwaiter().GetResult()
+#End Region
+#Region "==== Route Examples ===="
+                examples.BundledAddresses()
+                examples.GetScheduleCalendar()
+                examples.MultipleDepotMultipleDriverFineTuning()
+                examples.MultipleDepotMultipleDriver()
+                examples.MultipleDepotMultipleDriverTimeWindow()
+                examples.MultipleDepotMultipleDriverWith24StopsTimeWindow()
+                examples.MultipleSeparateDepostMultipleDriver()
+                examples.Route300Stops()
+                examples.SingleDriverRoute10Stops()
+                examples.RouteSlowdown()
+                examples.SingleDriverRoundTrip()
+                examples.SingleDepotMultipleDriverNoTimeWindow()
+                examples.SingleDriverMultipleTimeWindows()
+                examples.SingleDriverRoundTripGeneric()
+#End Region
+#Region "==== Route Addresses ====="
+                examples.MoveDestinationToRoute()
+                examples.AddDestinationToOptimization()
+                examples.UpdateRouteDestination()
+                examples.AddRouteDestinations()
+                examples.GetAddress()
+                examples.MarkAddressAsMarkedAsDeparted()
+                examples.MarkAddressAsMarkedAsVisited()
+                examples.MarkAddressDeparted()
+                examples.MarkAddressVisited()
+                examples.RemoveDestinationFromOptimization()
+                examples.RemoveRouteDestination()
+                'examples.ResequenceRouteDestinations()
+                examples.AddRouteDestinationInSpecificPosition()
+#End Region
+#Region "==== Address Notes ===="
+                examples.AddAddressNote()
+                examples.AddAddressNoteWithFile()
+                examples.AddComplexAddressNote()
+                examples.AddCustomNoteToRoute()
+                examples.AddCustomNoteType()
+                examples.GetAddressNotes()
+                examples.GetAllCustomNoteTypes()
+                examples.RemoveCustomNoteType()
+#End Region
+#Region "==== Routes ===="
+                examples.AssignMemberToRoute()
+                examples.AssignVehicleToRoute()
+                examples.ChangeRouteDepote()
+                examples.DeleteRoutes()
+                examples.DuplicateRoute()
+                examples.GetRouteDirections()
+                examples.GetRoutePathPoints()
+                examples.GetRoute()
+                examples.GetRoutesByIDs()
+                examples.GetRoutesFromDateRange()
+                examples.GetRoutes()
+                examples.ReoptimizeRoute()
+                examples.ResequenceReoptimizeRoute()
+                'examples.ResequenceRouteDestinations()
+                examples.RouteOriginParameter()
+                examples.ShareRoute()
+                examples.UnlinkRouteFromOptimization()
+                examples.UpdateRouteAvoidanceZones()
+                examples.UpdateRouteCustomData()
+                examples.UpdateRoute()
+                examples.UpdateRouteDestination()
+                examples.UpdateWholeRoute()
+                examples.SearchRoutesForText()
+                examples.MergeRoutes()
+#End Region
+#Region "==== Activities ===="
+                examples.GetActivities()
+                examples.GetActivitiesByMember()
+                examples.GetRouteTeamActivities()
+                examples.GetLastActivities()
+                examples.LogCustomActivity()
+                examples.SearchAreaUpdated()
+                examples.SearchAreaAdded()
+                examples.SearchAreaRemoved()
+                examples.SearchDestinationDeleted()
+                examples.SearchDestinationInserted()
+                examples.SearchDestinationMarkedAsDeparted()
+                examples.SearchDestinationOutSequence()
+                examples.SearchDestinationUpdated()
+                examples.SearchDriverArrivedEarly()
+                examples.SearchDriverArrivedLate()
+                examples.SearchDriverArrivedOnTime()
+                examples.SearchGeofenceEntered()
+                examples.SearchGeofenceLeft()
+                examples.SearchInsertDestinationAll()
+                examples.SearchMarkDestinationDepartedAll()
+                examples.SearchMarkDestinationVisited()
+                examples.SearchMemberCreated()
+                examples.SearchMemberDeleted()
+                examples.SearchMemberModified()
+                examples.SearchMoveDestination()
+                examples.SearchNoteInserted()
+                examples.SearchNoteInsertedAll()
+                examples.SearchRouteDeleted()
+                examples.SearchRouteOptimized()
+                examples.SearchRouteOwnerChanged()
 
-            examples.GetUsers()
+                examples.GetRouteTeamActivities()
+                examples.SearchAreaAdded()
+#End Region
+#Region "==== Address Book Contacts ===="
+                examples.AddAddressBookContact()
+                examples.AddScheduledAddressBookContact()
+                examples.GetAddressBookContacts()
+                examples.SearchLocationsByText()
 
-            examples.GetActivities()
+                examples.AddAddressBookContact()
+                examples.UpdateAddressBookContact()
+                examples.UpdateWholeAddressBookContact()
 
-            examples.GetAddress()
+                examples.SearchRoutedLocations()
+                examples.SearchLocationsByIDs()
+                examples.RemoveAddressBookContacts()
+                examples.GetSpecifiedFieldsSearchText()
+#End Region
+#Region "==== Address Book Groups ===="
+                examples.AddAddressBookGroup()
+                examples.GetAddressBookContactsByGroup()
+                examples.GetAddressBookGroup()
+                examples.GetAddressBookGroups()
+                examples.RemoveAddressBookGroup()
+                examples.SearchAddressBookContactsByFilter()
+                examples.UpdateAddressBookGroup()
+#End Region
+#Region "==== User Configuration ===="
+                examples.AddNewConfigurationKey()
+                examples.AddConfigurationKeyArray()
+                examples.GetAllConfigurationData()
+                examples.GetSpecificConfigurationKeyData()
+                examples.RemoveConfigurationKey()
+                examples.UpdateConfigurationKey()
+#End Region
+#Region "==== Territories ===="
+                examples.UpdateTerritory()
+                examples.RemoveTerritory()
+                examples.GetTerritory()
+                examples.GetTerritories()
+                examples.CreateRectTerritory()
+                examples.CreatePolygonTerritory()
+                examples.CreateTerritory()
+#End Region
+#Region "==== Avoidance Zones ===="
+                examples.AddAvoidanceZone()
+                examples.AddPolygonAvoidanceZone()
+                examples.AddRectAvoidanceZone()
+                examples.DeleteAvoidanceZone()
+                examples.GetAvoidanceZone()
+                examples.GetAvoidanceZones()
+                examples.UpdateAvoidanceZone()
+#End Region
+#Region "==== Vehicles ===="
+                examples.GetVehicles()
+#End Region
+#Region "==== Users ===="
+                examples.ValidateSession()
+                examples.UserRegistration()
+                examples.UserAuthentication()
+                examples.UpdateUser()
+                examples.GetUserById()
+                examples.DeleteUser()
+                examples.CreateUser()
+#End Region
+#Region "==== Tracking ===="
+                examples.GetDeviceHistoryTimeRange("814FB49CEA8188D134E9D4D4B8B0DAF7")
+                examples.FindAsset()
+#End Region
+#Region "==== Geocoding ===="
+                examples.GeocodingForward()
+                examples.BatchGeocodingForward()
+                examples.BatchGeocodingForwardAsync()
+                examples.ReverseGeocoding()
+                examples.uploadAndGeocodeLargeJsonFile()
 
-            examples.AddAddressNote()
-            examples.GetAddressNotes()
+                examples.RapidStreetDataAll()
+                examples.RapidStreetDataLimited()
+                examples.RapidStreetDataSingle()
 
-            examples.DeleteRoutes()
+                examples.RapidStreetServiceAll()
+                examples.RapidStreetServiceLimited()
 
-            Dim contact1 As AddressBookContact = examples.contact1
-            Dim contact2 As AddressBookContact = examples.contact2
+                examples.RapidStreetZipcodeAll()
+                examples.RapidStreetZipcodeLimited()
+#End Region
+#Region "==== Orders ===="
+                examples.AddOrder()
+                examples.AddOrdersToOptimization()
+                examples.AddOrdersToRoute()
+                examples.AddScheduledOrder()
+                examples.CreateOrderWithCustomField()
+                examples.GetOrderByID()
+                examples.GetOrdersByInsertedDate()
+                examples.GetOrdersByScheduledDate()
+                examples.GetOrdersByCustomFields()
+                examples.GetOrdersByScheduleFilter()
+                examples.GetOrdersBySpecifiedText()
+                examples.RemoveOrders()
+                examples.GetOrders()
+                examples.UpdateOrder()
+                examples.UpdateOrderWithCustomField()
+#End Region
+#Region "==== Custom User Order Fields ===="
+                examples.CreateOrderCustomUserField()
+                examples.GetOrderCustomUserFields()
+                examples.RemoveOrderCustomUserField()
+                examples.updateOrderCustomUserField()
+#End Region
+#Region "==== Telematics Vendors ===="
+                examples.GetAllVendors()
+                examples.GetVendor()
+                examples.SearchVendors()
+                examples.VendorsComparison()
+#End Region
+#End Region
+            ElseIf executeOption.ToLower() = "api5" Then
+#Region "API 5"
 
-            examples.CreateTestContacts()
+#Region "Team Management"
+                'examples.GetTeamMembers()
+                'examples.GetTeamMemberById()
+                'examples.RemoveTeamMember()
+                'examples.UpdateTeamMember()
+                'examples.CreateTeamMember()
+                'examples.BulkCreateTeamMembers()
+                'examples.AddSkillsToDriver()
+#End Region
 
-            Console.WriteLine("contact1 and contact2 were added")
+#Region "Driver Rating"
+                'examples.GetDriverReviewList()
+                'examples.GetDriverReviewById()
+                'examples.CreateDriverReview()
+                'examples.UpdateDriverReview()
+#End Region
 
-            examples.GetAddressBookContacts()
-            If contact1 IsNot Nothing Then
-                contact1.last_name = "Updated " + (New Random()).[Next]().ToString()
-                examples.UpdateAddressBookContact(contact1)
+#Region "Route Types"
+                'examples.CreateOptimizationWithDriverSkills()
+#End Region
+
+#End Region
             Else
-                Console.WriteLine("contact1 == null. UpdateAddressBookContact not called.")
-            End If
-            Dim addressIdsToRemove As New List(Of String)()
-            If contact1 IsNot Nothing Then
-                addressIdsToRemove.Add(contact1.address_id)
-            End If
-            If contact2 IsNot Nothing Then
-                addressIdsToRemove.Add(contact2.address_id)
-            End If
-            examples.RemoveAddressBookContacts(addressIdsToRemove.ToArray())
-
-            ' Avoidance Zones
-            Dim territoryId As String = examples.AddAvoidanceZone()
-            examples.GetAvoidanceZones()
-            If territoryId IsNot Nothing Then
-                examples.GetAvoidanceZone(territoryId)
-            Else
-                Console.WriteLine("GetAvoidanceZone not called. territoryId == null.")
-            End If
-            If territoryId IsNot Nothing Then
-                examples.UpdateAvoidanceZone(territoryId)
-            Else
-                Console.WriteLine("UpdateAvoidanceZone not called. territoryId == null.")
-            End If
-            If territoryId IsNot Nothing Then
-                examples.DeleteAvoidanceZone(territoryId)
-            Else
-                Console.WriteLine("DeleteAvoidanceZone not called. territoryId == null.")
+                Try
+                    GetType(Route4MeExamples).GetMethod(executeOption).Invoke(examples, Nothing)
+                Catch ex As Exception
+                    Console.WriteLine(executeOption & " error: {0}", ex.Message)
+                End Try
             End If
 
-            'disabled by default, not necessary for optimization tests
-            'not all accounts are capable of storing gps data
-            'if (routeId_SingleDriverRoute10Stops != null)
-            '{
-            '  examples.SetGPSPosition(routeId_SingleDriverRoute10Stops);
-            '  examples.TrackDeviceLastLocationHistory(routeId_SingleDriverRoute10Stops);
-            '}
-            'else
-            '{
-            '  System.Console.WriteLine("SetGPSPosition, TrackDeviceLastLocationHistory not called. routeId_SingleDriverRoute10Stops == null.");
-            '}
-
-            ' Orders
-            examples.AddOrder()
-            examples.UpdateOrder()
-            examples.GetOrders()
-            examples.RemoveOrders()
-
-            examples.GenericExample()
-            examples.GenericExampleShortcut()
-
-            Console.WriteLine("Press any key")
-            Console.ReadKey()
+            System.Console.WriteLine("")
+            System.Console.WriteLine("Press any key")
+            System.Console.ReadKey()
         End Sub
     End Module
 End Namespace

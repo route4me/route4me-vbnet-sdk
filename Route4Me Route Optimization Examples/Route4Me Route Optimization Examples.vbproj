@@ -271,6 +271,10 @@
     <Compile Include="Examples\RouteExamples\SingleDriverRoundTripGeneric.vb" />
     <Compile Include="Examples\RouteExamples\SingleDriverRoute10Stops.vb" />
     <Compile Include="Examples\RouteExamples\SingleDriverRoute7Stops.vb" />
+    <Compile Include="Examples\TelematicsGateWayAPI\GetAllVendors.vb" />
+    <Compile Include="Examples\TelematicsGateWayAPI\GetVendor.vb" />
+    <Compile Include="Examples\TelematicsGateWayAPI\SearchVendors.vb" />
+    <Compile Include="Examples\TelematicsGateWayAPI\VendorsComparison.vb" />
     <Compile Include="Examples\Territories\CreatePolygonTerritory.vb" />
     <Compile Include="Examples\Territories\CreateRectTerritory.vb" />
     <Compile Include="Examples\Territories\CreateTerritory.vb" />

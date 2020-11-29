@@ -1,6 +1,6 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
-Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         ''' <summary>
@@ -8,27 +8,27 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub RemoveTerritory()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim territoryId As String = "12ABBFA3B5E4FB007BB0ED73291576C2"
+            CreateTerritoryZone()
 
-            Dim territoryQuery As New TerritoryQuery() With { _
-                .TerritoryId = territoryId _
+            Dim territoryId As String = TerritoryZonesToRemove(TerritoryZonesToRemove.Count - 1)
+
+            Dim territoryQuery = New TerritoryQuery With {
+                .TerritoryId = territoryId
             }
 
             ' Run the query
-            Dim errorString As String = ""
-            route4Me.RemoveTerritory(territoryQuery, errorString)
+            Dim errorString As String = Nothing
+            Dim removed As Boolean = route4Me.RemoveTerritory(territoryQuery, errorString)
 
-            Console.WriteLine("")
-
-            If errorString = "" Then
-                Console.WriteLine("RemoveTerritory executed successfully")
-
-                Console.WriteLine("Territory ID: {0}", territoryId)
-            Else
-                Console.WriteLine("RemoveTerritory error: {0}", errorString)
-            End If
+            Console.WriteLine(
+                If(
+                    removed,
+                    String.Format("The territory {0} removed successfully", territoryId),
+                    String.Format("Cannot remove the territory {0}", territoryId) & Environment.NewLine & errorString
+                  )
+            )
         End Sub
     End Class
 End Namespace
