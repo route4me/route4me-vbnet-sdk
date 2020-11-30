@@ -910,7 +910,7 @@ Namespace Route4MeSDK
 
 #Region "Tracking"
 
-        Public Function GetLastLocation(parameters As GenericParameters,
+        Public Function GetLastLocation(parameters As RouteParametersQuery,
                                         ByRef errorString As String) As DataObjectRoute
 
             Dim result = GetJsonObjectFromAPI(Of DataObjectRoute)(
@@ -998,6 +998,7 @@ Namespace Route4MeSDK
             ''' </summary>
             <DataMember(Name:="data")>
             Public Property data As TrackingHistory()
+
         End Class
 
         ''' <summary>

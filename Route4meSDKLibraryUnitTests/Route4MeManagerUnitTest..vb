@@ -9424,23 +9424,32 @@ End Class
 
     <TestMethod> _
     Public Sub FindAssetTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me = New Route4MeManager(c_ApiKey)
 
-        Dim tracking As String = If(tdr.SDRT_route IsNot Nothing, (If(tdr.SDRT_route.Addresses.Length > 1, (If(tdr.SDRT_route.Addresses(1).tracking_number IsNot Nothing, tdr.SDRT_route.Addresses(1).tracking_number, "")), "")), "")
+        Dim tracking As String = If(
+            tdr.SDRT_route IsNot Nothing,
+                (If(
+                    tdr.SDRT_route.Addresses.Length > 1,
+                        (If(
+                            tdr.SDRT_route.Addresses(1).tracking_number IsNot Nothing,
+                            tdr.SDRT_route.Addresses(1).tracking_number,
+                            "")
+                        ),
+                    "")
+                ),
+            "")
 
         Assert.IsTrue(
             tracking <> "",
             "Can not find valid tracking number in the newly generated route's second destination."
         )
 
-        ' Run the query
-        Dim errorString As String = ""
+        Dim errorString As String = Nothing
         Dim result As FindAssetResponse = route4Me.FindAsset(tracking, errorString)
 
         Assert.IsInstanceOfType(
             result,
-            GetType(FindAssetResponse),
-            Convert.ToString("FindAssetTest failed. ") & errorString
+            GetType(FindAssetResponse), "FindAssetTest failed. " & errorString
         )
 
     End Sub
@@ -9450,17 +9459,16 @@ End Class
         Dim route4Me = New Route4MeManager(ApiKeys.actualApiKey)
 
         Dim lat As Double = If(
-            tdr.SDRT_route.Addresses.Length > 1,
-            tdr.SDRT_route.Addresses(1).Latitude,
-            33.14384
-        )
+                                tdr.SDRT_route.Addresses.Length > 1,
+                                tdr.SDRT_route.Addresses(1).Latitude,
+                                33.14384
+                              )
         Dim lng As Double = If(
-            tdr.SDRT_route.Addresses.Length > 1,
-            tdr.SDRT_route.Addresses(1).Longitude,
-            -83.22466
-        )
+                                tdr.SDRT_route.Addresses.Length > 1,
+                                tdr.SDRT_route.Addresses(1).Longitude,
+                                -83.22466
+                              )
 
-        ' Create the gps parametes
         Dim gpsParameters = New GPSParameters() With {
             .Format = Format.Csv.GetEnumDescription(),
             .RouteId = tdr.SDRT_route_id,
@@ -9492,7 +9500,6 @@ End Class
         Dim lat As Double = address.Latitude
         Dim lng As Double = address.Longitude
 
-        ' Create the gps parametes
         Dim gpsParameters = New GPSParameters() With {
             .Format = Format.Csv.GetEnumDescription(),
             .RouteId = tdr.SDRT_route_id,
@@ -9506,14 +9513,12 @@ End Class
             .DeviceTimestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
         }
 
-        Dim errorString As String = Nothing
-        Dim response = route4Me.SetGPS(gpsParameters, errorString)
+        Dim __ As String = Nothing
+        Dim response = route4Me.SetGPS(gpsParameters, __)
 
-        Return If(
-            response IsNot Nothing AndAlso response.[GetType]() = GetType(SetGpsResponse),
-            True,
-            False
-        )
+        Return If(response IsNot Nothing AndAlso response.[GetType]() = GetType(SetGpsResponse),
+                  True,
+                  False)
     End Function
 
     <TestMethod> _
@@ -9543,16 +9548,17 @@ End Class
 
     <TestMethod>
     Public Sub TrackDeviceLastLocationHistoryTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me = New Route4MeManager(c_ApiKey)
 
-        Dim genericParameters As New GenericParameters()
-        genericParameters.ParametersCollection.Add("route_id", tdr.SDRT_route_id)
-        genericParameters.ParametersCollection.Add("device_tracking_history", "1")
+        Dim trParameters = New RouteParametersQuery() With {
+            .RouteId = tdr.SDRT_route_id,
+            .DeviceTrackingHistory = True
+        }
 
-        Dim errorString As String = ""
-        Dim dataObject = route4Me.GetLastLocation(genericParameters, errorString)
+        Dim errorString As String = Nothing
+        Dim dataObject = route4Me.GetLastLocation(trParameters, errorString)
 
-        Assert.IsNotNull(dataObject, Convert.ToString("TrackDeviceLastLocationHistoryTest failed. ") & errorString)
+        Assert.IsNotNull(dataObject, "TrackDeviceLastLocationHistoryTest failed. " & errorString)
     End Sub
 
     <TestMethod>
@@ -9564,27 +9570,39 @@ End Class
         Dim errorString As String = Nothing
         Dim userLocations = route4Me.GetUserLocations(genericParameters, errorString)
 
-        Assert.IsNotNull(userLocations, "GetAllUserLocationsTest failed... " & errorString)
+        Assert.IsNotNull(userLocations, "GetAllUserLocationsTest failed. " & errorString)
+
     End Sub
 
     <TestMethod>
     Public Sub QueryUserLocationsTest()
         Dim route4Me = New Route4MeManager(ApiKeys.actualApiKey)
+
         Dim genericParameters = New GenericParameters()
+
         Dim errorString As String = Nothing
         Dim userLocations = route4Me.GetUserLocations(genericParameters, errorString)
 
-        Assert.IsNotNull(userLocations, "GetAllUserLocationsTest failed... " & errorString)
+        Assert.IsNotNull(userLocations, "GetAllUserLocationsTest failed. " & errorString)
 
-        Dim userLocation = userLocations.Where(Function(x) x.UserTracking IsNot Nothing).FirstOrDefault()
+        Dim userLocation = userLocations.
+                                Where(Function(x) x.UserTracking IsNot Nothing).
+                                FirstOrDefault()
+
         Dim email As String = userLocation.MemberData.MemberEmail
 
         genericParameters.ParametersCollection.Add("query", email)
 
         Dim queriedUserLocations = route4Me.GetUserLocations(genericParameters, errorString)
 
-        Assert.IsNotNull(queriedUserLocations, "QueryUserLocationsTest failed... " & errorString)
-        Assert.IsTrue(queriedUserLocations.Count() = 1, "QueryUserLocationsTest failed... " & errorString)
+        Assert.IsNotNull(
+            queriedUserLocations,
+            "QueryUserLocationsTest failed. " & errorString
+        )
+        Assert.IsTrue(
+            queriedUserLocations.Count() = 1,
+            "QueryUserLocationsTest failed. " & errorString
+        )
     End Sub
 
     <ClassCleanup> _

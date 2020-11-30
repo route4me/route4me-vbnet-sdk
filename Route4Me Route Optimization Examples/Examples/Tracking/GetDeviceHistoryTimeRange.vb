@@ -1,6 +1,7 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+Imports Route4MeSDKLibrary.Route4MeSDK.Route4MeManager
 
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
@@ -11,21 +12,27 @@ Namespace Route4MeSDKTest.Examples
             ' Create the manager with the api key
             Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim zeroTime As DateTime = New DateTime(1970, 1, 1, 0, 0, 0)
-            Dim uStartTime As Integer = CInt((New DateTime(2016, 10, 20, 0, 0, 0) - zeroTime).TotalSeconds)
-            Dim uEndTime As Integer = CInt((New DateTime(2026, 10, 26, 23, 59, 59) - zeroTime).TotalSeconds)
+            Dim tsp2days = New TimeSpan(2, 0, 0, 0)
+            Dim dtNow As DateTime = DateTime.Now
 
             RunOptimizationSingleDriverRoute10Stops()
-
             OptimizationsToRemove = New List(Of String)()
             OptimizationsToRemove.Add(SD10Stops_optimization_problem_id)
 
+            Dim lat As Double = If(SD10Stops_route.Addresses.Length > 1, SD10Stops_route.Addresses(1).Latitude, 33.14384)
+            Dim lng As Double = If(SD10Stops_route.Addresses.Length > 1, SD10Stops_route.Addresses(1).Longitude, -83.22466)
+
             Dim gpsParameters = New GPSParameters With {
-                .Format = "csv",
+                .Format = Format.Csv.GetEnumDescription(),
                 .RouteId = SD10Stops_route_id,
-                .TimePeriod = "custom",
-                .StartDate = uStartTime,
-                .EndDate = uEndTime
+                .Latitude = lat,
+                .Longitude = lng,
+                .Course = 1,
+                .Speed = 120,
+                .DeviceType = DeviceType.IPhone.GetEnumDescription(),
+                .MemberId = CInt(SD10Stops_route.Addresses(1).MemberId),
+                .DeviceGuid = "TEST_GPS",
+                .DeviceTimestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
             }
 
             Dim errorString As String = Nothing
@@ -38,29 +45,31 @@ Namespace Route4MeSDKTest.Examples
 
             Console.WriteLine("SetGps response: {0}", response.Status.ToString())
 
-            Dim genericParameters As GenericParameters = New GenericParameters()
-            genericParameters.ParametersCollection.Add("route_id", SD10Stops_route_id)
-            genericParameters.ParametersCollection.Add("device_tracking_history", "1")
+            Dim trParameters = New GPSParameters With {
+                .Format = "json",
+                .RouteId = SD10Stops_route_id,
+                .TimePeriod = "custom",
+                .StartDate = R4MeUtils.ConvertToUnixTimestamp(dtNow - tsp2days),
+                .EndDate = R4MeUtils.ConvertToUnixTimestamp(dtNow + tsp2days)
+            }
 
-            Dim dataObject = route4Me.GetLastLocation(genericParameters, errorString)
+            Dim result = route4Me.GetDeviceLocationHistory(trParameters, errorString)
 
-            Console.WriteLine("")
+            Console.WriteLine(If(
+                              result IsNot Nothing AndAlso result.[GetType]() = GetType(GetDeviceLocationHistoryResponse),
+                              "GetDeviceHistoryTimeRangeTest executed successfully",
+                              "GetDeviceHistoryTimeRangeTest failed. " & errorString))
 
-            If dataObject IsNot Nothing Then
-                Console.WriteLine("GetDeviceHistoryTimeRange executed successfully")
+            If result IsNot Nothing AndAlso result.[GetType]() = GetType(GetDeviceLocationHistoryResponse) Then
                 Console.WriteLine("")
-                Console.WriteLine("Optimization Problem ID: {0}", dataObject.OptimizationProblemId)
-                Console.WriteLine("")
+                Dim locationHistoryResul = CType(result, GetDeviceLocationHistoryResponse)
 
-                For Each th As TrackingHistory In dataObject.TrackingHistory
-                    Console.WriteLine("Speed: {0}", th.Speed)
-                    Console.WriteLine("Longitude: {0}", th.Longitude)
-                    Console.WriteLine("Latitude: {0}", th.Latitude)
-                    Console.WriteLine("Time Stamp: {0}", th.TimeStampFriendly)
-                    Console.WriteLine("")
-                Next
-            Else
-                Console.WriteLine("GetDeviceHistoryTimeRange error: {0}", errorString)
+                If (If(locationHistoryResul.data?.Length, 0)) > 0 Then
+
+                    For Each locationHistory In locationHistoryResul.data
+                        Console.WriteLine("Location: {0}, {1}", locationHistory.Latitude, locationHistory.Longitude)
+                    Next
+                End If
             End If
 
             RemoveTestOptimizations()

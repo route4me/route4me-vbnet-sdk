@@ -13,7 +13,6 @@ Namespace Route4MeSDKTest.Examples
 #Region "Retrieve All User Locations"
 
             Dim genericParameters = New GenericParameters()
-
             Dim errorString As String = Nothing
             Dim userLocations = route4Me.GetUserLocations(genericParameters, errorString)
 
@@ -26,24 +25,20 @@ Namespace Route4MeSDKTest.Examples
 
 #Region "Get First User's Email"
 
-            Dim userLocation = userLocations.
-                Where(Function(x) x.UserTracking IsNot Nothing).
-                FirstOrDefault()
-
+            Dim userLocation = userLocations.Where(Function(x) x.UserTracking IsNot Nothing).FirstOrDefault()
             Dim email As String = userLocation.MemberData.MemberEmail
 
 #End Region
 
-            genericParameters.ParametersCollection.Add("query", email)
-
             ' Run query
+            genericParameters.ParametersCollection.Add("query", email)
             Dim queriedUserLocations = route4Me.GetUserLocations(genericParameters, errorString)
 
             Console.WriteLine(If(
                               queriedUserLocations IsNot Nothing,
                               "QueryUserLocations executed successfully",
-                              "QueryUserLocations failed")
-            )
+                              "QueryUserLocations failed"))
+
         End Sub
     End Class
 End Namespace

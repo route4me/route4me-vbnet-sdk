@@ -16,7 +16,6 @@ Namespace Route4MeSDKTest.Examples
 
             Dim tracking As String = SD10Stops_route.Addresses(1).tracking_number
 
-            ' Run query
             Dim errorString As String = Nothing
             Dim result As FindAssetResponse = route4Me.FindAsset(tracking, errorString)
 
@@ -37,19 +36,19 @@ Namespace Route4MeSDKTest.Examples
                 If (If(result?.CustomData?.Count, 0)) > 0 Then
 
                     For Each kvp As KeyValuePair(Of String, String) In result.CustomData
-                        Console.WriteLine(kvp.Key & ": " & kvp.Value)
+                        Console.WriteLine(kvp.Key & ": " + kvp.Value)
                     Next
                 End If
 
                 For Each arriv1 As FindAssetResponseArrival In result.Arrival
-                    Console.WriteLine(
-                        "from_unix_timestamp: " & nDateTime.AddSeconds(
-                        If(arriv1.FromUnixTimestamp >= 0, CDbl(arriv1.FromUnixTimestamp), 0))
-                    )
-                    Console.WriteLine(
-                        "to_unix_timestamp: " & nDateTime.AddSeconds(
-                        If(arriv1.ToUnixTimestamp >= 0, CDbl(arriv1.ToUnixTimestamp), 0))
-                    )
+                    Console.WriteLine("from_unix_timestamp: " & nDateTime.AddSeconds(If(
+                                                                                     arriv1.FromUnixTimestamp >= 0,
+                                                                                     CDbl(arriv1.FromUnixTimestamp),
+                                                                                     0)))
+                    Console.WriteLine("to_unix_timestamp: " & nDateTime.AddSeconds(If(
+                                                                                   arriv1.ToUnixTimestamp >= 0,
+                                                                                   CDbl(arriv1.ToUnixTimestamp),
+                                                                                   0)))
                 Next
 
                 Console.WriteLine("delivered: " & result.Delivered)

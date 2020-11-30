@@ -11,22 +11,27 @@ Namespace Route4MeSDKTest.Examples
             ' Create the manager with the api key
             Dim route4Me = New Route4MeManager(ActualApiKey)
 
+            Dim tsp2days = New TimeSpan(2, 0, 0, 0)
+            Dim dtNow As DateTime = DateTime.Now
+
             RunOptimizationSingleDriverRoute10Stops()
             OptimizationsToRemove = New List(Of String)()
             OptimizationsToRemove.Add(SD10Stops_optimization_problem_id)
 
-            ' Create the GPS parameters
-            Dim gpsParameters = New GPSParameters() With {
+            Dim lat As Double = If(SD10Stops_route.Addresses.Length > 1, SD10Stops_route.Addresses(1).Latitude, 33.14384)
+            Dim lng As Double = If(SD10Stops_route.Addresses.Length > 1, SD10Stops_route.Addresses(1).Longitude, -83.22466)
+
+            Dim gpsParameters = New GPSParameters With {
                 .Format = Format.Csv.GetEnumDescription(),
                 .RouteId = SD10Stops_route_id,
-                .Latitude = 33.14384,
-                .Longitude = -83.22466,
+                .Latitude = lat,
+                .Longitude = lng,
                 .Course = 1,
                 .Speed = 120,
                 .DeviceType = DeviceType.IPhone.GetEnumDescription(),
-                .MemberId = 1,
+                .MemberId = CInt(SD10Stops_route.Addresses(1).MemberId),
                 .DeviceGuid = "TEST_GPS",
-                .DeviceTimestamp = "2014-06-14 17:43:35"
+                .DeviceTimestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
             }
 
             Dim errorString As String = Nothing
@@ -37,13 +42,14 @@ Namespace Route4MeSDKTest.Examples
                 Return
             End If
 
-            Console.WriteLine("SetGps response: {0}", response.ToString())
+            Console.WriteLine("SetGps response: {0}", response.Status.ToString())
 
-            Dim genericParameters As GenericParameters = New GenericParameters()
-            genericParameters.ParametersCollection.Add("route_id", SD10Stops_route_id)
-            genericParameters.ParametersCollection.Add("device_tracking_history", "1")
+            Dim trParameters = New RouteParametersQuery() With {
+                .RouteId = SD10Stops_route_id,
+                .DeviceTrackingHistory = True
+            }
 
-            Dim dataObject = route4Me.GetLastLocation(genericParameters, errorString)
+            Dim dataObject = route4Me.GetLastLocation(trParameters, errorString)
 
             Console.WriteLine("")
 
@@ -52,7 +58,6 @@ Namespace Route4MeSDKTest.Examples
                 Console.WriteLine("")
                 Console.WriteLine("Optimization Problem ID: {0}", dataObject.OptimizationProblemId)
                 Console.WriteLine("")
-
                 dataObject.TrackingHistory.ToList().ForEach(
                     Sub(th)
                         Console.WriteLine("Speed: {0}", th.Speed)
