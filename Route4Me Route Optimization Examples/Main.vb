@@ -13,7 +13,7 @@ Namespace Route4MeSDKTest
             ' "api4" - execute all the examples related to the API 4 
             ' "api5" - execute all the examples related to the API 5 
             ' a method name - execute a specifed example method (e.g. "GetTeamMemberById")
-            Dim executeOption As String = "VendorsComparison"
+            Dim executeOption As String = "GetDeviceHistoryTimeRange"
 
             If executeOption.ToLower() = "api4" Then
 #Region "API 4"
@@ -198,8 +198,12 @@ Namespace Route4MeSDKTest
                 examples.CreateUser()
 #End Region
 #Region "==== Tracking ===="
-                examples.GetDeviceHistoryTimeRange("814FB49CEA8188D134E9D4D4B8B0DAF7")
                 examples.FindAsset()
+                examples.GetAllUserLocations()
+                examples.GetDeviceHistoryTimeRange()
+                examples.QueryUserLocations()
+                examples.SetGPSPosition()
+                examples.TrackDeviceLastLocationHistory()
 #End Region
 #Region "==== Geocoding ===="
                 examples.GeocodingForward()

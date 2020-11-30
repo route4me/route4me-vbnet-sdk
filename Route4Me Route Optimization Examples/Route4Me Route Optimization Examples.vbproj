@@ -288,7 +288,9 @@
     <Compile Include="Examples\Members\UserRegistration.vb" />
     <Compile Include="Examples\Members\ValidateSession.vb" />
     <Compile Include="Examples\Tracking\FindAsset.vb" />
+    <Compile Include="Examples\Tracking\GetAllUserLocations.vb" />
     <Compile Include="Examples\Tracking\GetDeviceHistoryTimeRange.vb" />
+    <Compile Include="Examples\Tracking\QueryUserLocations.vb" />
     <Compile Include="Examples\Tracking\SetGPSPosition.vb" />
     <Compile Include="Examples\Tracking\TrackDeviceLastLocationHistory.vb" />
     <Compile Include="Examples\Vehicles\GetVehicles.vb" />

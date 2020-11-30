@@ -27,5 +27,12 @@ Route4meSDKLibraryUnitTests
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
+<member name="M:Route4meSDKLibraryUnitTests.TrackingGroup.SetAddressGPSPosition(Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address)">
+ <summary>
+ Set GPS postion record by route address
+ </summary>
+ <param name="address">Route address</param>
+ <returns>True if the GPS position recorded successfully.</returns>
+</member>
 </members>
 </doc>

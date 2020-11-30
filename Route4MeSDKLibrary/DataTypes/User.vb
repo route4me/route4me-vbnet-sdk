@@ -17,7 +17,7 @@ Namespace Route4MeSDK.DataTypes
         Public Property MemberFirstName As String
 
         <DataMember(Name:="member_last_name")>
-        Public Property MemberLasttName As String
+        Public Property MemberLastName As String
 
         <DataMember(Name:="member_email")>
         Public Property MemberEmail As String

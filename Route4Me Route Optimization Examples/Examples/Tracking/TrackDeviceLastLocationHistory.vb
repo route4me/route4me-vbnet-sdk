@@ -1,38 +1,46 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Sub TrackDeviceLastLocationHistory(routeId As String)
+        ''' <summary>
+        ''' The example refers to the process of getting the last location history of a GPS device.
+        ''' </summary>
+        Public Sub TrackDeviceLastLocationHistory()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            ' Create the gps parametes
-            Dim gpsParameters As New GPSParameters() With { _
-                .Format = EnumHelper.GetEnumDescription(Format.Csv), _
-                .RouteId = routeId, _
-                .Latitude = 33.14384, _
-                .Longitude = -83.22466, _
-                .Course = 1, _
-                .Speed = 120, _
-                .DeviceType = EnumHelper.GetEnumDescription(DeviceType.IPhone), _
-                .MemberId = 1, _
-                .DeviceGuid = "TEST_GPS", _
-                .DeviceTimestamp = "2014-06-14 17:43:35" _
+            RunOptimizationSingleDriverRoute10Stops()
+            OptimizationsToRemove = New List(Of String)()
+            OptimizationsToRemove.Add(SD10Stops_optimization_problem_id)
+
+            ' Create the GPS parameters
+            Dim gpsParameters = New GPSParameters() With {
+                .Format = Format.Csv.GetEnumDescription(),
+                .RouteId = SD10Stops_route_id,
+                .Latitude = 33.14384,
+                .Longitude = -83.22466,
+                .Course = 1,
+                .Speed = 120,
+                .DeviceType = DeviceType.IPhone.GetEnumDescription(),
+                .MemberId = 1,
+                .DeviceGuid = "TEST_GPS",
+                .DeviceTimestamp = "2014-06-14 17:43:35"
             }
 
-            Dim errorString As String = ""
-            Dim response As String = route4Me.SetGPS(gpsParameters, errorString)
+            Dim errorString As String = Nothing
+            Dim response = route4Me.SetGPS(gpsParameters, errorString)
 
             If Not String.IsNullOrEmpty(errorString) Then
                 Console.WriteLine("SetGps error: {0}", errorString)
                 Return
             End If
 
-            Console.WriteLine("SetGps response: {0}", response)
+            Console.WriteLine("SetGps response: {0}", response.ToString())
 
-            Dim genericParameters As New GenericParameters()
-            genericParameters.ParametersCollection.Add("route_id", routeId)
+            Dim genericParameters As GenericParameters = New GenericParameters()
+            genericParameters.ParametersCollection.Add("route_id", SD10Stops_route_id)
             genericParameters.ParametersCollection.Add("device_tracking_history", "1")
 
             Dim dataObject = route4Me.GetLastLocation(genericParameters, errorString)
@@ -42,19 +50,22 @@ Namespace Route4MeSDKTest.Examples
             If dataObject IsNot Nothing Then
                 Console.WriteLine("TrackDeviceLastLocationHistory executed successfully")
                 Console.WriteLine("")
-
                 Console.WriteLine("Optimization Problem ID: {0}", dataObject.OptimizationProblemId)
                 Console.WriteLine("")
-                For Each th As TrackingHistory In dataObject.TrackingHistory
-                    Console.WriteLine("Speed: {0}", th.Speed)
-                    Console.WriteLine("Longitude: {0}", th.Longitude)
-                    Console.WriteLine("Latitude: {0}", th.Latitude)
-                    Console.WriteLine("Time Stamp: {0}", th.TimeStampFriendly)
-                    Console.WriteLine("")
-                Next
+
+                dataObject.TrackingHistory.ToList().ForEach(
+                    Sub(th)
+                        Console.WriteLine("Speed: {0}", th.Speed)
+                        Console.WriteLine("Longitude: {0}", th.Longitude)
+                        Console.WriteLine("Latitude: {0}", th.Latitude)
+                        Console.WriteLine("Time Stamp: {0}", th.TimeStampFriendly)
+                        Console.WriteLine("")
+                    End Sub)
             Else
                 Console.WriteLine("TrackDeviceLastLocationHistory error: {0}", errorString)
             End If
+
+            RemoveTestOptimizations()
         End Sub
     End Class
 End Namespace

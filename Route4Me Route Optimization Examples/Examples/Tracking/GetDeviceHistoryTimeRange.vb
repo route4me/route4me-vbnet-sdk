@@ -1,38 +1,45 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Sub GetDeviceHistoryTimeRange(routeId As String)
+        ''' <summary>
+        ''' Get Device History from Time Range
+        ''' </summary>
+        Public Sub GetDeviceHistoryTimeRange()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            ' Create the gps parametes
-            Dim uStartTime As Integer
-            Dim uEndTime As Integer
-            uStartTime = ((New DateTime(2016, 10, 20, 0, 0, 0)) - (New DateTime(1970, 1, 1, 0, 0, 0))).TotalSeconds
-            uEndTime = ((New DateTime(2016, 10, 26, 23, 59, 59)) - (New DateTime(1970, 1, 1, 0, 0, 0))).TotalSeconds
+            Dim zeroTime As DateTime = New DateTime(1970, 1, 1, 0, 0, 0)
+            Dim uStartTime As Integer = CInt((New DateTime(2016, 10, 20, 0, 0, 0) - zeroTime).TotalSeconds)
+            Dim uEndTime As Integer = CInt((New DateTime(2026, 10, 26, 23, 59, 59) - zeroTime).TotalSeconds)
 
-            Dim gpsParameters As New GPSParameters() With { _
-                .Format = EnumHelper.GetEnumDescription(Format.Csv), _
-                .RouteId = routeId, _
-                .time_period = "custom", _
-                .start_date = uStartTime, _
-                .end_date = uEndTime _
+            RunOptimizationSingleDriverRoute10Stops()
+
+            OptimizationsToRemove = New List(Of String)()
+            OptimizationsToRemove.Add(SD10Stops_optimization_problem_id)
+
+            Dim gpsParameters = New GPSParameters With {
+                .Format = "csv",
+                .RouteId = SD10Stops_route_id,
+                .TimePeriod = "custom",
+                .StartDate = uStartTime,
+                .EndDate = uEndTime
             }
 
-            Dim errorString As String = ""
-            Dim response As String = route4Me.SetGPS(gpsParameters, errorString)
+            Dim errorString As String = Nothing
+            Dim response = route4Me.SetGPS(gpsParameters, errorString)
 
             If Not String.IsNullOrEmpty(errorString) Then
                 Console.WriteLine("SetGps error: {0}", errorString)
                 Return
             End If
 
-            Console.WriteLine("SetGps response: {0}", response)
+            Console.WriteLine("SetGps response: {0}", response.Status.ToString())
 
-            Dim genericParameters As New GenericParameters()
-            genericParameters.ParametersCollection.Add("route_id", routeId)
+            Dim genericParameters As GenericParameters = New GenericParameters()
+            genericParameters.ParametersCollection.Add("route_id", SD10Stops_route_id)
             genericParameters.ParametersCollection.Add("device_tracking_history", "1")
 
             Dim dataObject = route4Me.GetLastLocation(genericParameters, errorString)
@@ -42,9 +49,9 @@ Namespace Route4MeSDKTest.Examples
             If dataObject IsNot Nothing Then
                 Console.WriteLine("GetDeviceHistoryTimeRange executed successfully")
                 Console.WriteLine("")
-
                 Console.WriteLine("Optimization Problem ID: {0}", dataObject.OptimizationProblemId)
                 Console.WriteLine("")
+
                 For Each th As TrackingHistory In dataObject.TrackingHistory
                     Console.WriteLine("Speed: {0}", th.Speed)
                     Console.WriteLine("Longitude: {0}", th.Longitude)
@@ -55,6 +62,8 @@ Namespace Route4MeSDKTest.Examples
             Else
                 Console.WriteLine("GetDeviceHistoryTimeRange error: {0}", errorString)
             End If
+
+            RemoveTestOptimizations()
         End Sub
     End Class
 End Namespace

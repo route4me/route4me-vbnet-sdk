@@ -38,13 +38,13 @@
         Public Property last_position As Boolean
 
         <HttpQueryMemberAttribute(Name:="time_period")>
-        Public Property time_period As String
+        Public Property TimePeriod As String
 
         <HttpQueryMemberAttribute(Name:="start_date")>
-        Public Property start_date As Long
+        Public Property StartDate As Long
 
         <HttpQueryMemberAttribute(Name:="end_date")>
-        Public Property end_date As Long
+        Public Property EndDate As Long
 
         <HttpQueryMemberAttribute(Name:="altitude", EmitDefaultValue:=False)>
         Public Property Altitude As Double

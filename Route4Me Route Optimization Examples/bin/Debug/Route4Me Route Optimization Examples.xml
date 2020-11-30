@@ -970,5 +970,30 @@ The example refers to the process of query all the activities from the last spec
  Find Asset (Asset tracking)
  </summary>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetAllUserLocations">
+ <summary>
+ The example refers to the process of getting all user locations.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetDeviceHistoryTimeRange">
+ <summary>
+ Get Device History from Time Range
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.QueryUserLocations">
+ <summary>
+ The example refers to the process of searching by query text the user location.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SetGPSPosition">
+ <summary>
+ The example refers to the process of setting the GPS position of a device.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.TrackDeviceLastLocationHistory">
+ <summary>
+ The example refers to the process of getting the last location history of a GPS device.
+ </summary>
+</member>
 </members>
 </doc>

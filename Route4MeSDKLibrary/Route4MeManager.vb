@@ -910,17 +910,50 @@ Namespace Route4MeSDK
 
 #Region "Tracking"
 
-        Public Function GetLastLocation(parameters As GenericParameters, ByRef errorString As String) As DataObjectRoute
-            Dim result = GetJsonObjectFromAPI(Of DataObjectRoute)(parameters, R4MEInfrastructureSettings.RouteHost, HttpMethodType.[Get], False, errorString)
+        Public Function GetLastLocation(parameters As GenericParameters,
+                                        ByRef errorString As String) As DataObjectRoute
+
+            Dim result = GetJsonObjectFromAPI(Of DataObjectRoute)(
+                                                        parameters,
+                                                        R4MEInfrastructureSettings.RouteHost,
+                                                        HttpMethodType.[Get],
+                                                        False,
+                                                        errorString)
 
             Return result
         End Function
 
-        Public Function SetGPS(gpsParameters As GPSParameters, ByRef errorString As String) As String
-            Dim result = GetJsonObjectFromAPI(Of String)(gpsParameters, R4MEInfrastructureSettings.SetGpsHost, HttpMethodType.[Get], True, errorString)
+        ''' <summary>
+        ''' Sets GPS info in the device
+        ''' </summary>
+        ''' <param name="gpsParameters">The parameters of the type GPSParameters</param>
+        ''' <param name="errorString">Error message text</param>
+        ''' <returns>The response containing parameters:
+        ''' <para>status If True GPD info was Set successfuly On a device</para>
+        ''' <para>tx_id: tracking info ID</para>
+        ''' </returns>
+        Public Function SetGPS(gpsParameters As GPSParameters, ByRef errorString As String) As SetGpsResponse
+
+            Dim result = GetJsonObjectFromAPI(Of SetGpsResponse)(
+                gpsParameters,
+                R4MEInfrastructureSettings.SetGpsHost,
+                HttpMethodType.[Get],
+                False,
+                errorString)
 
             Return result
         End Function
+
+        'Public Function SetGPS(ByVal gpsParameters As GPSParameters, ByRef errorString As String) As SetGpsResponse
+
+        '    Dim result = GetJsonObjectFromAPI(Of SetGpsResponse)(
+        '        gpsParameters,
+        '        R4MEInfrastructureSettings.SetGpsHost,
+        '        HttpMethodType.[Get],
+        '        False,
+        '        errorString)
+        '    Return result
+        'End Function
 
         <DataContract>
         Private NotInheritable Class FindAssetRequest
@@ -945,10 +978,56 @@ Namespace Route4MeSDK
                .Tracking = tracking
             }
 
-            Dim result As FindAssetResponse = GetJsonObjectFromAPI(Of FindAssetResponse)(request, R4MEInfrastructureSettings.AssetTracking, HttpMethodType.[Get], False, errorString)
+            Dim result As FindAssetResponse = GetJsonObjectFromAPI(Of FindAssetResponse)(
+                                                                        request,
+                                                                        R4MEInfrastructureSettings.AssetTracking,
+                                                                        HttpMethodType.[Get],
+                                                                        False,
+                                                                        errorString)
 
             Return result
         End Function
+
+        ''' <summary>
+        ''' The response from getting the device location history
+        ''' </summary>
+        <DataContract>
+        Public NotInheritable Class GetDeviceLocationHistoryResponse
+            ''' <summary>
+            ''' <value>The array of the TrackingHistory objects </value>
+            ''' </summary>
+            <DataMember(Name:="data")>
+            Public Property data As TrackingHistory()
+        End Class
+
+        ''' <summary>
+		''' Returns device location history from the specified date range.
+		''' </summary>
+		''' <param name="gpsParameters">Query parameters</param>
+		''' <param name="errorString">Error message text</param>
+		''' <returns>If response contains Not null data, returns object of the type GetDeviceLocationHistoryResponse.
+		''' If query was without error, but nothing was found, returns null.
+		''' If query failed, return error string.
+		''' </returns>
+        Public Function GetDeviceLocationHistory(ByVal gpsParameters As GPSParameters,
+                                                 ByRef errorString As String) As Object
+
+            Dim result = GetJsonObjectFromAPI(Of GetDeviceLocationHistoryResponse)(
+                                                            gpsParameters,
+                                                            R4MEInfrastructureSettings.DeviceLocation,
+                                                            HttpMethodType.[Get],
+                                                            False,
+                                                            errorString)
+
+            Dim dataLength = (CType(result, GetDeviceLocationHistoryResponse)).data.Length
+
+            Return If(
+                result Is Nothing AndAlso errorString <> "",
+                errorString,
+                If((dataLength = 0), Nothing, CObj(result))
+            )
+        End Function
+
 
         ''' <summary>
         ''' Get user locations
@@ -957,7 +1036,13 @@ Namespace Route4MeSDK
         ''' <param name="errorString">Error string</param>
         ''' <returns>An array of the user locations</returns>
         Public Function GetUserLocations(ByVal parameters As GenericParameters, ByRef errorString As String) As UserLocation()
-            Dim userLocations = GetJsonObjectFromAPI(Of UserLocation())(parameters, R4MEInfrastructureSettings.UserLocation, HttpMethodType.[Get], False, errorString)
+
+            Dim userLocations = GetJsonObjectFromAPI(Of UserLocation())(
+                                                            parameters,
+                                                            R4MEInfrastructureSettings.UserLocation,
+                                                            HttpMethodType.[Get],
+                                                            False,
+                                                            errorString)
 
             Return userLocations
         End Function
@@ -3478,7 +3563,11 @@ Namespace Route4MeSDK
                             response.Wait()
 
                             If response.IsCompleted Then
-                                result = If(isString, TryCast(response.Result.ReadString(), T), response.Result.ReadObject(Of T)())
+                                result = If(
+                                    isString,
+                                    TryCast(response.Result.ReadString(), T),
+                                    response.Result.ReadObject(Of T)()
+                                )
                             End If
 
                             Exit Select
@@ -3516,12 +3605,19 @@ Namespace Route4MeSDK
 
                             response.Wait()
 
-                            If response.IsCompleted AndAlso response.Result.IsSuccessStatusCode AndAlso TypeOf response.Result.Content Is StreamContent Then
+                            If response.IsCompleted AndAlso
+                                response.Result.IsSuccessStatusCode AndAlso
+                                TypeOf response.Result.Content Is StreamContent Then
+
                                 Dim streamTask = (CType(response.Result.Content, StreamContent)).ReadAsStreamAsync()
                                 streamTask.Wait()
 
                                 If streamTask.IsCompleted Then
-                                    result = If(isString, TryCast(streamTask.Result.ReadString(), T), streamTask.Result.ReadObject(Of T)())
+                                    result = If(
+                                        isString,
+                                        TryCast(streamTask.Result.ReadString(), T),
+                                        streamTask.Result.ReadObject(Of T)()
+                                    )
                                 End If
                             Else
                                 Dim streamTask = (CType(response.Result.Content, StreamContent)).ReadAsStreamAsync()
@@ -3534,7 +3630,9 @@ Namespace Route4MeSDK
                                     errorResponse = Nothing
                                 End Try
 
-                                If errorResponse IsNot Nothing AndAlso errorResponse.Errors IsNot Nothing AndAlso errorResponse.Errors.Count > 0 Then
+                                If errorResponse IsNot Nothing AndAlso
+                                    errorResponse.Errors IsNot Nothing AndAlso
+                                    errorResponse.Errors.Count > 0 Then
 
                                     For Each [error] As String In errorResponse.Errors
                                         If errorMessage.Length > 0 Then errorMessage += "; "

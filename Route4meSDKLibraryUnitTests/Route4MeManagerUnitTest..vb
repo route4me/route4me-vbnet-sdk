@@ -9409,13 +9409,17 @@ End Class
         lsOptimizationIDs = New List(Of String)()
 
         tdr = New TestDataRepository()
+
         Dim result As Boolean = tdr.SingleDriverRoundTripTest()
 
-        Assert.IsTrue(result, "Single Driver Round Trip generation failed...")
-
-        Assert.IsTrue(tdr.SDRT_route.Addresses.Length > 0, "The route has no addresses...")
+        Assert.IsTrue(result, "Single Driver Round Trip generation failed.")
+        Assert.IsTrue(tdr.SDRT_route.Addresses.Length > 0, "The route has no addresses.")
 
         lsOptimizationIDs.Add(tdr.SDRT_optimization_problem_id)
+
+        Dim recorded As Boolean = SetAddressGPSPosition(tdr.SDRT_route.Addresses(1))
+
+        Assert.IsTrue(recorded, "Cannot record GPS position of the address")
     End Sub
 
     <TestMethod> _
@@ -9424,63 +9428,117 @@ End Class
 
         Dim tracking As String = If(tdr.SDRT_route IsNot Nothing, (If(tdr.SDRT_route.Addresses.Length > 1, (If(tdr.SDRT_route.Addresses(1).tracking_number IsNot Nothing, tdr.SDRT_route.Addresses(1).tracking_number, "")), "")), "")
 
-        Assert.IsTrue(tracking <> "", "Can not find valid tracking number in the newly generated route's second destination...")
+        Assert.IsTrue(
+            tracking <> "",
+            "Can not find valid tracking number in the newly generated route's second destination."
+        )
 
         ' Run the query
         Dim errorString As String = ""
         Dim result As FindAssetResponse = route4Me.FindAsset(tracking, errorString)
 
-        Assert.IsInstanceOfType(result, GetType(FindAssetResponse), Convert.ToString("FindAssetTest failed... ") & errorString)
+        Assert.IsInstanceOfType(
+            result,
+            GetType(FindAssetResponse),
+            Convert.ToString("FindAssetTest failed. ") & errorString
+        )
 
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub SetGPSPositionTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me = New Route4MeManager(ApiKeys.actualApiKey)
 
-        Dim lat As Double = If(tdr.SDRT_route.Addresses.Length > 1, tdr.SDRT_route.Addresses(1).Latitude, 33.14384)
-        Dim lng As Double = If(tdr.SDRT_route.Addresses.Length > 1, tdr.SDRT_route.Addresses(1).Longitude, -83.22466)
+        Dim lat As Double = If(
+            tdr.SDRT_route.Addresses.Length > 1,
+            tdr.SDRT_route.Addresses(1).Latitude,
+            33.14384
+        )
+        Dim lng As Double = If(
+            tdr.SDRT_route.Addresses.Length > 1,
+            tdr.SDRT_route.Addresses(1).Longitude,
+            -83.22466
+        )
+
         ' Create the gps parametes
-        Dim gpsParameters As New GPSParameters() With { _
-            .Format = Format.Csv.GetEnumDescription(), _
-            .RouteId = tdr.SDRT_route_id, _
-            .Latitude = lat, _
-            .Longitude = lng, _
-            .Course = 1, _
-            .Speed = 120, _
-            .DeviceType = DeviceType.IPhone.GetEnumDescription(), _
-            .MemberId = 1, _
-            .DeviceGuid = "TEST_GPS", _
-            .DeviceTimestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") _
+        Dim gpsParameters = New GPSParameters() With {
+            .Format = Format.Csv.GetEnumDescription(),
+            .RouteId = tdr.SDRT_route_id,
+            .Latitude = lat,
+            .Longitude = lng,
+            .Course = 1,
+            .Speed = 120,
+            .DeviceType = DeviceType.IPhone.GetEnumDescription(),
+            .MemberId = CInt(tdr.SDRT_route.Addresses(1).MemberId),
+            .DeviceGuid = "TEST_GPS",
+            .DeviceTimestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
         }
 
-        Dim errorString As String = ""
-        Dim response As String = route4Me.SetGPS(gpsParameters, errorString)
+        Dim errorString As String = Nothing
+        Dim response = route4Me.SetGPS(gpsParameters, errorString)
 
-        Assert.IsNotNull(response, Convert.ToString("SetGPSPositionTest failed... ") & errorString)
+        Assert.IsNotNull(response, "SetGPSPositionTest failed. " & errorString)
+        Assert.IsTrue(response.Status, "SetGPSPositionTest failed. " & errorString)
     End Sub
+
+    ''' <summary>
+    ''' Set GPS postion record by route address
+    ''' </summary>
+    ''' <param name="address">Route address</param>
+    ''' <returns>True if the GPS position recorded successfully.</returns>
+    Private Shared Function SetAddressGPSPosition(ByVal address As Address) As Boolean
+        Dim route4Me = New Route4MeManager(ApiKeys.actualApiKey)
+
+        Dim lat As Double = address.Latitude
+        Dim lng As Double = address.Longitude
+
+        ' Create the gps parametes
+        Dim gpsParameters = New GPSParameters() With {
+            .Format = Format.Csv.GetEnumDescription(),
+            .RouteId = tdr.SDRT_route_id,
+            .Latitude = lat,
+            .Longitude = lng,
+            .Course = 1,
+            .Speed = 120,
+            .DeviceType = DeviceType.IPhone.GetEnumDescription(),
+            .MemberId = CInt(address.MemberId),
+            .DeviceGuid = "TEST_GPS",
+            .DeviceTimestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+        }
+
+        Dim errorString As String = Nothing
+        Dim response = route4Me.SetGPS(gpsParameters, errorString)
+
+        Return If(
+            response IsNot Nothing AndAlso response.[GetType]() = GetType(SetGpsResponse),
+            True,
+            False
+        )
+    End Function
 
     <TestMethod> _
     Public Sub GetDeviceHistoryTimeRangeTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me = New Route4MeManager(c_ApiKey)
 
-        Dim uStartTime As Integer = 0
-        Dim uEndTime As Integer = 0
-        uStartTime = CInt((New DateTime(DateTime.Now.Year, 1, 1, 0, 0, 0) - (New DateTime(1970, 1, 1, 0, 0, 0))).TotalSeconds)
-        uEndTime = CInt((DateTime.Now - (New DateTime(1970, 1, 1, 0, 0, 0))).TotalSeconds)
+        Dim tsp2days = New TimeSpan(2, 0, 0, 0)
+        Dim dtNow As DateTime = DateTime.Now
 
-        Dim gpsParameters As New GPSParameters() With { _
-            .Format = "csv", _
-            .RouteId = tdr.SDRT_route_id, _
-            .time_period = "custom", _
-            .start_date = uStartTime, _
-            .end_date = uEndTime _
+        Dim gpsParameters = New GPSParameters With {
+            .Format = "json",
+            .RouteId = tdr.SDRT_route.RouteID,
+            .TimePeriod = "custom",
+            .StartDate = R4MeUtils.ConvertToUnixTimestamp(dtNow - tsp2days),
+            .EndDate = R4MeUtils.ConvertToUnixTimestamp(dtNow + tsp2days)
         }
 
-        Dim errorString As String = ""
-        Dim response As String = route4Me.SetGPS(gpsParameters, errorString)
+        Dim errorString As String = Nothing
+        Dim response = route4Me.GetDeviceLocationHistory(gpsParameters, errorString)
 
-        Assert.IsNotNull(response, Convert.ToString("GetDeviceHistoryTimeRangeTest failed... ") & errorString)
+        Assert.IsInstanceOfType(
+            response,
+            GetType(GetDeviceLocationHistoryResponse),
+            "GetDeviceHistoryTimeRangeTest failed. " & errorString
+        )
     End Sub
 
     <TestMethod>
@@ -9494,7 +9552,7 @@ End Class
         Dim errorString As String = ""
         Dim dataObject = route4Me.GetLastLocation(genericParameters, errorString)
 
-        Assert.IsNotNull(dataObject, Convert.ToString("TrackDeviceLastLocationHistoryTest failed... ") & errorString)
+        Assert.IsNotNull(dataObject, Convert.ToString("TrackDeviceLastLocationHistoryTest failed. ") & errorString)
     End Sub
 
     <TestMethod>
@@ -9533,7 +9591,7 @@ End Class
     Public Shared Sub TrackingGroupCleanup()
         Dim result As Boolean = tdr.RemoveOptimization(lsOptimizationIDs.ToArray())
 
-        Assert.IsTrue(result, "Removing of the testing optimization problem failed...")
+        Assert.IsTrue(result, "Removing of the testing optimization problem failed.")
     End Sub
 
 End Class
