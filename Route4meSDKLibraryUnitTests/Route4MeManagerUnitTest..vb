@@ -4062,11 +4062,11 @@ End Class
         Dim addresses As Address() = New Address() {New Address() With {
             .AddressString = "455 S 4th St, Louisville, KY 40202",
             .IsDepot = True,
-            .Latitude = 38.251698,
+            .Latitude = 38.2517,
             .Longitude = -85.757308
         }, New Address() With {
             .AddressString = "1604 PARKRIDGE PKWY, Louisville, KY, 40214",
-            .Latitude = 38.141598,
+            .Latitude = 38.1416,
             .Longitude = -85.7938461,
             .TimeWindowStart = 7 * 3600 + 30 * 60,
             .TimeWindowEnd = 7 * 3600 + 40 * 60,
