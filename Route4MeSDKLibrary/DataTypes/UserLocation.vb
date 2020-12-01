@@ -114,7 +114,7 @@ Namespace Route4MeSDK.DataTypes
         ''' <summary>
         ''' Vehicle ID.
         ''' </summary>
-        <DataMember(Name:="vehicle_id_id")>
+        <DataMember(Name:="vehicle_id")>
         Public Property VehicleId As String
 
         ''' <summary>

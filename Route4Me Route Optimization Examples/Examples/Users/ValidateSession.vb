@@ -9,15 +9,16 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub ValidateSession()
             ' Create the manager with the api key
-            Dim route4Me As New Route4MeManager(ActualApiKey)
+            Dim route4Me = New Route4MeManager(ActualApiKey)
 
-            Dim params As MemberParameters = New MemberParameters() With { _
-                .SessionGuid = "ad9001f33ed6875b5f0e75bce52cbc34", _
-                .MemberId = 1, _
-                .Format = "json" _
+            Dim params = New MemberParameters With {
+                .SessionGuid = "ad9001f33ed6875b5f0e75bce52cbc34",
+                .MemberId = 1,
+                .Format = "json"
             }
+
             ' Run the query
-            Dim errorString As String = ""
+            Dim errorString As String = Nothing
             Dim result As MemberResponse = route4Me.ValidateSession(params, errorString)
 
             Console.WriteLine("")

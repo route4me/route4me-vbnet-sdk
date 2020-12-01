@@ -13,7 +13,7 @@ Namespace Route4MeSDKTest
             ' "api4" - execute all the examples related to the API 4 
             ' "api5" - execute all the examples related to the API 5 
             ' a method name - execute a specifed example method (e.g. "GetTeamMemberById")
-            Dim executeOption As String = "TrackDeviceLastLocationHistory"
+            Dim executeOption As String = "ValidateSession"
 
             If executeOption.ToLower() = "api4" Then
 #Region "API 4"
@@ -189,13 +189,15 @@ Namespace Route4MeSDKTest
                 examples.GetVehicles()
 #End Region
 #Region "==== Users ===="
-                examples.ValidateSession()
-                examples.UserRegistration()
-                examples.UserAuthentication()
-                examples.UpdateUser()
-                examples.GetUserById()
-                examples.DeleteUser()
+                examples.AddEditCustomDataToUser()
                 examples.CreateUser()
+                examples.DeleteUser()
+                examples.GetUserById()
+                examples.GetUsers()
+                examples.UpdateUser()
+                examples.UserAuthentication()
+                examples.UserRegistration()
+                examples.ValidateSession()
 #End Region
 #Region "==== Tracking ===="
                 examples.FindAsset()

@@ -12,7 +12,7 @@ Namespace Route4MeSDK.DataTypes
         Public Property GeocodingService As String
 
         <DataMember(Name:="session_id")>
-        Public Property SessionId As Integer?
+        Public Property SessionId As String
 
         <DataMember(Name:="session_guid")> _
         Public Property SessionGuid As String

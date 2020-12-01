@@ -53,6 +53,9 @@ Namespace Route4MeSDKTest.Examples
         Dim avoidanceZone As AvoidanceZone
         Dim territoryZone As TerritoryZone
 
+        Dim usersToRemove As List(Of String) = New List(Of String)()
+        Dim lastCreatedUser As MemberResponseV4
+
 #Region "Optimizations, Routes, Destinations"
 
         Private Sub PrintExampleOptimizationResult(ByVal dataObject As Object, ByVal errorString As String)
@@ -1319,6 +1322,102 @@ Namespace Route4MeSDKTest.Examples
             Else
                 Console.WriteLine(testName & " error: {0}", errorString)
             End If
+        End Sub
+
+#End Region
+
+#Region "Users"
+
+        Public Sub CreateTestUser()
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim userFirstName As String = ""
+            Dim userLastName As String = ""
+            Dim userPhone As String = ""
+            Dim memberType As String = "SUB_ACCOUNT_DISPATCHER"
+
+            Select Case memberType
+                Case "SUB_ACCOUNT_DISPATCHER"
+                    userFirstName = "Clay"
+                    userLastName = "Abraham"
+                    userPhone = "571-259-5939"
+                Case "SUB_ACCOUNT_DRIVER"
+                    userFirstName = "Driver"
+                    userLastName = "Driverson"
+                    userPhone = "577-222-5555"
+            End Select
+
+            Dim params = New MemberParametersV4() With {
+                .HIDE_ROUTED_ADDRESSES = "FALSE",
+                .member_phone = userPhone,
+                .member_zipcode = "22102",
+                .member_email = "regression.autotests+" & DateTime.Now.ToString("yyyyMMddHHmmss") & "@gmail.com",
+                .HIDE_VISITED_ADDRESSES = "FALSE",
+                .READONLY_USER = "FALSE",
+                .member_type = memberType,
+                .date_of_birth = "2010",
+                .member_first_name = userFirstName,
+                .member_password = "123456",
+                .HIDE_NONFUTURE_ROUTES = "FALSE",
+                .member_last_name = userLastName,
+                .SHOW_ALL_VEHICLES = "FALSE",
+                .SHOW_ALL_DRIVERS = "FALSE"
+            }
+
+            Dim errorString As String = Nothing
+            Dim result = route4Me.CreateUser(params, errorString)
+
+            If result IsNot Nothing AndAlso result.[GetType]() = GetType(MemberResponseV4) Then
+                usersToRemove.Add(result.member_id)
+                lastCreatedUser = result
+            End If
+        End Sub
+
+        Private Sub PrintTestUsers(ByVal result As Object, ByVal errorString As String)
+            Console.WriteLine("")
+
+            Dim testName As String = (New StackTrace()).GetFrame(1).GetMethod().Name
+            testName = If(testName IsNot Nothing, testName, "")
+
+            If result IsNot Nothing Then
+                Console.WriteLine(testName & " executed successfully")
+
+                If result.[GetType]() = GetType(MemberResponseV4) Then
+                    Dim user = CType(result, MemberResponseV4)
+                    Console.WriteLine("Member: {0}", user.member_first_name & " " + user.member_last_name)
+                ElseIf result.[GetType]() = GetType(Route4MeManager.GetUsersResponse) Then
+                    Dim users = (CType(result, Route4MeManager.GetUsersResponse)).results
+
+                    For Each user In users
+                        Console.WriteLine("Member: {0}", user.member_first_name & " " + user.member_last_name)
+                    Next
+                ElseIf result.[GetType]() = GetType(MemberResponse) Then
+                    Dim result2 = CType(result, MemberResponse)
+
+                    Console.WriteLine("status: " & result2.Status)
+                    Console.WriteLine("api_key: " & result2.ApiKey)
+                    Console.WriteLine("member_id: " & result2.MemberId)
+                    Console.WriteLine("---------------------------")
+                Else
+                    Console.WriteLine(testName & ": unknown response type")
+                End If
+            Else
+                Console.WriteLine("{0} error: {1}", testName, errorString)
+            End If
+        End Sub
+
+        Private Sub RemoveTestUsers()
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+            If usersToRemove Is Nothing OrElse usersToRemove.Count < 1 Then Return
+            Dim errorString As String = Nothing
+
+            For Each userId In usersToRemove
+                Dim params = New MemberParametersV4 With {
+                    .member_id = Convert.ToInt32(userId)
+                }
+                Dim result As Boolean = route4Me.UserDelete(params, errorString)
+                Console.WriteLine(If(result, String.Format("The user {0} removed successfully.", userId), String.Format("Cannot remove the user {0}.", userId)))
+            Next
         End Sub
 
 #End Region

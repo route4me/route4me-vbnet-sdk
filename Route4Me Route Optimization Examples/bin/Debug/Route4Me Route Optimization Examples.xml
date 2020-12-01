@@ -480,6 +480,11 @@ The example refers to the process of query all the activities from the last spec
  Get User By ID
  </summary>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetUsers">
+ <summary>
+ The example refers to the process of getting the existing sub-users.
+ </summary>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.LogCustomActivity">
  <summary>
  Create User Activity
