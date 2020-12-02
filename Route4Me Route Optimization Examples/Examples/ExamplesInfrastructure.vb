@@ -56,6 +56,8 @@ Namespace Route4MeSDKTest.Examples
         Dim usersToRemove As List(Of String) = New List(Of String)()
         Dim lastCreatedUser As MemberResponseV4
 
+        Dim vehiclesToRemove As List(Of String) = New List(Of String)()
+
 #Region "Optimizations, Routes, Destinations"
 
         Private Sub PrintExampleOptimizationResult(ByVal dataObject As Object, ByVal errorString As String)
@@ -1417,6 +1419,108 @@ Namespace Route4MeSDKTest.Examples
                 }
                 Dim result As Boolean = route4Me.UserDelete(params, errorString)
                 Console.WriteLine(If(result, String.Format("The user {0} removed successfully.", userId), String.Format("Cannot remove the user {0}.", userId)))
+            Next
+        End Sub
+
+#End Region
+
+#Region "Vehicles"
+
+        Private Sub CreateTestVehcile()
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            Dim class6TruckParams = New VehicleV4Parameters() With {
+                .VehicleName = "GMC TopKick C5500",
+                .VehicleAlias = "GMC TopKick C5500",
+                .VehicleVin = "SAJXA01A06FN08012",
+                .VehicleLicensePlate = "CVH4561",
+                .VehicleModel = "TopKick C5500",
+                .VehicleModelYear = 1995,
+                .VehicleYearAcquired = 2008,
+                .VehicleRegCountryId = 223,
+                .VehicleMake = "GMC",
+                .VehicleTypeID = "pickup_truck",
+                .VehicleAxleCount = 2,
+                .MpgCity = 7,
+                .MpgHighway = 14,
+                .FuelType = "diesel",
+                .HeightInches = 97,
+                .HeightMetric = 243,
+                .WeightLb = 19000,
+                .MaxWeightPerAxleGroupInPounds = 9500,
+                .MaxWeightPerAxleGroupMetric = 4300,
+                .WidthInInches = 96,
+                .WidthMetric = 240,
+                .LengthInInches = 244,
+                .LengthMetric = 610,
+                .Use53FootTrailerRouting = "NO",
+                .UseTruckRestrictions = "NO",
+                .DividedHighwayAvoidPreference = "NEUTRAL",
+                .FreewayAvoidPreference = "NEUTRAL",
+                .TruckConfig = "FULLSIZEVAN"
+            }
+
+            Dim errorString As String = Nothing
+            Dim result = route4Me.CreateVehicle(class6TruckParams, errorString)
+
+            If result IsNot Nothing AndAlso result.[GetType]() = GetType(VehicleV4CreateResponse) Then
+                Console.WriteLine("The test vehicle {0} created successfully.", result.VehicleGuid)
+                vehiclesToRemove.Add(result.VehicleGuid)
+            Else
+                Console.WriteLine("Cannot create a test vehicle")
+            End If
+
+        End Sub
+
+        Private Sub PrintTestVehciles(ByVal result As Object, ByVal errorString As String)
+            Console.WriteLine("")
+
+            Dim testName As String = (New StackTrace()).GetFrame(1).GetMethod().Name
+            testName = If(testName IsNot Nothing, testName, "")
+
+            If result IsNot Nothing Then
+                Console.WriteLine(testName & " executed successfully")
+
+                If result.[GetType]() = GetType(VehicleV4CreateResponse) Then
+                    Dim vehicle = CType(result, VehicleV4CreateResponse)
+                    Console.WriteLine("Vehicle ID: {0}, Status: {1}", vehicle.VehicleGuid, vehicle.status)
+                ElseIf result.[GetType]() = GetType(VehiclesPaginated) Then
+                    Dim vehicles = (CType(result, VehiclesPaginated)).Data
+
+                    For Each vehicle In vehicles
+                        Console.WriteLine("Vehicle ID: {0}, Alias: {1}", vehicle.VehicleId, vehicle.VehicleAlias)
+                    Next
+                ElseIf result.[GetType]() = GetType(VehicleV4Response) Then
+                    Dim vehicle = CType(result, VehicleV4Response)
+                    Console.WriteLine("Vehicle ID: {0}, Alias: {1}", vehicle.VehicleId, vehicle.VehicleAlias)
+                Else
+                    Console.WriteLine(testName & ": unknown response type")
+                End If
+            Else
+                Console.WriteLine("{0} error: {1}", testName, errorString)
+            End If
+
+        End Sub
+
+        Private Sub RemoveTestVehicles()
+            Dim route4Me = New Route4MeManager(ActualApiKey)
+
+            If vehiclesToRemove Is Nothing OrElse vehiclesToRemove.Count < 1 Then Return
+
+            Dim errorString As String = Nothing
+
+            For Each vehicleId In vehiclesToRemove
+                Dim vehicleParams = New VehicleV4Parameters() With {
+                    .VehicleId = vehicleId
+                }
+
+                Dim result = route4Me.deleteVehicle(vehicleParams, errorString)
+
+                Console.WriteLine(If((
+                                  result IsNot Nothing AndAlso result.[GetType]() = GetType(VehicleV4Response)),
+                                  String.Format("The vehicle {0} removed successfully.", vehicleId),
+                                  String.Format("Cannot remove the vehicle {0}.", vehicleId))
+                )
             Next
         End Sub
 

@@ -294,7 +294,11 @@
     <Compile Include="Examples\Tracking\QueryUserLocations.vb" />
     <Compile Include="Examples\Tracking\SetGPSPosition.vb" />
     <Compile Include="Examples\Tracking\TrackDeviceLastLocationHistory.vb" />
+    <Compile Include="Examples\Vehicles\CreatetVehicle.vb" />
+    <Compile Include="Examples\Vehicles\DeleteVehicle.vb" />
+    <Compile Include="Examples\Vehicles\GetVehicle.vb" />
     <Compile Include="Examples\Vehicles\GetVehicles.vb" />
+    <Compile Include="Examples\Vehicles\UpdateVehicle.vb" />
     <Compile Include="Main.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

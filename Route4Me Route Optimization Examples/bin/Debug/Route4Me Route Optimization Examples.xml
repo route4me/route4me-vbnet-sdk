@@ -1000,5 +1000,25 @@ The example refers to the process of query all the activities from the last spec
  The example refers to the process of getting the last location history of a GPS device.
  </summary>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.CreatetVehicle">
+ <summary>
+ The example refers to the process of creating a new vehicle.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.DeleteVehicle">
+ <summary>
+ The example refers to the process of deleting a vehicle.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetVehicle">
+ <summary>
+ The example refers to the process of getting a vehicle using the vehicleID path parameter.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateVehicle">
+ <summary>
+ The example refers to the process of updating a vehicle.
+ </summary>
+</member>
 </members>
 </doc>

@@ -3503,6 +3503,38 @@ User email.
  <param name="errorString"> out: Error as string </param>
  <returns> Vehicle object list </returns>
 </member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.CreateVehicle(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.VehicleV4Parameters,System.String@)">
+ <summary>
+ Creates a vehicle
+ </summary>
+ <param name="vehicle">The VehicleV4Parameters type object as the request payload </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns>The created vehicle </returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetVehicle(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.VehicleParameters,System.String@)">
+ <summary>
+ Returns a vehicle
+ </summary>
+ <param name="vehParams"> The VehicleParameters type object as the query parameters </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns> A vehicle </returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.updateVehicle(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.VehicleV4Parameters,System.String,System.String@)">
+ <summary>
+ Updates a vehicle
+ </summary>
+ <param name="vehParams">The VehicleV4Parameters type object as the request payload</param>
+ <param name="errorString"> out: Error as string </param>
+ <returns>The updated vehicle</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.deleteVehicle(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.VehicleV4Parameters,System.String@)">
+ <summary>
+ Removes a vehicle from a user's account
+ </summary>
+ <param name="vehParams"> The VehicleParameters type object as the query parameters containing parameter VehicleId </param>
+ <param name="errorString"> out: Error as string </param>
+ <returns>The removed vehicle</returns>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils">
  <summary>
  Route4Me C# SDK helper methods

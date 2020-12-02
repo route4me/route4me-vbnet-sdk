@@ -3276,6 +3276,12 @@ Namespace Route4MeSDK
             Return response
         End Function
 
+        ''' <summary>
+        ''' Creates a vehicle
+        ''' </summary>
+        ''' <param name="vehicle">The VehicleV4Parameters type object as the request payload </param>
+        ''' <param name="errorString"> out: Error as string </param>
+        ''' <returns>The created vehicle </returns>
         Public Function CreateVehicle(ByVal vehicle As VehicleV4Parameters,
                                       ByRef errorString As String) As VehicleV4CreateResponse
 
@@ -3289,43 +3295,69 @@ Namespace Route4MeSDK
             Return newVehicle
         End Function
 
+        ''' <summary>
+        ''' Returns a vehicle
+        ''' </summary>
+        ''' <param name="vehParams"> The VehicleParameters type object as the query parameters </param>
+        ''' <param name="errorString"> out: Error as string </param>
+        ''' <returns> A vehicle </returns>
         Public Function GetVehicle(ByVal vehParams As VehicleParameters,
                                    ByRef errorString As String) As VehicleV4Response
 
-            Dim response As VehicleV4Response = GetJsonObjectFromAPI(
-                Of VehicleV4Response)(
-                vehParams,
-                R4MEInfrastructureSettings.Vehicle_V4,
-                HttpMethodType.[Get],
-                errorString)
+            If (If(vehParams?.VehicleId?.Length, 0)) <> 32 Then
+                errorString = "The vehicle ID is not specified"
+                Return Nothing
+            End If
 
-            Return response
+            Return GetJsonObjectFromAPI(Of VehicleV4Response)(
+                                                vehParams,
+                                                R4MEInfrastructureSettings.Vehicle_V4 & "/" + vehParams.VehicleId,
+                                                HttpMethodType.[Get],
+                                                errorString)
+
         End Function
 
+        ''' <summary>
+        ''' Updates a vehicle
+        ''' </summary>
+        ''' <param name="vehParams">The VehicleV4Parameters type object as the request payload</param>
+        ''' <param name="errorString"> out: Error as string </param>
+        ''' <returns>The updated vehicle</returns>
         Public Function updateVehicle(ByVal vehParams As VehicleV4Parameters,
                                       ByVal vehicleId As String,
                                       ByRef errorString As String) As VehicleV4Response
 
-            Dim response As VehicleV4Response = GetJsonObjectFromAPI(
-                Of VehicleV4Response)(
-                vehParams,
-                R4MEInfrastructureSettings.Vehicle_V4 & "/" + vehicleId,
-                HttpMethodType.Put,
-                errorString)
+            If (If(vehicleId?.Length, 0)) <> 32 Then
+                errorString = "The vehicle ID is not specified"
+                Return Nothing
+            End If
 
-            Return response
+            Return GetJsonObjectFromAPI(Of VehicleV4Response)(
+                                                vehParams,
+                                                R4MEInfrastructureSettings.Vehicle_V4 & "/" & vehicleId,
+                                                HttpMethodType.Put,
+                                                errorString)
         End Function
 
+        ''' <summary>
+        ''' Removes a vehicle from a user's account
+        ''' </summary>
+        ''' <param name="vehParams"> The VehicleParameters type object as the query parameters containing parameter VehicleId </param>
+        ''' <param name="errorString"> out: Error as string </param>
+        ''' <returns>The removed vehicle</returns>
         Public Function deleteVehicle(ByVal vehParams As VehicleV4Parameters,
                                       ByRef errorString As String) As VehicleV4Response
-            Dim response As VehicleV4Response = GetJsonObjectFromAPI(
-                Of VehicleV4Response)(
+
+            If (If(vehParams?.VehicleId?.Length, 0)) <> 32 Then
+                errorString = "The vehicle ID is not specified"
+                Return Nothing
+            End If
+
+            Return GetJsonObjectFromAPI(Of VehicleV4Response)(
                 vehParams,
                 R4MEInfrastructureSettings.Vehicle_V4 & "/" + vehParams.VehicleId,
                 HttpMethodType.Delete,
                 errorString)
-
-            Return response
         End Function
 
 #End Region
