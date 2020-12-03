@@ -76,7 +76,6 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -163,6 +162,11 @@
     <Compile Include="DataTypes\TrackingHistory.vb" />
     <Compile Include="DataTypes\User.vb" />
     <Compile Include="DataTypes\UserLocation.vb" />
+    <Compile Include="DataTypes\V5\DriverReview.vb" />
+    <Compile Include="DataTypes\V5\Enum.vb" />
+    <Compile Include="DataTypes\V5\ResultResponse.vb" />
+    <Compile Include="DataTypes\V5\RouteAdvancedConstraints.vb" />
+    <Compile Include="DataTypes\V5\TeamResponse.vb" />
     <Compile Include="DataTypes\VehicleResponse.vb" />
     <Compile Include="DataTypes\VehiclesPaginated.vb" />
     <Compile Include="DataTypes\VehicleV4CreateResponse.vb" />
@@ -172,6 +176,7 @@
     <Compile Include="FastProcessing\FastBulkGeocoding.vb" />
     <Compile Include="FastProcessing\FastFileReading.vb" />
     <Compile Include="FastProcessing\Options.vb" />
+    <Compile Include="HttpClientExtensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -213,9 +218,12 @@
     <Compile Include="QueryTypes\ScheduleCalendarQuery.vb" />
     <Compile Include="QueryTypes\TelematicsVendorParameters.vb" />
     <Compile Include="QueryTypes\TerritoryQuery.vb" />
+    <Compile Include="QueryTypes\V5\DriverReviewParameters.vb" />
+    <Compile Include="QueryTypes\V5\TeamRequest.vb" />
     <Compile Include="QueryTypes\VehicleParameters.vb" />
     <Compile Include="QueryTypes\VehicleV4Parameters.vb" />
     <Compile Include="Route4MeManager.vb" />
+    <Compile Include="Route4MeManagerV5.vb" />
     <Compile Include="Types.vb" />
     <Compile Include="Utils.vb" />
   </ItemGroup>

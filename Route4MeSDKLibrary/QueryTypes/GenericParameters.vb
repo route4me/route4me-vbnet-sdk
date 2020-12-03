@@ -72,7 +72,7 @@ Namespace Route4MeSDK.QueryTypes
             Dim properties = [GetType]().GetProperties()
 
             'For Each [property] As Object In properties
-            For Each [property] As System.Reflection.PropertyInfo In properties
+            For Each [property] As PropertyInfo In properties
                 'Dim attribute = TryCast([property].GetCustomAttribute(GetType(HttpQueryMemberAttribute)), HttpQueryMemberAttribute)
                 Dim attribute As HttpQueryMemberAttribute = [property].GetCustomAttribute(GetType(HttpQueryMemberAttribute))
                 'var attribute = property.GetCustomAttribute(typeof(HttpQueryMemberAttribute)) as HttpQueryMemberAttribute;
@@ -81,7 +81,7 @@ Namespace Route4MeSDK.QueryTypes
                     Dim valueObj = [property].GetValue(Me)
                     Dim value = If(valueObj IsNot Nothing, valueObj.ToString(), "null")
 
-                    If ConvertBooleansToInteger AndAlso valueObj IsNot Nothing AndAlso ([property].PropertyType = GetType(Boolean) OrElse [property].PropertyType = GetType(System.Nullable(Of Boolean))) Then
+                    If ConvertBooleansToInteger AndAlso valueObj IsNot Nothing AndAlso ([property].PropertyType = GetType(Boolean) OrElse [property].PropertyType = GetType(Boolean?)) Then
                         value = If(CBool(valueObj), "1", "0")
                     End If
 

@@ -268,10 +268,12 @@ Namespace Route4MeSDK
             If initialRoute.ApprovedForExecution <> route.ApprovedForExecution Then
                 approvedForExecution = String.Concat("{""approved_for_execution"": ", If(route.ApprovedForExecution, "true", "false"), "}")
                 Dim genParams = New RouteParametersQuery() With {
-            .RouteId = initialRoute.RouteID
-        }
-                Dim content = New StringContent(approvedForExecution, System.Text.Encoding.UTF8, "application/json")
+                    .RouteId = initialRoute.RouteID
+                }
+                Dim content = New StringContent(approvedForExecution, Encoding.UTF8, "application/json")
+
                 initialRoute = GetJsonObjectFromAPI(Of DataObjectRoute)(genParams, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, content, errorString)
+
                 If initialRoute Is Nothing Then Return Nothing
             End If
 
@@ -302,7 +304,7 @@ Namespace Route4MeSDK
                 Dim genParams = New RouteParametersQuery() With {
             .RouteId = initialRoute.RouteID
         }
-                Dim content = New StringContent(resequenceJson, System.Text.Encoding.UTF8, "application/json")
+                Dim content = New StringContent(resequenceJson, Encoding.UTF8, "application/json")
                 initialRoute = GetJsonObjectFromAPI(Of DataObjectRoute)(genParams, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, content, errorString)
                 If initialRoute Is Nothing Then Return Nothing
             End If
@@ -322,7 +324,7 @@ Namespace Route4MeSDK
                     Dim genParams = New RouteParametersQuery() With {
                 .RouteId = initialRoute.RouteID
             }
-                    Dim content = New StringContent(routeParamsJsonString, System.Text.Encoding.UTF8, "application/json")
+                    Dim content = New StringContent(routeParamsJsonString, Encoding.UTF8, "application/json")
                     initialRoute = GetJsonObjectFromAPI(Of DataObjectRoute)(genParams, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, content, errorString)
                 End If
             End If
@@ -357,7 +359,7 @@ Namespace Route4MeSDK
                     .RouteId = initialRoute.RouteID,
                     .RouteDestinationId = address.RouteDestinationId
                 }
-                        Dim content = New StringContent(addressParamsJsonString, System.Text.Encoding.UTF8, "application/json")
+                        Dim content = New StringContent(addressParamsJsonString, Encoding.UTF8, "application/json")
                         Dim updatedAddress = GetJsonObjectFromAPI(Of Address)(genParams, R4MEInfrastructureSettings.GetAddress, HttpMethodType.Put, content, errorString)
                         updatedAddress.IsDepot = initialAddress.IsDepot
                         updatedAddress.SequenceNo = initialAddress.SequenceNo
@@ -430,26 +432,12 @@ Namespace Route4MeSDK
             Private m_RouteId As String
 
             <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)>
-            Public Property RouteDestinationId() As System.Nullable(Of Integer)
-                Get
-                    Return m_RouteDestinationId
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_RouteDestinationId = value
-                End Set
-            End Property
-            Private m_RouteDestinationId As System.Nullable(Of Integer)
+            Public Property RouteDestinationId As Integer?
+
 
             <DataMember(Name:="custom_fields", EmitDefaultValue:=False)>
-            Public Property CustomFields() As Dictionary(Of String, String)
-                Get
-                    Return m_CustomFields
-                End Get
-                Set(value As Dictionary(Of String, String))
-                    m_CustomFields = value
-                End Set
-            End Property
-            Private m_CustomFields As Dictionary(Of String, String)
+            Public Property CustomFields As Dictionary(Of String, String)
+
         End Class
 
         Public Function UpdateRouteCustomData(routeParameters As RouteParametersQuery, customData As Dictionary(Of String, String), errorString As String) As Address
@@ -733,37 +721,16 @@ Namespace Route4MeSDK
             Inherits GenericParameters
 
             <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
-            Public Property RouteId() As String
-                Get
-                    Return m_RouteId
-                End Get
-                Set(value As String)
-                    m_RouteId = value
-                End Set
-            End Property
-            Private m_RouteId As String
+            Public Property RouteId As String
+
 
             <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)>
-            Public Property RouteDestinationId() As System.Nullable(Of Integer)
-                Get
-                    Return m_RouteDestinationId
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_RouteDestinationId = value
-                End Set
-            End Property
-            Private m_RouteDestinationId As System.Nullable(Of Integer)
+            Public Property RouteDestinationId As Integer?
+
 
             <DataMember(Name:="addresses", EmitDefaultValue:=False)>
             Public Property Addresses() As Address()
-                Get
-                    Return m_Addresses
-                End Get
-                Set(value As Address())
-                    m_Addresses = value
-                End Set
-            End Property
-            Private m_Addresses As Address()
+
 
         End Class
 
@@ -1079,42 +1046,24 @@ Namespace Route4MeSDK
             Return response
         End Function
 
+        ''' <summary>
+        ''' The request parameters for the session validation process.
+        ''' </summary>
         <DataContract>
         Private NotInheritable Class ValidateSessionRequest
             Inherits GenericParameters
 
+            ''' <value>The session ID</value>
             <HttpQueryMemberAttribute(Name:="session_guid", EmitDefaultValue:=False)>
-            Public Property SessionGuid() As String
-                Get
-                    Return m_SessionGuid
-                End Get
-                Set(value As String)
-                    m_SessionGuid = value
-                End Set
-            End Property
-            Private m_SessionGuid As String
+            Public Property SessionGuid As String
 
+            ''' <value>The member ID</value>
             <HttpQueryMemberAttribute(Name:="member_id", EmitDefaultValue:=False)>
-            Public Property MemberId() As System.Nullable(Of Integer)
-                Get
-                    Return m_MemberId
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_MemberId = value
-                End Set
-            End Property
-            Private m_MemberId As System.Nullable(Of Integer)
+            Public Property MemberId As Integer?
 
+            ''' <value>The response format (json, xml)</value>
             <HttpQueryMemberAttribute(Name:="format", EmitDefaultValue:=False)>
-            Public Property Format() As String
-                Get
-                    Return m_Format
-                End Get
-                Set(value As String)
-                    m_Format = value
-                End Set
-            End Property
-            Private m_Format As String
+            Public Property Format As String
 
         End Class
 
@@ -1211,7 +1160,7 @@ Namespace Route4MeSDK
 
         Public Function CreateNewConfigurationKey(ByVal confParams As MemberConfigurationParameters(), ByRef errorString As String) As MemberConfigurationResponse
             Dim genParams As GenericParameters = New GenericParameters()
-            Dim httpContent = New StringContent(fastJSON.JSON.ToJSON(confParams), System.Text.Encoding.UTF8, "application/json")
+            Dim httpContent = New StringContent(fastJSON.JSON.ToJSON(confParams), Encoding.UTF8, "application/json")
 
             Dim response = GetJsonObjectFromAPI(Of MemberConfigurationResponse)(genParams, R4MEInfrastructureSettings.UserConfiguration, HttpMethodType.Post, httpContent, errorString)
 
@@ -1704,56 +1653,31 @@ Namespace Route4MeSDK
             Return If(dataObject?.Addresses?.Where(Function(x) addressesList.Contains(x.AddressString))?.[Select](Function(y) y.RouteDestinationId).ToArray(), Nothing)
         End Function
 
-
+        ''' <summary>
+        ''' The request parameters for an adress marking process as marked as departed.
+        ''' </summary>
         <DataContract>
         Private NotInheritable Class MarkAddressAsMarkedAsDepartedRequest
             Inherits GenericParameters
 
+            ' <value>The route ID</value>
             <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
-            Public Property RouteId() As String
-                Get
-                    Return m_RouteId
-                End Get
-                Set(value As String)
-                    m_RouteId = value
-                End Set
-            End Property
-            Private m_RouteId As String
+            Public Property RouteId As String
 
+            ' <value>The route destination ID</value>
             <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)>
-            Public Property RouteDestinationId() As System.Nullable(Of Integer)
-                Get
-                    Return m_RouteDestinationId
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_RouteDestinationId = value
-                End Set
-            End Property
-            Private m_RouteDestinationId As System.Nullable(Of Integer)
+            Public Property RouteDestinationId As Integer?
 
+            ' <value>If true an address will be marked as marked as departed</value>
             <IgnoreDataMember>
             <DataMember(Name:="is_departed")>
-            Public Property IsDeparted() As Boolean
-                Get
-                    Return m_IsDeparted
-                End Get
-                Set(value As Boolean)
-                    m_IsDeparted = value
-                End Set
-            End Property
-            Private m_IsDeparted As Boolean
+            Public Property IsDeparted As Boolean
 
+            ' <value>If true an address will be marked as marked as visited</value>
             <IgnoreDataMember>
             <DataMember(Name:="is_visited")>
-            Public Property IsVisited() As Boolean
-                Get
-                    Return m_IsVisited
-                End Get
-                Set(value As Boolean)
-                    m_IsVisited = value
-                End Set
-            End Property
-            Private m_IsVisited As Boolean
+            Public Property IsVisited As Boolean
+
         End Class
 
         Public Function MarkAddressAsMarkedAsDeparted(aParams As AddressParameters, ByRef errorString As String) As Address
@@ -1780,66 +1704,35 @@ Namespace Route4MeSDK
             Return response
         End Function
 
+        ''' <summary>
+        ''' The request parameters for a address marking as the departed process.
+        ''' </summary>
         <DataContract>
         Private NotInheritable Class MarkAddressDepartedRequest
             Inherits GenericParameters
 
+            ' <value>The route ID</value>
             <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
-            Public Property RouteId() As String
-                Get
-                    Return m_RouteId
-                End Get
-                Set(value As String)
-                    m_RouteId = value
-                End Set
-            End Property
-            Private m_RouteId As String
+            Public Property RouteId As String
 
+            ' <value>The route destination ID</value>
             <HttpQueryMemberAttribute(Name:="address_id", EmitDefaultValue:=False)>
-            Public Property AddressId() As System.Nullable(Of Integer)
-                Get
-                    Return m_AddressId
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_AddressId = value
-                End Set
-            End Property
-            Private m_AddressId As System.Nullable(Of Integer)
+            Public Property AddressId As Integer?
 
+            ' <value>If true an addres will be marked as departed</value>
             <IgnoreDataMember>
             <HttpQueryMemberAttribute(Name:="is_departed", EmitDefaultValue:=False)>
-            Public Property IsDeparted() As Boolean
-                Get
-                    Return m_IsDeparted
-                End Get
-                Set(value As Boolean)
-                    m_IsDeparted = value
-                End Set
-            End Property
-            Private m_IsDeparted As Boolean
+            Public Property IsDeparted As Boolean
 
+            ' <value>If true an addres will be marked as visited</value>
             <IgnoreDataMember>
             <HttpQueryMemberAttribute(Name:="is_visited", EmitDefaultValue:=False)>
-            Public Property IsVisited() As Boolean
-                Get
-                    Return m_IsVisited
-                End Get
-                Set(value As Boolean)
-                    m_IsVisited = value
-                End Set
-            End Property
-            Private m_IsVisited As Boolean
+            Public Property IsVisited As Boolean
 
+            ' <value>The member ID</value>
             <HttpQueryMemberAttribute(Name:="member_id", EmitDefaultValue:=False)>
-            Public Property MemberId() As System.Nullable(Of Integer)
-                Get
-                    Return m_MemberId
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_MemberId = value
-                End Set
-            End Property
-            Private m_MemberId As System.Nullable(Of Integer)
+            Public Property MemberId As Integer?
+
         End Class
 
         <DataContract>
@@ -2385,7 +2278,7 @@ Namespace Route4MeSDK
 
                 Dim contactParamsJsonString = R4MeUtils.SerializeObjectToJson(dynamicContactProperties.DynamicProperties, True)
                 Dim genParams = New GenericParameters()
-                Dim content = New StringContent(contactParamsJsonString, System.Text.Encoding.UTF8, "application/json")
+                Dim content = New StringContent(contactParamsJsonString, Encoding.UTF8, "application/json")
                 Dim response = GetJsonObjectFromAPI(Of AddressBookContact)(genParams, R4MEInfrastructureSettings.AddressBook, HttpMethodType.Put, content, errorString)
 
                 Return response
@@ -2415,7 +2308,7 @@ Namespace Route4MeSDK
 
             Dim genParams = New GenericParameters()
 
-            Dim content = New StringContent(jsonString, System.Text.Encoding.UTF8, "application/json")
+            Dim content = New StringContent(jsonString, Encoding.UTF8, "application/json")
 
             Dim response = GetJsonObjectFromAPI(Of AddressBookContact)(genParams, R4MEInfrastructureSettings.AddressBook, HttpMethodType.Put, content, errorString)
 
@@ -2879,52 +2772,28 @@ Namespace Route4MeSDK
             End If
         End Function
 
+        ''' <summary>
+        ''' The request parameters for the process of adding the orders to a route.
+        ''' </summary>
         <DataContract>
         Private NotInheritable Class AddOrdersToRouteRequest
             Inherits GenericParameters
+
+            ' <value>The route ID</value>
             <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
-            Public Property RouteId() As String
-                Get
-                    Return m_RouteId
-                End Get
-                Set(value As String)
-                    m_RouteId = value
-                End Set
-            End Property
-            Private m_RouteId As String
+            Public Property RouteId As String
 
+            ' <value>If equal to 1, it will be redirected</value>
             <HttpQueryMemberAttribute(Name:="redirect", EmitDefaultValue:=False)>
-            Public Property Redirect() As System.Nullable(Of Integer)
-                Get
-                    Return m_Redirect
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_Redirect = value
-                End Set
-            End Property
-            Private m_Redirect As System.Nullable(Of Integer)
+            Public Property Redirect() As Integer?
 
+            ' <value>The array of the addresses</value>
             <DataMember(Name:="addresses", EmitDefaultValue:=False)>
             Public Property Addresses() As Address()
-                Get
-                    Return m_Addresses
-                End Get
-                Set(value As Address())
-                    m_Addresses = value
-                End Set
-            End Property
-            Private m_Addresses As Address()
 
+            ' <value>The route parameters</value>
             <DataMember(Name:="parameters", EmitDefaultValue:=False)>
-            Public Property Parameters() As RouteParameters
-                Get
-                    Return m_Parameters
-                End Get
-                Set(value As RouteParameters)
-                    m_Parameters = value
-                End Set
-            End Property
-            Private m_Parameters As RouteParameters
+            Public Property Parameters As RouteParameters
 
         End Class
 
@@ -2941,52 +2810,28 @@ Namespace Route4MeSDK
             Return response
         End Function
 
+        ''' <summary>
+        ''' The request parameters for the orders adding process to an optimization.
+        ''' </summary>
         <DataContract>
         Private NotInheritable Class AddOrdersToOptimizationRequest
             Inherits GenericParameters
+
+            ' <value>The optimization problem ID</value>
             <HttpQueryMemberAttribute(Name:="optimization_problem_id", EmitDefaultValue:=False)>
-            Public Property OptimizationProblemId() As String
-                Get
-                    Return m_OptimizationProblemId
-                End Get
-                Set(value As String)
-                    m_OptimizationProblemId = value
-                End Set
-            End Property
-            Private m_OptimizationProblemId As String
+            Public Property OptimizationProblemId As String
 
+            ' <value>If equal to 1, it will be redirected</value>
             <HttpQueryMemberAttribute(Name:="redirect", EmitDefaultValue:=False)>
-            Public Property Redirect() As System.Nullable(Of Integer)
-                Get
-                    Return m_Redirect
-                End Get
-                Set(value As System.Nullable(Of Integer))
-                    m_Redirect = value
-                End Set
-            End Property
-            Private m_Redirect As System.Nullable(Of Integer)
+            Public Property Redirect As Integer?
 
+            ' <value>The array of the addresses</value>
             <DataMember(Name:="addresses", EmitDefaultValue:=False)>
             Public Property Addresses() As Address()
-                Get
-                    Return m_Addresses
-                End Get
-                Set(value As Address())
-                    m_Addresses = value
-                End Set
-            End Property
-            Private m_Addresses As Address()
 
+            ' <value>The route parameters</value>
             <DataMember(Name:="parameters", EmitDefaultValue:=False)>
-            Public Property Parameters() As RouteParameters
-                Get
-                    Return m_Parameters
-                End Get
-                Set(value As RouteParameters)
-                    m_Parameters = value
-                End Set
-            End Property
-            Private m_Parameters As RouteParameters
+            Public Property Parameters As RouteParameters
 
         End Class
 
@@ -3488,7 +3333,7 @@ Namespace Route4MeSDK
         End Function
 
         Private Async Function GetJsonObjectFromAPIAsync(Of T As Class)(ByVal optimizationParameters As GenericParameters,
-                                                                        ByVal url As String, ByVal httpMethod As HttpMethodType,
+                                                                        ByVal url As String, ByVal _httpMethod As HttpMethodType,
                                                                         ByVal httpContent As HttpContent,
                                                                         ByVal isString As Boolean) As Task(Of Tuple(Of T, String))
 
@@ -3500,14 +3345,14 @@ Namespace Route4MeSDK
                 Using httpClient As HttpClient = CreateAsyncHttpClient(url)
                     Dim parametersURI As String = optimizationParameters.Serialize(m_ApiKey)
 
-                    Select Case httpMethod
+                    Select Case _httpMethod
                         Case HttpMethodType.[Get]
                             Dim response = Await httpClient.GetStreamAsync(parametersURI)
                             result = If(isString, TryCast(response.ReadString(), T), response.ReadObject(Of T)())
                             Exit Select
                         Case HttpMethodType.Post, HttpMethodType.Put, HttpMethodType.Delete
-                            Dim isPut As Boolean = httpMethod = HttpMethodType.Put
-                            Dim isDelete As Boolean = httpMethod = HttpMethodType.Delete
+                            Dim isPut As Boolean = _httpMethod = HttpMethodType.Put
+                            Dim isDelete As Boolean = _httpMethod = HttpMethodType.Delete
                             Dim content As HttpContent = Nothing
 
                             If httpContent IsNot Nothing Then
@@ -3525,7 +3370,7 @@ Namespace Route4MeSDK
                             ElseIf isDelete Then
                                 Dim request As HttpRequestMessage = New HttpRequestMessage With {
                                     .Content = content,
-                                    .Method = System.Net.Http.HttpMethod.Delete,
+                                    .Method = HttpMethod.Delete,
                                     .RequestUri = New Uri(parametersURI, UriKind.Relative)
                                 }
                                 response = Await httpClient.SendAsync(request)
@@ -3578,7 +3423,7 @@ Namespace Route4MeSDK
 
         Private Function GetJsonObjectFromAPI(Of T As Class)(ByVal optimizationParameters As GenericParameters,
                                                              ByVal url As String,
-                                                             ByVal httpMethod As HttpMethodType,
+                                                             ByVal _httpMethod As HttpMethodType,
                                                              ByVal httpContent As HttpContent,
                                                              ByVal isString As Boolean,
                                                              ByRef errorMessage As String) As T
@@ -3590,7 +3435,7 @@ Namespace Route4MeSDK
                 Using httpClient As HttpClient = CreateHttpClient(url)
                     Dim parametersURI As String = optimizationParameters.Serialize(m_ApiKey)
 
-                    Select Case httpMethod
+                    Select Case _httpMethod
                         Case HttpMethodType.[Get]
                             Dim response = httpClient.GetStreamAsync(parametersURI)
                             response.Wait()
@@ -3605,8 +3450,8 @@ Namespace Route4MeSDK
 
                             Exit Select
                         Case HttpMethodType.Post, HttpMethodType.Put, HttpMethodType.Delete
-                            Dim isPut As Boolean = httpMethod = HttpMethodType.Put
-                            Dim isDelete As Boolean = httpMethod = HttpMethodType.Delete
+                            Dim isPut As Boolean = _httpMethod = HttpMethodType.Put
+                            Dim isDelete As Boolean = _httpMethod = HttpMethodType.Delete
                             Dim content As HttpContent = Nothing
 
                             If httpContent IsNot Nothing Then
@@ -3624,7 +3469,7 @@ Namespace Route4MeSDK
                             ElseIf isDelete Then
                                 Dim request As HttpRequestMessage = New HttpRequestMessage With {
                                     .Content = content,
-                                    .Method = System.Net.Http.HttpMethod.Delete,
+                                    .Method = HttpMethod.Delete,
                                     .RequestUri = New Uri(parametersURI, UriKind.Relative)
                                 }
 

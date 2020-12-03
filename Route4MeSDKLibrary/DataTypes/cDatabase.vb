@@ -1,13 +1,12 @@
 ﻿Imports System.IO
-Imports System.Runtime.Serialization
-Imports System.Collections.Generic
 Imports System.Runtime.Serialization.Json
-Imports System.Data
 Imports System.Data.Common
 Imports System.Configuration
 Imports System.Data.OleDb
-Imports System.Data.SqlServerCe
-Imports System.Web.Script
+Imports System.Web.Script.Serialization
+Imports System.Text
+Imports System.Reflection
+Imports System.Globalization
 
 Namespace Route4MeSDK.DataTypes
     Public Enum R4M_DataType
@@ -162,7 +161,7 @@ Namespace Route4MeSDK.DataTypes
 
                         If Not blComment Then
                             If s2.IndexOf(";") <> s2.Length - 1 Then
-                                sCurCommand += s2 + System.Environment.NewLine
+                                sCurCommand += s2 + Environment.NewLine
                             Else
                                 sCurCommand += s2
                                 _cmd.CommandText = sCurCommand
@@ -214,8 +213,8 @@ Namespace Route4MeSDK.DataTypes
 
             Dim header As String = If(isFirstRowHeader, "Yes", "No")
 
-            Dim pathOnly As String = System.IO.Path.GetDirectoryName(sFileName)
-            Dim fileName As String = System.IO.Path.GetFileName(sFileName)
+            Dim pathOnly As String = Path.GetDirectoryName(sFileName)
+            Dim fileName As String = Path.GetFileName(sFileName)
 
             Dim csvCom As String = (Convert.ToString("SELECT * FROM [") & fileName) & "]"
 
@@ -226,7 +225,7 @@ Namespace Route4MeSDK.DataTypes
             Using csvCon As New OleDbConnection((Convert.ToString((Convert.ToString("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=") & pathOnly) & ";Extended Properties=""Text;HDR=") & header) & """")
                 Using comCsv As New OleDbCommand(csvCom, csvCon)
                     Using csvAdapter As New OleDbDataAdapter(comCsv)
-                        tblTempTable.Locale = System.Globalization.CultureInfo.CurrentCulture
+                        tblTempTable.Locale = CultureInfo.CurrentCulture
                         csvAdapter.Fill(tblTempTable)
                     End Using
                 End Using
@@ -315,10 +314,10 @@ Namespace Route4MeSDK.DataTypes
                     sList = sList.TrimEnd(","c)
 
                     If tblTempTable.Columns.Count > 33 Then
-                        Dim sbCustom As New System.Text.StringBuilder()
+                        Dim sbCustom As New StringBuilder()
                         sbCustom.Append("{")
                         For iCol As Integer = 33 To tblTempTable.Columns.Count - 1
-                            Dim sbCustom1 As New System.Text.StringBuilder()
+                            Dim sbCustom1 As New StringBuilder()
                             sbCustom1.Append("{")
                             For iCol1 As Integer = 33 To tblTempTable.Columns.Count - 1
                                 Dim isValid As Boolean = IsValidValue(tblTempTable.Columns(iCol1), row(iCol1))
@@ -409,7 +408,7 @@ Namespace Route4MeSDK.DataTypes
 
                     '#Region "custom fields in case of the addressbook contact, added in csv export as additional columns."
                     If tblTempTable.Columns.Count > 33 Then
-                        Dim sbCustom As New System.Text.StringBuilder()
+                        Dim sbCustom As New StringBuilder()
                         sbCustom.Append("{")
                         For iCol As Integer = 33 To tblTempTable.Columns.Count - 1
                             Dim isValid As Boolean = IsValidValue(tblTempTable.Columns(iCol), row(iCol))
@@ -476,7 +475,7 @@ Namespace Route4MeSDK.DataTypes
             ' Convert JSON string of the custom data to the csv fields (as they are represented in the exported from Route4Me csv file
             For Each row As DataRow In tblTemp.Rows
                 If IsValidValue(tblTemp.Columns("address_custom_Data"), row("address_custom_Data")) Then
-                    Dim jsSerializer = New System.Web.Script.Serialization.JavaScriptSerializer()
+                    Dim jsSerializer = New JavaScriptSerializer()
                     Dim dict As Dictionary(Of String, Object) = DirectCast(jsSerializer.DeserializeObject(row("address_custom_Data").ToString()), Dictionary(Of String, Object))
 
                     For Each kvpair As KeyValuePair(Of String, Object) In dict
@@ -521,7 +520,7 @@ Namespace Route4MeSDK.DataTypes
                         Dim sKeyName As String = sApiFieldName.Substring(5)
 
                         If IsValidValue(tblTemp.Columns("address_custom_Data"), row("address_custom_Data")) Then
-                            Dim jsSerializer = New System.Web.Script.Serialization.JavaScriptSerializer()
+                            Dim jsSerializer = New JavaScriptSerializer()
                             Dim dict As Dictionary(Of String, Object) = DirectCast(jsSerializer.DeserializeObject(row("address_custom_Data").ToString()), Dictionary(Of String, Object))
 
                             Dim blExists As Boolean = False
@@ -642,7 +641,7 @@ Namespace Route4MeSDK.DataTypes
                     End If
                     Exit Select
                 Case "EXT_FIELD_custom_data"
-                    Dim sbOrderCustom As New System.Text.StringBuilder()
+                    Dim sbOrderCustom As New StringBuilder()
                     sbOrderCustom.Append("{")
                     For Each kvpair As KeyValuePair(Of String, Object) In DirectCast(oValue, Dictionary(Of String, Object))
                         If kvpair.Value Is Nothing Then
@@ -655,7 +654,7 @@ Namespace Route4MeSDK.DataTypes
                     sQueryValue += "}"
                     Exit Select
                 Case "address_custom_data"
-                    Dim sbCustom As New System.Text.StringBuilder()
+                    Dim sbCustom As New StringBuilder()
                     sbCustom.Append("{")
                     For Each kvpair As KeyValuePair(Of String, Object) In DirectCast(oValue, Dictionary(Of String, Object))
                         If kvpair.Value Is Nothing Then
@@ -672,11 +671,11 @@ Namespace Route4MeSDK.DataTypes
 
                     Using ms As New MemoryStream()
                         serializer.WriteObject(ms, oValue)
-                        sQueryValue = System.Text.Encoding.[Default].GetString(ms.ToArray())
+                        sQueryValue = Encoding.[Default].GetString(ms.ToArray())
                     End Using
                     Exit Select
                 Case "schedule_blacklist"
-                    Dim sbBlackList As New System.Text.StringBuilder()
+                    Dim sbBlackList As New StringBuilder()
                     For Each dt1 As String In DirectCast(oValue, String())
                         sbBlackList.Append((Convert.ToString("""") & dt1) & """,")
                     Next
@@ -703,7 +702,7 @@ Namespace Route4MeSDK.DataTypes
 
             'DataTable tblTempTable = new DataTable();
 
-            Dim jsSerializer = New System.Web.Script.Serialization.JavaScriptSerializer()
+            Dim jsSerializer = New JavaScriptSerializer()
 
             Select Case r4m_dtype
                 Case R4M_DataType.Addressbook
@@ -720,14 +719,14 @@ Namespace Route4MeSDK.DataTypes
                             sQuery = "INSERT INTO addressbook_v4 "
                             Dim sFields As String = ""
                             Dim sValues As String = ""
-                            For Each prop As System.Reflection.PropertyInfo In GetType(AddressBookContact).GetProperties()
+                            For Each prop As PropertyInfo In GetType(AddressBookContact).GetProperties()
                                 If prop.Name = "address_id" Then
                                     Continue For
                                 End If
                                 If prop.Name = "ConvertBooleansToInteger" Then
                                     Continue For
                                 End If
-                                If prop.MemberType <> System.Reflection.MemberTypes.[Property] Then
+                                If prop.MemberType <> MemberTypes.[Property] Then
                                     Continue For
                                 End If
                                 Dim vValue = contact.[GetType]().GetProperty(prop.Name).GetValue(contact, Nothing)
@@ -756,14 +755,14 @@ Namespace Route4MeSDK.DataTypes
                             Dim address_id As Integer = CInt(contact.address_id)
                             sQuery = "UPDATE addressbook_v4 SET "
                             Dim sSet As String = ""
-                            For Each prop As System.Reflection.PropertyInfo In GetType(AddressBookContact).GetProperties()
+                            For Each prop As PropertyInfo In GetType(AddressBookContact).GetProperties()
                                 If prop.Name = "address_id" Then
                                     Continue For
                                 End If
                                 If prop.Name = "ConvertBooleansToInteger" Then
                                     Continue For
                                 End If
-                                If prop.MemberType <> System.Reflection.MemberTypes.[Property] Then
+                                If prop.MemberType <> MemberTypes.[Property] Then
                                     Continue For
                                 End If
                                 Dim vValue = contact.[GetType]().GetProperty(prop.Name).GetValue(contact, Nothing)
@@ -798,12 +797,12 @@ Namespace Route4MeSDK.DataTypes
                             Dim sFields As String = ""
                             Dim sValues As String = ""
 
-                            For Each prop As System.Reflection.PropertyInfo In GetType(Order).GetProperties()
+                            For Each prop As PropertyInfo In GetType(Order).GetProperties()
                                 'if (prop.Name == "order_id") continue;
                                 If prop.Name = "ConvertBooleansToInteger" Then
                                     Continue For
                                 End If
-                                If prop.MemberType <> System.Reflection.MemberTypes.[Property] Then
+                                If prop.MemberType <> MemberTypes.[Property] Then
                                     Continue For
                                 End If
                                 Dim vValue = order.[GetType]().GetProperty(prop.Name).GetValue(order, Nothing)
@@ -834,14 +833,14 @@ Namespace Route4MeSDK.DataTypes
                             sQuery = "UPDATE orders SET "
                             Dim sSet As String = ""
 
-                            For Each prop As System.Reflection.PropertyInfo In GetType(Order).GetProperties()
+                            For Each prop As PropertyInfo In GetType(Order).GetProperties()
                                 If prop.Name = "order_id" Then
                                     Continue For
                                 End If
                                 If prop.Name = "ConvertBooleansToInteger" Then
                                     Continue For
                                 End If
-                                If prop.MemberType <> System.Reflection.MemberTypes.[Property] Then
+                                If prop.MemberType <> Reflection.MemberTypes.[Property] Then
                                     Continue For
                                 End If
                                 Dim vValue = order.[GetType]().GetProperty(prop.Name).GetValue(order, Nothing)

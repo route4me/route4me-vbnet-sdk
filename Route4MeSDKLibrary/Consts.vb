@@ -74,4 +74,17 @@
         Public Const ScheduleCalendar As String = MainHost + "/api/schedule_calendar_data.php"
 #End Region
     End Class
+
+    Module R4MEInfrastructureSettingsV5
+        Public Const ApiVersion As String = "5"
+
+        Public Const MainHost As String = "https://wh.route4me.com/modules/api/v5.0"
+
+        Public Const TeamUsers As String = MainHost & "/team/users"
+
+        Public Const TeamUsersBulkCreate As String = MainHost & "/team/bulk-insert"
+
+        Public Const DriverReview As String = MainHost & "/driver-reviews"
+    End Module
+
 End Namespace

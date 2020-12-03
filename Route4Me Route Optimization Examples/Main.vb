@@ -13,7 +13,7 @@ Namespace Route4MeSDKTest
             ' "api4" - execute all the examples related to the API 4 
             ' "api5" - execute all the examples related to the API 5 
             ' a method name - execute a specifed example method (e.g. "GetTeamMemberById")
-            Dim executeOption As String = "UpdateVehicle"
+            Dim executeOption As String = "GetVehicles"
 
             If executeOption.ToLower() = "api4" Then
 #Region "API 4"

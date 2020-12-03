@@ -105,7 +105,7 @@ Namespace Route4MeSDK.FastProcessing
                             chunkIsReady.AddressesChunk = sJsonAddressesChunk
                             sJsonAddressesChunk = ""
                             OnJsonFileChunkIsReady(chunkIsReady)
-                            System.Threading.Thread.Sleep(5000)
+                            Thread.Sleep(5000)
                         End If
 
                         Dim args As JsonFileReadingIsDoneArgs = New JsonFileReadingIsDoneArgs() With {

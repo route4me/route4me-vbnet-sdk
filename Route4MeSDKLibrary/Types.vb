@@ -4,6 +4,7 @@
         Put
         Post
         Delete
+        Patch
         FileUpload
     End Enum
 End Namespace

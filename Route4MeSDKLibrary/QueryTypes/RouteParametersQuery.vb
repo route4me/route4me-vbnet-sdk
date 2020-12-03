@@ -72,9 +72,9 @@ Namespace Route4MeSDK.QueryTypes
         ''' <summary>
         ''' Output route and stop-specific notes. The notes will have timestamps, note types, and geospatial information if available
         ''' </summary>
-        <IgnoreDataMember> _
-        <HttpQueryMemberAttribute(Name:="notes", EmitDefaultValue:=False)> _
-        Public Property Notes As System.Nullable(Of Boolean)
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="notes", EmitDefaultValue:=False)>
+        Public Property Notes As Boolean?
 
         ''' <summary>
         ''' Search query

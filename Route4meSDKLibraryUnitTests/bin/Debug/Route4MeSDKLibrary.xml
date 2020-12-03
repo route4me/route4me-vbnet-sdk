@@ -2256,6 +2256,429 @@ User email.
  Timestamp of a last known location.
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DriverReview">
+ <summary>
+ The data structure of a retrieved driver review.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DriverReview.RatingId">
+ <summary>
+ Driver Rating ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DriverReview.TrackingNumber">
+ <summary>
+ The tracking number of the route destination
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DriverReview.Review">
+ <summary>
+ A review the driver got
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DriverReview.Rating">
+ <summary>
+ The rating assigned to the driver.
+ Available values: 1,2,3,4
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DriverReview.AddedAt">
+ <summary>
+ When the review was created.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DriverReviewsResponse">
+ <summary>
+ The data structure of a retrieved driver reviews list.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DriverReviewsResponse.Data">
+ <summary>
+ An array of the driver reviews.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DriverReviewsResponse.SimplePagination">
+ <summary>
+ The response pagination info.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DriverReviewsResponse.Total">
+ <summary>
+ Statistics by driver rating.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.SimplePaginationData">
+ <summary>
+ Data structure of the response pagination info.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.SimplePaginationData.PerPage">
+ <summary>
+ Driver reviews number per page.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.SimplePaginationData.CurrentPage">
+ <summary>
+ Current page number in the driver reviews collection.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.SimplePaginationData.Path">
+ <summary>
+ Path to the driver review addon.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TypeQuantity">
+ <summary>
+ Driver rating quantity by types.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AlgorithmType">
+ <summary>
+ Enumeration of the algorithm types:
+ <para>TSP = 1, single depot, single driver route</para>
+ <para>VRP = 2, single depot, multiple driver, no constraints, no time windows, no capacities</para>
+ <para>CVRP_TW_SD = 3, single depot, multiple driver, capacitated, time windows</para>
+ <para>CVRP_TW_MD = 4, multiple depot, multiple driver, capacitated, time windows</para>
+ <para>TSP_TW = 5, single depot, single driver, time windows</para>
+ <para>TSP_TW_CR = 6, single depot, single driver, time windows, continuous optimization (minimal location shifting)</para>
+ <para>BBCVRP = 7, shifts addresses from one route to another over time on a recurring schedule</para>
+ <para>ALG_NONE = 100</para>
+ <para>ALG_LEGACY_DISTRIBUTED = 101</para>
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TravelMode">
+ <summary>
+ Enumeration of the travel modes
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DistanceUnit">
+ <summary>
+ Enumeration of the distance units
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Avoid">
+ <summary>
+ Enumeration of the avoidance conditions
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Optimize">
+ <summary>
+ Enumeration of the optimization options
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Metric">
+ <summary>
+ Enumeration of the metric systems:
+ <para>Euclidean = 1, measures point to point distance as a straight line</para>
+ <para>Manhattan = 2, measures point to point distance as taxicab geometry line</para>
+ <para>Geodesic = 3, measures point to point distance approximating curvature of the earth</para>
+ <para>Matrix = 4, measures point to point distance by traversing the actual road network</para>
+ <para>Exact_2D = 5, measures point to point distance using 2d rectilinear distance</para>
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DeviceType">
+ <summary>
+ Enumeration of the input device types
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Format">
+ <summary>
+ Enumeration of the response formats
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.OptimizationState">
+ <summary>
+ Enumeration of the optimization states.
+ <remark>
+ <para>An optimization problem can be at one state at any given time.</para>
+ <para>Every state change invokes a socket notification associated member ID.</para>
+ <para>Every state change invokes a callback webhook event invocation if it was provided during the initial optimization.</para>
+ </remark>
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.RoutePathOutput">
+ <summary>
+ Route path output.
+ <para>If the actual polylines of the driving path between all the stops on the route should be returned</para>
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.StatusUpdateType">
+ <summary>
+ Enumeration of the route destination update types
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TerritoryType">
+ <summary>
+ Enumeration of the territory types
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBundlingMode">
+ <summary>
+ Enumeration of the address bundling mode:
+ <para>Address = 1, group locations by address</para>
+ <para>Coordinates = 2, group locations by coordinates</para>
+ <para>AddressId = 3, group locations by list of the address IDs</para>
+ <para>Address = 4, group locations by address custom fields</para>
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBundlingMergeMode">
+ <summary>
+ Enumeration of the destinations merge mode:
+ <para>KeepAsSeparateDestinations = 1, keep separate destinations in output</para>
+ <para>MergeIntoSingleDestination = 2, merge the bundled destinations in one destination in output</para>
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBundlingFirstItemMode">
+ <summary>
+ Enumeration of the service time first item mode:
+ <para>KeepOriginal = 1, keep original service time</para>
+ <para>CustomTime = 2, set custom time to service time</para>
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBundlingAdditionalItemsMode">
+ <summary>
+ Enumeration of the service time additional items mode:
+ <para>KeepOriginal = 1, preserve original address service time</para>
+ <para>CustomTime = 2, set custom times</para>
+ <para>InheritFromPrimary = 3, don't add service times</para>
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse">
+ <summary>
+ Response data structure. As default in the failure case, 
+ sometimes - in the success case too.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse.Status">
+ <summary>
+ Status  (true/false)
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse.Code">
+ <summary>
+ Status code
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse.ExitCode">
+ <summary>
+ Exit code
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse.Messages">
+ <summary>
+ An array of the error messages.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.RouteAdvancedConstraints">
+ <summary>
+ Advanced constraints for route optimization process.
+ Set algorithm type to OPTIMIZATION_STATE_IN_QUEUE (9).
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.RouteAdvancedConstraints.MaximumCargoVolume">
+ <summary>
+ Maximum cargo volume per route
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.RouteAdvancedConstraints.MaximumCapacity">
+ <summary>
+ Vehicle capacity.
+ <para>How much total cargo can be transported per route (units, e.g. cubic meters)</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.RouteAdvancedConstraints.MembersCount">
+ <summary>
+ Legacy feature which permits a user to request an example number of optimized routes.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.RouteAdvancedConstraints.AvailableTimeWindows">
+ <summary>
+ An array of the available time windows (e.g. [ [25200, 75000 ] )
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.RouteAdvancedConstraints.Tags">
+ <summary>
+ The driver tags specified in a team member's custom data.
+ (e.g. "driver skills": 
+ ["Class A CDL", "Class B CDL", "Forklift", "Skid Steer Loader", "Independent Contractor"]
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.RouteAdvancedConstraints.Route4meMembersId">
+ <summary>
+ An array of the skilled driver IDs.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse">
+ <summary>
+ Response from the user endpoint (/api/v5.0/team/users) request
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.MemberId">
+ <summary>
+ The member ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.OwnerMemberId">
+ <summary>
+ The user's account owner ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.MemberFirstName">
+ <summary>
+ User's first name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.MemberLastName">
+ <summary>
+ User's last name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.MemberEmail">
+ <summary>
+ User's email
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.MemberPhone">
+ <summary>
+ User's phone number
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.MemberCompany">
+ <summary>
+ Member's company name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.DateOfBirth">
+ <summary>
+ Birthdate of the user.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.UserRegStateId">
+ <summary>
+ Registration state ID of a user
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.UserRegCountryId">
+ <summary>
+ Registration country ID of a user
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.MemberPicture">
+ <summary>
+ A link to the user's picture
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.MemberType">
+ <summary>
+ Member type. Available values:
+ <para>PRIMARY_ACCOUNT, SUB_ACCOUNT_ADMIN, SUB_ACCOUNT_REGIONAL_MANAGER,</para>
+ <para>SUB_ACCOUNT_DISPATCHER, SUB_ACCOUNT_PLANNER, SUB_ACCOUNT_DRIVER</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.HideRoutedAddresses">
+ <summary>
+ If true, the routed addresses will be hidden.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.HideVisitedAddresses">
+ <summary>
+ If true, the visited addresses will be hidden.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.HideNonFutureRoutes">
+ <summary>
+ If true, the nonfuture routes will be hidden.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.ReadOnlyUser">
+ <summary>
+ If true, the user has read-only access type.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.ShowGlobalAddresses">
+ <summary>
+ If true, the global address book contacts  
+ are visible in a user account.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.ShowGlobalOrders">
+ <summary>
+ If true, the global orders are visible in a user account.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.ShowAllDrivers">
+ <summary>
+ If true, all drivers are visible to the user.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.ShowAllVehicles">
+ <summary>
+ If true, all vehicles are visible to the user.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.AllowedSubmemberTypes">
+ <summary>
+ Allowed sub-member types in the user's account.
+ Available array item values:
+ "SUB_ACCOUNT_DRIVER", "SUB_ACCOUNT_DISPATCHER", "SUB_ACCOUNT_PLANNER",
+ "SUB_ACCOUNT_ANALYST", "SUB_ACCOUNT_ADMIN", "SUB_ACCOUNT_REGIONAL_MANAGER"
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.CanEdit">
+ <summary>
+ If true, the user can edit the account data.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.CanDelete">
+ <summary>
+ If true, the user can delete the account data.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.CustomData">
+ <summary>
+ The user's custom data
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.DriverHourlyRate">
+ <summary>
+ Hourly rate of a user
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.VendorId">
+ <summary>
+ Vendor ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.DrivingRate">
+ <summary>
+ Driving rate of a user.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.WorkingRate">
+ <summary>
+ Working rate of a user.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.MileRate">
+ <summary>
+ Mile rate of a user.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.IdlingRate">
+ <summary>
+ Mile rate of a user.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.DisplayMaxRoutesFutureDays">
+ <summary>
+ Display maximum_routes number of future days.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TeamResponse.Timezone">
+ <summary>
+ Member's location timezone
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4CreateResponse">
  <summary>
  Response from the create vehicle request. See also <seealso cref="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response"/>.
@@ -3090,6 +3513,207 @@ User email.
  Id equal to 1, the enclosed orders will be inserted in the response.
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.DriverReviewParameters.Rating">
+ <summary>
+ The driver rating to search for.
+ Available values: 1,2,3,4
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.DriverReviewParameters.MemberId">
+ <summary>
+ The driver ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.DriverReviewParameters.Start">
+ <summary>
+ Start of the time filter. (e.g. "2020-11-26")
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.DriverReviewParameters.End">
+ <summary>
+ End of the time filter. (e.g. "2020-11-29")
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.DriverReviewParameters.Page">
+ <summary>
+ A page number of the driver reviews collection to retrieve.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.DriverReviewParameters.PerPage">
+ <summary>
+ Diver reviews per page.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.DriverReviewParameters.RatingId">
+ <summary>
+ Rating ID
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest">
+ <summary>
+ Data structure for team management request tasks.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.NewPassword">
+ <summary>
+ A new passowrd of the user to loggin
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.NewMemberPicture">
+ <summary>
+ An URL to a member picture file. e.g: /uploads/cc6aba1a0e68ea429c51e3f9cb12e1ac/profile_c96135b77f6fc42be64cd98e0c21d341.jpg
+ Or as base64 string: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD//2Q=="
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.MemberFirstName">
+ <summary>
+ User's first name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.MemberLastName">
+ <summary>
+ User's last name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.MemberEmail">
+ <summary>
+ User's email
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.MemberCompany">
+ <summary>
+ Member's company name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.MemberType">
+ <summary>
+ Member type. Available values:
+ <para>PRIMARY_ACCOUNT, SUB_ACCOUNT_ADMIN, SUB_ACCOUNT_REGIONAL_MANAGER,</para>
+ <para>SUB_ACCOUNT_DISPATCHER, SUB_ACCOUNT_PLANNER, SUB_ACCOUNT_DRIVER</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.OwnerMemberId">
+ <summary>
+ The user's account owner ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.MemberPhone">
+ <summary>
+ User's phone number
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.DateOfBirth">
+ <summary>
+ Birthdate of the user.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.UserRegStateId">
+ <summary>
+ Registration state ID of a user
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.UserRegCountryId">
+ <summary>
+ Registration country ID of a user
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.DriverHourlyRate">
+ <summary>
+ Hourly rate of a user
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.HideRoutedAddresses">
+ <summary>
+ If true, the routed addresses will be hidden.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.HideVisitedAddresses">
+ <summary>
+ If true, the visited addresses will be hidden.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.HideNonFutureRoutes">
+ <summary>
+ If true, the nonfuture routes will be hidden.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.ReadOnlyUser">
+ <summary>
+ If true, the user has read-only access type.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.ShowGlobalAddresses">
+ <summary>
+ If true, the global address book contacts 
+ are visible in a user account.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.ShowGlobalOrders">
+ <summary>
+ If true, the global orders are visible in a user account.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.ShowAllDrivers">
+ <summary>
+ If true, all drivers are visible to the user.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.ShowAllVehicles">
+ <summary>
+ If true, all vehicles are visible to the user.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.DisplayMaxRoutesFutureDays">
+ <summary>
+ Display maximum_routes number of future days.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.VendorId">
+ <summary>
+ Vendor ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.DrivingRate">
+ <summary>
+ Driving rate of a user.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.WorkingRate">
+ <summary>
+ Working rate of a user.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.MileRate">
+ <summary>
+ Mile rate of a user.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.IdlingRate">
+ <summary>
+ Mile rate of a user.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.Timezone">
+ <summary>
+ Member's location timezone
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.CustomData">
+ <summary>
+ The user's custom data
+ </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.SetMemberType(Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.MemberTypes)">
+ <summary>
+ Set a member type by MemberTypes enum type. 
+ </summary>
+ <param name="memberType">MemberTypes enum type value</param>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.GetMemberType(System.String)">
+ <summary>
+ 
+ </summary>
+</member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.VehicleV4Parameters.VehicleName">
  <summary>
  Required for a vehicle creating.
@@ -3199,6 +3823,20 @@ User email.
  <param name="errorString">Error string</param>
  <returns>An array of the user locations</returns>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.ValidateSessionRequest">
+ <summary>
+ The request parameters for the session validation process.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.ValidateSessionRequest.SessionGuid">
+ <value>The session ID</value>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.ValidateSessionRequest.MemberId">
+ <value>The member ID</value>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.ValidateSessionRequest.Format">
+ <value>The response format (json, xml)</value>
+</member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.MemberHasCommercialCapability(System.String,System.String,System.String@)">
  <summary>
  Check if the member with the actualApiKey has commercial member capability.
@@ -3270,6 +3908,16 @@ User email.
  <param name="optimalPosition"> If true, an address will be inserted at optimal position of a route </param>
  <param name="errorString"> out: Error as string </param>
  <returns> An array of the IDs of added addresses </returns>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.MarkAddressAsMarkedAsDepartedRequest">
+ <summary>
+ The request parameters for an adress marking process as marked as departed.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.MarkAddressDepartedRequest">
+ <summary>
+ The request parameters for a address marking as the departed process.
+ </summary>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.SearchAddressBookLocationRequest">
  <summary>
@@ -3462,6 +4110,16 @@ User email.
  <param name="orderIds"> Order IDs </param>
  <param name="errorString"> out: Error as string </param>
  <returns> Result status true/false </returns>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddOrdersToRouteRequest">
+ <summary>
+ The request parameters for the process of adding the orders to a route.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.AddOrdersToOptimizationRequest">
+ <summary>
+ The request parameters for the orders adding process to an optimization.
+ </summary>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GeocodingRequest">
  <summary>
@@ -3694,6 +4352,64 @@ User email.
  <param name="ddhhmm">The dd:HH:mm format String</param>
  <param name="errorString">Error string</param>
  <returns>Seconds</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.System.Net.Http.HttpClientExtensions.PatchAsync(System.Net.Http.HttpClient,System.String,System.Net.Http.HttpContent)">
+ <summary>
+ Send a PATCH request to the specified Uri as an asynchronous operation.
+ </summary>
+ 
+ <returns>
+ Returns <see cref="T:System.Threading.Tasks.Task`1"/>.The task object representing the asynchronous operation.
+ </returns>
+ <param name="client">The instantiated Http Client <see cref="T:System.Net.Http.HttpClient"/></param>
+ <param name="requestUri">The Uri the request Is sent to.</param>
+ <param name="content">The HTTP request content sent to the server.</param>
+ <exception cref="T:System.ArgumentNullException">The <paramref name="client"/> was null.</exception>
+ <exception cref="T:System.ArgumentNullException">The <paramref name="requestUri"/> was null.</exception>
+</member>
+<member name="M:Route4MeSDKLibrary.System.Net.Http.HttpClientExtensions.PatchAsync(System.Net.Http.HttpClient,System.Uri,System.Net.Http.HttpContent)">
+ <summary>
+ Send a PATCH request to the specified Uri as an asynchronous operation.
+ </summary>
+ 
+ <returns>
+ Returns <see cref="T:System.Threading.Tasks.Task`1"/>.The task object representing the asynchronous operation.
+ </returns>
+ <param name="client">The instantiated Http Client <see cref="T:System.Net.Http.HttpClient"/></param>
+ <param name="requestUri">The Uri the request Is sent to.</param>
+ <param name="content">The HTTP request content sent to the server.</param>
+ <exception cref="T:System.ArgumentNullException">The <paramref name="client"/> was null.</exception>
+ <exception cref="T:System.ArgumentNullException">The <paramref name="requestUri"/> was null.</exception>
+</member>
+<member name="M:Route4MeSDKLibrary.System.Net.Http.HttpClientExtensions.PatchAsync(System.Net.Http.HttpClient,System.String,System.Net.Http.HttpContent,System.Threading.CancellationToken)">
+ <summary>
+ Send a PATCH request with a cancellation token as an asynchronous operation.
+ </summary>
+ 
+ <returns>
+ Returns <see cref="T:System.Threading.Tasks.Task`1"/>.The task object representing the asynchronous operation.
+ </returns>
+ <param name="client">The instantiated Http Client <see cref="T:System.Net.Http.HttpClient"/></param>
+ <param name="requestUri">The Uri the request Is sent to.</param>
+ <param name="content">The HTTP request content sent to the server.</param>
+ <param name="cancellationToken">A cancellation token that can be used by other objects Or threads to receive notice of cancellation.</param>
+ <exception cref="T:System.ArgumentNullException">The <paramref name="client"/> was null.</exception>
+ <exception cref="T:System.ArgumentNullException">The <paramref name="requestUri"/> was null.</exception>
+</member>
+<member name="M:Route4MeSDKLibrary.System.Net.Http.HttpClientExtensions.PatchAsync(System.Net.Http.HttpClient,System.Uri,System.Net.Http.HttpContent,System.Threading.CancellationToken)">
+ <summary>
+ Send a PATCH request with a cancellation token as an asynchronous operation.
+ </summary>
+ 
+ <returns>
+ Returns <see cref="T:System.Threading.Tasks.Task`1"/>.The task object representing the asynchronous operation.
+ </returns>
+ <param name="client">The instantiated Http Client <see cref="T:System.Net.Http.HttpClient"/></param>
+ <param name="requestUri">The Uri the request Is sent to.</param>
+ <param name="content">The HTTP request content sent to the server.</param>
+ <param name="cancellationToken">A cancellation token that can be used by other objects Or threads to receive notice of cancellation.</param>
+ <exception cref="T:System.ArgumentNullException">The <paramref name="client"/> was null.</exception>
+ <exception cref="T:System.ArgumentNullException">The <paramref name="requestUri"/> was null.</exception>
 </member>
 </members>
 </doc>
