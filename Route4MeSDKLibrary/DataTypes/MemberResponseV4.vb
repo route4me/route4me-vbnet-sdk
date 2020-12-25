@@ -1,74 +1,151 @@
-﻿Imports System.Collections.Generic
-Imports System.Runtime.Serialization
+﻿Imports System.Runtime.Serialization
 
 Namespace Route4MeSDK.DataTypes
-    <DataContract> _
+
+    ''' <summary>
+    ''' Response from the user endpoint (/api.v4/user.php) request
+    ''' </summary>
+    <DataContract>
     Public NotInheritable Class MemberResponseV4
 
-        <DataMember(Name:="HIDE_NONFUTURE_ROUTES", EmitDefaultValue:=False)> _
+        ''' <summary>
+        ''' If true, the nonfuture routes will be hidden.
+        ''' </summary>
+        <DataMember(Name:="HIDE_NONFUTURE_ROUTES", EmitDefaultValue:=False)>
         Public Property HIDE_NONFUTURE_ROUTES As String
 
-        <DataMember(Name:="HIDE_ROUTED_ADDRESSES", EmitDefaultValue:=False)> _
+        ''' <summary>
+        ''' If true, the routed addresses will be hidden.
+        ''' </summary>
+        <DataMember(Name:="HIDE_ROUTED_ADDRESSES", EmitDefaultValue:=False)>
         Public Property HIDE_ROUTED_ADDRESSES As String
 
-        <DataMember(Name:="HIDE_VISITED_ADDRESSES", EmitDefaultValue:=False)> _
+        ''' <summary>
+        ''' If true, the visited addresses will be hidden.
+        ''' </summary>
+        <DataMember(Name:="HIDE_VISITED_ADDRESSES", EmitDefaultValue:=False)>
         Public Property HIDE_VISITED_ADDRESSES As String
 
-        <DataMember(Name:="member_id")> _
+        ''' <summary>
+        ''' The member ID
+        ''' </summary>
+        <DataMember(Name:="member_id")>
         Public Property member_id As String
 
-        <DataMember(Name:="OWNER_MEMBER_ID")> _
+        ''' <summary>
+        ''' The user's account owner ID
+        ''' </summary>
+        <DataMember(Name:="OWNER_MEMBER_ID")>
         Public Property OWNER_MEMBER_ID As String
 
-        <DataMember(Name:="READONLY_USER")> _
+        ''' <summary>
+        ''' If true, the user has read-only access type.
+        ''' </summary>
+        <DataMember(Name:="READONLY_USER")>
         Public Property READONLY_USER As String
 
-        <DataMember(Name:="SHOW_ALL_DRIVERS")> _
+        ''' <summary>
+        ''' If true, all drivers are visible to the user.
+        ''' </summary>
+        <DataMember(Name:="SHOW_ALL_DRIVERS")>
         Public Property SHOW_ALL_DRIVERS As String
 
-        <DataMember(Name:="SHOW_ALL_VEHICLES")> _
+        ''' <summary>
+        ''' If true, all vehicles are visible to the user.
+        ''' </summary>
+        <DataMember(Name:="SHOW_ALL_VEHICLES")>
         Public Property SHOW_ALL_VEHICLES As String
 
-        <DataMember(Name:="date_of_birth")> _
+        ''' <summary>
+        ''' Birthdate of the user.
+        ''' </summary>
+        <DataMember(Name:="date_of_birth")>
         Public Property date_of_birth As String
 
-        <DataMember(Name:="member_email")> _
+        ''' <summary>
+        ''' User's email
+        ''' </summary>
+        <DataMember(Name:="member_email")>
         Public Property member_email As String
 
-        <DataMember(Name:="member_first_name")> _
+        ''' <summary>
+        ''' User's first name
+        ''' </summary>
+        <DataMember(Name:="member_first_name")>
         Public Property member_first_name As String
 
-        <DataMember(Name:="member_last_name")> _
+        ''' <summary>
+        ''' User's last name
+        ''' </summary>
+        <DataMember(Name:="member_last_name")>
         Public Property member_last_name As String
 
-        <DataMember(Name:="member_phone")> _
+        ''' <summary>
+        ''' User's phone number
+        ''' </summary>
+        <DataMember(Name:="member_phone")>
         Public Property member_phone As String
 
-        <DataMember(Name:="member_picture")> _
+        ''' <summary>
+        ''' A link to the user's picture
+        ''' </summary>
+        <DataMember(Name:="member_picture")>
         Public Property member_picture As String
 
-        <DataMember(Name:="member_type")> _
+        ''' <summary>
+        ''' Member type. Available values:
+        ''' <para>PRIMARY_ACCOUNT, SUB_ACCOUNT_ADMIN, SUB_ACCOUNT_REGIONAL_MANAGER,</para>
+        ''' <para>SUB_ACCOUNT_DISPATCHER, SUB_ACCOUNT_PLANNER, SUB_ACCOUNT_DRIVER</para>
+        ''' </summary>
+        <DataMember(Name:="member_type")>
         Public Property member_type As String
 
-        <DataMember(Name:="member_zipcode")> _
+        ''' <summary>
+        ''' User zipcode
+        ''' </summary>
+        <DataMember(Name:="member_zipcode")>
         Public Property member_zipcode As String
 
-        <DataMember(Name:="preferred_language")> _
+        ''' <summary>
+        ''' Preferred language (en, fr)
+        ''' </summary>
+        <DataMember(Name:="preferred_language")>
         Public Property preferred_language As String
 
-        <DataMember(Name:="preferred_units")> _
+        ''' <summary>
+        ''' Preferred unit (mi, km)
+        ''' </summary>
+        <DataMember(Name:="preferred_units")>
         Public Property preferred_units As String
 
-        <DataMember(Name:="timezone")> _
+        ''' <summary>
+        ''' Member's location timezone
+        ''' </summary>
+        <DataMember(Name:="timezone")>
         Public Property timezone As String
 
-        <DataMember(Name:="user_reg_country_id")> _
+        ''' <summary>
+        ''' Registration country ID of a user
+        ''' </summary>
+        <DataMember(Name:="user_reg_country_id")>
         Public Property user_reg_country_id As String
 
-        <DataMember(Name:="user_reg_state_id")> _
+        ''' <summary>
+        ''' Registration state ID of a user
+        ''' </summary>
+        <DataMember(Name:="user_reg_state_id")>
         Public Property user_reg_state_id As String
 
-        <DataMember(Name:="custom_data", EmitDefaultValue:=False)> _
+        ''' <summary>
+        ''' Registration state ID of a user
+        ''' </summary>
+        <DataMember(Name:="level")>
+        Public Property level As Integer?
+
+        ''' <summary>
+        ''' The user's custom data
+        ''' </summary>
+        <DataMember(Name:="custom_data", EmitDefaultValue:=False)>
         Public Property custom_data() As Dictionary(Of String, String)
             Get
                 If _custom_data Is Nothing Then
@@ -120,5 +197,10 @@ Namespace Route4MeSDK.DataTypes
         End Property
         Private _custom_data As Dictionary(Of String, String)
 
+        ''' <summary>
+        ''' User API key.
+        ''' </summary>
+        <DataMember(Name:="api_key")>
+        Public Property ApiKey As String
     End Class
 End Namespace

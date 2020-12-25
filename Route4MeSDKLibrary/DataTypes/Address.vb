@@ -1,9 +1,11 @@
-﻿Imports System.Collections.Generic
-Imports System.Runtime.Serialization
+﻿Imports System.Runtime.Serialization
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDK.DataTypes
 
+    ''' <summary>
+    ''' Route destination class.
+    ''' </summary>
     <DataContract>
     Public Class Address
         Inherits GenericParameters
@@ -532,6 +534,33 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="manifest", EmitDefaultValue:=False)>
         <[ReadOnly](True)>
         Public Property Manifest As AddressManifest
+
+        ''' <summary>
+        ''' Alias of a pickup point.
+        ''' </summary>
+        <DataMember(Name:="pickup", EmitDefaultValue:=False)>
+        Public Property Pickup As String
+
+        ''' <summary>
+        ''' Alias of the paired pickup point.
+        ''' </summary>
+        <DataMember(Name:="dropoff", EmitDefaultValue:=False)>
+        Public Property Dropoff As String
+
+        ''' <summary>
+        ''' If equal to 1, the pickup and dropoff addresses are joint 
+        ''' (one by one despite the regular pickup-dropoff addresses 
+        ''' when it's possible to have multiple pickup addresses with one dropoff address).
+        ''' </summary>
+        <DataMember(Name:="joint", EmitDefaultValue:=False)>
+        Public Property Joint As Integer?
+
+        ''' <summary>
+        ''' List of the order inventories
+        ''' </summary>
+        <DataMember(Name:="order_inventory", EmitDefaultValue:=True)>
+        <[ReadOnly](True)>
+        Public Property OrderInventory As V5.OrderInventory()
 
     End Class
 End Namespace

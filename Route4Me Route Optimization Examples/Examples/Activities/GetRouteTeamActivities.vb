@@ -25,7 +25,7 @@ Namespace Route4MeSDKTest.Examples
                 .Offset = 0
             }
             Dim errorString As String = Nothing
-            Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+            Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
             PrintExampleActivities(activities, errorString)
 

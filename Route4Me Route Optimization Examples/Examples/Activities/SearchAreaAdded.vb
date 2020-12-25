@@ -1,6 +1,7 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
         Public Sub SearchAreaAdded()
@@ -16,7 +17,7 @@ Namespace Route4MeSDKTest.Examples
 
             ' Run the query
             Dim errorString As String = ""
-            Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+            Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
             Console.WriteLine("")
 

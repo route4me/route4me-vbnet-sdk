@@ -56,13 +56,13 @@ Namespace Route4MeSDKTest.Examples
             Dim result = route4Me.GetDeviceLocationHistory(trParameters, errorString)
 
             Console.WriteLine(If(
-                              result IsNot Nothing AndAlso result.[GetType]() = GetType(GetDeviceLocationHistoryResponse),
+                              result IsNot Nothing AndAlso result.[GetType]() = GetType(DeviceLocationHistoryResponse),
                               "GetDeviceHistoryTimeRangeTest executed successfully",
                               "GetDeviceHistoryTimeRangeTest failed. " & errorString))
 
-            If result IsNot Nothing AndAlso result.[GetType]() = GetType(GetDeviceLocationHistoryResponse) Then
+            If result IsNot Nothing AndAlso result.[GetType]() = GetType(DeviceLocationHistoryResponse) Then
                 Console.WriteLine("")
-                Dim locationHistoryResul = CType(result, GetDeviceLocationHistoryResponse)
+                Dim locationHistoryResul = CType(result, DeviceLocationHistoryResponse)
 
                 If (If(locationHistoryResul.data?.Length, 0)) > 0 Then
 

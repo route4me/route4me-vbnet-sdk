@@ -98,6 +98,7 @@
     <Compile Include="Consts.vb" />
     <Compile Include="DataContractResolver.vb" />
     <Compile Include="DataTypes\Activity.vb" />
+    <Compile Include="DataTypes\ActivityMember.vb" />
     <Compile Include="DataTypes\Address.vb" />
     <Compile Include="DataTypes\AddressBookContact.vb" />
     <Compile Include="DataTypes\AddressBookContactsResponse.vb" />
@@ -164,6 +165,7 @@
     <Compile Include="DataTypes\UserLocation.vb" />
     <Compile Include="DataTypes\V5\DriverReview.vb" />
     <Compile Include="DataTypes\V5\Enum.vb" />
+    <Compile Include="DataTypes\V5\OrderInventory.vb" />
     <Compile Include="DataTypes\V5\ResultResponse.vb" />
     <Compile Include="DataTypes\V5\RouteAdvancedConstraints.vb" />
     <Compile Include="DataTypes\V5\TeamResponse.vb" />

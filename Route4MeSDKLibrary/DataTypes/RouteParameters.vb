@@ -561,8 +561,25 @@ Namespace Route4MeSDK.DataTypes
     ''' The service time specified or all the addresses in the route.
     ''' </summary>
     Public Class OverrideAddresses
+
+        ''' <summary>
+        ''' The service time specified or all the addresses in the route.
+        ''' </summary>
         <DataMember(Name:="time", EmitDefaultValue:=False), CustomValidation(GetType(PropertyValidation), "ValidateEpochTime")>
         Public Property Time As Integer?
+
+        ''' <summary>
+        ''' Route address stop type
+        ''' </summary>
+        <DataMember(Name:="address_stop_type")>
+        Public Property AddressStopType As String
+
+        ''' <summary>
+        ''' The address group
+        ''' </summary>
+        <DataMember(Name:="group", EmitDefaultValue:=False)>
+        Public Property Group As String
+
     End Class
 
     ''' <summary>

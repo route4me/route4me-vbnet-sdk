@@ -644,7 +644,11 @@ Namespace Route4MeSDK
                .Optimize = roParames.Item("optimize")
             }
 
-            Dim response As StatusResponse = GetJsonObjectFromAPI(Of StatusResponse)(request, R4MEInfrastructureSettings.RouteReoptimize, HttpMethodType.[Get], errorString)
+            Dim response As StatusResponse = GetJsonObjectFromAPI(Of StatusResponse)(
+                request,
+                R4MEInfrastructureSettings.RouteReoptimize,
+                HttpMethodType.[Get],
+                errorString)
 
             If response IsNot Nothing AndAlso response.Status Then
                 Return True
@@ -968,6 +972,25 @@ Namespace Route4MeSDK
 
         End Class
 
+        'Public Function GetDeviceLocationHistory(ByVal gpsParameters As GPSParameters,
+        '                                         ByRef errorString As String) As Object
+
+        '    Dim result = GetJsonObjectFromAPI(Of GetDeviceLocationHistoryResponse)(
+        '                                                    gpsParameters,
+        '                                                    R4MEInfrastructureSettings.DeviceLocation,
+        '                                                    HttpMethodType.[Get],
+        '                                                    False,
+        '                                                    errorString)
+
+        '    Dim dataLength = (CType(result, GetDeviceLocationHistoryResponse)).data.Length
+
+        '    Return If(
+        '        result Is Nothing AndAlso errorString <> "",
+        '        errorString,
+        '        If((dataLength = 0), Nothing, CObj(result))
+        '    )
+        'End Function
+
         ''' <summary>
 		''' Returns device location history from the specified date range.
 		''' </summary>
@@ -978,22 +1001,24 @@ Namespace Route4MeSDK
 		''' If query failed, return error string.
 		''' </returns>
         Public Function GetDeviceLocationHistory(ByVal gpsParameters As GPSParameters,
-                                                 ByRef errorString As String) As Object
+                                                 ByRef errorString As String) As DeviceLocationHistoryResponse
 
-            Dim result = GetJsonObjectFromAPI(Of GetDeviceLocationHistoryResponse)(
-                                                            gpsParameters,
-                                                            R4MEInfrastructureSettings.DeviceLocation,
-                                                            HttpMethodType.[Get],
-                                                            False,
-                                                            errorString)
-
-            Dim dataLength = (CType(result, GetDeviceLocationHistoryResponse)).data.Length
+            Dim result = GetJsonObjectFromAPI(Of DeviceLocationHistoryResponse)(
+                gpsParameters,
+                R4MEInfrastructureSettings.DeviceLocation,
+                HttpMethodType.[Get],
+                False,
+                errorString)
 
             Return If(
-                result Is Nothing AndAlso errorString <> "",
-                errorString,
-                If((dataLength = 0), Nothing, CObj(result))
-            )
+                        result Is Nothing AndAlso errorString <> "",
+                        Nothing,
+                        If(
+                            (CType(result, DeviceLocationHistoryResponse)).data.Length = 0,
+                            Nothing,
+                            CType(result, DeviceLocationHistoryResponse)
+                          )
+                    )
         End Function
 
 
@@ -1041,7 +1066,12 @@ Namespace Route4MeSDK
 
             Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
 
-            Dim response As MemberResponse = GetJsonObjectFromAPI(Of MemberResponse)(roParams, R4MEInfrastructureSettings.UserAuthentication, HttpMethodType.Post, httpContent, errorString)
+            Dim response As MemberResponse = GetJsonObjectFromAPI(Of MemberResponse)(
+                roParams,
+                R4MEInfrastructureSettings.UserAuthentication,
+                HttpMethodType.Post,
+                httpContent,
+                errorString)
 
             Return response
         End Function
@@ -1074,7 +1104,12 @@ Namespace Route4MeSDK
                 .Format = memParams.Format
             }
 
-            Dim result As MemberResponse = GetJsonObjectFromAPI(Of MemberResponse)(request, R4MEInfrastructureSettings.ValidateSession, HttpMethodType.[Get], False, errorString)
+            Dim result As MemberResponse = GetJsonObjectFromAPI(Of MemberResponse)(
+                request,
+                R4MEInfrastructureSettings.ValidateSession,
+                HttpMethodType.[Get],
+                False,
+                errorString)
 
             Return result
 
@@ -1106,7 +1141,13 @@ Namespace Route4MeSDK
         End Function
 
         Public Function GetUserById(memParams As MemberParametersV4, ByRef errorString As String) As MemberResponseV4
-            Dim response As MemberResponseV4 = GetJsonObjectFromAPI(Of MemberResponseV4)(memParams, R4MEInfrastructureSettings.GetUsersHost, HttpMethodType.Get, errorString)
+
+            Dim response As MemberResponseV4 = GetJsonObjectFromAPI(Of MemberResponseV4)(
+                memParams,
+                R4MEInfrastructureSettings.GetUsersHost,
+                HttpMethodType.Get,
+                errorString)
+
             Return response
         End Function
 
@@ -1137,17 +1178,18 @@ Namespace Route4MeSDK
         End Class
 
         Public Function UserDelete(memParams As MemberParametersV4, ByRef errorString As String) As Boolean
-            Dim response As USerDeleteResponse = GetJsonObjectFromAPI(Of USerDeleteResponse)(memParams, R4MEInfrastructureSettings.GetUsersHost, HttpMethodType.Delete, errorString)
+
+            Dim response As USerDeleteResponse = GetJsonObjectFromAPI(Of USerDeleteResponse)(
+                memParams,
+                R4MEInfrastructureSettings.GetUsersHost,
+                HttpMethodType.Delete,
+                errorString)
 
             If response Is Nothing Then
                 Return False
             End If
 
-            If response.Status Then
-                Return True
-            Else
-                Return False
-            End If
+            Return If(response.Status, True, False)
 
         End Function
 
@@ -1233,7 +1275,9 @@ Namespace Route4MeSDK
         ''' <param name="demoApiKey">Demo API key</param>
         ''' <param name="errorString">Error message text</param>
         ''' <returns>True, if the member has commercial capability</returns>
-        Public Function MemberHasCommercialCapability(ByVal actualApiKey As String, ByVal demoApiKey As String, ByRef errorString As String) As Boolean
+        Public Function MemberHasCommercialCapability(ByVal actualApiKey As String,
+                                                      ByVal demoApiKey As String,
+                                                      ByRef errorString As String) As Boolean
             Try
                 Dim memberCapabilities = Me.GetMemberCapabilities(errorString)
 
@@ -1477,7 +1521,13 @@ Namespace Route4MeSDK
         End Class
 
         Public Function GetActivityFeed(activityParameters As ActivityParameters, ByRef errorString As String) As Activity()
-            Dim response As GetActivitiesResponse = GetJsonObjectFromAPI(Of GetActivitiesResponse)(activityParameters, R4MEInfrastructureSettings.ActivityFeed, HttpMethodType.[Get], errorString)
+
+            Dim response As GetActivitiesResponse = GetJsonObjectFromAPI(Of GetActivitiesResponse)(
+                activityParameters,
+                R4MEInfrastructureSettings.ActivityFeed,
+                HttpMethodType.[Get],
+                errorString)
+
             Dim result As Activity() = Nothing
 
             If response IsNot Nothing Then
@@ -1488,7 +1538,13 @@ Namespace Route4MeSDK
         End Function
 
         Public Function GetActivities(activityParameters As ActivityParameters, ByRef errorString As String) As Activity()
-            Dim response As GetActivitiesResponse = GetJsonObjectFromAPI(Of GetActivitiesResponse)(activityParameters, R4MEInfrastructureSettings.GetActivitiesHost, HttpMethodType.[Get], errorString)
+
+            Dim response As GetActivitiesResponse = GetJsonObjectFromAPI(Of GetActivitiesResponse)(
+                activityParameters,
+                R4MEInfrastructureSettings.GetActivitiesHost,
+                HttpMethodType.[Get],
+                errorString)
+
             Dim result As Activity() = Nothing
             If response IsNot Nothing Then
                 result = response.Results
@@ -1680,14 +1736,20 @@ Namespace Route4MeSDK
 
         End Class
 
-        Public Function MarkAddressAsMarkedAsDeparted(aParams As AddressParameters, ByRef errorString As String) As Address
+        Public Function MarkAddressAsMarkedAsDeparted(aParams As AddressParameters,
+                                                      ByRef errorString As String) As Address
+
             Dim request As New MarkAddressAsMarkedAsDepartedRequest With {
                 .RouteId = aParams.RouteId,
                 .RouteDestinationId = aParams.RouteDestinationId,
                 .IsDeparted = aParams.IsDeparted
             }
 
-            Dim response As Address = GetJsonObjectFromAPI(Of Address)(request, R4MEInfrastructureSettings.GetAddress, HttpMethodType.[Put], errorString)
+            Dim response As Address = GetJsonObjectFromAPI(Of Address)(
+                request,
+                R4MEInfrastructureSettings.GetAddress,
+                HttpMethodType.[Put],
+                errorString)
 
             Return response
         End Function
@@ -1699,7 +1761,11 @@ Namespace Route4MeSDK
                 .IsVisited = aParams.IsVisited
             }
 
-            Dim response As Address = GetJsonObjectFromAPI(Of Address)(request, R4MEInfrastructureSettings.GetAddress, HttpMethodType.[Put], errorString)
+            Dim response As Address = GetJsonObjectFromAPI(Of Address)(
+                request,
+                R4MEInfrastructureSettings.GetAddress,
+                HttpMethodType.[Put],
+                errorString)
 
             Return response
         End Function
@@ -1768,7 +1834,11 @@ Namespace Route4MeSDK
                 .MemberId = 1
             }
 
-            Dim response As MarkAddressDepartedResponse = GetJsonObjectFromAPI(Of MarkAddressDepartedResponse)(request, R4MEInfrastructureSettings.MarkAddressDeparted, HttpMethodType.[Get], errorString)
+            Dim response As MarkAddressDepartedResponse = GetJsonObjectFromAPI(Of MarkAddressDepartedResponse)(
+                request,
+                R4MEInfrastructureSettings.MarkAddressDeparted,
+                HttpMethodType.[Get],
+                errorString)
 
             If response IsNot Nothing Then
                 If response.Status Then
@@ -1790,8 +1860,14 @@ Namespace Route4MeSDK
                 .MemberId = 1
             }
 
-            Dim response As String = GetJsonObjectFromAPI(Of String)(request, R4MEInfrastructureSettings.MarkAddressVisited, HttpMethodType.[Get], errorString)
+            Dim response As String = GetJsonObjectFromAPI(Of String)(
+                request,
+                R4MEInfrastructureSettings.MarkAddressVisited,
+                HttpMethodType.[Get],
+                errorString)
+
             Dim iResponse As Integer = 0
+
             If Integer.TryParse(response.ToString(), iResponse) Then
                 iResponse = Convert.ToInt32(response)
             End If
@@ -1836,15 +1912,25 @@ Namespace Route4MeSDK
             Private m_OptimalPosition As String
         End Class
 
-        Public Function InsertAddressIntoRouteOptimalPosition(routeId As String, addresses As Address(), optimalPosition As Boolean, ByRef errorString As String) As Integer()
+        Public Function InsertAddressIntoRouteOptimalPosition(routeId As String,
+                                                              addresses As Address(),
+                                                              optimalPosition As Boolean,
+                                                              ByRef errorString As String) As Integer()
+
             Dim request As New InsertAddressIntoRouteOptimalPositionRequest() With {
                 .RouteId = routeId,
                 .Addresses = addresses,
                 .OptimalPosition = optimalPosition
             }
 
-            Dim response As DataObject = GetJsonObjectFromAPI(Of DataObject)(request, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, errorString)
+            Dim response As DataObject = GetJsonObjectFromAPI(Of DataObject)(
+                request,
+                R4MEInfrastructureSettings.RouteHost,
+                HttpMethodType.Put,
+                errorString)
+
             Dim destinationIds As Integer() = Nothing
+
             If response IsNot Nothing AndAlso response.Addresses IsNot Nothing Then
                 Dim arrDestinationIds As New List(Of Integer)()
                 For Each addressNew As Address In addresses
@@ -1918,7 +2004,12 @@ Namespace Route4MeSDK
                 .RouteId = routeId,
                 .RouteDestinationId = destinationId
             }
-            Dim response As RemoveRouteDestinationResponse = GetJsonObjectFromAPI(Of RemoveRouteDestinationResponse)(request, R4MEInfrastructureSettings.GetAddress, HttpMethodType.Delete, errorString)
+            Dim response As RemoveRouteDestinationResponse = GetJsonObjectFromAPI(Of RemoveRouteDestinationResponse)(
+                request,
+                R4MEInfrastructureSettings.GetAddress,
+                HttpMethodType.Delete,
+                errorString)
+
             If response IsNot Nothing AndAlso response.Deleted Then
                 Return True
             Else
@@ -1977,12 +2068,21 @@ Namespace Route4MeSDK
             Private m_RouteDestinationId As Integer
         End Class
 
-        Public Function RemoveAddressFromOptimization(optiimizationId As String, destinationId As Integer, ByRef errorString As String) As Boolean
+        Public Function RemoveAddressFromOptimization(optiimizationId As String,
+                                                      destinationId As Integer,
+                                                      ByRef errorString As String) As Boolean
+
             Dim request As New RemoveAddressFromOptimizationRequest() With {
                 .OptimizationProblemId = optiimizationId,
                 .RouteDestinationId = destinationId
             }
-            Dim response As RemoveAddressFromOptimizationResponse = GetJsonObjectFromAPI(Of RemoveAddressFromOptimizationResponse)(request, R4MEInfrastructureSettings.GetAddress, HttpMethodType.Delete, errorString)
+
+            Dim response As RemoveAddressFromOptimizationResponse = GetJsonObjectFromAPI(Of RemoveAddressFromOptimizationResponse)(
+                request,
+                R4MEInfrastructureSettings.GetAddress,
+                HttpMethodType.Delete,
+                errorString)
+
             If response IsNot Nothing AndAlso response.Deleted Then
                 Return True
             Else
@@ -2015,20 +2115,31 @@ Namespace Route4MeSDK
             Private m_error As String
         End Class
 
-        Public Function MoveDestinationToRoute(toRouteId As String, routeDestinationId As Integer, afterDestinationId As Integer, ByRef errorString As String) As Boolean
+        Public Function MoveDestinationToRoute(toRouteId As String,
+                                               routeDestinationId As Integer,
+                                               afterDestinationId As Integer,
+                                               ByRef errorString As String) As Boolean
+
             Dim keyValues = New List(Of KeyValuePair(Of String, String))()
             keyValues.Add(New KeyValuePair(Of String, String)("to_route_id", toRouteId))
             keyValues.Add(New KeyValuePair(Of String, String)("route_destination_id", Convert.ToString(routeDestinationId)))
             keyValues.Add(New KeyValuePair(Of String, String)("after_destination_id", Convert.ToString(afterDestinationId)))
             Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
 
-            Dim response As MoveDestinationToRouteResponse = GetJsonObjectFromAPI(Of MoveDestinationToRouteResponse)(New GenericParameters(), R4MEInfrastructureSettings.MoveRouteDestination, HttpMethodType.Post, httpContent, errorString)
+            Dim response As MoveDestinationToRouteResponse = GetJsonObjectFromAPI(Of MoveDestinationToRouteResponse)(
+                New GenericParameters(),
+                R4MEInfrastructureSettings.MoveRouteDestination,
+                HttpMethodType.Post,
+                httpContent,
+                errorString)
+
             If response IsNot Nothing Then
                 If Not response.Success AndAlso response.[error] IsNot Nothing Then
                     errorString = response.[error]
                 End If
                 Return response.Success
             End If
+
             Return False
         End Function
 
@@ -2061,10 +2172,19 @@ Namespace Route4MeSDK
             Private m_Total As UInteger
         End Class
 
-        Public Function GetAddressBookContacts(addressBookParameters As AddressBookParameters, ByRef total As UInteger, ByRef errorString As String) As AddressBookContact()
+        Public Function GetAddressBookContacts(addressBookParameters As AddressBookParameters,
+                                               ByRef total As UInteger,
+                                               ByRef errorString As String) As AddressBookContact()
             total = 0
-            Dim response = GetJsonObjectFromAPI(Of GetAddressBookContactsResponse)(addressBookParameters, R4MEInfrastructureSettings.AddressBook, HttpMethodType.[Get], errorString)
+
+            Dim response = GetJsonObjectFromAPI(Of GetAddressBookContactsResponse)(
+                addressBookParameters,
+                R4MEInfrastructureSettings.AddressBook,
+                HttpMethodType.[Get],
+                errorString)
+
             Dim result As AddressBookContact() = Nothing
+
             If response IsNot Nothing Then
                 result = response.Results
                 total = response.Total
@@ -2072,15 +2192,24 @@ Namespace Route4MeSDK
             Return result
         End Function
 
-        Public Function GetAddressBookLocation(addressBookParameters As AddressBookParameters, ByRef total As UInteger, ByRef errorString As String) As AddressBookContact()
+        Public Function GetAddressBookLocation(addressBookParameters As AddressBookParameters,
+                                               ByRef total As UInteger,
+                                               ByRef errorString As String) As AddressBookContact()
             total = 0
 
-            Dim response = GetJsonObjectFromAPI(Of GetAddressBookContactsResponse)(addressBookParameters, R4MEInfrastructureSettings.AddressBook, HttpMethodType.[Get], errorString)
+            Dim response = GetJsonObjectFromAPI(Of GetAddressBookContactsResponse)(
+                addressBookParameters,
+                R4MEInfrastructureSettings.AddressBook,
+                HttpMethodType.[Get],
+                errorString)
+
             Dim result As AddressBookContact() = Nothing
+
             If response IsNot Nothing Then
                 result = response.Results
                 total = response.Total
             End If
+
             Return result
         End Function
 
@@ -2237,16 +2366,32 @@ Namespace Route4MeSDK
             Return response
         End Function
 
-        Public Function AddAddressBookContact(contact As AddressBookContact, ByRef errorString As String) As AddressBookContact
+        Public Function AddAddressBookContact(contact As AddressBookContact,
+                                              ByRef errorString As String) As AddressBookContact
+
             contact.PrepareForSerialization()
-            Dim result As AddressBookContact = GetJsonObjectFromAPI(Of AddressBookContact)(contact, R4MEInfrastructureSettings.AddressBook, HttpMethodType.Post, errorString)
+
+            Dim result As AddressBookContact = GetJsonObjectFromAPI(Of AddressBookContact)(
+                contact,
+                R4MEInfrastructureSettings.AddressBook,
+                HttpMethodType.Post,
+                errorString)
+
             Return result
         End Function
 
 
-        Public Function UpdateAddressBookContact(contact As AddressBookContact, ByRef errorString As String) As AddressBookContact
+        Public Function UpdateAddressBookContact(contact As AddressBookContact,
+                                                 ByRef errorString As String) As AddressBookContact
+
             contact.PrepareForSerialization()
-            Dim result As AddressBookContact = GetJsonObjectFromAPI(Of AddressBookContact)(contact, R4MEInfrastructureSettings.AddressBook, HttpMethodType.Put, errorString)
+
+            Dim result As AddressBookContact = GetJsonObjectFromAPI(Of AddressBookContact)(
+                contact,
+                R4MEInfrastructureSettings.AddressBook,
+                HttpMethodType.Put,
+                errorString)
+
             Return result
         End Function
 
@@ -2267,8 +2412,13 @@ Namespace Route4MeSDK
                 Return Nothing
             End If
 
-            Dim updatableContactProperties = R4MeUtils.GetPropertiesWithDifferentValues(contact, initialContact, errorString)
+            Dim updatableContactProperties = R4MeUtils.GetPropertiesWithDifferentValues(
+                contact,
+                initialContact,
+                errorString)
+
             updatableContactProperties.Add("address_id")
+
             Dim errorString0 As String = Nothing
 
             If updatableContactProperties IsNot Nothing AndAlso updatableContactProperties.Count > 0 Then
@@ -2276,10 +2426,19 @@ Namespace Route4MeSDK
 
                 dynamicContactProperties.CopyPropertiesFromClass(contact, updatableContactProperties, errorString0)
 
-                Dim contactParamsJsonString = R4MeUtils.SerializeObjectToJson(dynamicContactProperties.DynamicProperties, True)
+                Dim contactParamsJsonString = R4MeUtils.SerializeObjectToJson(
+                    dynamicContactProperties.DynamicProperties,
+                    True)
+
                 Dim genParams = New GenericParameters()
                 Dim content = New StringContent(contactParamsJsonString, Encoding.UTF8, "application/json")
-                Dim response = GetJsonObjectFromAPI(Of AddressBookContact)(genParams, R4MEInfrastructureSettings.AddressBook, HttpMethodType.Put, content, errorString)
+
+                Dim response = GetJsonObjectFromAPI(Of AddressBookContact)(
+                    genParams,
+                    R4MEInfrastructureSettings.AddressBook,
+                    HttpMethodType.Put,
+                    content,
+                    errorString)
 
                 Return response
             End If
@@ -2296,7 +2455,9 @@ Namespace Route4MeSDK
         ''' despite are they null Or Not</param>
         ''' <param name="errorString">Error strings</param>
         ''' <returns>Address book contact</returns>
-        Public Function UpdateAddressBookContact(ByVal contact As AddressBookContact, ByVal updatableProperties As List(Of String), ByRef errorString As String) As AddressBookContact
+        Public Function UpdateAddressBookContact(ByVal contact As AddressBookContact,
+                                                 ByVal updatableProperties As List(Of String),
+                                                 ByRef errorString As String) As AddressBookContact
             parseWithNewtonJson = True
 
             Dim myDynamicClass = New Route4MeDynamicClass()
@@ -2310,7 +2471,12 @@ Namespace Route4MeSDK
 
             Dim content = New StringContent(jsonString, Encoding.UTF8, "application/json")
 
-            Dim response = GetJsonObjectFromAPI(Of AddressBookContact)(genParams, R4MEInfrastructureSettings.AddressBook, HttpMethodType.Put, content, errorString)
+            Dim response = GetJsonObjectFromAPI(Of AddressBookContact)(
+                genParams,
+                R4MEInfrastructureSettings.AddressBook,
+                HttpMethodType.Put,
+                content,
+                errorString)
 
             Return response
         End Function
@@ -2348,7 +2514,13 @@ Namespace Route4MeSDK
             Dim request As New RemoveAddressBookContactsRequest() With {
                 .AddressIds = addressIds
             }
-            Dim response As RemoveAddressBookContactsResponse = GetJsonObjectFromAPI(Of RemoveAddressBookContactsResponse)(request, R4MEInfrastructureSettings.AddressBook, HttpMethodType.Delete, errorString)
+
+            Dim response As RemoveAddressBookContactsResponse = GetJsonObjectFromAPI(Of RemoveAddressBookContactsResponse)(
+                request,
+                R4MEInfrastructureSettings.AddressBook,
+                HttpMethodType.Delete,
+                errorString)
+
             If response IsNot Nothing AndAlso response.Status Then
                 Return True
             Else
@@ -2692,12 +2864,19 @@ Namespace Route4MeSDK
                                   ByRef total As UInteger,
                                   ByRef errorString As String) As Order()
             total = 0
-            Dim response As GetOrdersResponse = GetJsonObjectFromAPI(Of GetOrdersResponse)(ordersQuery, R4MEInfrastructureSettings.Order, HttpMethodType.[Get], errorString)
+            Dim response As GetOrdersResponse = GetJsonObjectFromAPI(Of GetOrdersResponse)(
+                ordersQuery,
+                R4MEInfrastructureSettings.Order,
+                HttpMethodType.[Get],
+                errorString)
+
             Dim result As Order() = Nothing
+
             If response IsNot Nothing Then
                 result = response.Results
                 total = response.Total
             End If
+
             Return result
         End Function
 

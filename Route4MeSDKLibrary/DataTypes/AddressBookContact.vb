@@ -270,5 +270,11 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="address_customer_po", EmitDefaultValue:=False)>
         Public Property AddressCustomerPo As String
 
+        ''' <summary>
+        ''' If true, a location assigned to a route.
+        ''' </summary>
+        <DataMember(Name:="is_assigned", EmitDefaultValue:=False)>
+        Public Property IsAssigned As Boolean?
+
     End Class
 End Namespace

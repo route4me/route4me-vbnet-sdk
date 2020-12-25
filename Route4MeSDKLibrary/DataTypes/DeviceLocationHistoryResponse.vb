@@ -3,10 +3,14 @@
 Namespace Route4MeSDK.DataTypes
     <DataContract>
     Public NotInheritable Class DeviceLocationHistoryResponse
-        <DataMember(Name:="data")>
+
+        ''' <summary>
+        ''' The array of the TrackingHistory objects
+        ''' </summary>
+        <DataMember(Name:="data", EmitDefaultValue:=False)>
         Public Property data As TrackingHistory()
 
-        <DataMember(Name:="mmd")>
+        <DataMember(Name:="mmd", EmitDefaultValue:=False)>
         Public Property Mmd As DeviceLocationMmd
     End Class
 End Namespace

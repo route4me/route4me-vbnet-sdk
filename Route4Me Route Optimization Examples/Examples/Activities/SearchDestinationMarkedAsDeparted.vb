@@ -56,7 +56,7 @@ Namespace Route4MeSDKTest.Examples
                 .RouteId = routeId
             }
 
-            Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+            Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
             PrintExampleActivities(activities, errorString)
 

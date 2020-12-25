@@ -15,15 +15,22 @@ Namespace Route4MeSDK.DataTypes.V5
     ''' <para>ALG_LEGACY_DISTRIBUTED = 101</para>
     ''' </summary>
     Public Enum AlgorithmType
-        STATE_NEW = 0
         TSP = 1
+        'single depot, single driver route
         VRP = 2
+        'single depot, multiple driver, no constraints, no time windows, no capacities
         CVRP_TW_SD = 3
+        'single depot, multiple driver, capacitated, time windows
         CVRP_TW_MD = 4
+        'multiple depot, multiple driver, capacitated, time windows
         TSP_TW = 5
+        'single depot, single driver, time windows
         TSP_TW_CR = 6
-        OPTIMIZATION_STATE_IN_QUEUE = 7
+        'single depot, single driver, time windows, continuous optimization (minimal location shifting)
+        BBCVRP = 7
+        'shifts addresses from one route to another over time on a recurring schedule
         ADVANCED_CVRP_TW = 9
+        'optimization with advanced constraints
         ALG_NONE = 100
         ALG_LEGACY_DISTRIBUTED = 101
     End Enum
@@ -149,12 +156,14 @@ Namespace Route4MeSDK.DataTypes.V5
     ''' </remark>
     ''' </summary>
     Public Enum OptimizationState As UInteger
+        StateNew = 0
         Initial = 1
         MatrixProcessing = 2
         Optimizing = 3
         Optimized = 4
         [Error] = 5
         ComputingDirections = 6
+        InQueue = 7
     End Enum
 
     ''' <summary>

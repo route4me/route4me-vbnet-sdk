@@ -17,6 +17,11 @@ Namespace Route4MeSDK.DataTypes
         'single depot, single driver, time windows, continuous optimization (minimal location shifting)
         BBCVRP = 7
         'shifts addresses from one route to another over time on a recurring schedule
+        ADVANCED_CVRP_TW = 9
+        'optimization with advanced constraints
+        ALG_NONE = 100
+        ALG_LEGACY_DISTRIBUTED = 101
+
     End Enum
 
 
@@ -111,17 +116,23 @@ Namespace Route4MeSDK.DataTypes
         Xml
     End Enum
 
-
-    'an optimization problem can be at one state at any given time
-    'every state change invokes a socket notification to the associated member id
-    'every state change invokes a callback webhook event invocation if it was provided during the initial optimization
+    ''' <summary>
+    ''' Enumeration of the optimization states.
+    ''' <para>
+    ''' An optimization problem can be at one state at any given time
+    ''' every state change invokes a socket notification to the associated member id
+    ''' every state change invokes a callback webhook event invocation if it was provided during the initial optimization
+    ''' </para>
+    ''' </summary>
     Public Enum OptimizationState As UInteger
+        StateNew = 0
         Initial = 1
         MatrixProcessing = 2
         Optimizing = 3
         Optimized = 4
         [Error] = 5
         ComputingDirections = 6
+        InQueue = 7
     End Enum
 
     'if the actual polylines of the driving path between all the stops on the route should be returned

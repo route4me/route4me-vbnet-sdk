@@ -44,6 +44,21 @@ Namespace Route4MeSDK.QueryTypes
         Public Property Query As String
 
         ''' <summary>
+        ''' The optimization state: 
+        ''' New = 0,
+        ''' Initial = 1, 
+        ''' MatrixProcessing = 2, 
+        ''' Optimizing = 3, 
+        ''' Optimized = 4, 
+        ''' Error = 5, 
+        ''' ComputingDirections = 6,
+        ''' InQueue = 7
+        ''' </summary>
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="state", EmitDefaultValue:=False)>
+        Public Property State As UInteger?
+
+        ''' <summary>
         ''' If true will be redirected
         ''' </summary>
         <IgnoreDataMember>

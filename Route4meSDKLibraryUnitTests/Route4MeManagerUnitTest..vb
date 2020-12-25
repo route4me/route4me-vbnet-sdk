@@ -139,7 +139,8 @@ End Class
         Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null...")
 
         Dim routeParameters As New RouteParametersQuery() With {
-            .RouteId = routeId
+            .RouteId = routeId,
+            .Directions = 1
         }
 
         routeParameters.Directions = True
@@ -4533,7 +4534,7 @@ End Class
 #End Region
         Dim parameters As New RouteParameters() With {
             .AlgorithmType = AlgorithmType.CVRP_TW_SD,
-            .RouteName = "Trucking SD Multiple TW 09-02-2018 from c# SDK " & DateTime.Now.ToString("yymMddHHmmss"),
+            .RouteName = "Trucking SD Multiple TW from c# SDK " & DateTime.Now.ToString("yymMddHHmmss"),
             .OptimizationQuality = 3,
             .DeviceType = DeviceType.Web.GetEnumDescription(),
             .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
@@ -7445,6 +7446,7 @@ Public Class AddressbookContactsGroup
 
     <TestMethod>
     Public Sub AddCustomDataToContactTest()
+
         Dim route4Me = New Route4MeManager(c_ApiKey)
 
         contact1.address_custom_data = New Dictionary(Of String, Object)() From {
@@ -7453,12 +7455,15 @@ Public Class AddressbookContactsGroup
             {"Parking", "temporarry"}
         }
 
-        Dim errorString As String
-        Dim updatedContact = route4Me.UpdateAddressBookContact(contact1, errorString)
+        Dim updatableProperties = New List(Of String)() From {
+            "address_id",
+            "address_custom_data"
+        }
 
-        Assert.IsNotNull(
-            updatedContact.address_custom_data,
-            "AddCustomDataToContactTest failed. " & errorString)
+        Dim errorString As String = Nothing
+        Dim updatedContact = route4Me.UpdateAddressBookContact(contact1, updatableProperties, errorString)
+
+        Assert.IsNotNull(updatedContact.address_custom_data, "AddCustomDataToContactTest failed. " & errorString)
     End Sub
 
     <TestMethod>
@@ -7661,18 +7666,76 @@ Public Class AddressbookContactsGroup
 
     <TestMethod>
     Public Sub UpdateAddressBookContactTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me = New Route4MeManager(c_ApiKey)
 
-        Assert.IsNotNull(contact1, "contact1 is null..")
+        Assert.IsNotNull(contact1, "contact1 is null.")
 
         contact1.address_group = "Updated"
-        ' Run the query
-        Dim errorString As String = ""
-        Dim updatedContact As AddressBookContact = route4Me.UpdateAddressBookContact(contact1, errorString)
+        contact1.schedule_blacklist = New String() {"2020-03-14", "2020-03-15"}
 
-        Assert.IsNotNull(
-            updatedContact,
-            Convert.ToString("UpdateAddressBookContactTest failed... ") & errorString)
+        contact1.address_custom_data = New Dictionary(Of String, Object) From {
+            {"key1", "value1"},
+            {"key2", "value2"}
+        }
+
+        contact1.local_time_window_start = 25400
+        contact1.local_time_window_end = 26000
+        contact1.AddressCube = 5
+        contact1.AddressPieces = 6
+        contact1.AddressRevenue = 700
+        contact1.AddressWeight = 80
+        contact1.AddressPriority = 9
+
+        Dim updatableProperties = New List(Of String)() From {
+            "address_id",
+            "address_group",
+            "schedule_blacklist",
+            "address_custom_data",
+            "local_time_window_start",
+            "local_time_window_end",
+            "AddressCube",
+            "AddressPieces",
+            "AddressRevenue",
+            "AddressWeight",
+            "AddressPriority",
+            "ConvertBooleansToInteger"
+        }
+        Dim errorString As String = Nothing
+        Dim updatedContact = route4Me.UpdateAddressBookContact(contact1, updatableProperties, errorString)
+
+        Assert.IsNotNull(updatedContact, "UpdateAddressBookContactTest failed. " & errorString)
+        Assert.IsNotNull(updatedContact.schedule_blacklist, "UpdateAddressBookContactTest failed. " & errorString)
+        Assert.IsNotNull(updatedContact.local_time_window_start, "UpdateAddressBookContactTest failed. " & errorString)
+        Assert.IsNotNull(updatedContact.local_time_window_end, "UpdateAddressBookContactTest failed. " & errorString)
+        Assert.IsTrue(updatedContact.AddressCube = 5, "UpdateAddressBookContactTest failed. " & errorString)
+        Assert.IsTrue(updatedContact.AddressPieces = 6, "UpdateAddressBookContactTest failed. " & errorString)
+        Assert.IsTrue(updatedContact.AddressRevenue = 700, "UpdateAddressBookContactTest failed. " & errorString)
+        Assert.IsTrue(updatedContact.AddressWeight = 80, "UpdateAddressBookContactTest failed. " & errorString)
+        Assert.IsTrue(updatedContact.AddressPriority = 9, "UpdateAddressBookContactTest failed. " & errorString)
+
+        contact1.schedule_blacklist = Nothing
+        contact1.address_custom_data = Nothing
+        contact1.local_time_window_start = Nothing
+        contact1.local_time_window_end = Nothing
+        contact1.AddressCube = Nothing
+        contact1.AddressPieces = Nothing
+        contact1.AddressRevenue = Nothing
+        contact1.AddressWeight = Nothing
+        contact1.AddressPriority = Nothing
+
+        Dim errorString1 As String = Nothing
+        Dim updatedContact1 = route4Me.UpdateAddressBookContact(contact1, updatableProperties, errorString1)
+
+        Assert.IsNotNull(updatedContact1, "UpdateAddressBookContactTest failed. " & errorString)
+        Assert.IsNull(updatedContact1.schedule_blacklist, "UpdateAddressBookContactTest failed. " & errorString)
+        Assert.IsNull(updatedContact1.local_time_window_start, "UpdateAddressBookContactTest failed. " & errorString)
+        Assert.IsNull(updatedContact1.local_time_window_end, "UpdateAddressBookContactTest failed. " & errorString)
+        Assert.IsNull(updatedContact1.AddressCube, "UpdateAddressBookContactTest failed. " & errorString)
+        Assert.IsNull(updatedContact1.AddressPieces, "UpdateAddressBookContactTest failed. " & errorString)
+        Assert.IsNull(updatedContact1.AddressRevenue, "UpdateAddressBookContactTest failed. " & errorString)
+        Assert.IsNull(updatedContact1.AddressWeight, "UpdateAddressBookContactTest failed. " & errorString)
+        Assert.IsNull(updatedContact1.AddressPriority, "UpdateAddressBookContactTest failed. " & errorString)
+
     End Sub
 
     <TestMethod>
@@ -9269,7 +9332,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9288,7 +9351,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9353,7 +9416,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         For Each activity As Activity In activities
             Dim activityTime As UInteger = If(activity.ActivityTimestamp IsNot Nothing,
@@ -9376,7 +9439,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9394,7 +9457,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9412,7 +9475,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9424,14 +9487,13 @@ End Class
     Public Sub SearchDestinationDeletedTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim activityParameters As New ActivityParameters() With { _
-            .ActivityType = "delete-destination", _
-            .RouteId = "5C15E83A4BE005BCD1537955D28D51D7" _
+        Dim activityParameters As New ActivityParameters() With {
+            .ActivityType = "delete-destination"
         }
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9443,14 +9505,13 @@ End Class
     Public Sub SearchDestinationInsertedTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim activityParameters As New ActivityParameters() With { _
-            .ActivityType = "insert-destination", _
-            .RouteId = "87B8873BAEA4E09942C68E2C92A9C4B7" _
+        Dim activityParameters As New ActivityParameters() With {
+            .ActivityType = "insert-destination"
         }
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9462,14 +9523,13 @@ End Class
     Public Sub SearchDestinationMarkedAsDepartedTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim activityParameters As New ActivityParameters() With { _
-            .ActivityType = "mark-destination-departed", _
-            .RouteId = "03CEF546324F727239ABA69EFF3766E1" _
+        Dim activityParameters As New ActivityParameters() With {
+            .ActivityType = "mark-destination-departed"
         }
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9487,7 +9547,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9505,7 +9565,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9523,7 +9583,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9541,7 +9601,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9559,7 +9619,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9577,7 +9637,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9595,7 +9655,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9613,7 +9673,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9631,7 +9691,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9649,7 +9709,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9667,7 +9727,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9685,7 +9745,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9703,7 +9763,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9721,7 +9781,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9733,14 +9793,13 @@ End Class
     Public Sub SearchNoteInsertedTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim activityParameters As New ActivityParameters() With { _
-            .ActivityType = "note-insert", _
-            .RouteId = "C3E7FD2F8775526674AE5FD83E25B88A" _
-        }
+        Dim activityParameters As New ActivityParameters() With {
+            .ActivityType = "note-insert"
+         }
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9758,7 +9817,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9776,7 +9835,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9794,7 +9853,7 @@ End Class
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -9806,14 +9865,13 @@ End Class
     Public Sub SearchRouteOwnerChanged()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
-        Dim activityParameters As New ActivityParameters() With { _
-            .ActivityType = "route-owner-changed", _
-            .RouteId = "5C15E83A4BE005BCD1537955D28D51D7" _
+        Dim activityParameters As New ActivityParameters() With {
+            .ActivityType = "route-owner-changed"
         }
 
         ' Run the query
         Dim errorString As String = ""
-        Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+        Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
             activities,
@@ -10258,7 +10316,7 @@ End Class
 
         Assert.IsInstanceOfType(
             response,
-            GetType(GetDeviceLocationHistoryResponse),
+            GetType(DeviceLocationHistoryResponse),
             "GetDeviceHistoryTimeRangeTest failed. " & errorString
         )
     End Sub

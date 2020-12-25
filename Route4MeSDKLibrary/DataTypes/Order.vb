@@ -181,10 +181,16 @@ Namespace Route4MeSDK.DataTypes
         Public Property order_icon As String
 
         ''' <summary>
-        ''' Order icon
+        ''' Custom user fields.
         ''' </summary>
         <DataMember(Name:="custom_user_fields", EmitDefaultValue:=False)>
         Public Property custom_user_fields As OrderCustomField()
+
+        ''' <summary>
+        ''' How many times the order visited.
+        ''' </summary>
+        <DataMember(Name:="visited_count", EmitDefaultValue:=False)>
+        Public Property membVisitedCount As Integer
 
     End Class
 End Namespace

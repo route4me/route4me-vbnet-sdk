@@ -9,13 +9,13 @@ Namespace Route4MeSDK.DataTypes
         ''' <summary>
         ''' Member data.
         ''' </summary>
-        <DataMember(Name:="member_data")>
+        <DataMember(Name:="member_data", EmitDefaultValue:=False)>
         Public Property MemberData As User
 
         ''' <summary>
         ''' User tracking.
         ''' </summary>
-        <DataMember(Name:="tracking")>
+        <DataMember(Name:="tracking", EmitDefaultValue:=False)>
         Public Property UserTracking As UserTracking
 
         ''' <summary>
@@ -30,73 +30,109 @@ Namespace Route4MeSDK.DataTypes
         ''' <summary>
         ''' Position longitude
         ''' </summary>
-        <DataMember(Name:="position_lng")>
+        <DataMember(Name:="position_lng", EmitDefaultValue:=False)>
         Public Property PositionLongitude As Double
 
         ''' <summary>
         ''' Position latitude
         ''' </summary>
-        <DataMember(Name:="position_lat")>
+        <DataMember(Name:="position_lat", EmitDefaultValue:=False)>
         Public Property PositionLatitude As Double
 
         ''' <summary>
         ''' Movement direction in the degrees (north = 0, clockwise).
         ''' </summary>
-        <DataMember(Name:="direction")>
+        <DataMember(Name:="direction", EmitDefaultValue:=False)>
         Public Property Direction As Integer?
 
         ''' <summary>
         ''' Data source name.
         ''' </summary>
-        <DataMember(Name:="data_source_name")>
+        <DataMember(Name:="data_source_name", EmitDefaultValue:=False)>
         Public Property DataSourceName As String
 
         ''' <summary>
         ''' Activity timestamp (EPOCH).
         ''' </summary>
-        <DataMember(Name:="activity_timestamp")>
+        <DataMember(Name:="activity_timestamp", EmitDefaultValue:=False)>
         Public Property ActivityTimestamp As Long?
 
         ''' <summary>
         ''' Device timestamp (EPOCH).
         ''' </summary>
-        <DataMember(Name:="device_timestamp")>
+        <DataMember(Name:="device_timestamp", EmitDefaultValue:=False)>
         Public Property DeviceTimestamp As Long?
 
         ''' <summary>
         ''' Route ID.
         ''' </summary>
-        <DataMember(Name:="route_id")>
+        <DataMember(Name:="route_id", EmitDefaultValue:=False)>
         Public Property RouteId As String
 
         ''' <summary>
         ''' Device ID.
         ''' </summary>
-        <DataMember(Name:="device_id")>
+        <DataMember(Name:="device_id", EmitDefaultValue:=False)>
         Public Property DeviceId As String
 
         ''' <summary>
         ''' Vehicle movement speed.
         ''' </summary>
-        <DataMember(Name:="speed")>
+        <DataMember(Name:="speed", EmitDefaultValue:=False)>
         Public Property Speed As Double?
+
+        ''' <summary>
+        ''' Calculated speed
+        ''' </summary>
+        <DataMember(Name:="calculated_speed", EmitDefaultValue:=False)>
+        Public Property CalculatedSpeed As String
+
+        ''' <summary>
+        ''' Speed Accuracy
+        ''' </summary>
+        <DataMember(Name:="speed_accuracy", EmitDefaultValue:=False)>
+        Public Property SpeedAccuracy As String
+
+        ''' <summary>
+        ''' Speed Unit
+        ''' </summary>
+        <DataMember(Name:="speed_unit", EmitDefaultValue:=False)>
+        Public Property SpeedUnit As String
+
+        ''' <summary>
+        ''' Bearing
+        ''' </summary>
+        <DataMember(Name:="bearing", EmitDefaultValue:=False)>
+        Public Property Bearing As Integer?
+
+        ''' <summary>
+        ''' Bearing accuracy
+        ''' </summary>
+        <DataMember(Name:="bearing_accuracy", EmitDefaultValue:=False)>
+        Public Property BearingAccuracy As String
+
+        ''' <summary>
+        ''' Accuracy
+        ''' </summary>
+        <DataMember(Name:="accuracy", EmitDefaultValue:=False)>
+        Public Property Accuracy As String
 
         ''' <summary>
         ''' Vehicle movement speed.
         ''' </summary>
-        <DataMember(Name:="altitude")>
+        <DataMember(Name:="altitude", EmitDefaultValue:=False)>
         Public Property Altitude As Integer?
 
         ''' <summary>
         ''' Footsteps.
         ''' </summary>
-        <DataMember(Name:="footsteps")>
+        <DataMember(Name:="footsteps", EmitDefaultValue:=False)>
         Public Property Footsteps As Integer?
 
         ''' <summary>
         '''User email.
         ''' </summary>
-        <DataMember(Name:="custom_data")>
+        <DataMember(Name:="custom_data", EmitDefaultValue:=False)>
         Public Property CustomData As Dictionary(Of String, String)
 
         ''' <summary>
@@ -114,7 +150,7 @@ Namespace Route4MeSDK.DataTypes
         ''' <summary>
         ''' Vehicle ID.
         ''' </summary>
-        <DataMember(Name:="vehicle_id")>
+        <DataMember(Name:="vehicle_id", EmitDefaultValue:=False)>
         Public Property VehicleId As String
 
         ''' <summary>
@@ -126,7 +162,7 @@ Namespace Route4MeSDK.DataTypes
         ''' <summary>
         ''' Device type.
         ''' </summary>
-        <DataMember(Name:="device_type")>
+        <DataMember(Name:="device_type", EmitDefaultValue:=False)>
         Public Property DeviceType As String
 
         ''' <summary>
@@ -136,9 +172,15 @@ Namespace Route4MeSDK.DataTypes
         Public Property MemberId As Integer?
 
         ''' <summary>
+        ''' Root member ID.
+        ''' </summary>
+        <DataMember(Name:="root_member_id", EmitDefaultValue:=False)>
+        Public Property RootMemberId As Integer?
+
+        ''' <summary>
         ''' Activity timestamp friendly.
         ''' </summary>
-        <DataMember(Name:="activity_timestamp_friendly")>
+        <DataMember(Name:="activity_timestamp_friendly", EmitDefaultValue:=False)>
         Public Property ActivityTimestampFriendly As String
 
         ''' <summary>

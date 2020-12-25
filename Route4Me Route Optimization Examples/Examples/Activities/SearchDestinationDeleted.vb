@@ -32,7 +32,7 @@ Namespace Route4MeSDKTest.Examples
                 .ActivityType = "delete-destination",
                 .RouteId = routeId
             }
-            Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+            Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
             PrintExampleActivities(activities, errorString)
 

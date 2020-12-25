@@ -18,7 +18,7 @@ Namespace Route4MeSDKTest.Examples
 
             ' Run the query
             Dim errorString As String = ""
-            Dim activities As Activity() = route4Me.GetActivityFeed(activityParameters, errorString)
+            Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
             Console.WriteLine("")
 

@@ -1,18 +1,20 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports System.Runtime.Serialization
+
 Namespace Route4MeSDK.QueryTypes
+
     ''' <summary>
     ''' Route parameters accepted by endpoints
     ''' </summary>
-    <DataContract> _
+    <DataContract>
     Public NotInheritable Class RouteParametersQuery
         Inherits GenericParameters
 
         ''' <summary>
         ''' Route Identifier
         ''' </summary>
-        <IgnoreDataMember> _
-        <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)> _
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
         Public Property RouteId As String
 
         <IgnoreDataMember>
@@ -20,7 +22,7 @@ Namespace Route4MeSDK.QueryTypes
         Public Property RouteDestinationId As Integer?
 
         ''' <summary>
-        '''  	Pass True to return directions and the route path
+        ''' Pass True to return directions and the route path
         ''' </summary>
         <IgnoreDataMember>
         <HttpQueryMemberAttribute(Name:="directions", EmitDefaultValue:=False)>
@@ -29,8 +31,8 @@ Namespace Route4MeSDK.QueryTypes
         ''' <summary>
         ''' "None" - no path output. "Points" - points path output
         ''' </summary>
-        <IgnoreDataMember> _
-        <HttpQueryMemberAttribute(Name:="route_path_output", EmitDefaultValue:=False)> _
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="route_path_output", EmitDefaultValue:=False)>
         Public Property RoutePathOutput As String
 
         ''' <summary>
@@ -41,14 +43,16 @@ Namespace Route4MeSDK.QueryTypes
         Public Property DeviceTrackingHistory As Boolean?
 
         ''' <summary>
-        ''' The number of existing routes that should be returned per response when looking at a list of all the routes.
+        ''' The number of existing routes that should be returned per response 
+        ''' when looking at a list of all the routes.
         ''' </summary>
         <IgnoreDataMember>
         <HttpQueryMemberAttribute(Name:="limit", EmitDefaultValue:=False)>
         Public Property Limit As UInteger?
 
         ''' <summary>
-        ''' The page number for route listing pagination. Increment the offset by the limit number to move to the next page.
+        ''' The page number for route listing pagination. 
+        ''' Increment the offset by the limit number to move to the next page.
         ''' </summary>
         <IgnoreDataMember>
         <HttpQueryMemberAttribute(Name:="offset", EmitDefaultValue:=False)>
@@ -63,28 +67,32 @@ Namespace Route4MeSDK.QueryTypes
         Public Property EndDate As String
 
         ''' <summary>
-        ''' Output addresses and directions in the original optimization request sequence.
+        ''' Output addresses and directions in the original optimization request sequence. 
+        ''' This is to allow us to compare routes before & after optimization.
         ''' </summary>
         <IgnoreDataMember>
         <HttpQueryMemberAttribute(Name:="original", EmitDefaultValue:=False)>
         Public Property Original As Boolean?
 
         ''' <summary>
-        ''' Output route and stop-specific notes. The notes will have timestamps, note types, and geospatial information if available
+        ''' Output route and stop-specific notes. The notes will have timestamps, 
+        ''' note types, and geospatial information if available
         ''' </summary>
         <IgnoreDataMember>
         <HttpQueryMemberAttribute(Name:="notes", EmitDefaultValue:=False)>
         Public Property Notes As Boolean?
 
         ''' <summary>
-        ''' Search query
+        ''' Output route and stop-specific notes. The notes will have timestamps, 
+        ''' note types, and geospatial information if available.
         ''' </summary>
-        <IgnoreDataMember> _
-        <HttpQueryMemberAttribute(Name:="query", EmitDefaultValue:=False)> _
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="query", EmitDefaultValue:=False)>
         Public Property Query As String
 
         ''' <summary>
-        ''' Updating a route supports the reoptimize=1 parameter, which reoptimizes only that route. Also supports the parameters from GET.
+        ''' Updating a route supports the reoptimize=1 parameter, which reoptimizes only that route. 
+        ''' Also supports the parameters from GET.
         ''' </summary>
         <IgnoreDataMember>
         <HttpQueryMemberAttribute(Name:="reoptimize", EmitDefaultValue:=False)>
@@ -112,21 +120,26 @@ Namespace Route4MeSDK.QueryTypes
         Public Property BundlingItems As Boolean?
 
         ''' <summary>
-        ''' For /api.v3/route/reoptimize_2.php endpoint. "Distance", "Time"
+        ''' The driving directions will be generated biased for this selection. This has no impact on route sequencing.
+        ''' <para>Available values </para>
+        ''' <value>'Distance', 'Time', 'timeWithTraffic'.</value>
+        ''' <remarks><para>Query parameter.</para></remarks>
         ''' </summary>
-        <IgnoreDataMember> _
-        <HttpQueryMemberAttribute(Name:="optimize", EmitDefaultValue:=False)> _
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="optimize", EmitDefaultValue:=False)>
         Public Property Optimize As String
 
         ''' <summary>
         ''' For /actions/route/share_route.php endpoint. "json", "xml"
         ''' </summary>
-        <IgnoreDataMember> _
-        <HttpQueryMemberAttribute(Name:="response_format", EmitDefaultValue:=False)> _
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="response_format", EmitDefaultValue:=False)>
         Public Property ResponseFormat As String
 
         ''' <summary>
-        ''' By sending recompute_directions=1 we request that the route directions be recomputed (note that this does happen automatically if certain properties of the route are updated, such as stop sequence_no changes or round-tripness)
+        ''' By sending recompute_directions=1 we request that the route directions be recomputed 
+        ''' (note that this does happen automatically if certain properties of the route are updated, 
+        ''' such as stop sequence_no changes or round-tripness)
         ''' </summary>
         <IgnoreDataMember>
         <HttpQueryMemberAttribute(Name:="recompute_directions", EmitDefaultValue:=False)>
@@ -134,7 +147,8 @@ Namespace Route4MeSDK.QueryTypes
 
         ''' <summary>
         ''' Route Parameters to update.
-        ''' (After a PUT there is no guarantee that the route_destination_id values are preserved! It may create copies resulting in new destination IDs, especially when dealing with multiple depots.)
+        ''' (After a PUT there is no guarantee that the route_destination_id values are preserved! 
+        ''' It may create copies resulting in new destination IDs, especially when dealing with multiple depots.)
         ''' </summary>
         <DataMember(Name:="parameters", EmitDefaultValue:=False)>
         Public Property Parameters As RouteParameters
