@@ -10307,8 +10307,9 @@ End Class
             .Format = "json",
             .RouteId = tdr.SDRT_route.RouteID,
             .TimePeriod = "custom",
-            .StartDate = R4MeUtils.ConvertToUnixTimestamp(dtNow - tsp2days),
-            .EndDate = R4MeUtils.ConvertToUnixTimestamp(dtNow + tsp2days)
+            .StartDate = 0,
+            .EndDate = R4MeUtils.ConvertToUnixTimestamp(dtNow + tsp2days),
+            .DeviceType = "web"
         }
 
         Dim errorString As String = Nothing
