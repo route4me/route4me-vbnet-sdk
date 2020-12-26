@@ -9726,7 +9726,7 @@ End Class
         }
 
         ' Run the query
-        Dim errorString As String = ""
+        Dim errorString As String = Nothing
         Dim activities As Activity() = route4Me.GetActivities(activityParameters, errorString)
 
         Assert.IsInstanceOfType(
