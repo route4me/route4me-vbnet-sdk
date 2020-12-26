@@ -10298,7 +10298,7 @@ End Class
 
     <TestMethod>
     Public Sub GetDeviceHistoryTimeRangeTest()
-        Dim route4Me = New Route4MeManager("11111111111111111111111111111111")
+        Dim route4Me = New Route4MeManager(ApiKeys.actualApiKey)
 
         Dim tsp2days = New TimeSpan(2, 0, 0, 0)
         Dim dtNow As DateTime = DateTime.Now

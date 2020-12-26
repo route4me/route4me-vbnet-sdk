@@ -972,24 +972,6 @@ Namespace Route4MeSDK
 
         End Class
 
-        'Public Function GetDeviceLocationHistory(ByVal gpsParameters As GPSParameters,
-        '                                         ByRef errorString As String) As Object
-
-        '    Dim result = GetJsonObjectFromAPI(Of GetDeviceLocationHistoryResponse)(
-        '                                                    gpsParameters,
-        '                                                    R4MEInfrastructureSettings.DeviceLocation,
-        '                                                    HttpMethodType.[Get],
-        '                                                    False,
-        '                                                    errorString)
-
-        '    Dim dataLength = (CType(result, GetDeviceLocationHistoryResponse)).data.Length
-
-        '    Return If(
-        '        result Is Nothing AndAlso errorString <> "",
-        '        errorString,
-        '        If((dataLength = 0), Nothing, CObj(result))
-        '    )
-        'End Function
 
         ''' <summary>
 		''' Returns device location history from the specified date range.
@@ -1013,11 +995,7 @@ Namespace Route4MeSDK
             Return If(
                         result Is Nothing AndAlso errorString <> "",
                         Nothing,
-                        If(
-                            (CType(result, DeviceLocationHistoryResponse)).data.Length = 0,
-                            Nothing,
-                            CType(result, DeviceLocationHistoryResponse)
-                          )
+                        result
                     )
         End Function
 
