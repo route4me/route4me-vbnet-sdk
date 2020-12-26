@@ -79,7 +79,7 @@ End Class
 
         Dim routeParameters As New RouteParametersQuery() With {
             .StartDate = "2019-08-01",
-            .EndDate = "2019-08-05"
+            .EndDate = "2020-12-25"
         }
 
         ' Run the query
