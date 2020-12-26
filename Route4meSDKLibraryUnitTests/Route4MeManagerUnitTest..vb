@@ -10296,16 +10296,15 @@ End Class
                   False)
     End Function
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GetDeviceHistoryTimeRangeTest()
-        Dim route4Me = New Route4MeManager(c_ApiKey)
+        Dim route4Me = New Route4MeManager("11111111111111111111111111111111")
 
         Dim tsp2days = New TimeSpan(2, 0, 0, 0)
         Dim dtNow As DateTime = DateTime.Now
 
         Dim gpsParameters = New GPSParameters With {
             .Format = "json",
-            .RouteId = tdr.SDRT_route.RouteID,
             .TimePeriod = "custom",
             .StartDate = 0,
             .EndDate = R4MeUtils.ConvertToUnixTimestamp(dtNow + tsp2days),
