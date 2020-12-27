@@ -188,6 +188,7 @@
     <Compile Include="Examples\MemberConfiguration\GetSpecificConfigurationKeyData.vb" />
     <Compile Include="Examples\MemberConfiguration\RemoveConfigurationKey.vb" />
     <Compile Include="Examples\MemberConfiguration\UpdateConfigurationKey.vb" />
+    <Compile Include="Examples\Routes\ReoptimizeRemainingStops.vb" />
     <Compile Include="Examples\Users\AddEditCustomDataToUser.vb" />
     <Compile Include="Examples\Users\CreateUser.vb" />
     <Compile Include="Examples\Users\DeleteUser.vb" />

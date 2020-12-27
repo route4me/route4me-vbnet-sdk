@@ -22,6 +22,11 @@ Route4Me Route Optimization Examples
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
+<member name="T:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples">
+ <summary>
+ Reoptimize non visited addresses of the active route
+ </summary>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetActivitiesByMember">
  <summary>
  Get activities by member.

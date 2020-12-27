@@ -13,7 +13,7 @@ Namespace Route4MeSDKTest
             ' "api4" - execute all the examples related to the API 4 
             ' "api5" - execute all the examples related to the API 5 
             ' a method name - execute a specifed example method (e.g. "GetTeamMemberById")
-            Dim executeOption As String = "GetVehicles"
+            Dim executeOption As String = "ReoptimizeRemainingStops"
 
             If executeOption.ToLower() = "api4" Then
 #Region "API 4"
@@ -89,6 +89,7 @@ Namespace Route4MeSDKTest
                 examples.ReoptimizeRoute()
                 examples.ResequenceReoptimizeRoute()
                 'examples.ResequenceRouteDestinations()
+                examples.ReoptimizeRemainingStops()
                 examples.RouteOriginParameter()
                 examples.ShareRoute()
                 examples.UnlinkRouteFromOptimization()

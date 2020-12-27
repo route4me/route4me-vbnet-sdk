@@ -228,6 +228,43 @@ End Class
     End Sub
 
     <TestMethod>
+    Public Sub ReoptimizeRemainingStopsTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        Dim route = tdr2.SDRT_route
+
+        Dim visitedParams = New AddressParameters With {
+            .RouteId = route.RouteID,
+            .AddressId = CInt(route.Addresses(1).RouteDestinationId),
+            .IsVisited = True
+        }
+
+        Dim errorString As String = Nothing
+        Dim result As Integer = route4Me.MarkAddressVisited(visitedParams, errorString)
+
+        Assert.IsNotNull(result, "MarkAddressVisitedTest. " & errorString)
+        visitedParams = New AddressParameters With {
+            .RouteId = route.RouteID,
+            .AddressId = CInt(route.Addresses(2).RouteDestinationId),
+            .IsVisited = True
+        }
+
+        result = route4Me.MarkAddressVisited(visitedParams, errorString)
+
+        Assert.IsNotNull(result, "MarkAddressVisitedTest. " & errorString)
+
+        Dim routeParameters = New RouteParametersQuery() With {
+            .RouteId = route.RouteID,
+            .ReOptimize = True,
+            .Remaining = True
+        }
+
+        Dim updatedRoute = route4Me.UpdateRoute(routeParameters, errorString)
+
+        Assert.IsNotNull(updatedRoute, "Cannot update the route " & route.RouteID)
+    End Sub
+
+    <TestMethod>
     Public Sub UpdateRouteTest()
         Dim route4Me As New Route4MeManager(c_ApiKey)
 

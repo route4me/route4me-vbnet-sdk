@@ -83,6 +83,19 @@ Namespace Route4MeSDK.QueryTypes
         Public Property Notes As Boolean?
 
         ''' <summary>
+        ''' If true, the order inventory info included in the response.
+        ''' </summary>
+        <HttpQueryMemberAttribute(Name:="order_inventory", EmitDefaultValue:=False)>
+        Public Property OrderInventory As Boolean?
+
+        ''' <summary>
+        ''' If true, not visited destinations of an active route re-optimized (re-sequenced).
+        ''' </summary>
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="remaining", EmitDefaultValue:=False)>
+        Public Property Remaining As Boolean?
+
+        ''' <summary>
         ''' Output route and stop-specific notes. The notes will have timestamps, 
         ''' note types, and geospatial information if available.
         ''' </summary>

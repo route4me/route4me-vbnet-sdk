@@ -1590,6 +1590,149 @@ Route4MeSDKLibrary
  If true, the member subscription Is commercial.
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse">
+ <summary>
+ Response for the user's authentication, registration, session validation process
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.Status">
+ <summary>
+ Process status
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.GeocodingService">
+ <summary>
+ Geocoding service
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.SessionId">
+ <summary>
+ Session ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.SessionGuid">
+ <summary>
+ Session GUID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.MemberId">
+ <summary>
+ Member ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.ApiKey">
+ <summary>
+ User's API key
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.TrackingTtl">
+ <summary>
+ Tracking TTL
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.GeofencePolygonShape">
+ <summary>
+ Geofence polygon shape. Available values: circle, poly, rect.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.GeofencePolygonSize">
+ <summary>
+ Geofence polygon size
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.GeofenceTimeOnsiteTriggerSecs">
+ <summary>
+ Geofence onsite trigger time (seconds)
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.GeofenceMinimumTriggerSpeed">
+ <summary>
+ Geofence's minimum trigger speed
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.IsSubscriptionPastDue">
+ <summary>
+ True if the subscription is past due
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.VisitedDepartedEnabled">
+ <summary>
+ If true, triggering of the visited and departed activities is enabled.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.LongPressEnabled">
+ <summary>
+ If true, long press is enabled
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.AccountTypeId">
+ <summary>
+ The account type ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.AccountTypeAlias">
+ <summary>
+ Account type alias
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.MemberType">
+ <summary>
+ Member type. Available values:
+ <para>PRIMARY_ACCOUNT, SUB_ACCOUNT_ADMIN, SUB_ACCOUNT_REGIONAL_MANAGER,</para>
+ <para>SUB_ACCOUNT_DISPATCHER, SUB_ACCOUNT_PLANNER, SUB_ACCOUNT_DRIVER,</para>
+ <para>SUB_ACCOUNT_ANALYSTSUB_ACCOUNT_VENDORSUB_ACCOUNT_CUSTOMER_SERVICE</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.MaxStopsPerRoute">
+ <summary>
+ Maximum allowed number of the stops per route.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.MaxRoutes">
+ <summary>
+ Maximum allowed number of the generated routes
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.RoutesPlanned">
+ <summary>
+ Number of the planned routes by the user
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.PreferredUnits">
+ <summary>
+ Preferred units (mi, km)
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.PreferredLanguage">
+ <summary>
+ Preferred language (en, fr)
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.HideRoutedAddresses">
+ <summary>
+ If true, routed addresses will be hidden.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.HideVisitedAddresses">
+ <summary>
+ If true, visited addresses will be hidden.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.HideNonfutureAddresses">
+ <summary>
+ If true, nonfuture routes will be hidden.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.ReadonlyUser">
+ <summary>
+ 
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponse.AutoLogoutTs">
+ <summary>
+ Time in seconds. A user will be logged out after been inactive during specified by this parameter seconds.
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.MemberResponseV4">
  <summary>
  Response from the user endpoint (/api.v4/user.php) request
@@ -4376,6 +4519,16 @@ User email.
  <summary>
  Output route and stop-specific notes. The notes will have timestamps, 
  note types, and geospatial information if available
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.OrderInventory">
+ <summary>
+ If true, the order inventory info included in the response.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Remaining">
+ <summary>
+ If true, not visited destinations of an active route re-optimized (re-sequenced).
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Query">
