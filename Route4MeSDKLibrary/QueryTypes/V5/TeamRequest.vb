@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.Serialization
 Imports System.Runtime.InteropServices
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5
-Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
+'Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 
 Namespace Route4MeSDK.QueryTypes.V5
 

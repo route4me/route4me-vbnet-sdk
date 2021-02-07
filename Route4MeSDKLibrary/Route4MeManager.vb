@@ -208,13 +208,21 @@ Namespace Route4MeSDK
 
         Public Function GetRouteId(optimizationProblemId As String, ByRef errorString As String) As String
             Dim genericParameters As New GenericParameters()
+
             genericParameters.ParametersCollection.Add("optimization_problem_id", optimizationProblemId)
             genericParameters.ParametersCollection.Add("wait_for_final_state", "1")
-            Dim response As DataObject = GetJsonObjectFromAPI(Of DataObject)(genericParameters, R4MEInfrastructureSettings.ApiHost, HttpMethodType.[Get], errorString)
+
+            Dim response As DataObject = GetJsonObjectFromAPI(Of DataObject)(
+                genericParameters,
+                R4MEInfrastructureSettings.ApiHost,
+                HttpMethodType.[Get],
+                errorString)
+
             If response IsNot Nothing AndAlso response.Routes IsNot Nothing AndAlso response.Routes.Length > 0 Then
                 Dim routeId As String = response.Routes(0).RouteID
                 Return routeId
             End If
+
             Return Nothing
         End Function
 
@@ -421,15 +429,7 @@ Namespace Route4MeSDK
             Inherits GenericParameters
 
             <HttpQueryMemberAttribute(Name:="route_id", EmitDefaultValue:=False)>
-            Public Property RouteId() As String
-                Get
-                    Return m_RouteId
-                End Get
-                Set(value As String)
-                    m_RouteId = value
-                End Set
-            End Property
-            Private m_RouteId As String
+            Public Property RouteId As String
 
             <HttpQueryMemberAttribute(Name:="route_destination_id", EmitDefaultValue:=False)>
             Public Property RouteDestinationId As Integer?
@@ -610,7 +610,11 @@ Namespace Route4MeSDK
                 propInfo.SetValue(request, propInfo.GetValue(addressParameters))
             Next
 
-            Dim dataObject = GetJsonObjectFromAPI(Of DataObject)(request, R4MEInfrastructureSettings.ApiHost, HttpMethodType.Put, errorString)
+            Dim dataObject = GetJsonObjectFromAPI(Of DataObject)(
+                request,
+                R4MEInfrastructureSettings.ApiHost,
+                HttpMethodType.Put,
+                errorString)
 
             Return If(dataObject?.Addresses?.Where(Function(x) x.RouteDestinationId = addressParameters.RouteDestinationId).FirstOrDefault(), Nothing)
         End Function
@@ -626,9 +630,17 @@ Namespace Route4MeSDK
             keyValues.Add(New KeyValuePair(Of String, String)("depot_lat", mergeRoutesParameters.DepotLat.ToString()))
             keyValues.Add(New KeyValuePair(Of String, String)("depot_lng", mergeRoutesParameters.DepotLng.ToString()))
 
+            keyValues.Add(New KeyValuePair(Of String, String)("to_route_id", mergeRoutesParameters.ToRouteId.ToString()))
+            keyValues.Add(New KeyValuePair(Of String, String)("route_destination_id", mergeRoutesParameters.RouteDestinationId.ToString()))
+
             Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
 
-            Dim response As StatusResponse = GetJsonObjectFromAPI(Of StatusResponse)(roParames, R4MEInfrastructureSettings.MergeRoutes, HttpMethodType.Post, httpContent, errorString)
+            Dim response As StatusResponse = GetJsonObjectFromAPI(Of StatusResponse)(
+                roParames,
+                R4MEInfrastructureSettings.MergeRoutes,
+                HttpMethodType.Post,
+                httpContent,
+                errorString)
 
             If response IsNot Nothing AndAlso response.Status Then
                 Return True
@@ -701,7 +713,11 @@ Namespace Route4MeSDK
             Next
 
             request.Addresses = lsAddresses.ToArray()
-            Dim route1 As DataObjectRoute = GetJsonObjectFromAPI(Of DataObjectRoute)(request, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, errorString)
+            Dim route1 As DataObjectRoute = GetJsonObjectFromAPI(Of DataObjectRoute)(
+                request,
+                R4MEInfrastructureSettings.RouteHost,
+                HttpMethodType.Put,
+                errorString)
 
             Return route1
         End Function
@@ -711,7 +727,12 @@ Namespace Route4MeSDK
             keyValues.Add(New KeyValuePair(Of String, String)("recipient_email", Email))
             Dim httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
 
-            Dim response As StatusResponse = GetJsonObjectFromAPI(Of StatusResponse)(roParames, R4MEInfrastructureSettings.RouteSharing, HttpMethodType.Post, httpContent, errorString)
+            Dim response As StatusResponse = GetJsonObjectFromAPI(Of StatusResponse)(
+                roParames,
+                R4MEInfrastructureSettings.RouteSharing,
+                HttpMethodType.Post,
+                httpContent,
+                errorString)
 
             If response IsNot Nothing AndAlso response.Status Then
                 Return True
@@ -748,34 +769,24 @@ Namespace Route4MeSDK
             '.RouteDestinationId = routeParames.RouteDestinationId
             '}
 
-            Dim response As RouteResponse = GetJsonObjectFromAPI(Of RouteResponse)(request, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, False, errorString)
+            Dim response As RouteResponse = GetJsonObjectFromAPI(Of RouteResponse)(
+                request,
+                R4MEInfrastructureSettings.RouteHost,
+                HttpMethodType.Put, False,
+                errorString)
 
             Return response
         End Function
 
         <DataContract>
         Private NotInheritable Class DuplicateRouteResponse
+
             <DataMember(Name:="optimization_problem_id")>
-            Public Property OptimizationProblemId() As String
-                Get
-                    Return m_OptimizationProblemId
-                End Get
-                Set(value As String)
-                    m_OptimizationProblemId = value
-                End Set
-            End Property
-            Private m_OptimizationProblemId As String
+            Public Property OptimizationProblemId As String
 
             <DataMember(Name:="success")>
-            Public Property Success() As [Boolean]
-                Get
-                    Return m_Success
-                End Get
-                Set(value As [Boolean])
-                    m_Success = value
-                End Set
-            End Property
-            Private m_Success As [Boolean]
+            Public Property Success As Boolean
+
         End Class
 
         Public Function DuplicateRoute(queryParameters As RouteParametersQuery, ByRef errorString As String) As String
@@ -802,67 +813,48 @@ Namespace Route4MeSDK
 
         <DataContract>
         Private NotInheritable Class DeleteRouteResponse
+
             <DataMember(Name:="deleted")>
-            Public Property Deleted() As [Boolean]
-                Get
-                    Return m_Deleted
-                End Get
-                Set(value As [Boolean])
-                    m_Deleted = value
-                End Set
-            End Property
-            Private m_Deleted As [Boolean]
+            Public Property Deleted As Boolean
 
             <DataMember(Name:="errors")>
-            Public Property Errors() As List(Of [String])
-                Get
-                    Return m_Errors
-                End Get
-                Set(value As List(Of [String]))
-                    m_Errors = value
-                End Set
-            End Property
-            Private m_Errors As List(Of [String])
+            Public Property Errors As List(Of String)
 
             <DataMember(Name:="route_id")>
-            Public Property routeId() As String
-                Get
-                    Return m_routeId
-                End Get
-                Set(value As String)
-                    m_routeId = value
-                End Set
-            End Property
-            Private m_routeId As String
+            Public Property routeId As String
 
             <DataMember(Name:="route_ids")>
-            Public Property routeIds() As String()
-                Get
-                    Return m_routeIds
-                End Get
-                Set(value As String())
-                    m_routeIds = value
-                End Set
-            End Property
-            Private m_routeIds As String()
+            Public Property routeIds As String()
+
         End Class
 
         Public Function DeleteRoutes(routeIds As String(), ByRef errorString As String) As String()
             Dim str_route_ids As String = ""
+
             For Each routeId As String In routeIds
                 If str_route_ids.Length > 0 Then
                     str_route_ids += ","
                 End If
                 str_route_ids += routeId
             Next
+
             Dim genericParameters As New GenericParameters()
             genericParameters.ParametersCollection.Add("route_id", str_route_ids)
-            Dim response As DeleteRouteResponse = GetJsonObjectFromAPI(Of DeleteRouteResponse)(genericParameters, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Delete, errorString)
+
+            Dim response As DeleteRouteResponse = GetJsonObjectFromAPI(Of DeleteRouteResponse)(
+                genericParameters,
+                R4MEInfrastructureSettings.RouteHost,
+                HttpMethodType.Delete,
+                errorString)
+
             Dim deletedRouteIds As String() = Nothing
+
             If response IsNot Nothing Then
                 deletedRouteIds = response.routeIds
             End If
+
             Return deletedRouteIds
+
         End Function
 
         ''' <summary>
@@ -872,7 +864,12 @@ Namespace Route4MeSDK
         ''' <param name="errorString">Error string</param>
         ''' <returns>Schedule calendar of the member</returns>
         Public Function GetScheduleCalendar(ByVal scheduleCalendarParams As ScheduleCalendarQuery, ByRef errorString As String) As ScheduleCalendarResponse
-            Dim response = GetJsonObjectFromAPI(Of ScheduleCalendarResponse)(scheduleCalendarParams, R4MEInfrastructureSettings.ScheduleCalendar, HttpMethodType.[Get], errorString)
+
+            Dim response = GetJsonObjectFromAPI(Of ScheduleCalendarResponse)(
+                scheduleCalendarParams,
+                R4MEInfrastructureSettings.ScheduleCalendar,
+                HttpMethodType.[Get],
+                errorString)
 
             Return response
         End Function

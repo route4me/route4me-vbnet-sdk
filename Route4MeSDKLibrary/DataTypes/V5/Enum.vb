@@ -246,6 +246,32 @@ Namespace Route4MeSDK.DataTypes.V5
     End Enum
 
     ''' <summary>
+    ''' Address stop type.
+    ''' </summary>
+    Public Enum AddressStopType
+        <Description("DELIVERY")>
+        Delivery
+
+        <Description("PICKUP")>
+        PickUp
+
+        <Description("BREAK")>
+        Break
+
+        <Description("MEETUP")>
+        MeetUp
+
+        <Description("SERVICE")>
+        Service
+
+        <Description("VISIT")>
+        Visit
+
+        <Description("DRIVEBY")>
+        DriverBy
+    End Enum
+
+    ''' <summary>
     ''' Enumeration of the territory types
     ''' </summary>
     Public Enum TerritoryType As UInteger

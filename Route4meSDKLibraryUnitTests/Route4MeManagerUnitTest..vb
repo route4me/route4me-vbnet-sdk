@@ -1,12 +1,9 @@
-﻿Imports System.Text
-Imports Microsoft.VisualStudio.TestTools.UnitTesting
-Imports Route4MeSDKLibrary.Route4MeSDK
+﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.FastProcessing
 Imports System.IO
 Imports System.Runtime.Serialization
-Imports System.Reflection
 Imports System.CodeDom.Compiler
 Imports System.Threading
 Imports CsvHelper
@@ -4146,13 +4143,13 @@ End Class
             .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.[Date].AddDays(1)),
             .RouteTime = 60 * 60 * 7,
             .RouteMaxDuration = 86400,
-            .VehicleCapacity = "1",
+            .VehicleCapacity = "5",
             .VehicleMaxDistanceMI = "10000",
             .Optimize = Optimize.Distance.GetEnumDescription(),
             .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
             .DeviceType = DeviceType.Web.GetEnumDescription(),
             .TravelMode = TravelMode.Driving.GetEnumDescription(),
-            .Metric = Metric.Geodesic
+            .Metric = Metric.Matrix
         }
 
         Dim optimizationParameters As New OptimizationParameters() With {
@@ -4457,7 +4454,9 @@ End Class
             .DepotAddress = route1.Addresses(0).AddressString.ToString(),
             .RemoveOrigin = False,
             .DepotLat = route1.Addresses(0).Latitude,
-            .DepotLng = route1.Addresses(0).Longitude
+            .DepotLng = route1.Addresses(0).Longitude,
+            .ToRouteId = route2.RouteID,
+            .RouteDestinationId = route2.Addresses(0).RouteDestinationId
         }
 
         Dim errorString As String = ""

@@ -79,12 +79,25 @@
         Public Const ApiVersion As String = "5"
 
         Public Const MainHost As String = "https://wh.route4me.com/modules/api/v5.0"
+        Public Const MainHostWeb As String = "https://wh.route4me.com/modules/webapi/v5.0"
 
-        Public Const TeamUsers As String = MainHost & "/team/users"
+        Public Const Routes As String = MainHost + "/routes"
+        Public Const RoutesDuplicate As String = MainHost + "/routes/duplicate"
+        Public Const RoutesMerge As String = MainHost + "/routes/merge"
+        Public Const RoutesPaginate As String = MainHost + "/routes/paginate"
+        Public Const RoutesFallbackPaginate As String = MainHost + "/routes/fallback/paginate"
+        Public Const RoutesFallbackDatatable As String = MainHost + "/routes/fallback/datatable"
+        Public Const RoutesFallback As String = MainHost + "/routes/fallback"
+        Public Const RoutesReindexCallback As String = MainHost + "/routes/reindex-callback"
+        Public Const RoutesDatatable As String = MainHost + "/routes/datatable"
+        Public Const RoutesDatatableConfig As String = MainHost + "/routes/datatable/config"
+        Public Const RoutesDatatableConfigFallback As String = MainHost + "/routes/fallback/datatable/config"
 
-        Public Const TeamUsersBulkCreate As String = MainHost & "/team/bulk-insert"
+        Public Const TeamUsers As String = MainHost + "/team/users"
 
-        Public Const DriverReview As String = MainHost & "/driver-reviews"
+        Public Const TeamUsersBulkCreate As String = MainHost + "/team/bulk-insert"
+
+        Public Const DriverReview As String = MainHost + "/driver-reviews"
     End Module
 
 End Namespace

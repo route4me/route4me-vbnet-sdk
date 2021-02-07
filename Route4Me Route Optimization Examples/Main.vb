@@ -1,8 +1,4 @@
 ﻿Imports Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples
-Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
-Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
-Imports System
-Imports System.Collections.Generic
 
 Namespace Route4MeSDKTest
     Public Module Main
