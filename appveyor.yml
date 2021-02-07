@@ -1,5 +1,5 @@
 # Version format
-version: 2.0.1.0{build}
+version: 1.0{build}
 
 # Build worker image
 image: Visual Studio 2017
@@ -12,11 +12,15 @@ configuration: Debug
 
 # MSBuild settings
 build:
-  project: Route4Me Route Optimization Examples.sln
+  project: src\Route4Me Route Optimization Examples.sln
   verbosity: quiet
 
 # Execute script before build
 before_build:
- - nuget restore Route4Me Route Optimization Examples.sln
+ - nuget src\restore Route4Me Route Optimization Examples.sln
+ 
+ only_commits:
+  files:
+    - src\Route4MeSDKLibrary\
 
 # Omitted the tests, as they are not relevant for the question
