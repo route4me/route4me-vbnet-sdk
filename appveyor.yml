@@ -12,15 +12,14 @@ configuration: Debug
 
 # MSBuild settings
 build:
-  project: src\Route4Me Route Optimization Examples.sln
-  verbosity: quiet
+  - project: route4me-vbnet-sdk\Route4MeSDKLibrary.vbproj
 
 # Execute script before build
 before_build:
- - nuget src\restore Route4Me Route Optimization Examples.sln
+ - nuget restore route4me-vbnet-sdk\Route4Me Route Optimization Examples.sln
  
  only_commits:
   files:
-    - src\Route4MeSDKLibrary\
+    - route4me-vbnet-sdk\Route4MeSDKLibrary\
 
 # Omitted the tests, as they are not relevant for the question
