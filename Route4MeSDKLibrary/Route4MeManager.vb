@@ -1,17 +1,11 @@
 ﻿Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
-Imports System
-Imports System.Collections
-Imports System.Web.Http
-Imports System.Collections.Generic
 Imports System.Net
 Imports System.Net.Http
 Imports System.Net.Http.Headers
 Imports System.Runtime.Serialization
 Imports System.IO
 Imports System.Text
-Imports System.Xml
-Imports System.Threading.Tasks
 Imports System.Threading
 Imports System.Reflection
 
@@ -3976,13 +3970,16 @@ Namespace Route4MeSDK
                                 Else
                                     Dim streamTask = DirectCast(response.Result.Content, StreamContent).ReadAsStreamAsync()
                                     streamTask.Wait()
+
                                     Dim errorResponse As ErrorResponse = Nothing
+
                                     Try
                                         errorResponse = streamTask.Result.ReadObject(Of ErrorResponse)()
                                     Catch
                                         ' (Exception e)
                                         errorResponse = Nothing
                                     End Try
+
                                     If errorResponse IsNot Nothing AndAlso errorResponse.Errors IsNot Nothing AndAlso errorResponse.Errors.Count > 0 Then
                                         For Each [error] As [String] In errorResponse.Errors
                                             If errorMessage.Length > 0 Then
@@ -3992,12 +3989,16 @@ Namespace Route4MeSDK
                                         Next
                                     Else
                                         Dim responseStream = response.Result.Content.ReadAsStringAsync()
+
                                         responseStream.Wait()
+
                                         Dim responseString As [String] = responseStream.Result
+
                                         If responseString IsNot Nothing Then
                                             errorMessage = "Response: " + responseString
                                         End If
                                     End If
+
                                 End If
 
                                 Exit Select

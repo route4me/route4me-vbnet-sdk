@@ -1753,7 +1753,7 @@ Namespace Route4MeSDK
 
                                     Dim errorResponse As DataTypes.ErrorResponse = Nothing
                                     Dim errorMessageContent As Task(Of String) = If(response.Result.Content.[GetType]() <> GetType(StreamContent),
-                                                                                    CSharpImpl.__Assign(errorMessageContent, response.Result.Content.ReadAsStringAsync()),
+                                                                                    response.Result.Content.ReadAsStringAsync(),
                                                                                     Nothing)
 
                                     Try

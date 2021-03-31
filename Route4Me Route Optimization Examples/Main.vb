@@ -1,4 +1,8 @@
 ﻿Imports Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples
+Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
+Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+Imports System
+Imports System.Collections.Generic
 
 Namespace Route4MeSDKTest
     Public Module Main
@@ -9,7 +13,7 @@ Namespace Route4MeSDKTest
             ' "api4" - execute all the examples related to the API 4 
             ' "api5" - execute all the examples related to the API 5 
             ' a method name - execute a specifed example method (e.g. "GetTeamMemberById")
-            Dim executeOption As String = "ReoptimizeRemainingStops"
+            Dim executeOption As String = "SingleDriverRoute7Stops"
 
             If executeOption.ToLower() = "api4" Then
 #Region "API 4"

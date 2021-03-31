@@ -43,7 +43,7 @@ Namespace Route4MeSDK.DataTypes
         ''' <summary>
         ''' Tries to set member
         ''' </summary>
-        ''' <returns>Multiline property name & value pairs</returns>
+        ''' <returns>Multiline property name and value pairs</returns>
         Public Overrides Function ToString() As String
             Dim sb = New StringBuilder()
 

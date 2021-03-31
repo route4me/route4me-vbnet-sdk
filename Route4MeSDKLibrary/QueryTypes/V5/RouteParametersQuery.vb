@@ -70,7 +70,7 @@ Namespace Route4MeSDK.QueryTypes.V5
 
         ''' <summary>
         ''' Output addresses and directions in the original optimization request sequence. 
-        ''' This Is to allow us to compare routes before & after optimization.
+        ''' This Is to allow us to compare routes before and after optimization.
         ''' </summary>
         <IgnoreDataMember>
         <HttpQueryMemberAttribute(Name:="original", EmitDefaultValue:=False)>

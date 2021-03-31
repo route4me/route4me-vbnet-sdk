@@ -4,7 +4,7 @@ Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
-        Public Function SingleDriverRoute7Stops() As DataObject
+        Public Sub SingleDriverRoute7Stops()
             ' Create the manager with the api key
             Dim route4Me As New Route4MeManager(ActualApiKey)
 
@@ -74,7 +74,6 @@ Namespace Route4MeSDKTest.Examples
                 .AlgorithmType = AlgorithmType.TSP,
                 .RouteName = "Test for equal sequences Single Driver Route 7 Stops",
                 .DisableOptimization = False,
-                .MemberId = 403634,
                 .RouteDate = R4MeUtils.ConvertToUnixTimestamp(DateTime.UtcNow.Date.AddDays(1)),
                 .RouteTime = 60 * 60 * 7,
                 .RouteMaxDuration = 24 * 3600,
@@ -105,6 +104,6 @@ Namespace Route4MeSDKTest.Examples
             PrintExampleOptimizationResult(dataObject, errorString)
 
             RemoveTestOptimizations()
-        End Function
+        End Sub
     End Class
 End Namespace
