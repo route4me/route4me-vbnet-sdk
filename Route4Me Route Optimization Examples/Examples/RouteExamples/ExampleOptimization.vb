@@ -1,5 +1,4 @@
-﻿Imports Route4MeSDKLibrary
-Imports Route4MeSDKLibrary.Route4MeSDK
+﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
@@ -82,7 +81,7 @@ Namespace Route4MeSDKTest.Examples
                 .RouteName = "Single Driver Round Trip Customer Case",
                 .RouteDate = dateWhenTheRouteStart,
                 .RouteTime = 60 * 60 * 7,
-                .Optimize = Route4MeSDK.DataTypes.Optimize.Distance.GetEnumDescription(),
+                .Optimize = Optimize.Distance.GetEnumDescription(),
                 .DistanceUnit = DistanceUnit.MI.GetEnumDescription(),
                 .DeviceType = DeviceType.Web.GetEnumDescription()
             }

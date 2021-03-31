@@ -155,6 +155,20 @@
     <Compile Include="Examples\Addresses\MoveDestinationToRoute.vb" />
     <Compile Include="Examples\Addresses\RemoveAddressFromOptimization.vb" />
     <Compile Include="Examples\Addresses\RemoveRouteDestination.vb" />
+    <Compile Include="Examples\API5\DriverReview\CreateDriverReview.vb" />
+    <Compile Include="Examples\API5\DriverReview\GetDriverReviewById.vb" />
+    <Compile Include="Examples\API5\DriverReview\GetDriverReviewList.vb" />
+    <Compile Include="Examples\API5\DriverReview\UpdateDriverReview.vb" />
+    <Compile Include="Examples\API5\RouteTypes\CreateBBCSOptimizationWithDriverSkills%28%29.vb" />
+    <Compile Include="Examples\API5\RouteTypes\CreateOptimizationWithDriverSkills.vb" />
+    <Compile Include="Examples\API5\TeamManagement\AddSkillsToDriver.vb" />
+    <Compile Include="Examples\API5\TeamManagement\BulkCreateTeamMembers.vb" />
+    <Compile Include="Examples\API5\TeamManagement\CreateTeamMember.vb" />
+    <Compile Include="Examples\API5\TeamManagement\GetTeamMemberById.vb" />
+    <Compile Include="Examples\API5\TeamManagement\GetTeamMembers.vb" />
+    <Compile Include="Examples\API5\TeamManagement\RemoveTeamMember.vb" />
+    <Compile Include="Examples\API5\TeamManagement\UpdateTeamMember.vb" />
+    <Compile Include="Examples\ExamplesInfrastructureV5.vb" />
     <Compile Include="Examples\RouteExamples\AsyncMultipleDepotMultipleDriver.vb" />
     <Compile Include="Examples\AvoidanceZone\AddAvoidanceZone.vb" />
     <Compile Include="Examples\Addressbook\GetAddressbookLocation.vb" />
@@ -359,7 +373,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Examples\API5\RoutesGroup\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

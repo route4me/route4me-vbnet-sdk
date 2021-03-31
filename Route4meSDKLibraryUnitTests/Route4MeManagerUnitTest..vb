@@ -6,7 +6,6 @@ Imports System.IO
 Imports System.Runtime.Serialization
 Imports System.CodeDom.Compiler
 Imports System.Threading
-Imports CsvHelper
 Imports Route4MeSDKLibrary.Route4MeSDK.Route4MeManager
 
 Public Class ApiKeys
@@ -21,10 +20,12 @@ End Class
     Shared tdr As TestDataRepository
     Shared tdr2 As TestDataRepository
     Shared lsOptimizationIDs As List(Of String)
+    Shared lsVehicleIDs As List(Of String)
 
     <ClassInitialize>
     Public Shared Sub RoutesGroupInitialize(context As TestContext)
         lsOptimizationIDs = New List(Of String)()
+        lsVehicleIDs = New List(Of String)()
 
         tdr = New TestDataRepository()
         tdr2 = New TestDataRepository()
@@ -425,10 +426,23 @@ End Class
         Dim route4Me = New Route4MeManager(c_ApiKey)
 
         Dim vehicleGroup = New VehiclesGroup()
+
         Dim vehicles = vehicleGroup.getVehiclesList()
 
-        Dim randomNumber As Integer = (New Random()).[Next](0, vehicles.PerPage - 1)
-        Dim vehicleId = vehicles.Data(randomNumber).VehicleId
+        If (If(vehicles?.Total, 0)) < 1 Then
+            Dim newVehicle = New VehicleV4Parameters() With {
+                .VehicleName = "Ford Transit Test 6",
+                .VehicleAlias = "Ford Transit Test 6"
+            }
+
+            Dim vehicle = vehicleGroup.createVehicle(newVehicle)
+
+            lsVehicleIDs.Add(vehicle.VehicleGuid)
+        End If
+
+        Dim vehicleId As String = If((If(vehicles?.Total, 0)) > 0,
+                                        vehicles.Data((New Random()).[Next](0, vehicles.PerPage - 1)).VehicleId,
+                                        lsVehicleIDs(0))
 
         Dim routeId As String = tdr.SD10Stops_route_id
         Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null.")
@@ -439,17 +453,15 @@ End Class
                 .VehicleId = vehicleId
             }
         }
-        Dim errorString As String
-        route4Me.UpdateRoute(routeParameters, errorString)
 
-        Dim route = route4Me.GetRoute(New RouteParametersQuery() With {
-            .RouteId = routeId
-        }, errorString)
+        Dim errorString As String = Nothing
+        Dim route = route4Me.UpdateRoute(routeParameters, errorString)
 
         Assert.IsInstanceOfType(
             route.Vehilce,
             GetType(VehicleV4Response),
             "AssignVehicleToRouteTest failed. " & errorString)
+
     End Sub
 
     <TestMethod>
@@ -797,6 +809,22 @@ End Class
         Dim result As Boolean = tdr.RemoveOptimization(lsOptimizationIDs.ToArray())
 
         Assert.IsTrue(result, "Removing of the testing optimization problem failed.")
+
+        Dim errorString As String = Nothing
+
+        If lsVehicleIDs.Count > 0 Then
+            Dim route4Me = New Route4MeManager(c_ApiKey)
+
+            For Each vehId As String In lsVehicleIDs
+                Dim vehicleParams = New VehicleV4Parameters() With {
+                    .VehicleId = vehId
+                }
+
+                Dim vehicles = route4Me.deleteVehicle(vehicleParams, errorString)
+            Next
+
+            lsVehicleIDs.Clear()
+        End If
     End Sub
 
 End Class
@@ -9411,10 +9439,12 @@ End Class
                             GetType(MemberResponseV4()),
                             "GetActivitiesByMemberTest failed - cannot get users")
 
-        Assert.IsTrue(response.results.Length > 1, "Cannot retrieve more than 1 users")
+        Assert.IsTrue(response.results.Length > 0, "Cannot retrieve more than 0 users")
 
         Dim activityParameters As New ActivityParameters() With {
-            .MemberId = If(response.results(1).member_id IsNot Nothing, Convert.ToInt32(response.results(1).member_id), -1),
+            .MemberId = If(response.results(0).member_id IsNot Nothing,
+                            Convert.ToInt32(response.results(0).member_id),
+                            -1),
             .Limit = 10,
             .Offset = 0
         }
@@ -10857,21 +10887,20 @@ End Class
     Public Shared Sub VehiclesGroupInitialize(ByVal context As TestContext)
         lsVehicleIDs = New List(Of String)()
 
-        Dim vehicleGroup As VehiclesGroup = New VehiclesGroup()
+        Dim vehicleGroup = New VehiclesGroup()
+        Dim vehicles = vehicleGroup.getVehiclesList()
 
-        Dim vehicles As VehiclesPaginated = vehicleGroup.getVehiclesList()
-
-        If vehicles.Total < 1 Then
-            Dim newVehicle As VehicleV4Parameters = New VehicleV4Parameters() With {
+        If (If(vehicles?.Total, 0)) < 1 Then
+            Dim newVehicle = New VehicleV4Parameters() With {
+                .VehicleName = "Ford Transit Test 6",
                 .VehicleAlias = "Ford Transit Test 6"
             }
 
-            Dim vehicle As VehicleV4CreateResponse = vehicleGroup.createVehicle(newVehicle)
+            Dim vehicle = vehicleGroup.createVehicle(newVehicle)
 
             lsVehicleIDs.Add(vehicle.VehicleGuid)
         Else
-
-            For Each veh1 As VehicleV4Response In vehicles.Data
+            For Each veh1 In vehicles.Data
                 lsVehicleIDs.Add(veh1.VehicleId)
             Next
         End If
@@ -10894,11 +10923,6 @@ End Class
         Dim errorString As String = ""
         Dim vehicles As VehiclesPaginated = route4Me.GetVehicles(vehicleParameters, errorString)
 
-        Assert.IsInstanceOfType(
-            vehicles,
-            GetType(VehiclesPaginated),
-            "getVehilesList failed. " & errorString)
-
         Return vehicles
     End Function
 
@@ -10915,16 +10939,19 @@ End Class
 
     <TestMethod>
     Public Sub CreatetVehicleTest()
-        If c_ApiKey = ApiKeys.demoApiKey Then Return
-
-        Dim commonVehicleParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+        Dim commonVehicleParams = New VehicleV4Parameters() With {
             .VehicleName = "Ford Transit Test 6",
             .VehicleAlias = "Ford Transit Test 6"
         }
 
-        Dim commonVehicle As VehicleV4CreateResponse = createVehicle(commonVehicleParams)
+        Dim commonVehicle = createVehicle(commonVehicleParams)
 
-        Dim class6TruckParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+        If commonVehicle IsNot Nothing AndAlso
+            commonVehicle.[GetType]() = GetType(VehicleV4CreateResponse) Then
+            lsVehicleIDs.Add(commonVehicle.VehicleGuid)
+        End If
+
+        Dim class6TruckParams = New VehicleV4Parameters() With {
             .VehicleName = "GMC TopKick C5500",
             .VehicleAlias = "GMC TopKick C5500",
             .VehicleVin = "SAJXA01A06FN08012",
@@ -10955,9 +10982,14 @@ End Class
             .TruckConfig = "FULLSIZEVAN"
         }
 
-        Dim class6Truck As VehicleV4CreateResponse = createVehicle(class6TruckParams)
+        Dim class6Truck = createVehicle(class6TruckParams)
 
-        Dim class7TruckParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+        If class6Truck IsNot Nothing AndAlso
+            class6Truck.[GetType]() = GetType(VehicleV4CreateResponse) Then
+            lsVehicleIDs.Add(class6Truck.VehicleGuid)
+        End If
+
+        Dim class7TruckParams = New VehicleV4Parameters() With {
             .VehicleName = "FORD F750",
             .VehicleAlias = "FORD F750",
             .VehicleVin = "1NPAX6EX2YD550743",
@@ -10991,9 +11023,14 @@ End Class
             .PurchasedNew = True
         }
 
-        Dim class7Truck As VehicleV4CreateResponse = createVehicle(class7TruckParams)
+        Dim class7Truck = createVehicle(class7TruckParams)
 
-        Dim class8TruckParams As VehicleV4Parameters = New VehicleV4Parameters() With {
+        If class7Truck IsNot Nothing AndAlso
+            class7Truck.[GetType]() = GetType(VehicleV4CreateResponse) Then
+            lsVehicleIDs.Add(class7Truck.VehicleGuid)
+        End If
+
+        Dim class8TruckParams = New VehicleV4Parameters() With {
             .VehicleName = "Peterbilt 579",
             .VehicleAlias = "Peterbilt 579",
             .VehicleVin = "1NP5DB9X93N507873",
@@ -11027,8 +11064,12 @@ End Class
             .PurchasedNew = True
         }
 
-        Dim class8Truck As VehicleV4CreateResponse = createVehicle(class8TruckParams)
+        Dim class8Truck = createVehicle(class8TruckParams)
 
+        If class8Truck IsNot Nothing AndAlso
+            class8Truck.[GetType]() = GetType(VehicleV4CreateResponse) Then
+            lsVehicleIDs.Add(class8Truck.VehicleGuid)
+        End If
     End Sub
 
     <TestMethod>
@@ -11109,6 +11150,21 @@ End Class
         lsVehicleIDs.RemoveAt(lsVehicleIDs.Count - 1)
     End Sub
 
+    <ClassCleanup()>
+    Public Shared Sub VehiclesGroupCleanup()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+        Dim errorString As String = Nothing
+
+        For Each vehicleId In lsVehicleIDs
+            Dim vehicleParams = New VehicleV4Parameters() With {
+                .VehicleId = vehicleId
+            }
+
+            Dim vehicles = route4Me.deleteVehicle(vehicleParams, errorString)
+        Next
+    End Sub
+
+
 End Class
 
 
@@ -11184,8 +11240,10 @@ End Class
 
                                                               Console.WriteLine("Total Geocoded Addresses -> " & lsAddresses.Count)
                                                           End Function
+        Dim stPath = AppDomain.CurrentDomain.BaseDirectory
+        fastbGeocoding.uploadAndGeocodeLargeJsonFile(
+            stPath & "\Data\JSON\batch_socket_upload_error_addresses_data_5.json")
 
-        fastbGeocoding.uploadAndGeocodeLargeJsonFile("Data\JSON\batch_socket_upload_error_addresses_data_5.json")
     End Sub
 
     <TestMethod> _
@@ -11315,7 +11373,9 @@ End Class
 
 End Class
 
-<TestClass()> Public Class DatabasesGroup
+<TestClass()>
+<Ignore>
+Public Class DatabasesGroup
     Shared c_ApiKey As String = ApiKeys.actualApiKey
     Shared db_type As DB_Type
 
@@ -11332,7 +11392,7 @@ End Class
         End Set
     End Property
 
-    <ClassInitialize> _
+    <ClassInitialize>
     Public Shared Sub DatabasesGroupInitialize(testContext As TestContext)
         _testContext = testContext
 
@@ -11356,10 +11416,12 @@ End Class
             Dim sDictionaryDDLSqlCom As String = ""
             Dim sDictionaryDMLSqlCom As String = ""
 
-            sAddressbookSqlCom = File.ReadAllText("Data/SQL/MySQL/addressbook_v4.sql")
-            sOrdersSqlCom = File.ReadAllText("Data/SQL/MySQL/orders.sql")
-            sDictionaryDDLSqlCom = File.ReadAllText("Data/SQL/MySQL/csv_to_api_dictionary_DDL.sql")
-            sDictionaryDMLSqlCom = File.ReadAllText("Data/SQL/MySQL/csv_to_api_dictionary_DML.sql")
+            Dim stPath = AppDomain.CurrentDomain.BaseDirectory
+
+            sAddressbookSqlCom = File.ReadAllText(stPath & "/Data/SQL/MySQL/addressbook_v4.sql")
+            sOrdersSqlCom = File.ReadAllText(stPath & "/Data/SQL/MySQL/orders.sql")
+            sDictionaryDDLSqlCom = File.ReadAllText(stPath & "/Data/SQL/MySQL/csv_to_api_dictionary_DDL.sql")
+            sDictionaryDMLSqlCom = File.ReadAllText(stPath & "/Data/SQL/MySQL/csv_to_api_dictionary_DML.sql")
 
             sqlDB.OpenConnection()
 
@@ -11413,10 +11475,12 @@ End Class
             Dim sDictionaryDDLSqlCom As String = ""
             Dim sDictionaryDMLSqlCom As String = ""
 
-            sAddressbookSqlCom = File.ReadAllText("Data/SQL/MSSQL/addressbook_v4.sql")
-            sOrdersSqlCom = File.ReadAllText("Data/SQL/MSSQL/orders.sql")
-            sDictionaryDDLSqlCom = File.ReadAllText("Data/SQL/MSSQL/csv_to_api_dictionary_DDL.sql")
-            sDictionaryDMLSqlCom = File.ReadAllText("Data/SQL/MSSQL/csv_to_api_dictionary_DML.sql")
+            Dim stPath = AppDomain.CurrentDomain.BaseDirectory
+
+            sAddressbookSqlCom = File.ReadAllText(stPath & "/Data/SQL/MSSQL/addressbook_v4.sql")
+            sOrdersSqlCom = File.ReadAllText(stPath & "/Data/SQL/MSSQL/orders.sql")
+            sDictionaryDDLSqlCom = File.ReadAllText(stPath & "/Data/SQL/MSSQL/csv_to_api_dictionary_DDL.sql")
+            sDictionaryDMLSqlCom = File.ReadAllText(stPath & "/Data/SQL/MSSQL/csv_to_api_dictionary_DML.sql")
 
             sqlDB.OpenConnection()
 
@@ -11459,7 +11523,7 @@ End Class
         End Try
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub GenerateSQLCEDatabaseTest()
         Dim sqlDB As New cDatabase(DB_Type.SQLCE)
 
@@ -11469,10 +11533,12 @@ End Class
             Dim sDictionaryDDLSqlCom As String = ""
             Dim sDictionaryDMLSqlCom As String = ""
 
-            sAddressbookSqlCom = File.ReadAllText("Data/SQL/SQLCE/addressbook_v4.sql")
-            sOrdersSqlCom = File.ReadAllText("Data/SQL/SQLCE/orders.sql")
-            sDictionaryDDLSqlCom = File.ReadAllText("Data/SQL/SQLCE/csv_to_api_dictionary_DDL.sql")
-            sDictionaryDMLSqlCom = File.ReadAllText("Data/SQL/SQLCE/csv_to_api_dictionary_DML.sql")
+            Dim stPath = AppDomain.CurrentDomain.BaseDirectory
+
+            sAddressbookSqlCom = File.ReadAllText(stPath & "/Data/SQL/SQLCE/addressbook_v4.sql")
+            sOrdersSqlCom = File.ReadAllText(stPath & "/Data/SQL/SQLCE/orders.sql")
+            sDictionaryDDLSqlCom = File.ReadAllText(stPath & "/Data/SQL/SQLCE/csv_to_api_dictionary_DDL.sql")
+            sDictionaryDMLSqlCom = File.ReadAllText(stPath & "/Data/SQL/SQLCE/csv_to_api_dictionary_DML.sql")
 
             sqlDB.OpenConnection()
 
@@ -11516,10 +11582,12 @@ End Class
             Dim sDictionaryDDLSqlCom As String = ""
             Dim sDictionaryDMLSqlCom As String = ""
 
-            sAddressbookSqlCom = File.ReadAllText("Data/SQL/PostgreSQL/addressbook_v4.sql")
-            sOrdersSqlCom = File.ReadAllText("Data/SQL/PostgreSQL/orders.sql")
-            sDictionaryDDLSqlCom = File.ReadAllText("Data/SQL/PostgreSQL/csv_to_api_dictionary_DDL.sql")
-            sDictionaryDMLSqlCom = File.ReadAllText("Data/SQL/PostgreSQL/csv_to_api_dictionary_DML.sql")
+            Dim stPath = AppDomain.CurrentDomain.BaseDirectory
+
+            sAddressbookSqlCom = File.ReadAllText(stPath & "/Data/SQL/PostgreSQL/addressbook_v4.sql")
+            sOrdersSqlCom = File.ReadAllText(stPath & "/Data/SQL/PostgreSQL/orders.sql")
+            sDictionaryDDLSqlCom = File.ReadAllText(stPath & "/Data/SQL/PostgreSQL/csv_to_api_dictionary_DDL.sql")
+            sDictionaryDMLSqlCom = File.ReadAllText(stPath & "/Data/SQL/PostgreSQL/csv_to_api_dictionary_DML.sql")
 
             sqlDB.OpenConnection()
 
@@ -11527,25 +11595,25 @@ End Class
 
             Dim iResult As Integer = sqlDB.ExecuteMulticoomandSql(sAddressbookSqlCom)
             If iResult > 0 Then
-                Console.WriteLine(":) The SQL table 'addressbook_v4' created successfuly!!!")
+                Console.WriteLine(":) The SQL table 'addressbook_v4' created successfuly.")
             Else
                 Console.WriteLine(":( Creating of the SQL table 'addressbook_v4' failed.")
             End If
 
             iResult = sqlDB.ExecuteMulticoomandSql(sOrdersSqlCom)
             If iResult > 0 Then
-                Console.WriteLine(":) The SQL table 'orders' created successfuly!!!")
+                Console.WriteLine(":) The SQL table 'orders' created successfuly.")
             Else
                 Console.WriteLine(":( Creating of the SQL table 'orders' failed.")
             End If
 
             iResult = sqlDB.ExecuteMulticoomandSql(sDictionaryDDLSqlCom)
             If iResult > 0 Then
-                Console.WriteLine(":) The SQL table 'csv_to_api_dictionary' created successfuly!!!")
+                Console.WriteLine(":) The SQL table 'csv_to_api_dictionary' created successfuly.")
 
                 iResult = sqlDB.ExecuteMulticoomandSql(sDictionaryDMLSqlCom)
                 If iResult > 0 Then
-                    Console.WriteLine(":) The data was inserted into SQL table 'csv_to_api_dictionary' successfuly!!!")
+                    Console.WriteLine(":) The data was inserted into SQL table 'csv_to_api_dictionary' successfuly.")
                 Else
                     Console.WriteLine(":( Inserting of the data in the SQL table 'csv_to_api_dictionary' failed.")
                 End If
@@ -11562,7 +11630,7 @@ End Class
         End Try
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub MakeAddressbookCSVsampleTest()
         Dim sqlDB As New cDatabase(db_type)
 
@@ -11571,7 +11639,9 @@ End Class
 
             Console.WriteLine("Connection opened")
 
-            sqlDB.Table2Csv("Data/CSV/addressbook v4.csv", "addressbook_v4", True)
+            Dim stPath = AppDomain.CurrentDomain.BaseDirectory
+
+            sqlDB.Table2Csv(stPath & "/Data/CSV/addressbook v4.csv", "addressbook_v4", True)
             Console.WriteLine("The file addressbook v4.csv was created.")
             Assert.IsTrue(1 > 0, "")
         Catch ex As Exception
@@ -11582,7 +11652,7 @@ End Class
         End Try
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub UploadAddressbookJSONtoSQLTest()
         Dim sqlDB As New cDatabase(db_type)
 
@@ -11591,7 +11661,9 @@ End Class
 
             Console.WriteLine("Connection opened")
 
-            sqlDB.Json2Table("Data/JSON/Addressbook Get Contacts RESPONSE.json", "addressbook_v4", "id", R4M_DataType.Addressbook)
+            Dim stPath = AppDomain.CurrentDomain.BaseDirectory
+
+            sqlDB.Json2Table(stPath & "/Data/Json/Addressbook Get Contacts RESPONSE.json", "addressbook_v4", "id", R4M_DataType.Addressbook)
 
             Console.WriteLine("The file 'Addressbook Get Contacts RESPONSE.json' was uploaded to the SQL server.")
 
@@ -11604,7 +11676,7 @@ End Class
         End Try
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub UploadCsvToAddressbookV4Test()
         Dim sqlDB As New cDatabase(db_type)
 
@@ -11613,7 +11685,9 @@ End Class
 
             Console.WriteLine("Connection opened")
 
-            sqlDB.Csv2Table("Data/CSV/Route4Me Address Book 03-09-2017.csv", "addressbook_v4", "id", 33, True)
+            Dim stPath = AppDomain.CurrentDomain.BaseDirectory
+
+            sqlDB.Csv2Table(stPath & "/Data/CSV/Route4Me Address Book 03-09-2017.csv", "addressbook_v4", "id", 33, True)
 
             Console.WriteLine("The file orders.csv was uploaded to the SQL server.")
 
@@ -11626,7 +11700,7 @@ End Class
         End Try
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub UploadCsvToOrdersTest()
         Dim sqlDB As New cDatabase(db_type)
 
@@ -11635,7 +11709,9 @@ End Class
 
             Console.WriteLine("Connection opened")
 
-            sqlDB.Csv2Table("Data/CSV/orders 1000 with order id.csv", "orders", "order_id", 10, True)
+            Dim stPath = AppDomain.CurrentDomain.BaseDirectory
+
+            sqlDB.Csv2Table(stPath & "/Data/CSV/orders 1000 with order id.csv", "orders", "order_id", 10, True)
 
             Console.WriteLine("The orders CSV file was uploaded to the SQL server.")
 
@@ -11648,7 +11724,7 @@ End Class
         End Try
     End Sub
 
-    <TestMethod> _
+    <TestMethod>
     Public Sub UploadOrdersJSONtoSQLTest()
         Dim sqlDB As New cDatabase(db_type)
 
@@ -11657,7 +11733,9 @@ End Class
 
             Console.WriteLine("Connection opened")
 
-            sqlDB.Json2Table("Data/JSON/get orders RESPONSE.json", "orders", "id", R4M_DataType.Order)
+            Dim stPath = AppDomain.CurrentDomain.BaseDirectory
+
+            sqlDB.Json2Table(stPath & "/Data/JSON/get orders RESPONSE.json", "orders", "id", R4M_DataType.Order)
 
             Console.WriteLine("The JSON file was uploaded to the SQL server.")
 
@@ -11700,8 +11778,8 @@ End Class
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim queryParameters As New RouteParametersQuery() With {
-            .Limit = 10,
-            .Offset = 5
+            .Limit = 5,
+            .Offset = 2
         }
 
         ' Run the query
@@ -11812,7 +11890,7 @@ End Class
 
         Dim route4Me As New Route4MeManager(ApiKey)
 
-        Dim sAddressFile As String = "Data/CSV/addresses_1000.csv"
+        Dim sAddressFile As String = AppDomain.CurrentDomain.BaseDirectory & "/Data/CSV/addresses_1000.csv"
         Dim sched0 As New Schedule("daily", False)
         'var csv = new CsvReader(File.OpenText("file.csv"));
 
@@ -12291,10 +12369,73 @@ End Class
 
 <TestClass>
 Public Class TelematicsGateWayAPI
-    Shared c_ApiKey As String = ApiKeys.actualApiKey
 
-    <TestInitialize>
-    Public Sub TelematicsGateWayAPIInitialize()
+    Shared c_ApiKey As String = ApiKeys.actualApiKey
+    Shared firstMemberId As String
+    Shared apiToken As String
+    Shared lsCreatedConnections As List(Of TelematicsConnection)
+    Shared tomtomVendor As TelematicsVendors
+
+    <ClassInitialize()>
+    Public Shared Sub TelematicsGateWayAPIInitialize(ByVal context As TestContext)
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("The test cannot done with demo API key")
+        End If
+
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        lsCreatedConnections = New List(Of TelematicsConnection)()
+
+        Dim errString As String = Nothing
+        Dim members = route4Me.GetUsers(New GenericParameters(), errString)
+
+        Assert.IsNotNull((If(members?.results?.Length, 0)) > 0, "Cannot retrieve the account members." & Environment.NewLine & errString)
+
+        firstMemberId = members.results(0).member_id
+
+        Dim memberParameters = New TelematicsVendorParameters() With {
+            .MemberID = Convert.ToUInt32(firstMemberId),
+            .ApiKey = c_ApiKey
+        }
+
+        Dim errorString As String = Nothing
+        Dim result = route4Me.RegisterTelematicsMember(memberParameters, errorString)
+
+        Assert.IsNotNull(result, "The test registerMemberTest failed. " & errorString)
+        Assert.IsInstanceOfType(result, GetType(TelematicsRegisterMemberResponse))
+
+        apiToken = result.ApiToken
+
+        Dim vendParams = New TelematicsVendorParameters() With {
+            .Search = "tomtom"
+        }
+
+        Dim errorString2 As String = Nothing
+        Dim vendors = route4Me.SearchTelematicsVendors(vendParams, errorString2)
+
+        Assert.IsNotNull(If(vendors?.Vendors, Nothing), "Cannot retrieve tomtom vendor. " & errorString)
+        Assert.IsInstanceOfType(vendors.Vendors, GetType(TelematicsVendors()))
+        Assert.IsTrue(vendors.Vendors.Length > 0)
+
+        tomtomVendor = vendors.Vendors(0)
+
+        Dim conParams = New TelematicsConnectionParameters() With {
+            .Vendor = TelematicsVendorType.Geotab.GetEnumDescription(),
+            .AccountId = "54321",
+            .UserName = "John Doe 0",
+            .Password = "password0",
+            .VehiclePositionRefreshRate = 60,
+            .Name = "Test Geotab Connection from c# SDK",
+            .ValidateRemoteCredentials = False
+        }
+
+        Dim errorString0 As String = Nothing
+        Dim result0 = route4Me.CreateTelematicsConnection(apiToken, conParams, errorString0)
+
+        Assert.IsNotNull(result0, "The test createTelematicsConnectionTest failed. " & errorString)
+        Assert.IsInstanceOfType(result0, GetType(TelematicsConnection))
+
+        lsCreatedConnections.Add(result0)
     End Sub
 
     <TestMethod>
@@ -12378,6 +12519,130 @@ Public Class TelematicsGateWayAPI
             "The test vendorsComparisonTest failed. " & errorString
         )
     End Sub
+
+    <TestMethod>
+    Public Sub registerMemberTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        Dim vendorParameters = New TelematicsVendorParameters() With {
+            .MemberID = Convert.ToUInt32(firstMemberId),
+            .ApiKey = c_ApiKey
+        }
+
+        Dim errorString As String = Nothing
+        Dim result = route4Me.RegisterTelematicsMember(vendorParameters, errorString)
+
+        Assert.IsNotNull(result, "The test registerMemberTest failed. " & errorString)
+        Assert.IsInstanceOfType(result, GetType(TelematicsRegisterMemberResponse))
+    End Sub
+
+    <TestMethod>
+    Public Sub getTelematicsConnectionsTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        Dim vendorParameters = New TelematicsVendorParameters() With {
+            .ApiToken = apiToken
+        }
+
+        Dim errorString As String = Nothing
+        Dim result = route4Me.GetTelematicsConnections(vendorParameters, errorString)
+
+        Assert.IsNotNull(result, "The test getTelematicsConnectionsTest failed. " & errorString)
+        Assert.IsInstanceOfType(result, GetType(TelematicsConnection()))
+    End Sub
+
+    <TestMethod>
+    Public Sub createTelematicsConnectionTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        Dim conParams = New TelematicsConnectionParameters() With {
+            .VendorID = Convert.ToUInt32(tomtomVendor.ID),
+            .Vendor = tomtomVendor.Slug,
+            .AccountId = "12345",
+            .UserName = "John Doe",
+            .Password = "password",
+            .VehiclePositionRefreshRate = 60,
+            .Name = "Test Telematics Connection from vb.net SDK",
+            .ValidateRemoteCredentials = False
+        }
+
+        Dim errorString As String = Nothing
+        Dim result = route4Me.CreateTelematicsConnection(apiToken, conParams, errorString)
+
+        Assert.IsNotNull(result, "The test createTelematicsConnectionTest failed. " & errorString)
+        Assert.IsInstanceOfType(result, GetType(TelematicsConnection))
+
+        lsCreatedConnections.Add(result)
+    End Sub
+
+    <TestMethod>
+    Public Sub deleteTelematicsConnectionTest()
+        If lsCreatedConnections.Count < 1 Then Return
+
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        Dim errorString As String = Nothing
+        Dim result = route4Me.DeleteTelematicsConnection(
+            apiToken,
+            lsCreatedConnections(lsCreatedConnections.Count - 1).ConnectionToken,
+            errorString)
+
+        Assert.IsNotNull(result, "The test deleteTelematicsConnectionTest failed. " & errorString)
+        Assert.IsInstanceOfType(result, GetType(TelematicsConnection))
+
+        lsCreatedConnections.RemoveAt(lsCreatedConnections.Count - 1)
+    End Sub
+
+    <TestMethod>
+    Public Sub updateTelematicsConnectionTest()
+        If lsCreatedConnections.Count < 1 Then Return
+
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        Dim conParams = New TelematicsConnectionParameters() With {
+            .VendorID = Convert.ToUInt32(tomtomVendor.ID),
+            .AccountId = "12345",
+            .UserName = "John Doe",
+            .Password = "password",
+            .VehiclePositionRefreshRate = 60,
+            .Name = "Test Telematics Connection from vb.net SDK",
+            .ValidateRemoteCredentials = False
+        }
+
+    End Sub
+
+    <TestMethod>
+    Public Sub getTelematicsConnectionTest()
+        If lsCreatedConnections.Count < 1 Then Return
+
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+        Dim errorString As String = Nothing
+
+        Dim result = route4Me.GetTelematicsConnection(
+            apiToken,
+            lsCreatedConnections(0).ConnectionToken,
+            errorString)
+
+        Assert.IsNotNull(result, "The test getTelematicsConnectionTest failed. " & errorString)
+        Assert.IsInstanceOfType(result, GetType(TelematicsConnection))
+    End Sub
+
+    <ClassCleanup()>
+    Public Shared Sub TelematicsGateWayAPICleanup()
+        Dim errorString As String = Nothing
+
+        If lsCreatedConnections.Count > 0 Then
+            Dim route4Me = New Route4MeManager(c_ApiKey)
+
+            For Each conn In lsCreatedConnections
+                Dim result = route4Me.DeleteTelematicsConnection(
+                    apiToken,
+                    conn.ConnectionToken,
+                    errorString)
+            Next
+        End If
+    End Sub
+
 End Class
 
 Public Class TestDataRepository
@@ -12418,63 +12683,73 @@ Public Class TestDataRepository
 
         ' Prepare the addresses
         '
-        Dim addresses As Address() = New Address() {New Address() With {
-            .AddressString = "151 Arbor Way Milledgeville GA 31061",
-            .IsDepot = True,
-            .Latitude = 33.132675170898,
-            .Longitude = -83.244743347168,
-            .Time = 0,
-            .CustomFields = New Dictionary(Of String, String)() From {
-                {"color", "red"},
-                {"size", "huge"}
-            }
-        }, New Address() With {
-            .AddressString = "230 Arbor Way Milledgeville GA 31061",
-            .Latitude = 33.129695892334,
-            .Longitude = -83.24577331543,
-            .Time = 0
-        }, New Address() With {
-            .AddressString = "148 Bass Rd NE Milledgeville GA 31061",
-            .Latitude = 33.143497,
-            .Longitude = -83.224487,
-            .Time = 0
-        }, New Address() With {
-            .AddressString = "117 Bill Johnson Rd NE Milledgeville GA 31061",
-            .Latitude = 33.141784667969,
-            .Longitude = -83.237518310547,
-            .Time = 0
-        }, New Address() With {
-            .AddressString = "119 Bill Johnson Rd NE Milledgeville GA 31061",
-            .Latitude = 33.141086578369,
-            .Longitude = -83.238258361816,
-            .Time = 0
-        }, New Address() With {
-            .AddressString = "131 Bill Johnson Rd NE Milledgeville GA 31061",
-            .Latitude = 33.142036437988,
-            .Longitude = -83.238845825195,
-            .Time = 0
-        },
+        Dim addresses As Address() = New Address() {
             New Address() With {
-            .AddressString = "138 Bill Johnson Rd NE Milledgeville GA 31061",
-            .Latitude = 33.14307,
-            .Longitude = -83.239334,
-            .Time = 0
-        }, New Address() With {
-            .AddressString = "139 Bill Johnson Rd NE Milledgeville GA 31061",
-            .Latitude = 33.142734527588,
-            .Longitude = -83.237442016602,
-            .Time = 0
-        }, New Address() With {
-            .AddressString = "145 Bill Johnson Rd NE Milledgeville GA 31061",
-            .Latitude = 33.143871307373,
-            .Longitude = -83.237342834473,
-            .Time = 0
-        }, New Address() With {
-            .AddressString = "221 Blake Cir Milledgeville GA 31061",
-            .Latitude = 33.081462860107,
-            .Longitude = -83.208511352539,
-            .Time = 0
-        }}
+                .AddressString = "151 Arbor Way Milledgeville GA 31061",
+                .IsDepot = True,
+                .Latitude = 33.132675170898,
+                .Longitude = -83.244743347168,
+                .Time = 0,
+                .CustomFields = New Dictionary(Of String, String)() From {
+                    {"color", "red"},
+                    {"size", "huge"}
+                }
+            },
+            New Address() With {
+                .AddressString = "230 Arbor Way Milledgeville GA 31061",
+                .Latitude = 33.129695892334,
+                .Longitude = -83.24577331543,
+                .Time = 0
+            },
+            New Address() With {
+                .AddressString = "148 Bass Rd NE Milledgeville GA 31061",
+                .Latitude = 33.143497,
+                .Longitude = -83.224487,
+                .Time = 0
+            },
+            New Address() With {
+                .AddressString = "117 Bill Johnson Rd NE Milledgeville GA 31061",
+                .Latitude = 33.141784667969,
+                .Longitude = -83.237518310547,
+                .Time = 0
+            },
+            New Address() With {
+                .AddressString = "119 Bill Johnson Rd NE Milledgeville GA 31061",
+                .Latitude = 33.141086578369,
+                .Longitude = -83.238258361816,
+                .Time = 0
+            },
+            New Address() With {
+                .AddressString = "131 Bill Johnson Rd NE Milledgeville GA 31061",
+                .Latitude = 33.142036437988,
+                .Longitude = -83.238845825195,
+                .Time = 0
+            },
+            New Address() With {
+                .AddressString = "138 Bill Johnson Rd NE Milledgeville GA 31061",
+                .Latitude = 33.14307,
+                .Longitude = -83.239334,
+                .Time = 0
+            },
+            New Address() With {
+                .AddressString = "139 Bill Johnson Rd NE Milledgeville GA 31061",
+                .Latitude = 33.142734527588,
+                .Longitude = -83.237442016602,
+                .Time = 0
+            },
+            New Address() With {
+                .AddressString = "145 Bill Johnson Rd NE Milledgeville GA 31061",
+                .Latitude = 33.143871307373,
+                .Longitude = -83.237342834473,
+                .Time = 0
+            },
+            New Address() With {
+                .AddressString = "221 Blake Cir Milledgeville GA 31061",
+                .Latitude = 33.081462860107,
+                .Longitude = -83.208511352539,
+                .Time = 0
+            }
+        }
 
         ' Set parameters
 
@@ -12516,63 +12791,72 @@ Public Class TestDataRepository
 
         ' Prepare the addresses
 
-        Dim addresses As Address() = New Address() {New Address() With { _
-            .AddressString = "754 5th Ave New York, NY 10019", _
-            .[Alias] = "Bergdorf Goodman", _
-            .IsDepot = True, _
-            .Latitude = 40.7636197, _
-            .Longitude = -73.9744388, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "717 5th Ave New York, NY 10022", _
-            .[Alias] = "Giorgio Armani", _
-            .Latitude = 40.7669692, _
-            .Longitude = -73.9693864, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "888 Madison Ave New York, NY 10014", _
-            .[Alias] = "Ralph Lauren Women's and Home", _
-            .Latitude = 40.7715154, _
-            .Longitude = -73.9669241, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "1011 Madison Ave New York, NY 10075", _
-            .[Alias] = "Yigal Azrou'l", _
-            .Latitude = 40.7772129, _
-            .Longitude = -73.9669, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "440 Columbus Ave New York, NY 10024", _
-            .[Alias] = "Frank Stella Clothier", _
-            .Latitude = 40.7808364, _
-            .Longitude = -73.9732729, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "324 Columbus Ave #1 New York, NY 10023", _
-            .[Alias] = "Liana", _
-            .Latitude = 40.7803123, _
-            .Longitude = -73.9793079, _
-            .Time = 0 _
-        }, _
-            New Address() With { _
-            .AddressString = "110 W End Ave New York, NY 10023", _
-            .[Alias] = "Toga Bike Shop", _
-            .Latitude = 40.7753077, _
-            .Longitude = -73.9861529, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "555 W 57th St New York, NY 10019", _
-            .[Alias] = "BMW of Manhattan", _
-            .Latitude = 40.7718005, _
-            .Longitude = -73.9897716, _
-            .Time = 0 _
-        }, New Address() With { _
-            .AddressString = "57 W 57th St New York, NY 10019", _
-            .[Alias] = "Verizon Wireless", _
-            .Latitude = 40.7558695, _
-            .Longitude = -73.9862019, _
-            .Time = 0 _
-        }}
+        Dim addresses As Address() = New Address() {
+            New Address() With {
+                .AddressString = "754 5th Ave New York, NY 10019",
+                .[Alias] = "Bergdorf Goodman",
+                .IsDepot = True,
+                .Latitude = 40.7636197,
+                .Longitude = -73.9744388,
+                .Time = 0
+            },
+            New Address() With {
+                .AddressString = "717 5th Ave New York, NY 10022",
+                .[Alias] = "Giorgio Armani",
+                .Latitude = 40.7669692,
+                .Longitude = -73.9693864,
+                .Time = 0
+            },
+            New Address() With {
+                .AddressString = "888 Madison Ave New York, NY 10014",
+                .[Alias] = "Ralph Lauren Women's and Home",
+                .Latitude = 40.7715154,
+                .Longitude = -73.9669241,
+                .Time = 0
+            },
+            New Address() With {
+                .AddressString = "1011 Madison Ave New York, NY 10075",
+                .[Alias] = "Yigal Azrou'l",
+                .Latitude = 40.7772129,
+                .Longitude = -73.9669,
+                .Time = 0
+            },
+            New Address() With {
+                .AddressString = "440 Columbus Ave New York, NY 10024",
+                .[Alias] = "Frank Stella Clothier",
+                .Latitude = 40.7808364,
+                .Longitude = -73.9732729,
+                .Time = 0
+            },
+            New Address() With {
+                .AddressString = "324 Columbus Ave #1 New York, NY 10023",
+                .[Alias] = "Liana",
+                .Latitude = 40.7803123,
+                .Longitude = -73.9793079,
+                .Time = 0
+            },
+            New Address() With {
+                .AddressString = "110 W End Ave New York, NY 10023",
+                .[Alias] = "Toga Bike Shop",
+                .Latitude = 40.7753077,
+                .Longitude = -73.9861529,
+                .Time = 0
+            },
+            New Address() With {
+                .AddressString = "555 W 57th St New York, NY 10019",
+                .[Alias] = "BMW of Manhattan",
+                .Latitude = 40.7718005,
+                .Longitude = -73.9897716,
+                .Time = 0
+            },
+            New Address() With {
+                .AddressString = "57 W 57th St New York, NY 10019",
+                .[Alias] = "Verizon Wireless",
+                .Latitude = 40.7558695,
+                .Longitude = -73.9862019,
+                .Time = 0
+            }
+        }
 
         ' Set parameters
 
@@ -12633,179 +12917,201 @@ Public Class TestDataRepository
 
         ' Prepare the addresses
 
-        Dim addresses As Address() = New Address() {New Address() With { _
-            .AddressString = "3634 W Market St, Fairlawn, OH 44333", _
-            .IsDepot = True, _
-            .Latitude = 41.135762259364, _
-            .Longitude = -81.629313826561, _
-            .Time = 300, _
-            .TimeWindowStart = 28800, _
-            .TimeWindowEnd = 29465 _
-        }, New Address() With { _
-            .AddressString = "1218 Ruth Ave, Cuyahoga Falls, OH 44221", _
-            .Latitude = 41.143505096435, _
-            .Longitude = -81.46549987793, _
-            .Time = 300, _
-            .TimeWindowStart = 29465, _
-            .TimeWindowEnd = 30529 _
-        }, New Address() With { _
-            .AddressString = "512 Florida Pl, Barberton, OH 44203", _
-            .Latitude = 41.003671512008, _
-            .Longitude = -81.598461046815, _
-            .Time = 300, _
-            .TimeWindowStart = 30529, _
-            .TimeWindowEnd = 33479 _
-        }, New Address() With { _
-            .AddressString = "512 Florida Pl, Barberton, OH 44203", _
-            .Latitude = 41.003671512008, _
-            .Longitude = -81.598461046815, _
-            .Time = 300, _
-            .TimeWindowStart = 33479, _
-            .TimeWindowEnd = 33944 _
-        }, New Address() With { _
-            .AddressString = "3495 Purdue St, Cuyahoga Falls, OH 44221", _
-            .Latitude = 41.162971496582, _
-            .Longitude = -81.479049682617, _
-            .Time = 300, _
-            .TimeWindowStart = 33944, _
-            .TimeWindowEnd = 34801 _
-        }, New Address() With { _
-            .AddressString = "1659 Hibbard Dr, Stow, OH 44224", _
-            .Latitude = 41.194505989552, _
-            .Longitude = -81.443351581693, _
-            .Time = 300, _
-            .TimeWindowStart = 34801, _
-            .TimeWindowEnd = 36366 _
-        }, _
-            New Address() With { _
-            .AddressString = "2705 N River Rd, Stow, OH 44224", _
-            .Latitude = 41.145240783691, _
-            .Longitude = -81.410247802734, _
-            .Time = 300, _
-            .TimeWindowStart = 36366, _
-            .TimeWindowEnd = 39173 _
-        }, New Address() With { _
-            .AddressString = "10159 Bissell Dr, Twinsburg, OH 44087", _
-            .Latitude = 41.340042114258, _
-            .Longitude = -81.421226501465, _
-            .Time = 300, _
-            .TimeWindowStart = 39173, _
-            .TimeWindowEnd = 41617 _
-        }, New Address() With { _
-            .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262", _
-            .Latitude = 41.148578643799, _
-            .Longitude = -81.429229736328, _
-            .Time = 300, _
-            .TimeWindowStart = 41617, _
-            .TimeWindowEnd = 43660 _
-        }, New Address() With { _
-            .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262", _
-            .Latitude = 41.148579, _
-            .Longitude = -81.42923, _
-            .Time = 300, _
-            .TimeWindowStart = 43660, _
-            .TimeWindowEnd = 46392 _
-        }, New Address() With { _
-            .AddressString = "512 Florida Pl, Barberton, OH 44203", _
-            .Latitude = 41.003671512008, _
-            .Longitude = -81.598461046815, _
-            .Time = 300, _
-            .TimeWindowStart = 46392, _
-            .TimeWindowEnd = 48089 _
-        }, New Address() With { _
-            .AddressString = "559 W Aurora Rd, Northfield, OH 44067", _
-            .Latitude = 41.315116882324, _
-            .Longitude = -81.558746337891, _
-            .Time = 300, _
-            .TimeWindowStart = 48089, _
-            .TimeWindowEnd = 48449 _
-        }, _
-            New Address() With { _
-            .AddressString = "3933 Klein Ave, Stow, OH 44224", _
-            .Latitude = 41.169467926025, _
-            .Longitude = -81.429420471191, _
-            .Time = 300, _
-            .TimeWindowStart = 48449, _
-            .TimeWindowEnd = 50152 _
-        }, New Address() With { _
-            .AddressString = "2148 8th St, Cuyahoga Falls, OH 44221", _
-            .Latitude = 41.136692047119, _
-            .Longitude = -81.493492126465, _
-            .Time = 300, _
-            .TimeWindowStart = 50152, _
-            .TimeWindowEnd = 51682 _
-        }, New Address() With { _
-            .AddressString = "3731 Osage St, Stow, OH 44224", _
-            .Latitude = 41.161357879639, _
-            .Longitude = -81.42293548584, _
-            .Time = 300, _
-            .TimeWindowStart = 51682, _
-            .TimeWindowEnd = 54379 _
-        }, New Address() With { _
-            .AddressString = "3862 Klein Ave, Stow, OH 44224", _
-            .Latitude = 41.167895123363, _
-            .Longitude = -81.429973393679, _
-            .Time = 300, _
-            .TimeWindowStart = 54379, _
-            .TimeWindowEnd = 54879 _
-        }, New Address() With { _
-            .AddressString = "138 Northwood Ln, Tallmadge, OH 44278", _
-            .Latitude = 41.085464134812, _
-            .Longitude = -81.447411775589, _
-            .Time = 300, _
-            .TimeWindowStart = 54879, _
-            .TimeWindowEnd = 56613 _
-        }, New Address() With { _
-            .AddressString = "3401 Saratoga Blvd, Stow, OH 44224", _
-            .Latitude = 41.148849487305, _
-            .Longitude = -81.407363891602, _
-            .Time = 300, _
-            .TimeWindowStart = 56613, _
-            .TimeWindowEnd = 57052 _
-        }, _
-            New Address() With { _
-            .AddressString = "5169 Brockton Dr, Stow, OH 44224", _
-            .Latitude = 41.195003509521, _
-            .Longitude = -81.392700195312, _
-            .Time = 300, _
-            .TimeWindowStart = 57052, _
-            .TimeWindowEnd = 59004 _
-        }, New Address() With { _
-            .AddressString = "5169 Brockton Dr, Stow, OH 44224", _
-            .Latitude = 41.195003509521, _
-            .Longitude = -81.392700195312, _
-            .Time = 300, _
-            .TimeWindowStart = 59004, _
-            .TimeWindowEnd = 60027 _
-        }, New Address() With { _
-            .AddressString = "458 Aintree Dr, Munroe Falls, OH 44262", _
-            .Latitude = 41.1266746521, _
-            .Longitude = -81.445808410645, _
-            .Time = 300, _
-            .TimeWindowStart = 60027, _
-            .TimeWindowEnd = 60375 _
-        }, New Address() With { _
-            .AddressString = "512 Florida Pl, Barberton, OH 44203", _
-            .Latitude = 41.003671512008, _
-            .Longitude = -81.598461046815, _
-            .Time = 300, _
-            .TimeWindowStart = 60375, _
-            .TimeWindowEnd = 63891 _
-        }, New Address() With { _
-            .AddressString = "2299 Tyre Dr, Hudson, OH 44236", _
-            .Latitude = 41.250511169434, _
-            .Longitude = -81.420433044434, _
-            .Time = 300, _
-            .TimeWindowStart = 63891, _
-            .TimeWindowEnd = 65277 _
-        }, New Address() With { _
-            .AddressString = "2148 8th St, Cuyahoga Falls, OH 44221", _
-            .Latitude = 41.136692047119, _
-            .Longitude = -81.493492126465, _
-            .Time = 300, _
-            .TimeWindowStart = 65277, _
-            .TimeWindowEnd = 68545 _
-        }}
+        Dim addresses As Address() = New Address() {
+            New Address() With {
+                .AddressString = "3634 W Market St, Fairlawn, OH 44333",
+                .IsDepot = True,
+                .Latitude = 41.135762259364,
+                .Longitude = -81.629313826561,
+                .Time = 300,
+                .TimeWindowStart = 28800,
+                .TimeWindowEnd = 29465
+            },
+            New Address() With {
+                .AddressString = "1218 Ruth Ave, Cuyahoga Falls, OH 44221",
+                .Latitude = 41.143505096435,
+                .Longitude = -81.46549987793,
+                .Time = 300,
+                .TimeWindowStart = 29465,
+                .TimeWindowEnd = 30529
+            },
+            New Address() With {
+                .AddressString = "512 Florida Pl, Barberton, OH 44203",
+                .Latitude = 41.003671512008,
+                .Longitude = -81.598461046815,
+                .Time = 300,
+                .TimeWindowStart = 30529,
+                .TimeWindowEnd = 33479
+            },
+            New Address() With {
+                .AddressString = "512 Florida Pl, Barberton, OH 44203",
+                .Latitude = 41.003671512008,
+                .Longitude = -81.598461046815,
+                .Time = 300,
+                .TimeWindowStart = 33479,
+                .TimeWindowEnd = 33944
+            },
+            New Address() With {
+                .AddressString = "3495 Purdue St, Cuyahoga Falls, OH 44221",
+                .Latitude = 41.162971496582,
+                .Longitude = -81.479049682617,
+                .Time = 300,
+                .TimeWindowStart = 33944,
+                .TimeWindowEnd = 34801
+            },
+            New Address() With {
+                .AddressString = "1659 Hibbard Dr, Stow, OH 44224",
+                .Latitude = 41.194505989552,
+                .Longitude = -81.443351581693,
+                .Time = 300,
+                .TimeWindowStart = 34801,
+                .TimeWindowEnd = 36366
+            },
+            New Address() With {
+                .AddressString = "2705 N River Rd, Stow, OH 44224",
+                .Latitude = 41.145240783691,
+                .Longitude = -81.410247802734,
+                .Time = 300,
+                .TimeWindowStart = 36366,
+                .TimeWindowEnd = 39173
+            },
+            New Address() With {
+                .AddressString = "10159 Bissell Dr, Twinsburg, OH 44087",
+                .Latitude = 41.340042114258,
+                .Longitude = -81.421226501465,
+                .Time = 300,
+                .TimeWindowStart = 39173,
+                .TimeWindowEnd = 41617
+            },
+            New Address() With {
+                .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262",
+                .Latitude = 41.148578643799,
+                .Longitude = -81.429229736328,
+                .Time = 300,
+                .TimeWindowStart = 41617,
+                .TimeWindowEnd = 43660
+            },
+            New Address() With {
+                .AddressString = "367 Cathy Dr, Munroe Falls, OH 44262",
+                .Latitude = 41.148579,
+                .Longitude = -81.42923,
+                .Time = 300,
+                .TimeWindowStart = 43660,
+                .TimeWindowEnd = 46392
+            },
+            New Address() With {
+                .AddressString = "512 Florida Pl, Barberton, OH 44203",
+                .Latitude = 41.003671512008,
+                .Longitude = -81.598461046815,
+                .Time = 300,
+                .TimeWindowStart = 46392,
+                .TimeWindowEnd = 48089
+            },
+            New Address() With {
+                .AddressString = "559 W Aurora Rd, Northfield, OH 44067",
+                .Latitude = 41.315116882324,
+                .Longitude = -81.558746337891,
+                .Time = 300,
+                .TimeWindowStart = 48089,
+                .TimeWindowEnd = 48449
+            },
+            New Address() With {
+                .AddressString = "3933 Klein Ave, Stow, OH 44224",
+                .Latitude = 41.169467926025,
+                .Longitude = -81.429420471191,
+                .Time = 300,
+                .TimeWindowStart = 48449,
+                .TimeWindowEnd = 50152
+            },
+            New Address() With {
+                .AddressString = "2148 8th St, Cuyahoga Falls, OH 44221",
+                .Latitude = 41.136692047119,
+                .Longitude = -81.493492126465,
+                .Time = 300,
+                .TimeWindowStart = 50152,
+                .TimeWindowEnd = 51682
+            },
+            New Address() With {
+                .AddressString = "3731 Osage St, Stow, OH 44224",
+                .Latitude = 41.161357879639,
+                .Longitude = -81.42293548584,
+                .Time = 300,
+                .TimeWindowStart = 51682,
+                .TimeWindowEnd = 54379
+            },
+            New Address() With {
+                .AddressString = "3862 Klein Ave, Stow, OH 44224",
+                .Latitude = 41.167895123363,
+                .Longitude = -81.429973393679,
+                .Time = 300,
+                .TimeWindowStart = 54379,
+                .TimeWindowEnd = 54879
+            },
+            New Address() With {
+                .AddressString = "138 Northwood Ln, Tallmadge, OH 44278",
+                .Latitude = 41.085464134812,
+                .Longitude = -81.447411775589,
+                .Time = 300,
+                .TimeWindowStart = 54879,
+                .TimeWindowEnd = 56613
+            },
+            New Address() With {
+                .AddressString = "3401 Saratoga Blvd, Stow, OH 44224",
+                .Latitude = 41.148849487305,
+                .Longitude = -81.407363891602,
+                .Time = 300,
+                .TimeWindowStart = 56613,
+                .TimeWindowEnd = 57052
+            },
+            New Address() With {
+                .AddressString = "5169 Brockton Dr, Stow, OH 44224",
+                .Latitude = 41.195003509521,
+                .Longitude = -81.392700195312,
+                .Time = 300,
+                .TimeWindowStart = 57052,
+                .TimeWindowEnd = 59004
+            },
+            New Address() With {
+                .AddressString = "5169 Brockton Dr, Stow, OH 44224",
+                .Latitude = 41.195003509521,
+                .Longitude = -81.392700195312,
+                .Time = 300,
+                .TimeWindowStart = 59004,
+                .TimeWindowEnd = 60027
+            },
+            New Address() With {
+                .AddressString = "458 Aintree Dr, Munroe Falls, OH 44262",
+                .Latitude = 41.1266746521,
+                .Longitude = -81.445808410645,
+                .Time = 300,
+                .TimeWindowStart = 60027,
+                .TimeWindowEnd = 60375
+            },
+            New Address() With {
+                .AddressString = "512 Florida Pl, Barberton, OH 44203",
+                .Latitude = 41.003671512008,
+                .Longitude = -81.598461046815,
+                .Time = 300,
+                .TimeWindowStart = 60375,
+                .TimeWindowEnd = 63891
+            },
+            New Address() With {
+                .AddressString = "2299 Tyre Dr, Hudson, OH 44236",
+                .Latitude = 41.250511169434,
+                .Longitude = -81.420433044434,
+                .Time = 300,
+                .TimeWindowStart = 63891,
+                .TimeWindowEnd = 65277
+            },
+            New Address() With {
+                .AddressString = "2148 8th St, Cuyahoga Falls, OH 44221",
+                .Latitude = 41.136692047119,
+                .Longitude = -81.493492126465,
+                .Time = 300,
+                .TimeWindowStart = 65277,
+                .TimeWindowEnd = 68545
+            }
+        }
 
         ' Set parameters
 
@@ -12858,10 +13164,12 @@ Public Class TestDataRepository
             Dim sDictionaryDDLSqlCom As String = ""
             Dim sDictionaryDMLSqlCom As String = ""
 
-            sAddressbookSqlCom = File.ReadAllText("Data/SQL/SQLCE/addressbook_v4.sql")
-            sOrdersSqlCom = File.ReadAllText("Data/SQL/SQLCE/orders.sql")
-            sDictionaryDDLSqlCom = File.ReadAllText("Data/SQL/SQLCE/csv_to_api_dictionary_DDL.sql")
-            sDictionaryDMLSqlCom = File.ReadAllText("Data/SQL/SQLCE/csv_to_api_dictionary_DML.sql")
+            Dim stPath = AppDomain.CurrentDomain.BaseDirectory
+
+            sAddressbookSqlCom = File.ReadAllText(stPath & "/Data/SQL/SQLCE/addressbook_v4.sql")
+            sOrdersSqlCom = File.ReadAllText(stPath & "/Data/SQL/SQLCE/orders.sql")
+            sDictionaryDDLSqlCom = File.ReadAllText(stPath & "/Data/SQL/SQLCE/csv_to_api_dictionary_DDL.sql")
+            sDictionaryDMLSqlCom = File.ReadAllText(stPath & "/Data/SQL/SQLCE/csv_to_api_dictionary_DML.sql")
 
             sqlDB.OpenConnection()
 
@@ -12906,7 +13214,7 @@ Public Class TestDataRepository
 
     Public Sub dropSQLCEtable(tableName As String, sqlDB As cDatabase)
         Dim oExists As Object = sqlDB.ExecuteScalar((Convert.ToString("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '") & tableName) + "'")
-        Assert.IsNotNull(oExists, "Query about table existing failed...")
+        Assert.IsNotNull(oExists, "Query about table existing failed.")
 
         If oExists.ToString() = "1" Then
             Dim iDroRresult As Integer = sqlDB.ExecuteNon(Convert.ToString("DROP TABLE ") & tableName)

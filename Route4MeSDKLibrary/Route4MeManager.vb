@@ -1235,10 +1235,16 @@ Namespace Route4MeSDK
         End Function
 
 
-        Public Function GetMemberCapabilities(ByRef errorString As String) As MemberCapabilities
+        Public Function GetMemberCapabilities(ByVal apiKey As String, ByRef errorString As String) As MemberCapabilities
             Dim parameters = New GenericParameters()
 
-            Dim result = GetJsonObjectFromAPI(Of MemberCapabilities)(parameters, R4MEInfrastructureSettings.MemberCapabilities, HttpMethodType.[Get], errorString)
+            parameters.ParametersCollection.Add("ApiKey", apiKey)
+
+            Dim result = GetJsonObjectFromAPI(Of MemberCapabilities)(
+                parameters,
+                R4MEInfrastructureSettings.MemberCapabilities,
+                HttpMethodType.[Get],
+                errorString)
 
             Return result
         End Function
@@ -1254,21 +1260,29 @@ Namespace Route4MeSDK
                                                       ByVal demoApiKey As String,
                                                       ByRef errorString As String) As Boolean
             Try
-                Dim memberCapabilities = Me.GetMemberCapabilities(errorString)
+                Dim memberCapabilities = Me.GetMemberCapabilities(actualApiKey, errorString)
 
                 If actualApiKey = demoApiKey OrElse memberCapabilities Is Nothing Then Return False
 
-                Dim commercialSubscription = memberCapabilities.[GetType]().GetProperties().Where(Function(x) x.Name = "Commercial").FirstOrDefault()
+                Dim commercialSubscription = memberCapabilities.[GetType]().GetProperties().Where(
+                    Function(x) x.Name = "Commercial"
+                    ).FirstOrDefault()
 
                 If commercialSubscription Is Nothing Then Return False
+
+                If commercialSubscription.GetValue(memberCapabilities).[GetType]() <> GetType(Boolean) Then Return False
+
+                Dim isCommercial As Boolean = CBool(commercialSubscription.GetValue(memberCapabilities))
+
+                If Not isCommercial Then Return False
 
                 Return True
             Catch ex As Exception
                 errorString = ex.Message
-
                 Return False
             End Try
         End Function
+
 
 #End Region
 
@@ -3362,16 +3376,17 @@ Namespace Route4MeSDK
 #End Region
 
 #Region "Telematics Vendors"
+
         Public Function GetAllTelematicsVendors(ByVal vendorParams As TelematicsVendorParameters,
                                                 ByRef errorString As String) As TelematicsVendorsResponse
 
-            Dim response As TelematicsVendorsResponse = GetJsonObjectFromAPI(
+            Dim result = GetJsonObjectFromAPI(
                 Of TelematicsVendorsResponse)(
                 vendorParams,
                 R4MEInfrastructureSettings.TelematicsVendorsHost, HttpMethodType.[Get],
                 errorString)
 
-            Return response
+            Return result
         End Function
 
         Public Function GetTelematicsVendor(ByVal vendorParams As TelematicsVendorParameters,
@@ -3399,6 +3414,193 @@ Namespace Route4MeSDK
 
             Return response
         End Function
+
+        ''' <summary>
+        ''' Register telematics member
+        ''' </summary>
+        ''' <param name="vendorParams">Parameters containing API key and member ID</param>
+        ''' <param name="errorString">out: Error as string</param>
+        ''' <returns>Response with a member's API token</returns>
+        Public Function RegisterTelematicsMember(ByVal vendorParams As TelematicsVendorParameters,
+                                                 ByRef errorString As String) As TelematicsRegisterMemberResponse
+
+            vendorParams.PrepareForSerialization()
+
+            Return GetJsonObjectFromAPI(Of TelematicsRegisterMemberResponse)(
+                vendorParams,
+                R4MEInfrastructureSettings.TelematicsRegisterHost,
+                HttpMethodType.[Get],
+                errorString)
+
+        End Function
+
+        ''' <summary>
+        ''' Get all telematics connections.
+        ''' </summary>
+        ''' <param name="vendorParams">Parameters containing API token</param>
+        ''' <param name="errorString">out: Error as string</param>
+        ''' <returns>An array of the telematics connections</returns>
+        Public Function GetTelematicsConnections(ByVal vendorParams As TelematicsVendorParameters,
+                                                 ByRef errorString As String) As TelematicsConnection()
+
+            Dim result = GetJsonObjectFromAPI(Of TelematicsConnection())(
+                vendorParams,
+                R4MEInfrastructureSettings.TelematicsVendorsHost,
+                HttpMethodType.[Get],
+                errorString)
+
+            Return result
+
+        End Function
+
+        ''' <summary>
+        ''' Create a telematics connection
+        ''' </summary>
+        ''' <param name="apiToken">API token</param>
+        ''' <param name="connectionParams">Telematics connection parameters</param>
+        ''' <param name="errorString">out: Error as string</param>
+        ''' <returns>Created telematics connection</returns>
+        Public Function CreateTelematicsConnection(ByVal apiToken As String,
+                                                   ByVal connectionParams As TelematicsConnectionParameters,
+                                                   ByRef errorString As String) As TelematicsConnection
+            Dim roParames = New GenericParameters()
+            roParames.ParametersCollection.Add("api_token", apiToken)
+
+            Dim keyValues = New List(Of KeyValuePair(Of String, String))()
+
+            If connectionParams.AccountId IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("account_id", connectionParams.AccountId))
+            If connectionParams.UserName IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("username", connectionParams.UserName))
+            If connectionParams.Password IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("password", connectionParams.Password))
+            If connectionParams.Host IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("host", connectionParams.Host))
+            If connectionParams.VendorID IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("vendor_id", connectionParams.VendorID.ToString()))
+            If connectionParams.Name IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("name", connectionParams.Name))
+            If connectionParams.VehiclePositionRefreshRate IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("vehicle_position_refresh_rate", connectionParams.VehiclePositionRefreshRate.ToString()))
+            If connectionParams.UserId IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("user_id", connectionParams.UserId.ToString()))
+            If connectionParams.ID IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("id", connectionParams.ID.ToString()))
+            If connectionParams.Vendor IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("vendor", connectionParams.Vendor))
+
+            Using httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
+                Dim response As TelematicsConnection = GetJsonObjectFromAPI(Of TelematicsConnection)(
+                    roParames,
+                    R4MEInfrastructureSettings.TelematicsConnection,
+                    HttpMethodType.Post,
+                    httpContent,
+                    errorString)
+
+                Return response
+
+            End Using
+        End Function
+
+        ''' <summary>
+        ''' Delete a telematics connection
+        ''' </summary>
+        ''' <param name="apiToken">API token</param>
+        ''' <param name="connectionToken">Connection token</param>
+        ''' <param name="errorString">out: Error as string</param>
+        ''' <returns>Deleted telematics connection</returns>
+        Public Function DeleteTelematicsConnection(ByVal apiToken As String,
+                                                   ByVal connectionToken As String,
+                                                   ByRef errorString As String) As TelematicsConnection
+            Dim roParames = New GenericParameters()
+            roParames.ParametersCollection.Add("api_token", apiToken)
+
+            roParames.ParametersCollection.Add("connection_token", connectionToken)
+
+            Dim result = GetJsonObjectFromAPI(Of TelematicsConnection)(
+                roParames,
+                R4MEInfrastructureSettings.TelematicsConnection,
+                HttpMethodType.Delete,
+                errorString)
+
+            Return result
+
+        End Function
+
+        ''' <summary>
+        ''' Update telematics connection
+        ''' </summary>
+        ''' <param name="apiToken">API token</param>
+        ''' <param name="connectionToken">Connection token</param>
+        ''' <param name="connectionParams">Telematics connection parameters</param>
+        ''' <param name="errorString">out: Error as string</param>
+        ''' <returns>Updated telematics connection</returns>
+        Public Function UpdateTelematicsConnection(ByVal apiToken As String,
+                                                   ByVal connectionToken As String,
+                                                   ByVal connectionParams As TelematicsConnectionParameters,
+                                                   ByRef errorString As String) As TelematicsConnection
+            Dim roParames = New GenericParameters()
+            roParames.ParametersCollection.Add("api_token", apiToken)
+            roParames.ParametersCollection.Add("connection_token", connectionToken)
+
+            Dim keyValues = New List(Of KeyValuePair(Of String, String))()
+
+            If connectionParams.AccountId IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("account_id", connectionParams.AccountId))
+            If connectionParams.UserName IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("username", connectionParams.UserName))
+            If connectionParams.Password IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("password", connectionParams.Password))
+            If connectionParams.Host IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("host", connectionParams.Host))
+            If connectionParams.VendorID IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("vendor_id", connectionParams.VendorID.ToString()))
+            If connectionParams.Name IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("name", connectionParams.Name))
+            If connectionParams.VehiclePositionRefreshRate IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("vehicle_position_refresh_rate", connectionParams.VehiclePositionRefreshRate.ToString()))
+            If connectionParams.UserId IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("user_id", connectionParams.UserId.ToString()))
+            If connectionParams.Vendor IsNot Nothing Then keyValues.Add(
+                New KeyValuePair(Of String, String)("vendor", connectionParams.Vendor))
+
+            Using httpContent As HttpContent = New FormUrlEncodedContent(keyValues)
+                Dim response As TelematicsConnection = GetJsonObjectFromAPI(Of TelematicsConnection)(
+                    roParames,
+                    R4MEInfrastructureSettings.TelematicsConnection,
+                    HttpMethodType.Put,
+                    httpContent,
+                    errorString)
+
+                Return response
+
+            End Using
+        End Function
+
+        ''' <summary>
+        ''' Get a telematics connection
+        ''' </summary>
+        ''' <param name="apiToken">API token</param>
+        ''' <param name="connectionToken">Connection token</param>
+        ''' <param name="errorString">out: Error as string</param>
+        ''' <returns>Telematics connection</returns>
+        Public Function GetTelematicsConnection(ByVal apiToken As String,
+                                                ByVal connectionToken As String,
+                                                ByRef errorString As String) As TelematicsConnection
+            Dim roParames = New GenericParameters()
+            roParames.ParametersCollection.Add("api_token", apiToken)
+            roParames.ParametersCollection.Add("connection_token", connectionToken)
+
+            Dim result = GetJsonObjectFromAPI(Of TelematicsConnection)(
+                roParames,
+                R4MEInfrastructureSettings.TelematicsConnection,
+                HttpMethodType.[Get],
+                errorString)
+
+            Return result
+
+        End Function
+
 #End Region
 
 #Region "Generic Methods"
@@ -3587,7 +3789,17 @@ Namespace Route4MeSDK
             Try
 
                 Using httpClient As HttpClient = CreateHttpClient(url)
-                    Dim parametersURI As String = optimizationParameters.Serialize(m_ApiKey)
+
+                    Dim hasApiKey As Boolean = (
+                        If(optimizationParameters.[GetType]().GetProperties().Where(
+                            Function(x) x.Name = "ApiKey" OrElse x.Name = "api_key"
+                            ).FirstOrDefault()?.GetValue(optimizationParameters), Nothing)) IsNot Nothing
+
+                    Dim parametersURI As String = If(hasApiKey,
+                                                      optimizationParameters.Serialize(String.Empty),
+                                                      optimizationParameters.Serialize(m_ApiKey))
+
+                    parametersURI = parametersURI.Replace("?&", "?")
 
                     Select Case _httpMethod
                         Case HttpMethodType.[Get]

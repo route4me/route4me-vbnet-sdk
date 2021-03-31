@@ -153,6 +153,8 @@
     <Compile Include="DataTypes\ScheduleCalendarResponse.vb" />
     <Compile Include="DataTypes\SetGpsResponse.vb" />
     <Compile Include="DataTypes\StatusResponse.vb" />
+    <Compile Include="DataTypes\TelematicsConnection.vb" />
+    <Compile Include="DataTypes\TelematicsRegisterMemberResponse.vb" />
     <Compile Include="DataTypes\TelematicsVendor.vb" />
     <Compile Include="DataTypes\TelematicsVendorFeature.vb" />
     <Compile Include="DataTypes\TelematicsVendorResponse.vb" />
@@ -163,6 +165,7 @@
     <Compile Include="DataTypes\TrackingHistory.vb" />
     <Compile Include="DataTypes\User.vb" />
     <Compile Include="DataTypes\UserLocation.vb" />
+    <Compile Include="DataTypes\V5\AccountProfile.vb" />
     <Compile Include="DataTypes\V5\Address\Address.vb" />
     <Compile Include="DataTypes\V5\DataObject.vb" />
     <Compile Include="DataTypes\V5\DataObjectBase.vb" />
@@ -179,6 +182,15 @@
     <Compile Include="DataTypes\V5\Routes\RoutesDeleteResponse.vb" />
     <Compile Include="DataTypes\V5\StatusResponse.vb" />
     <Compile Include="DataTypes\V5\TeamResponse.vb" />
+    <Compile Include="DataTypes\V5\TelematicsPlatform\Connection\Connection.vb" />
+    <Compile Include="DataTypes\V5\Vehicles\Vehicle.vb" />
+    <Compile Include="DataTypes\V5\Vehicles\VehicleLocationResponse.vb" />
+    <Compile Include="DataTypes\V5\Vehicles\VehicleOrderResponse.vb" />
+    <Compile Include="DataTypes\V5\Vehicles\VehicleProfile.vb" />
+    <Compile Include="DataTypes\V5\Vehicles\VehicleProfilesResponse.vb" />
+    <Compile Include="DataTypes\V5\Vehicles\VehicleResponse.vb" />
+    <Compile Include="DataTypes\V5\Vehicles\VehicleTemporary.vb" />
+    <Compile Include="DataTypes\V5\Vehicles\VehicleTrackResponse.vb" />
     <Compile Include="DataTypes\VehicleResponse.vb" />
     <Compile Include="DataTypes\VehiclesPaginated.vb" />
     <Compile Include="DataTypes\VehicleV4CreateResponse.vb" />
@@ -228,6 +240,7 @@
     <Compile Include="QueryTypes\OrderParameters.vb" />
     <Compile Include="QueryTypes\RouteParametersQuery.vb" />
     <Compile Include="QueryTypes\ScheduleCalendarQuery.vb" />
+    <Compile Include="QueryTypes\TelematicsConnectionParameters.vb" />
     <Compile Include="QueryTypes\TelematicsVendorParameters.vb" />
     <Compile Include="QueryTypes\TerritoryQuery.vb" />
     <Compile Include="QueryTypes\V5\DriverReviewParameters.vb" />
@@ -235,6 +248,11 @@
     <Compile Include="QueryTypes\V5\RouteFilterParameters.vb" />
     <Compile Include="QueryTypes\V5\RouteParametersQuery.vb" />
     <Compile Include="QueryTypes\V5\TeamRequest.vb" />
+    <Compile Include="QueryTypes\V5\TelematicsPlatform\ConnectionParameters.vb" />
+    <Compile Include="QueryTypes\V5\Vehicles\VehicleOrderParameters.vb" />
+    <Compile Include="QueryTypes\V5\Vehicles\VehicleParameters.vb" />
+    <Compile Include="QueryTypes\V5\Vehicles\VehicleProfileParameters.vb" />
+    <Compile Include="QueryTypes\V5\Vehicles\VehicleSearchParameters.vb" />
     <Compile Include="QueryTypes\VehicleParameters.vb" />
     <Compile Include="QueryTypes\VehicleV4Parameters.vb" />
     <Compile Include="Route4MeManager.vb" />

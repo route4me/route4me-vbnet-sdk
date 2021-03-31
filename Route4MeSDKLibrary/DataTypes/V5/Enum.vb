@@ -359,4 +359,93 @@ Namespace Route4MeSDK.DataTypes.V5
         <Description("SUB_ACCOUNT_VENDOR")>
         Vendor
     End Enum
+
+    ''' <summary>
+    ''' Enumeration of the fuel types.
+    ''' </summary>
+    Public Enum FuelTypes
+        <Description("unleaded 87")>
+        Unleaded_87
+
+        <Description("unleaded 89")>
+        Unleaded_89
+
+        <Description("unleaded 91")>
+        Unleaded_91
+
+        <Description("unleaded 93")>
+        Unleaded_93
+
+        <Description("diesel")>
+        Diesel
+
+        <Description("electric")>
+        Electric
+
+        <Description("hybrid")>
+        Hybrid
+    End Enum
+
+    ''' <summary>
+    ''' Fuel consumption units enumeration.
+    ''' </summary>
+    Public Enum FuelConsumptionUnits
+        <Description("L/100km")>
+        LitersPer100Kilometers
+
+        <Description("km/l")>
+        KilometersPerLiter
+
+        <Description("mpg")>
+        MilesPerGallonUS
+
+        <Description("mpg uk")>
+        MilesPerGallonUK
+
+        <Description("mi/l")>
+        MilesPerLiter
+    End Enum
+
+    ''' <summary>
+    ''' Vehicle size (height, weidth, length) units.
+    ''' </summary>
+    Public Enum VehicleSizeUnits
+        <Description("m")>
+        Meter
+
+        <Description("ft")>
+        Foot
+    End Enum
+
+    ''' <summary>
+    ''' Vehicle weight units.
+    ''' </summary>
+    Public Enum VehicleWeightUnits
+        <Description("kg")>
+        Kilogram
+
+        <Description("lb")>
+        Pound
+
+        <Description("t")>
+        Tonne
+    End Enum
+
+    ''' <summary>
+    ''' Telematics vendor types
+    ''' </summary>
+    Public Enum TelematicsVendorType As UInteger
+        <Description("tomtom")>
+        Tomtom
+        <Description("teletrac")>
+        Teletrac
+        <Description("azuga")>
+        Azuga
+        <Description("geotab")>
+        Geotab
+        <Description("silentpassenger")>
+        SilentPassenger
+        <Description("new_teletrac")>
+        NewTeletrac
+    End Enum
 End Namespace

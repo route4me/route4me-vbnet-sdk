@@ -296,6 +296,24 @@ Namespace Route4MeSDK.DataTypes
         CustomTime = 2
         InheritFromPrimary = 3
     End Enum
+
+    ''' <summary>
+    ''' Telematics vendor types
+    ''' </summary>
+    Public Enum TelematicsVendorType As UInteger
+        <Description("tomtom")>
+        Tomtom
+        <Description("teletrac")>
+        Teletrac
+        <Description("azuga")>
+        Azuga
+        <Description("geotab")>
+        Geotab
+        <Description("silentpassenger")>
+        SilentPassenger
+        <Description("new_teletrac")>
+        NewTeletrac
+    End Enum
 #End Region
 
 End Namespace

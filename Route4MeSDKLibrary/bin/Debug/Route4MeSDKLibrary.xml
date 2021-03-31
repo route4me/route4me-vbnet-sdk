@@ -1238,6 +1238,11 @@ Route4MeSDKLibrary
  <para>InheritFromPrimary = 3, don't add service times</para>
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendorType">
+ <summary>
+ Telematics vendor types
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ErrorResponse">
  <summary>
  Errors data-structure
@@ -2966,6 +2971,229 @@ Route4MeSDKLibrary
  </para></remarks>
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection">
+ <summary>
+ The response structure from the endpoint /connections
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.AccountId">
+ <summary>
+ Telematics connection access account_id
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.UserName">
+ <summary>
+ Telematics connection access username
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.Password">
+ <summary>
+ Telematics connection access password
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.Host">
+ <summary>
+ Telematics connection access host
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.VendorId">
+ <summary>
+ Telemetics connection type ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.Name">
+ <summary>
+ Telemetics connection name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.VehiclePositionRefreshRate">
+ <summary>
+ Vehicle tracking interval in seconds
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.ConnectionToken">
+ <summary>
+ Telematics connection access token
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.UserId">
+ <summary>
+ Connection user ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.UpdatedAt">
+ <summary>
+ When the connection updated
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.CreatedAt">
+ <summary>
+ When the connection created
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.Id">
+ <summary>
+ Telemetics connection ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.Metadata">
+ <summary>
+ Metadata, custom key-value storage.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.TotalVehiclesCount">
+ <summary>
+ Total vehicles count
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.SyncedVehiclesCount">
+ <summary>
+ Syncronized vehicles count
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.Vendor">
+ <summary>
+ Telemetics connection vendor <see cref="!:Enum.TelematicsVendorType" />
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsRegisterMemberResponse">
+ <summary>
+ Response from the process of a telematics member registering.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsRegisterMemberResponse.ApiToken">
+ <summary>
+ API token
+ Use for the operations Get Telematics Connections, Register Telematics Connection
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsRegisterMemberResponse.UpdatedAt">
+ <summary>
+ When the registered member updated
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsRegisterMemberResponse.CreatedAt">
+ <summary>
+ When the registered member created
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsRegisterMemberResponse.Id">
+ <summary>
+ Telemetics member  ID
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendor">
+ <summary>
+ Telematics vendor's data structure.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendor.ID">
+ <summary>
+ Unique ID of a telematics vendor.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendor.Name">
+ <summary>
+ Vendor name.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendor.Slug">
+ <summary>
+ Vendor slug.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendor.Description">
+ <summary>
+ Vendor description.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendor.LogoURL">
+ <summary>
+ URL to the telematics vendor's logo.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendor.WebsiteURL">
+ <summary>
+ Website URL of a telematics vendor.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendor.ApiDocsURL">
+ <summary>
+ API URL of a telematics vendor.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendor.IsIntegrated">
+ <summary>
+ Whether, the vendor is or not integrated into the Route4Me system.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendor.Size">
+ <summary>
+ Vendors size.
+ <para>Accepted values</para>
+ <value>global, regional, local. </value>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendor.Features">
+ <summary>
+ An array the vendor features. See <see cref="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendorFeature"/>.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendor.Countries">
+ <summary>
+ An array of the countries, the vendor is operating. See <see cref="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Country"/>.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendors">
+ <summary>
+ Telematics vendors list item data structure.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendors.ID">
+ <summary>
+ Vendor ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendors.Name">
+ <summary>
+ Vendor name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendors.Slug">
+ <summary>
+ Vendor slug
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendors.Description">
+ <summary>
+ Description of the telematics vendor
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendors.logoURL">
+ <summary>
+ URL to the telematics vendor's logo.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendors.WebsiteURL">
+ <summary>
+ URL to the telematics vendor's website
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendors.ApiDocsURL">
+ <summary>
+ URL to the telematics vendor's website.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendors.isIntegrated">
+ <summary>
+ Whether, the vendor is or not integrated into the Route4Me system.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsVendors.Size">
+ <summary>
+ Telematics vendor size (e.g. 'global', regional', 'local')
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Territory">
  <summary>
  Territory parameters
@@ -3219,6 +3447,36 @@ User email.
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.UserTracking.LastKnown">
  <summary>
  Timestamp of a last known location.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AccountProfile">
+ <summary>
+ Account profile
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AccountProfile.Email">
+ <summary>
+ Account profile email
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AccountProfile.MemberIId">
+ <summary>
+ Account member ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AccountProfile.ApiKey">
+ <summary>
+ Account API key
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AccountProfile.RootMemberId">
+ <summary>
+ Account root member ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AccountProfile.PreferredUnits">
+ <summary>
+ Prefered unnits of the account
  </summary>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Address">
@@ -3942,6 +4200,31 @@ User email.
  <para>KeepOriginal = 1, preserve original address service time</para>
  <para>CustomTime = 2, set custom times</para>
  <para>InheritFromPrimary = 3, don't add service times</para>
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.FuelTypes">
+ <summary>
+ Enumeration of the fuel types.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.FuelConsumptionUnits">
+ <summary>
+ Fuel consumption units enumeration.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleSizeUnits">
+ <summary>
+ Vehicle size (height, weidth, length) units.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleWeightUnits">
+ <summary>
+ Vehicle weight units.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsVendorType">
+ <summary>
+ Telematics vendor types
  </summary>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.OrderInventory">
@@ -5133,6 +5416,732 @@ User email.
  Member's location timezone
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection">
+ <summary>
+ The response structure from the endpoint /connections
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.Name">
+ <summary>
+ Telemetics connection name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.Vendor">
+ <summary>
+ Telemetics connection type <see cref="!:Enum.TelematicsVendorType" />
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.Host">
+ <summary>
+ Telematics connection access host
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.ApiKey">
+ <summary>
+ Telematics connection access api_key
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.AccountId">
+ <summary>
+ Telematics connection access account_id
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.UserName">
+ <summary>
+ Telematics connection access username
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.Password">
+ <summary>
+ Telematics connection access password
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.ConnectionToken">
+ <summary>
+ Telematics connection access token
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.VendorId">
+ <summary>
+ Telemetics connection type ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.IsEnabled">
+ <summary>
+ Disable/enable vehicle tracking
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.VehiclePositionRefreshRate">
+ <summary>
+ Vehicle tracking interval in seconds
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.MaxIdleTime">
+ <summary>
+ Maximum idle time
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.SyncedVehiclesCount">
+ <summary>
+ NUmber of the syncronized vehicles
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.TotalVehiclesCount">
+ <summary>
+ Total vehicles count
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.TotalAddressesCount">
+ <summary>
+ Total addresses count
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.LastVehiclesReload">
+ <summary>
+ The last timestamp the vehicles reloaded
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.LastAddressesReload">
+ <summary>
+ The last timestamp the addresses reloaded
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.LastPositionReload">
+ <summary>
+ The last timestamp the postions reloaded
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.Metadata">
+ <summary>
+ Metadata, custom key-value storage.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle">
+ <summary>
+ Response from the vehicle request
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.VehicleId">
+ <summary>
+ The vehicle ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.MemberId">
+ <summary>
+ Member ID assigned to the vehicle.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.IsDeleted">
+ <summary>
+ If true, the vehicle is marked as deleted.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.VehicleAlias">
+ <summary>
+ Vehicle alias
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.VehicleVin">
+ <summary>
+ Vehicle VIN
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.VehicleRegStateId">
+ <summary>
+ Vehicle registration state ID.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.VehicleRegCountryId">
+ <summary>
+ Vehicle registration country ID.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.VehicleLicensePlate">
+ <summary>
+ A license plate of the vehicle.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.VehicleTypeId">
+ <summary>
+ Vehicle type.
+ <para>Availbale values</para>
+ sedan', 'suv', 'pickup_truck', 'van', '18wheeler', 'cabin', 'hatchback',
+ '<para>motorcyle', 'waste_disposal', 'tree_cutting', 'bigrig', 'cement_mixer', </para>
+ 'livestock_carrier', 'dairy','tractor_trailer'.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.TimestampAdded">
+ <summary>
+ When the vehicle was added.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.VehicleMake">
+ <summary>
+ Vehicle maker brend.
+ <para>Available values</para>
+ "american coleman", "bmw", "chevrolet", "ford", "freightliner", "gmc",
+ <para>"hino", "honda", "isuzu", "kenworth", "mack", "mercedes-benz", "mitsubishi", </para>
+ "navistar", "nissan", "peterbilt", "renault", "scania", "sterling", "toyota",
+ <para>"volvo", "western star" </para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.VehicleModelYear">
+ <summary>
+ Vehicle model year
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.VehicleModel">
+ <summary>
+ Vehicle model
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.VehicleYearAcquired">
+ <summary>
+ The year, vehicle was acquired
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.VehicleCostNew">
+ <summary>
+ A cost of the new vehicle
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.PurchasedNew">
+ <summary>
+ If true, the vehicle was purchased new.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.LicenseStartDate">
+ <summary>
+ Start date of the license
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.LicenseEndDate">
+ <summary>
+ End date of the license
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.IsOsperational">
+ <summary>
+ If equal to '1', the vehicle is operational.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.FuelType">
+ <summary>
+ A type of the fuel
+ enum ['unleaded 87','unleaded 89','unleaded 91','unleaded 93','diesel','electric','hybrid']
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.ExternalTelematicsVehicleIDs">
+ <summary>
+ External telematics vehicle IDs
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.TimestampRemoved">
+ <summary>
+ When the vehcile was marked as deleted.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.VehicleProfileId">
+ <summary>
+ Vehicle profile ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.FuelConsumptionCity">
+ <summary>
+ Fuel consumption city
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.FuelConsumptionHighway">
+ <summary>
+ Fuel consumption in the highway area
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.FuelConsumptionCityUnit">
+ <summary>
+ Fuel consumption units in the city area (e.g. mi/l)
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.FuelConsumptionHighwayUnit">
+ <summary>
+ Fuel consumption units in the highway area (e.g. mi/l)
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.MpgCity">
+ <summary>
+ Miles per gallon in the city area
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.MpgHighway">
+ <summary>
+ Miles per gallon in the highway area
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.FuelConsumptionCityUfValue">
+ <summary>
+ Fuel consumption UF value in the city area (e.g. '20.01 mi/l')
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle.FuelConsumptionHighwayUfValue">
+ <summary>
+ Fuel consumption UF value in the highway area (e.g. '2,000.01 mpg')
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleLocationResponse">
+ <summary>
+ Response from the endpoint /vehicles/location
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleLocationResponse.Data">
+ <summary>
+ An array of the vehicle locations
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleLocationItem">
+ <summary>
+ ehicle location data structure.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleLocationItem.VehicleId">
+ <summary>
+ The vehicle ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleLocationItem.ActivityTimestamp">
+ <summary>
+ When a vehicle activity was detected.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleLocationItem.Latitude">
+ <summary>
+ Latitude of a vehicle position.
+ <remarks><para>Query parameter.</para></remarks>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleLocationItem.Longitude">
+ <summary>
+ Longitude of a vehicle position.
+ <remarks><para>Query parameter.</para></remarks>
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleOrderResponse">
+ <summary>
+ Response from execution of a vehicle order.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleOrderResponse.VehicleId">
+ <summary>
+ The vehicle ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleOrderResponse.OrderId">
+ <summary>
+ Vehicle order ID
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile">
+ <summary>
+ Vehicle profile data structure.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.VehicleProfileId">
+ <summary>
+ Vehicle profile ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.RootMemberId">
+ <summary>
+ Root member ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.Name">
+ <summary>
+ Vehicle profile name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.Height">
+ <summary>
+ Vehicle height
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.Width">
+ <summary>
+ Vehicle width
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.Length">
+ <summary>
+ Vehicle length
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.Weight">
+ <summary>
+ Vehicle weight
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.MaxWeightPerAxle">
+ <summary>
+ Maximum weight per axle
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.DeletedAt">
+ <summary>
+ When the profile deleted
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.CreatedAt">
+ <summary>
+ When the profile created
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.UpdatedAt">
+ <summary>
+ When the profile updated
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.FuelType">
+ <summary>
+ A type of the fuel
+ enum ['unleaded 87','unleaded 89','unleaded 91','unleaded 93','diesel','electric','hybrid']
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.FuelConsumptionCity">
+ <summary>
+ Fuel consumption city
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.FuelConsumptionHighway">
+ <summary>
+ Fuel consumption in the highway area
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.HazmatType">
+ <summary>
+ Type of a hazardous material.
+ enum ['general', 'explosives', 'flammable', 'inhalants', 'caustic', 'radioactive']
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.IsPredefined">
+ <summary>
+ If true, the profile is predefined.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.IsDefault">
+ <summary>
+ If true, the profile is default.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.HeightUnits">
+ <summary>
+ Height units (e.g. 'ft', 'm')
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.WidthUnits">
+ <summary>
+ Width units (e.g. 'ft', 'm')
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.LengthUnits">
+ <summary>
+ Length units (e.g. 'ft', 'm')
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.WeightUnits">
+ <summary>
+ Weight units (e.g. 'lb', 'kg')
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.MaxWeightPerAxleUnits">
+ <summary>
+ Maximum weight per axle units (e.g. 'lb', 'kg')
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.FuelConsumptionCityUnit">
+ <summary>
+ Fuel consumption units in the city area (e.g. mpg)
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.FuelConsumptionHighwayUnit">
+ <summary>
+ Fuel consumption units in the highway area (e.g. mpg)
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.HeightUfValue">
+ <summary>
+ Height UF value (e.g. "7'")
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.WidthUfValue">
+ <summary>
+ Width UF value (e.g. "8'")
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.LengthUfValue">
+ <summary>
+ Length UF value (e.g. "20'")
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.WeightUfValue">
+ <summary>
+ Weight UF value (e.g. "8,500lb")
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.MaxWeightPerAxleUfValue">
+ <summary>
+ Maximum weight per axle (UF value, e.g. "8,500lb")
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.FuelConsumptionCityUfValue">
+ <summary>
+ Fuel consumption city (UF value, e.g. "20.01 mi/l")
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile.FuelConsumptionHighwayUfValue">
+ <summary>
+ Fuel consumption highway (UF value, e.g. "2,000.01 mpg")
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfilesResponse">
+ <summary>
+ Response from the process of retrieving the vehicle profiles.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfilesResponse.CurrentPage">
+ <summary>
+ Current page of the paginated vehicle profiles list.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfilesResponse.Data">
+ <summary>
+ An array of the vehicle profiles
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfilesResponse.FirstPageUrl">
+ <summary>
+ URL to the first page of the paginated vehicle profiles list.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfilesResponse.From">
+ <summary>
+ From which vehicle profile is starting the page
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfilesResponse.LastPage">
+ <summary>
+ Last page
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfilesResponse.LastPageUrl">
+ <summary>
+ URL to the last page of the paginated vehicle profiles list.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfilesResponse.NextPageUrl">
+ <summary>
+ URL to the next page of the paginated vehicle profiles list.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfilesResponse.Path">
+ <summary>
+ Path to the API endpoint
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfilesResponse.PerPage">
+ <summary>
+ Vehicles number per page
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfilesResponse.PreviousPageUrl">
+ <summary>
+ URL to the previous page
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfilesResponse.To">
+ <summary>
+ To which vehicle profile is ending the page
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfilesResponse.Total">
+ <summary>
+ Total number of the vehicles.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleResponse">
+ <summary>
+ Response for the endpoint /vehicles/license
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleResponse.Data">
+ <summary>
+ Vehicle data
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DataVehicle">
+ <summary>
+ The structure of the property Data of the DataVehicle type object.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DataVehicle.Vehicle">
+ <summary>
+ Vehicle object
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleReduced">
+ <summary>
+ Reduced vehicle structure
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleReduced.VehicleId">
+ <summary>
+ The vehicle ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleReduced.VehicleAlias">
+ <summary>
+ Vehicle alias
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleReduced.VehicleVin">
+ <summary>
+ Vehicle VIN
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleReduced.VehicleLicensePlate">
+ <summary>
+ A license plate of the vehicle.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleReduced.VehicleMake">
+ <summary>
+ Vehicle maker brend.
+ <para>Available values</para>
+ "american coleman", "bmw", "chevrolet", "ford", "freightliner", "gmc",
+ <para>"hino", "honda", "isuzu", "kenworth", "mack", "mercedes-benz", "mitsubishi", </para>
+ "navistar", "nissan", "peterbilt", "renault", "scania", "sterling", "toyota",
+ <para>"volvo", "western star" </para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleReduced.VehicleModelYear">
+ <summary>
+ Vehicle model year
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleReduced.VehicleModel">
+ <summary>
+ Vehicle model
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleReduced.VehicleYearAcquired">
+ <summary>
+ The year, vehicle was acquired
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleReduced.VehicleCostNew">
+ <summary>
+ A cost of the new vehicle
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleReduced.PurchasedNew">
+ <summary>
+ If true, the vehicle was purchased new.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleReduced.LicenseStartDate">
+ <summary>
+ Start date of the license
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleReduced.LicenseEndDate">
+ <summary>
+ End date of the license
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleReduced.IsOsperational">
+ <summary>
+ If equal to '1', the vehicle is operational.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleTemporary">
+ <summary>
+ The class for the request/response data structure to/from the endpoint vehicles/assign.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleTemporary.VehicleId">
+ <summary>
+ The vehicle ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleTemporary.VehicleLicensePlate">
+ <summary>
+ A license plate of the vehicle.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleTemporary.AssignedMemberId">
+ <summary>
+ Member ID assigned to the temporary vehicle.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleTemporary.ExpiresAt">
+ <summary>
+ An expiration date of the temporary vehicle.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleTemporary.ForceAssignment">
+ <summary>
+ If true, an assignment forced.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleTrackResponse">
+ <summary>
+ Response from the endpoint /vehicles/{id}/track
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleTrackResponse.Data">
+ <summary>
+ An array of the vehicle locations
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleTrackItem">
+ <summary>
+ Vehicle track data structure.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleTrackItem.VehicleId">
+ <summary>
+ The vehicle ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleTrackItem.MemberId">
+ <summary>
+ The member ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleTrackItem.Latitude">
+ <summary>
+ Latitude of a vehicle position.
+ <remarks><para>Query parameter.</para></remarks>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleTrackItem.Longitude">
+ <summary>
+ Longitude of a vehicle position.
+ <remarks><para>Query parameter.</para></remarks>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleTrackItem.Altitude">
+ <summary>
+ The geographic altitude
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleTrackItem.Speed">
+ <summary>
+ Vehicle speed
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleTrackItem.Timestamp">
+ <summary>
+ When a vehicle activity was detected.
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4CreateResponse">
  <summary>
  Response from the create vehicle request. See also <seealso cref="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.VehicleV4Response"/>.
@@ -6084,6 +7093,141 @@ User email.
  If true, the scheduled routes are included in the calendar.
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters">
+ <summary>
+ Parameters for requesting the telematics connection.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters.AccountId">
+ <summary>
+ Unique accont ID of a telematics connection.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters.UserName">
+ <summary>
+ User name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters.Password">
+ <summary>
+ Password
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters.Host">
+ <summary>
+ Connection provider host
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters.VendorID">
+ <summary>
+ An unique ID of a telematics vendor.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters.Name">
+ <summary>
+ Telematics connection name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters.VehiclePositionRefreshRate">
+ <summary>
+ Vehicle tracking interval in seconds
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters.ConnectionToken">
+ <summary>
+ Connection token
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters.UserId">
+ <summary>
+ Connection user ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters.ID">
+ <summary>
+ Connection ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters.Vendor">
+ <summary>
+ Telemetics connection type <see cref="!:Enum.TelematicsVendorType" />
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters.ValidateRemoteCredentials">
+ <summary>
+ Validate connections credentials.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsVendorParameters">
+ <summary>
+ Parameters for requesting the telematics vendors.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsVendorParameters.vendorID">
+ <summary>
+ An unique ID of a telematics vendor.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsVendorParameters.isIntegrated">
+ <summary>
+ If equal to 1, the vendor is integrated in the Route4Me system.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsVendorParameters.Page">
+ <summary>
+ Current page in the vendors collection
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsVendorParameters.perPage">
+ <summary>
+ Vendors number per page
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsVendorParameters.Country">
+ <summary>
+ The vendor's country
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsVendorParameters.Feature">
+ <summary>
+ A vendor's feature
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsVendorParameters.Search">
+ <summary>
+ A query string
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsVendorParameters.Vendors">
+ <summary>
+ Comma-delimited list of the vendors IDs
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsVendorParameters.MemberID">
+ <summary>
+ Owner of a telematicss connection.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsVendorParameters.isVirtual">
+ <summary>
+ Is a user real or virtual
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsVendorParameters.ApiKey">
+ <summary>
+ API key
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsVendorParameters.ValidateRemoteCredentials">
+ <summary>
+ If true, remote credentials validated.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsVendorParameters.ApiToken">
+ <summary>
+ API token.
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery">
  <summary>
  Avoidance zone query
@@ -6559,6 +7703,182 @@ User email.
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.TeamRequest.GetMemberType(System.String)">
  <summary>
  
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters">
+ <summary>
+ The telematics connection query parameters.
+ Used for create, update, get connectin(s).
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters.Vendor">
+ <summary>
+ Telemetics connection type <see cref="!:Enum.TelematicsVendorType" />
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters.VendorId">
+ <summary>
+ Telemetics connection type ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters.Name">
+ <summary>
+ Telemetics connection name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters.Host">
+ <summary>
+ Telematics connection access host.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters.ApiKey">
+ <summary>
+ Telematics connection access api_key.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters.AccountId">
+ <summary>
+ Telematics connection access account_id.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters.UserName">
+ <summary>
+ Telematics connection access username
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters.Password">
+ <summary>
+ Telematics connection access password.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters.VehiclePositionRefreshRate">
+ <summary>
+ Vehicle tracking interval in seconds (default value 60).
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters.ValidateRemoteCredentials">
+ <summary>
+ Validate connections credentials.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters.IsEnabled">
+ <summary>
+ Disable/enable vehicle tracking.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters.Metadata">
+ <summary>
+ Metadata
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters.ConnectionToken">
+ <summary>
+ Telematics connection access token.
+ Required to show specified connection.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleOrderParameters">
+ <summary>
+ Parameters for execution of a vehicle order.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleOrderParameters.VehicleId">
+ <summary>
+ The vehicle ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleOrderParameters.Latitude">
+ <summary>
+ Latitude of a vehicle position.
+ <remarks><para>Query parameter.</para></remarks>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleOrderParameters.Longitude">
+ <summary>
+ Longitude of a vehicle position.
+ <remarks><para>Query parameter.</para></remarks>
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleParameters">
+ <summary>
+ Vehicle query parameters
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleParameters.WithPagination">
+ <summary>
+ If true, returned vehicles array will be paginated
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleParameters.Page">
+ <summary>
+ Current page number in the vehicles collection
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleParameters.PerPage">
+ <summary>
+ Returned vehicles number per page
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleParameters.VehicleIDs">
+ <summary>
+ An array of the Vehicle IDs.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleParameters.VehicleId">
+ <summary>
+ Vehicle ID
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleParameters.VehicleLicensePlate">
+ <summary>
+ Vehicle license plate
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleProfileParameters">
+ <summary>
+ Request parameters for the vehicle profiles.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleProfileParameters.WithPagination">
+ <summary>
+ If true, returned vehicle profile is paginated.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleProfileParameters.Page">
+ <summary>
+ Current page number in the vehicles collection
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleProfileParameters.PerPage">
+ <summary>
+ Returned vehicles number per page
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleProfileParameters.VehicleProfileId">
+ <summary>
+ Vehicle profile ID
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleSearchParameters">
+ <summary>
+ Vehicle search parameters.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleSearchParameters.VehicleIDs">
+ <summary>
+ An array of the vehicle IDs.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleSearchParameters.Latitude">
+ <summary>
+ Latitude of a vehicle position.
+ <remarks><para>Query parameter.</para></remarks>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleSearchParameters.Longitude">
+ <summary>
+ Longitude of a vehicle position.
+ <remarks><para>Query parameter.</para></remarks>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.VehicleV4Parameters.VehicleName">
@@ -7040,6 +8360,59 @@ User email.
  <param name="errorString"> out: Error as string </param>
  <returns>The removed vehicle</returns>
 </member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.RegisterTelematicsMember(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsVendorParameters,System.String@)">
+ <summary>
+ Register telematics member
+ </summary>
+ <param name="vendorParams">Parameters containing API key and member ID</param>
+ <param name="errorString">out: Error as string</param>
+ <returns>Response with a member's API token</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetTelematicsConnections(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsVendorParameters,System.String@)">
+ <summary>
+ Get all telematics connections.
+ </summary>
+ <param name="vendorParams">Parameters containing API token</param>
+ <param name="errorString">out: Error as string</param>
+ <returns>An array of the telematics connections</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.CreateTelematicsConnection(System.String,Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters,System.String@)">
+ <summary>
+ Create a telematics connection
+ </summary>
+ <param name="apiToken">API token</param>
+ <param name="connectionParams">Telematics connection parameters</param>
+ <param name="errorString">out: Error as string</param>
+ <returns>Created telematics connection</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.DeleteTelematicsConnection(System.String,System.String,System.String@)">
+ <summary>
+ Delete a telematics connection
+ </summary>
+ <param name="apiToken">API token</param>
+ <param name="connectionToken">Connection token</param>
+ <param name="errorString">out: Error as string</param>
+ <returns>Deleted telematics connection</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.UpdateTelematicsConnection(System.String,System.String,Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters,System.String@)">
+ <summary>
+ Update telematics connection
+ </summary>
+ <param name="apiToken">API token</param>
+ <param name="connectionToken">Connection token</param>
+ <param name="connectionParams">Telematics connection parameters</param>
+ <param name="errorString">out: Error as string</param>
+ <returns>Updated telematics connection</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetTelematicsConnection(System.String,System.String,System.String@)">
+ <summary>
+ Get a telematics connection
+ </summary>
+ <param name="apiToken">API token</param>
+ <param name="connectionToken">Connection token</param>
+ <param name="errorString">out: Error as string</param>
+ <returns>Telematics connection</returns>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.MemberQueryParameters">
  <summary>
  The request parameters for retrieving team members.
@@ -7158,6 +8531,20 @@ User email.
  <param name="addressIds">The array of the address ID</param>
  <param name="resultResponse">out: Error as string</param>
  <returns>If true the contacts were removed successfully</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.GetAccountProfile(Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Get account profile
+ </summary>
+ <param name="failResponse">Error response</param>
+ <returns>Account profile</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.GetAccountPreferedUnit(Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Get prefered unit of the account woner
+ </summary>
+ <param name="failResponse">Error response</param>
+ <returns>Prefered unit ('mi', 'km')</returns>
 </member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.GetRoutes(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.RouteParametersQuery,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
  <summary>
@@ -7280,6 +8667,178 @@ User email.
  <param name="optimizationProblemIDs">Optimization Problem ID</param>
  <param name="resultResponse">Failing response</param>
  <returns>Result status (true/false)</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.CreateVehicle(Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Creates a vehicle
+ </summary>
+ <param name="vehicle">The VehicleV4Parameters type object as the request payload</param>
+ <param name="resultResponse">Failing response</param>
+ <returns>The created vehicle</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.GetPaginatedVehiclesList(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleParameters,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Returns the VehiclesPaginated type object containing an array of the vehicles
+ </summary>
+ <param name="vehicleParams">The VehicleParameters type object as the query parameters</param>
+ <param name="resultResponse">Failing response</param>
+ <returns>An array of the vehicles</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.DeleteVehicle(System.String,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Removes a vehicle from a user's account
+ </summary>
+ <param name="vehicleId">The VehicleParameters type object as the query parameters containing parameter VehicleId</param>
+ <param name="resultResponse">Failing response</param>
+ <returns>The removed vehicle</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.CreateTemporaryVehicle(Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleTemporary,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Creates temporary vehicle in the database.
+ </summary>
+ <param name="vehParams">Request parameters for creating a temporary vehicle</param>
+ <param name="resultResponse">Failing response</param>
+ <returns>A result with an order ID</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.ExecuteVehicleOrder(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleOrderParameters,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Execute a vehicle order
+ </summary>
+ <param name="vehOrderParams">Vehicle order parameters</param>
+ <param name="resultResponse">Error response</param>
+ <returns>Created vehicle order</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.GetVehicleLocations(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleParameters,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Get latest vehicle locations by specified vehicle IDs.
+ </summary>
+ <param name="vehParams">Vehicle query parameters containing vehicle IDs.</param>
+ <param name="resultResponse">Error response</param>
+ <returns>Data with vehicles</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.GetVehicleById(System.String,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Get the Vehicle by specifying vehicle ID.
+ </summary>
+ <param name="vehicleId">Vehicle ID</param>
+ <param name="resultResponse">Failing response</param>
+ <returns>Vehicle object</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.GetVehicleTrack(System.String,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Get the Vehicle track by specifying vehicle ID.
+ </summary>
+ <param name="vehicleId">Vehicle ID</param>
+ <param name="resultResponse">Failing response</param>
+ <returns>Vehicle track object</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.GetVehicleProfiles(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleProfileParameters,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Get paginated list of the vehicle profiles.
+ </summary>
+ <param name="profileParams">Vehicle profile request parameters</param>
+ <param name="resultResponse">Failing response</param>
+ <returns>The data including list of the vehicle profiles.</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.CreateVehicleProfile(Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Create a vehicle profile.
+ </summary>
+ <param name="vehicleProfileParams">Vehicle profile body parameters</param>
+ <param name="resultResponse">Failing response</param>
+ <returns>Created vehicle profile</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.DeleteVehicleProfile(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleProfileParameters,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Remove a vehicle profile from database.
+ TO DO: adjust response Structure.
+ </summary>
+ <param name="vehicleProfileParams">Vehicle profile parameter containing a vehicle profile ID</param>
+ <param name="resultResponse">Failing response</param>
+ <returns>Removed vehicle profile</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.GetVehicleProfileById(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleProfileParameters,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Get vehicle profile by ID.
+ </summary>
+ <param name="vehicleProfileParams">Vehicle profile parameter containing a vehicle profile ID</param>
+ <param name="resultResponse">Failing response</param>
+ <returns>Vehicle profile</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.GetVehicleByLicensePlate(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleParameters,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Get vehicle by license plate.
+ </summary>
+ <param name="vehicleParams">Vehicle parameter containing vehicle license plate</param>
+ <param name="resultResponse">Failing response</param>
+ <returns>Vehicle</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.SearchVehicles(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.VehicleSearchParameters,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Search vehicles by sending request body.
+ </summary>
+ <param name="searchParams">Search parameters</param>
+ <param name="resultResponse">Error response</param>
+ <returns>An array of the found vehicles</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.UpdateVehicle(Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Vehicle,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Update a vehicle
+ </summary>
+ <param name="vehicleParams">Vehicle body parameters</param>
+ <param name="resultResponse">Error response</param>
+ <returns>Updated vehicle</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.UpdateVehicleProfile(Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.VehicleProfile,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Update a vehicle profile.
+ </summary>
+ <param name="profileParams">Vehicle profile object as body payload</param>
+ <param name="resultResponse">Failing response</param>
+ <returns>Updated vehicle profile</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.GetTelematicsConnections(Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Get all registered telematics connections.
+ </summary>
+ <param name="resultResponse">Error response</param>
+ <returns>An array of the Connection type objects</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.GetTelematicsConnectionByToken(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Get a telematics connection by specified access token
+ </summary>
+ <param name="connectionParams">The telematics query paramaters 
+ as ConnectionPaameters type object</param>
+ <param name="resultResponse">Error response</param>
+ <returns>A connection type object</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.RegisterTelematicsConnection(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Register a telematics connection.
+ </summary>
+ <param name="connectionParams">The telematics query paramaters 
+ as ConnectionPaameters type object</param>
+ <param name="resultResponse">Error response</param>
+ <returns>A connection type object</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.DeleteTelematicsConnection(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Delete telematics connection account by specified access token.
+ </summary>
+ <param name="connectionParams">The telematics query paramaters 
+ as ConnectionPaameters type object</param>
+ <param name="resultResponse">Error response</param>
+ <returns>Removed teleamtics connection</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.UpdateTelematicsConnection(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Update telemetics connection's account
+ </summary>
+ <param name="connectionParams">The telematics query paramaters 
+ as ConnectionPaameters type object</param>
+ <param name="resultResponse">Error response</param>
+ <returns>Updated teleamtics connection</returns>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils">
  <summary>

@@ -47,7 +47,6 @@
         Public Const MarkAddressDeparted As String = MainHost + "/api/route/mark_address_departed.php"
         Public Const MarkAddressVisited As String = MainHost + "/actions/address/update_address_visited.php"
 
-
         Public Const Geocoder As String = MainHost + "/api/geocoder.php"
         Public Const FastGeocoder As String = MainHost + "/actions/upload/json-geocode.php"
         Public Const r4meValidator As String = "https://validator.route4me.com:443/"
@@ -68,6 +67,9 @@
         Public Const CustomNoteType As String = MainHost + "/api.v4/note_custom_types.php"
 
         Public Const TelematicsVendorsHost As String = "https://telematics.route4me.com/api/vendors.php"
+        Public Const TelematicsRegisterHost As String = MainHost & "/api.v4/telematics/register.php"
+        Public Const TelematicsConnection As String = MainHost & "/api.v4/telematics/connections.php"
+        Public Const TelematicsVendorsInfo As String = MainHost & "/api.v4/telematics/vendors.php"
 
         Public Const MemberCapabilities As String = MainHost + "/api/member/capabilities.php"
 
@@ -98,6 +100,55 @@
         Public Const TeamUsersBulkCreate As String = MainHost + "/team/bulk-insert"
 
         Public Const DriverReview As String = MainHost + "/driver-reviews"
+
+        Public Const AccountProfile As String = MainHost & "/profile-api"
+
+#Region "Vehicles"
+
+        Public Const Vehicles As String = MainHost & "/vehicles"
+        Public Const VehicleTemporary As String = MainHost & "/vehicles/assign"
+        Public Const VehicleExecuteOrder As String = MainHost & "/vehicles/execute"
+        Public Const VehicleLocation As String = MainHost & "/vehicles/location"
+        Public Const VehicleProfiles As String = MainHost & "/vehicle-profiles"
+        Public Const VehicleLicense As String = MainHost & "/vehicles/license"
+        Public Const VehicleSearch As String = MainHost & "/vehicles/search"
+
+#End Region
+
+#Region "Telematics Platform"
+
+        Public Const StagingHost As String = "https://virtserver.swaggerhub.com/Route4Me/telematics-gateway/1.0.0"
+        Public Const TelematicsConnection As String = StagingHost & "/connections"
+        Public Const TelematicsConnectionVehicles As String = StagingHost & "/connections/{connection_token}/vehicles"
+        Public Const TelematicsAccessToken As String = StagingHost & "/access-tokens"
+        Public Const TelematicsAccessTokenSchedules As String = StagingHost & "/access-token-schedules"
+        Public Const TelematicsAccessTokenScheduleItems As String = StagingHost & "/access-token-schedules/{schedule_id}/items"
+        Public Const TelematicsVehicleGroups As String = StagingHost & "/vehicle-groups"
+        Public Const TelematicsVehicleGroupsRelation As String = StagingHost & "/vehicle-groups/{vehicle_group_id}/{relation}"
+        Public Const TelematicsVehiclesRelation As String = StagingHost & "/vehicles/{vehicle_id}/{relation}"
+        Public Const TelematicsInfoMembers As String = StagingHost & "/info/members"
+        Public Const TelematicsInfoVehicles As String = StagingHost & "/info/vehicles"
+        Public Const TelematicsInfoVehicle As String = StagingHost & "/info/vehicle/{vehicle_id}/track"
+        Public Const TelematicsInfoModules As String = StagingHost & "/info/members"
+        Public Const TelematicsAddresses As String = StagingHost & "/addresses"
+        Public Const TelematicsErrors As String = StagingHost & "/errors"
+        Public Const TelematicsCustomerNotifications As String = StagingHost & "​/customers​/{customer_id}​/notifications​"
+        Public Const TelematicsCustomers As String = StagingHost & "/customers"
+        Public Const TelematicsCustomerId As String = StagingHost & "/customers/{customer_id}"
+        Public Const TelematicsNotificationScheduleItems As String = StagingHost & "/notification-schedules/{notification_schedule_id}/items"
+        Public Const TelematicsNotificationSchedules As String = StagingHost & "/notification-schedules"
+        Public Const TelematicsNotificationScheduleId As String = StagingHost & "/notification-schedules/{schedule_id}"
+        Public Const TelematicsOneTimeNotifications As String = StagingHost & "​/one-time-notifications"
+        Public Const TelematicsMember As String = StagingHost
+        Public Const TelematicsMemberModules As String = StagingHost & "​/user-activated-modules"
+        Public Const TelematicsMemberModuleId As String = StagingHost & "​/user-activated-modules/{module_id}"
+        Public Const TelematicsMemberModuleVehicles As String = StagingHost & "​​/user-activated-modules​/{module_id}​/vehicles"
+        Public Const TelematicsMemberModuleVehicleId As String = StagingHost & "​​​/user-activated-modules​/{module_id}​/vehicles​/{vehicle_id}"
+        Public Const TelematicsVendors As String = StagingHost & "​/vendors"
+        Public Const TelematicsVendorId As String = StagingHost & "​​/vendors​/{vendor_id}"
+
+#End Region
+
     End Module
 
 End Namespace

@@ -14,6 +14,7 @@ Imports System.Runtime.InteropServices
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5
 Imports Route4MeSDKLibrary.System.Net.Http
+Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform
 
 Namespace Route4MeSDK
     Public NotInheritable Class Route4MeManagerV5
@@ -430,6 +431,50 @@ Namespace Route4MeSDK
 
 #End Region
 
+#Region "Account Profile"
+        ''' <summary>
+        ''' Get account profile
+        ''' </summary>
+        ''' <param name="failResponse">Error response</param>
+        ''' <returns>Account profile</returns>
+        Public Function GetAccountProfile(<Out> ByRef failResponse As ResultResponse) As AccountProfile
+            Dim parameters = New QueryTypes.GenericParameters()
+
+            Dim result = GetJsonObjectFromAPI(Of AccountProfile)(
+                parameters,
+                R4MEInfrastructureSettingsV5.AccountProfile,
+                HttpMethodType.[Get],
+                failResponse)
+
+            Return result
+        End Function
+
+        ''' <summary>
+        ''' Get prefered unit of the account woner
+        ''' </summary>
+        ''' <param name="failResponse">Error response</param>
+        ''' <returns>Prefered unit ('mi', 'km')</returns>
+        Public Function GetAccountPreferedUnit(<Out> ByRef failResponse As ResultResponse) As String
+            Dim accountProfile = Me.GetAccountProfile(failResponse)
+            Dim ownerId = accountProfile.RootMemberId
+
+            Dim r4me = New Route4MeManager(Me.m_ApiKey)
+
+            Dim memPars = New QueryTypes.MemberParametersV4() With {
+                .member_id = ownerId
+            }
+
+            Dim errorString As String = Nothing
+            Dim user = r4me.GetUserById(memPars, errorString)
+
+            Dim prefUnit As String = user.preferred_units
+
+            Return prefUnit
+        End Function
+
+#End Region
+
+
 #Region "Routes"
 
         ''' <summary>
@@ -713,6 +758,515 @@ Namespace Route4MeSDK
 
 #End Region
 
+#Region "Vehicles"
+
+        ''' <summary>
+        ''' Creates a vehicle
+        ''' </summary>
+        ''' <param name="vehicle">The VehicleV4Parameters type object as the request payload</param>
+        ''' <param name="resultResponse">Failing response</param>
+        ''' <returns>The created vehicle</returns>
+        Public Function CreateVehicle(ByVal vehicle As Vehicle,
+                                      <Out> ByRef resultResponse As ResultResponse) As Vehicle
+
+            Return GetJsonObjectFromAPI(Of Vehicle)(
+                vehicle,
+                R4MEInfrastructureSettingsV5.Vehicles,
+                HttpMethodType.Post, resultResponse)
+
+        End Function
+
+        ''' <summary>
+        ''' Returns the VehiclesPaginated type object containing an array of the vehicles
+        ''' </summary>
+        ''' <param name="vehicleParams">The VehicleParameters type object as the query parameters</param>
+        ''' <param name="resultResponse">Failing response</param>
+        ''' <returns>An array of the vehicles</returns>
+        Public Function GetPaginatedVehiclesList(ByVal vehicleParams As VehicleParameters,
+                                                 <Out> ByRef resultResponse As ResultResponse) As Vehicle()
+
+            Return GetJsonObjectFromAPI(Of Vehicle())(
+                vehicleParams,
+                R4MEInfrastructureSettingsV5.Vehicles,
+                HttpMethodType.[Get],
+                resultResponse)
+
+        End Function
+
+        ''' <summary>
+        ''' Removes a vehicle from a user's account
+        ''' </summary>
+        ''' <param name="vehicleId">The VehicleParameters type object as the query parameters containing parameter VehicleId</param>
+        ''' <param name="resultResponse">Failing response</param>
+        ''' <returns>The removed vehicle</returns>
+        Public Function DeleteVehicle(ByVal vehicleId As String,
+                                      <Out> ByRef resultResponse As ResultResponse) As Vehicle
+
+            If (If(vehicleId?.Length, 0)) <> 32 Then
+                resultResponse = New ResultResponse() With {
+                    .Status = False,
+                    .Messages = New Dictionary(Of String, String())() From {
+                        {"Error", New String() {"The vehicle ID is not specified"}}
+                    }
+                }
+
+                Return Nothing
+            End If
+
+            Return GetJsonObjectFromAPI(Of Vehicle)(
+                New QueryTypes.GenericParameters(),
+                R4MEInfrastructureSettings.Vehicle_V4 & "/" & vehicleId,
+                HttpMethodType.Delete,
+                resultResponse)
+
+        End Function
+
+        ''' <summary>
+        ''' Creates temporary vehicle in the database.
+        ''' </summary>
+        ''' <param name="vehParams">Request parameters for creating a temporary vehicle</param>
+        ''' <param name="resultResponse">Failing response</param>
+        ''' <returns>A result with an order ID</returns>
+        Public Function CreateTemporaryVehicle(ByVal vehParams As VehicleTemporary,
+                                               <Out> ByRef resultResponse As ResultResponse) As VehicleTemporary
+
+            Dim result = GetJsonObjectFromAPI(Of VehicleTemporary)(
+                vehParams,
+                R4MEInfrastructureSettingsV5.VehicleTemporary,
+                HttpMethodType.Post,
+                resultResponse)
+
+            Return result
+        End Function
+
+        ''' <summary>
+        ''' Execute a vehicle order
+        ''' </summary>
+        ''' <param name="vehOrderParams">Vehicle order parameters</param>
+        ''' <param name="resultResponse">Error response</param>
+        ''' <returns>Created vehicle order</returns>
+        Public Function ExecuteVehicleOrder(ByVal vehOrderParams As VehicleOrderParameters,
+                                            <Out> ByRef resultResponse As ResultResponse) As VehicleOrderResponse
+
+            Dim result = GetJsonObjectFromAPI(Of VehicleOrderResponse)(
+                vehOrderParams,
+                R4MEInfrastructureSettingsV5.VehicleExecuteOrder,
+                HttpMethodType.Post,
+                resultResponse)
+
+            Return result
+        End Function
+
+        ''' <summary>
+        ''' Get latest vehicle locations by specified vehicle IDs.
+        ''' </summary>
+        ''' <param name="vehParams">Vehicle query parameters containing vehicle IDs.</param>
+        ''' <param name="resultResponse">Error response</param>
+        ''' <returns>Data with vehicles</returns>
+        Public Function GetVehicleLocations(ByVal vehParams As VehicleParameters,
+                                            <Out> ByRef resultResponse As ResultResponse) As VehicleLocationResponse
+
+            Dim result = GetJsonObjectFromAPI(Of VehicleLocationResponse)(
+                vehParams,
+                R4MEInfrastructureSettingsV5.VehicleLocation,
+                HttpMethodType.[Get],
+                resultResponse)
+
+            Return result
+
+        End Function
+
+        ''' <summary>
+        ''' Get the Vehicle by specifying vehicle ID.
+        ''' </summary>
+        ''' <param name="vehicleId">Vehicle ID</param>
+        ''' <param name="resultResponse">Failing response</param>
+        ''' <returns>Vehicle object</returns>
+        Public Function GetVehicleById(ByVal vehicleId As String,
+                                       <Out> ByRef resultResponse As ResultResponse) As Vehicle
+
+            Dim result = GetJsonObjectFromAPI(Of Vehicle)(
+                New VehicleParameters(),
+                R4MEInfrastructureSettingsV5.Vehicles & "/" & vehicleId,
+                HttpMethodType.[Get],
+                resultResponse)
+
+            Return result
+
+        End Function
+
+        ''' <summary>
+        ''' Get the Vehicle track by specifying vehicle ID.
+        ''' </summary>
+        ''' <param name="vehicleId">Vehicle ID</param>
+        ''' <param name="resultResponse">Failing response</param>
+        ''' <returns>Vehicle track object</returns>
+        Public Function GetVehicleTrack(ByVal vehicleId As String,
+                                        <Out> ByRef resultResponse As ResultResponse) As VehicleTrackResponse
+
+            Dim result = GetJsonObjectFromAPI(Of VehicleTrackResponse)(
+                New VehicleParameters(),
+                R4MEInfrastructureSettingsV5.Vehicles & "/" & vehicleId & "/" & "track",
+                HttpMethodType.[Get],
+                resultResponse)
+
+            Return result
+
+        End Function
+
+        ''' <summary>
+        ''' Get paginated list of the vehicle profiles.
+        ''' </summary>
+        ''' <param name="profileParams">Vehicle profile request parameters</param>
+        ''' <param name="resultResponse">Failing response</param>
+        ''' <returns>The data including list of the vehicle profiles.</returns>
+        Public Function GetVehicleProfiles(ByVal profileParams As VehicleProfileParameters,
+                                           <Out> ByRef resultResponse As ResultResponse) As VehicleProfilesResponse
+
+            Dim result = GetJsonObjectFromAPI(Of VehicleProfilesResponse)(
+                profileParams,
+                R4MEInfrastructureSettingsV5.VehicleProfiles,
+                HttpMethodType.[Get],
+                resultResponse)
+
+            Return result
+
+        End Function
+
+        ''' <summary>
+        ''' Create a vehicle profile.
+        ''' </summary>
+        ''' <param name="vehicleProfileParams">Vehicle profile body parameters</param>
+        ''' <param name="resultResponse">Failing response</param>
+        ''' <returns>Created vehicle profile</returns>
+        Public Function CreateVehicleProfile(ByVal vehicleProfileParams As VehicleProfile,
+                                             <Out> ByRef resultResponse As ResultResponse) As VehicleProfile
+
+            Dim result = GetJsonObjectFromAPI(Of VehicleProfile)(
+                vehicleProfileParams,
+                R4MEInfrastructureSettingsV5.VehicleProfiles,
+                HttpMethodType.Post,
+                resultResponse)
+
+            Return result
+
+        End Function
+
+        ''' <summary>
+        ''' Remove a vehicle profile from database.
+        ''' TO DO: adjust response Structure.
+        ''' </summary>
+        ''' <param name="vehicleProfileParams">Vehicle profile parameter containing a vehicle profile ID</param>
+        ''' <param name="resultResponse">Failing response</param>
+        ''' <returns>Removed vehicle profile</returns>
+        Public Function DeleteVehicleProfile(ByVal vehicleProfileParams As VehicleProfileParameters,
+                                             <Out> ByRef resultResponse As ResultResponse) As Object
+
+            If (If(vehicleProfileParams?.VehicleProfileId, 0)) < 1 Then
+                resultResponse = New ResultResponse() With {
+                    .Status = False,
+                    .Messages = New Dictionary(Of String, String())() From {
+                        {"Error", New String() {"The vehicle ID is not specified"}}
+                    }
+                }
+
+                Return Nothing
+
+            End If
+
+            Dim result = GetJsonObjectFromAPI(Of Object)(
+                New QueryTypes.GenericParameters(),
+                R4MEInfrastructureSettingsV5.VehicleProfiles & "/" + vehicleProfileParams.VehicleProfileId.ToString(),
+                HttpMethodType.Delete,
+                resultResponse)
+
+            Return result
+
+        End Function
+
+        ''' <summary>
+        ''' Get vehicle profile by ID.
+        ''' </summary>
+        ''' <param name="vehicleProfileParams">Vehicle profile parameter containing a vehicle profile ID</param>
+        ''' <param name="resultResponse">Failing response</param>
+        ''' <returns>Vehicle profile</returns>
+        Public Function GetVehicleProfileById(ByVal vehicleProfileParams As VehicleProfileParameters,
+                                              <Out> ByRef resultResponse As ResultResponse) As VehicleProfile
+
+            If (If(vehicleProfileParams?.VehicleProfileId, 0)) < 1 Then
+                resultResponse = New ResultResponse() With {
+                    .Status = False,
+                    .Messages = New Dictionary(Of String, String())() From {
+                        {"Error", New String() {"The vehicle ID is not specified"}}
+                    }
+                }
+
+                Return Nothing
+
+            End If
+
+            Dim result = GetJsonObjectFromAPI(Of VehicleProfile)(
+                New VehicleParameters(),
+                R4MEInfrastructureSettingsV5.VehicleProfiles & "/" & vehicleProfileParams.VehicleProfileId.ToString(),
+                HttpMethodType.[Get],
+                resultResponse)
+
+            Return result
+
+        End Function
+
+        ''' <summary>
+        ''' Get vehicle by license plate.
+        ''' </summary>
+        ''' <param name="vehicleParams">Vehicle parameter containing vehicle license plate</param>
+        ''' <param name="resultResponse">Failing response</param>
+        ''' <returns>Vehicle</returns>
+        Public Function GetVehicleByLicensePlate(ByVal vehicleParams As VehicleParameters,
+                                                 <Out> ByRef resultResponse As ResultResponse) As VehicleResponse
+
+            If (If(vehicleParams?.VehicleLicensePlate?.Length, 0)) < 1 Then
+                resultResponse = New ResultResponse() With {
+                    .Status = False,
+                    .Messages = New Dictionary(Of String, String())() From {
+                        {"Error", New String() {"The vehicle license plate is not specified"}}
+                    }
+                }
+
+                Return Nothing
+
+            End If
+
+            Dim result = GetJsonObjectFromAPI(Of VehicleResponse)(
+                vehicleParams,
+                R4MEInfrastructureSettingsV5.VehicleLicense,
+                HttpMethodType.[Get],
+                resultResponse)
+
+            Return result
+
+        End Function
+
+        ''' <summary>
+        ''' Search vehicles by sending request body.
+        ''' </summary>
+        ''' <param name="searchParams">Search parameters</param>
+        ''' <param name="resultResponse">Error response</param>
+        ''' <returns>An array of the found vehicles</returns>
+        <ObsoleteAttribute("This method is deprecated until resolving the response issue.")>
+        Public Function SearchVehicles(ByVal searchParams As VehicleSearchParameters,
+                                       <Out> ByRef resultResponse As ResultResponse) As Vehicle()
+
+            Dim result = GetJsonObjectFromAPI(Of Vehicle())(
+                searchParams,
+                R4MEInfrastructureSettingsV5.VehicleSearch,
+                HttpMethodType.Post,
+                resultResponse)
+
+            Return result
+
+        End Function
+
+        ''' <summary>
+        ''' Update a vehicle
+        ''' </summary>
+        ''' <param name="vehicleParams">Vehicle body parameters</param>
+        ''' <param name="resultResponse">Error response</param>
+        ''' <returns>Updated vehicle</returns>
+        Public Function UpdateVehicle(ByVal vehicleParams As Vehicle,
+                                      <Out> ByRef resultResponse As ResultResponse) As Vehicle
+
+            If (If(vehicleParams?.VehicleId?.Length, 0)) <> 32 Then
+                resultResponse = New ResultResponse() With {
+                    .Status = False,
+                    .Messages = New Dictionary(Of String, String())() From {
+                        {"Error", New String() {"The vehicle ID is not specified"}}
+                    }
+                }
+
+                Return Nothing
+
+            End If
+
+            Dim updateBodyJsonString = R4MeUtils.SerializeObjectToJson(vehicleParams, False)
+            Dim content = New StringContent(updateBodyJsonString, Encoding.UTF8, "application/json")
+
+            Dim genParams = New RouteParametersQuery()
+            Dim result = GetJsonObjectFromAPI(Of Vehicle)(
+                genParams,
+                R4MEInfrastructureSettingsV5.Vehicles & "/" + vehicleParams.VehicleId,
+                HttpMethodType.Patch,
+                content,
+                resultResponse)
+
+            Return result
+
+        End Function
+
+        ''' <summary>
+        ''' Update a vehicle profile.
+        ''' </summary>
+        ''' <param name="profileParams">Vehicle profile object as body payload</param>
+        ''' <param name="resultResponse">Failing response</param>
+        ''' <returns>Updated vehicle profile</returns>
+        Public Function UpdateVehicleProfile(ByVal profileParams As VehicleProfile,
+                                             <Out> ByRef resultResponse As ResultResponse) As VehicleProfile
+
+            If (If(profileParams?.VehicleProfileId, 0)) < 1 Then
+                resultResponse = New ResultResponse() With {
+                    .Status = False,
+                    .Messages = New Dictionary(Of String, String())() From {
+                        {"Error", New String() {"The vehicle profile ID is not specified"}}
+                    }
+                }
+
+                Return Nothing
+
+            End If
+
+            Dim updateBodyJsonString = R4MeUtils.SerializeObjectToJson(profileParams, False)
+            Dim content = New StringContent(updateBodyJsonString, Encoding.UTF8, "application/json")
+
+            Dim genParams = New RouteParametersQuery()
+            Dim result = GetJsonObjectFromAPI(Of VehicleProfile)(
+                genParams,
+                R4MEInfrastructureSettingsV5.VehicleProfiles & "/" & profileParams.VehicleProfileId.ToString(),
+                HttpMethodType.Patch,
+                content,
+                resultResponse)
+
+            Return result
+
+        End Function
+
+#End Region
+
+#Region "Telematics Platform"
+
+#Region "Connection"
+
+        ''' <summary>
+        ''' Get all registered telematics connections.
+        ''' </summary>
+        ''' <param name="resultResponse">Error response</param>
+        ''' <returns>An array of the Connection type objects</returns>
+        Public Function GetTelematicsConnections(<Out> ByRef resultResponse As ResultResponse) As Connection()
+            Dim result = GetJsonObjectFromAPI(Of Connection())(
+                New QueryTypes.GenericParameters(),
+                R4MEInfrastructureSettingsV5.TelematicsConnection,
+                HttpMethodType.[Get],
+                resultResponse)
+
+            Return result
+
+        End Function
+
+        ''' <summary>
+        ''' Get a telematics connection by specified access token
+        ''' </summary>
+        ''' <param name="connectionParams">The telematics query paramaters 
+        ''' as ConnectionPaameters type object</param>
+        ''' <param name="resultResponse">Error response</param>
+        ''' <returns>A connection type object</returns>
+        Public Function GetTelematicsConnectionByToken(ByVal connectionParams As ConnectionParameters,
+                                                       <Out> ByRef resultResponse As ResultResponse) As Connection
+
+            Dim result = GetJsonObjectFromAPI(Of Connection)(
+                New QueryTypes.GenericParameters(),
+                R4MEInfrastructureSettingsV5.TelematicsConnection & "/" + connectionParams.ConnectionToken,
+                HttpMethodType.[Get],
+                resultResponse)
+
+            Return result
+
+        End Function
+
+        ''' <summary>
+        ''' Register a telematics connection.
+        ''' </summary>
+        ''' <param name="connectionParams">The telematics query paramaters 
+        ''' as ConnectionPaameters type object</param>
+        ''' <param name="resultResponse">Error response</param>
+        ''' <returns>A connection type object</returns>
+        Public Function RegisterTelematicsConnection(ByVal connectionParams As ConnectionParameters,
+                                                     <Out> ByRef resultResponse As ResultResponse) As Connection
+
+            Dim result = GetJsonObjectFromAPI(Of Connection)(
+                connectionParams,
+                R4MEInfrastructureSettingsV5.TelematicsConnection,
+                HttpMethodType.Post,
+                resultResponse)
+
+            Return result
+
+        End Function
+
+        ''' <summary>
+        ''' Delete telematics connection account by specified access token.
+        ''' </summary>
+        ''' <param name="connectionParams">The telematics query paramaters 
+        ''' as ConnectionPaameters type object</param>
+        ''' <param name="resultResponse">Error response</param>
+        ''' <returns>Removed teleamtics connection</returns>
+        Public Function DeleteTelematicsConnection(ByVal connectionParams As ConnectionParameters,
+                                                   <Out> ByRef resultResponse As ResultResponse) As Connection
+
+            If (If(connectionParams?.ConnectionToken, "")).Length < 1 Then
+                resultResponse = New ResultResponse() With {
+                    .Status = False,
+                    .Messages = New Dictionary(Of String, String())() From {
+                        {"Error", New String() {"The connection token is not specified"}}
+                    }
+                }
+
+                Return Nothing
+
+            End If
+
+            Dim result = GetJsonObjectFromAPI(Of Connection)(
+                New QueryTypes.GenericParameters(),
+                R4MEInfrastructureSettingsV5.TelematicsConnection & "/" + connectionParams.ConnectionToken,
+                HttpMethodType.Delete,
+                resultResponse)
+
+            Return result
+
+        End Function
+
+        ''' <summary>
+        ''' Update telemetics connection's account
+        ''' </summary>
+        ''' <param name="connectionParams">The telematics query paramaters 
+        ''' as ConnectionPaameters type object</param>
+        ''' <param name="resultResponse">Error response</param>
+        ''' <returns>Updated teleamtics connection</returns>
+        Public Function UpdateTelematicsConnection(ByVal connectionParams As ConnectionParameters,
+                                                   <Out> ByRef resultResponse As ResultResponse) As Connection
+
+            If (If(connectionParams?.ConnectionToken, "")).Length < 1 Then
+                resultResponse = New ResultResponse() With {
+                    .Status = False,
+                    .Messages = New Dictionary(Of String, String())() From {
+                        {"Error", New String() {"The connection token is not specified"}}
+                    }
+                }
+
+                Return Nothing
+
+            End If
+
+            Dim result = GetJsonObjectFromAPI(Of Connection)(
+                connectionParams,
+                R4MEInfrastructureSettingsV5.TelematicsConnection & "/" + connectionParams.ConnectionToken,
+                HttpMethodType.Put,
+                resultResponse)
+
+            Return result
+
+        End Function
+
+#End Region
+
+#End Region
 
         Public Function GetStringResponseFromAPI(ByVal optimizationParameters As QueryTypes.GenericParameters,
                                                 ByVal url As String,
