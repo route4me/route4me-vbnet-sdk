@@ -570,7 +570,7 @@ Namespace Route4MeSDK.DataTypes.V5
     End Class
 
     ''' <summary>
-    ''' Subclass of the class RouteParameters. See <see cref="RouteParameters.overrideAddresses"/>
+    ''' Subclass of the class RouteParameters. See "RouteParameters.overrideAddresses".
     ''' </summary>
     Public Class OverrideAddresses
 

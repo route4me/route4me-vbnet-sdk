@@ -15,7 +15,7 @@ Namespace Route4MeSDK.DataTypes.V5.TelematicsPlatform
         Public Property Name As String
 
         ''' <summary>
-        ''' Telemetics connection type <see cref="Enum.TelematicsVendorType" />
+        ''' Telemetics connection type. See "Enum.TelematicsVendorType".
         ''' </summary>
         <DataMember(Name:="vendor", EmitDefaultValue:=False)>
         Public Property Vendor As String

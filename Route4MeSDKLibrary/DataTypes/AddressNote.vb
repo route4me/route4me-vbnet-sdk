@@ -57,7 +57,7 @@ Namespace Route4MeSDK.DataTypes
 
         ''' <summary>
         ''' The activity type
-        ''' See available activity types here: <see cref="https://github.com/route4me/route4me-json-schemas/blob/master/Activity.dtd#L23"/>
+        ''' See available activity types here: "https://github.com/route4me/route4me-json-schemas/blob/master/Activity.dtd#L23"/>
         ''' </summary>
         ''' <returns></returns>
         <DataMember(Name:="activity_type")>

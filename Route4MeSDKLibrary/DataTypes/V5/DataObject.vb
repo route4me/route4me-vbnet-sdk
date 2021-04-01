@@ -4,7 +4,7 @@ Namespace Route4MeSDK.DataTypes.V5
 
     ''' <summary>
     ''' Main data object data-structure
-    ''' See <see cref="https://www.assembla.com/spaces/route4me_api/wiki/Optimization_Problem_V4"/>  
+    ''' See "Optimization_Problem_V4".
     ''' </summary>
     <DataContract>
     Public Class DataObject

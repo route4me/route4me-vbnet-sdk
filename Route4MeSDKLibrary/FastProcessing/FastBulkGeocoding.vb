@@ -136,13 +136,21 @@ Namespace Route4MeSDK.FastProcessing
         End Function
 
         Public Async Sub downloadGeocodedAddresses(ByVal temporarryAddressesStorageID As String, ByVal addressesInFile As Nullable(Of Integer))
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls Or SecurityProtocolType.Tls11 Or SecurityProtocolType.Tls12 Or SecurityProtocolType.Ssl3
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls Or
+                                                    SecurityProtocolType.Tls11 Or
+                                                    SecurityProtocolType.Tls12 Or
+                                                    SecurityProtocolType.Ssl3
+
             geocodedAddressesDownloadingIsDone = False
+
             savedAddresses = New List(Of AddressGeocoded)()
+
             TEMPORARY_ADDRESSES_STORAGE_ID = temporarryAddressesStorageID
             If addressesInFile IsNot Nothing Then requestedAddresses = addressesInFile
+
             manualResetEvent = New ManualResetEvent(False)
             Flag = False
+
             Dim options = CreateOptions()
             options.Path = "/socket.io"
             options.Host = "validator.route4me.com/"
@@ -152,113 +160,118 @@ Namespace Route4MeSDK.FastProcessing
             options.Upgrade = True
             options.ForceJsonp = True
             options.Transports = ImmutableList.Create(Of String)(New String() {Polling.NAME, WebSocket.NAME})
+
             Dim uri = CreateUri()
-            socket = IO.Socket(uri, options)
-            socket.[On]("error", Function(message)
-                                     Debug.Print("Error -> " & message)
-                                     Thread.Sleep(500)
-                                     manualResetEvent.[Set]()
-                                     socket.Disconnect()
-                                 End Function)
 
-            socket.[On](Socket.EVENT_ERROR, Function(e)
-                                                Dim exception = CType(e, Quobject.SocketIoClientDotNet.EngineIoClientDotNet.Client.EngineIOException)
-                                                Console.WriteLine("EVENT_ERROR. " & exception.Message)
-                                                Console.WriteLine("BASE EXCEPTION. " & exception.GetBaseException().Message())
-                                                Console.WriteLine("DATA COUNT. " & exception.Data.Count)
-                                                socket.Disconnect()
-                                                manualResetEvent.[Set]()
-                                            End Function)
+            socket = Await Task.Run(Function()
+                                        Return IO.Socket(uri, options)
+                                    End Function)
 
-            socket.[On](Socket.EVENT_MESSAGE, Function(message)
-                                                  Thread.Sleep(500)
-                                              End Function)
+            socket.[On]("error", Sub(message)
+                                                                 Debug.Print("Error -> " & message)
+                                                                 Thread.Sleep(500)
+                                                                 manualResetEvent.[Set]()
+                                                                 socket.Disconnect()
+                                                             End Sub)
 
-            socket.[On]("data", Function(d)
-                                    Thread.Sleep(1000)
-                                End Function)
+                                        socket.[On](Socket.EVENT_ERROR, Sub(e)
+                                                                            Dim exception = CType(e, Quobject.SocketIoClientDotNet.EngineIoClientDotNet.Client.EngineIOException)
+                                                                            Console.WriteLine("EVENT_ERROR. " & exception.Message)
+                                                                            Console.WriteLine("BASE EXCEPTION. " & exception.GetBaseException().Message())
+                                                                            Console.WriteLine("DATA COUNT. " & exception.Data.Count)
+                                                                            socket.Disconnect()
+                                                                            manualResetEvent.[Set]()
+                                                                        End Sub)
 
-            socket.[On](Socket.EVENT_DISCONNECT, Function(e)
-                                                     Thread.Sleep(700)
+                                        socket.[On](Socket.EVENT_MESSAGE, Sub(message)
+                                                                              Thread.Sleep(500)
+                                                                          End Sub)
 
-                                                 End Function)
+                                        socket.[On]("data", Sub(d)
+                                                                Thread.Sleep(1000)
+                                                            End Sub)
 
-            socket.[On](Socket.EVENT_RECONNECT_ATTEMPT, Function(e)
-                                                            Thread.Sleep(1500)
-                                                        End Function)
+                                        socket.[On](Socket.EVENT_DISCONNECT, Sub(e)
+                                                                                 Thread.Sleep(700)
 
-            socket.[On]("addresses_bulk", Function(addresses_chunk)
-                                              Dim jsonChunkText As String = addresses_chunk.ToString()
-                                              Dim errors As List(Of String) = New List(Of String)()
-                                              Dim jsonSettings As JsonSerializerSettings = New JsonSerializerSettings() With {
-                                                  .[Error] = Function(sender As Object, args As ErrorEventArgs)
+                                                                             End Sub)
+
+                                        socket.[On](Socket.EVENT_RECONNECT_ATTEMPT, Sub(e)
+                                                                                        Thread.Sleep(1500)
+                                                                                    End Sub)
+
+                                        socket.[On]("addresses_bulk", Sub(addresses_chunk)
+                                                                          Dim jsonChunkText As String = addresses_chunk.ToString()
+                                                                          Dim errors As List(Of String) = New List(Of String)()
+                                                                          Dim jsonSettings As JsonSerializerSettings = New JsonSerializerSettings() With {
+                                                  .[Error] = Sub(sender As Object, args As ErrorEventArgs)
                                                                  errors.Add(args.ErrorContext.[Error].Message)
                                                                  args.ErrorContext.Handled = True
-                                                             End Function,
+                                                             End Sub,
                                                   .NullValueHandling = NullValueHandling.Ignore
                                               }
-                                              Dim addressesChunk = JsonConvert.DeserializeObject(Of AddressGeocoded())(jsonChunkText, jsonSettings)
+                                                                          Dim addressesChunk = JsonConvert.DeserializeObject(Of AddressGeocoded())(jsonChunkText, jsonSettings)
 
-                                              If errors.Count > 0 Then
-                                                  Debug.Print("Json serializer errors:")
+                                                                          If errors.Count > 0 Then
+                                                                              Debug.Print("Json serializer errors:")
 
-                                                  For Each errMessage As String In errors
-                                                      Debug.Print(errMessage)
-                                                  Next
-                                              End If
+                                                                              For Each errMessage As String In errors
+                                                                                  Debug.Print(errMessage)
+                                                                              Next
+                                                                          End If
 
-                                              savedAddresses = savedAddresses.Concat(addressesChunk).ToList()
-                                              loadedAddressesCount += addressesChunk.Length
+                                                                          savedAddresses = savedAddresses.Concat(addressesChunk).ToList()
+                                                                          loadedAddressesCount += addressesChunk.Length
 
-                                              If loadedAddressesCount = nextDownloadStage Then
-                                                  download(loadedAddressesCount)
-                                              End If
+                                                                          If loadedAddressesCount = nextDownloadStage Then
+                                                                              download(loadedAddressesCount)
+                                                                          End If
 
-                                              If loadedAddressesCount = requestedAddresses Then
-                                                  socket.Emit("disconnect", TEMPORARY_ADDRESSES_STORAGE_ID)
-                                                  loadedAddressesCount = 0
-                                                  Dim args As AddressesChunkGeocodedArgs = New AddressesChunkGeocodedArgs() With {
+                                                                          If loadedAddressesCount = requestedAddresses Then
+                                                                              socket.Emit("disconnect", TEMPORARY_ADDRESSES_STORAGE_ID)
+                                                                              loadedAddressesCount = 0
+                                                                              Dim args As AddressesChunkGeocodedArgs = New AddressesChunkGeocodedArgs() With {
                                                       .lsAddressesChunkGeocoded = savedAddresses
                                                   }
-                                                  OnAddressesChunkGeocoded(args)
-                                                  manualResetEvent.[Set]()
-                                                  geocodedAddressesDownloadingIsDone = True
+                                                                              OnAddressesChunkGeocoded(args)
+                                                                              manualResetEvent.[Set]()
+                                                                              geocodedAddressesDownloadingIsDone = True
 
-                                                  If largeJsonFileProcessingIsDone Then
-                                                      OnGeocodingIsFinished(New GeocodingIsFinishedArgs() With {
+                                                                              If largeJsonFileProcessingIsDone Then
+                                                                                  OnGeocodingIsFinished(New GeocodingIsFinishedArgs() With {
                                                           .isFinished = True
                                                       })
-                                                  End If
+                                                                              End If
 
-                                                  socket.Close()
-                                              End If
-                                          End Function)
+                                                                              socket.Close()
+                                                                          End If
+                                                                      End Sub)
 
-            socket.[On]("geocode_progress", Function(message)
-                                                Dim progressMessage = JsonConvert.DeserializeObject(Of clsProgress)(message.ToString())
+                                        socket.[On]("geocode_progress", Sub(message)
+                                                                            Dim progressMessage = JsonConvert.DeserializeObject(Of clsProgress)(message.ToString())
 
-                                                If progressMessage.total = progressMessage.done Then
-                                                    If requestedAddresses Is Nothing Then requestedAddresses = progressMessage.total
-                                                    download(0)
-                                                End If
-                                            End Function)
+                                                                            If progressMessage.total = progressMessage.done Then
+                                                                                If requestedAddresses Is Nothing Then requestedAddresses = progressMessage.total
+                                                                                download(0)
+                                                                            End If
+                                                                        End Sub)
 
-            Dim jobj = New JObject()
-            jobj.Add("temporary_addresses_storage_id", TEMPORARY_ADDRESSES_STORAGE_ID)
-            jobj.Add("force_restart", True)
+                                        Dim jobj = New JObject()
+                                        jobj.Add("temporary_addresses_storage_id", TEMPORARY_ADDRESSES_STORAGE_ID)
+                                        jobj.Add("force_restart", True)
 
-            Dim _args As Object = New List(Of Object)
+                                        Dim _args As Object = New List(Of Object)
 
-            _args.Add(jobj)
+                                        _args.Add(jobj)
 
-            Try
-                socket.Emit("geocode", _args)
-            Catch ex As Exception
-                Debug.Print("Socket connection failed. " & ex.Message)
-            End Try
+                                        Try
+                                            socket.Emit("geocode", _args)
+                                        Catch ex As Exception
+                                            Debug.Print("Socket connection failed. " & ex.Message)
+                                        End Try
 
-            manualResetEvent.WaitOne()
-        End Sub
+                                        manualResetEvent.WaitOne()
+                                End Sub
 
         Public Sub download(ByVal start As Integer)
             Dim bufferFailSafeMaxAddresses As Integer = 100

@@ -10,7 +10,7 @@ Namespace Route4MeSDK.QueryTypes.V5
         Inherits GenericParameters
 
         ''' <summary>
-        ''' Telemetics connection type <see cref="Enum.TelematicsVendorType" />
+        ''' Telemetics connection type. See "Enum.TelematicsVendorType".
         ''' </summary>
         <HttpQueryMemberAttribute(Name:="vendor", EmitDefaultValue:=False)>
         Public Property Vendor As String

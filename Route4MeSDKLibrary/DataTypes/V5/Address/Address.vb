@@ -5,7 +5,7 @@ Imports System.ComponentModel
 Namespace Route4MeSDK.DataTypes.V5
     ''' <summary>
     ''' Route destination class.
-    ''' <para>See the JSON schema at <see cref="https://github.com/route4me/route4me-json-schemas/blob/master/Address.dtd"/> </para>
+    ''' <para>See the JSON schema at. See "https://github.com/route4me/route4me-json-schemas/blob/master/Address.dtd" </para>
     ''' </summary>
     <DataContract>
     Public NotInheritable Class Address

@@ -69,7 +69,7 @@ Namespace Route4MeSDK.QueryTypes
         Public Property ID As Integer?
 
         ''' <summary>
-        ''' Telemetics connection type <see cref="Enum.TelematicsVendorType" />
+        ''' Telemetics connection type. See cref="Enum.TelematicsVendorType".
         ''' </summary>
         <HttpQueryMemberAttribute(Name:="vendor", EmitDefaultValue:=False)>
         Public Property Vendor As String

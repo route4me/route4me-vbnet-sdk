@@ -100,7 +100,7 @@ Namespace Route4MeSDK.DataTypes
         Public Property SyncedVehiclesCount As Integer?
 
         ''' <summary>
-        ''' Telemetics connection vendor <see cref="Enum.TelematicsVendorType" />
+        ''' Telemetics connection vendor. See "Enum.TelematicsVendorType" />
         ''' </summary>
         <DataMember(Name:="vendor", EmitDefaultValue:=False)>
         Public Property Vendor As String

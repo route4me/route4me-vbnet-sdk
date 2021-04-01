@@ -4,7 +4,7 @@ Imports System.Runtime.Serialization
 Namespace Route4MeSDK.DataTypes
     ''' <summary>
     ''' Address book contact class. 
-    ''' <para>See the JSON schema at <see cref="https://github.com/route4me/route4me-json-schemas/blob/master/Addressbook_v4.dtd">link</see> </para>
+    ''' <para>See the JSON schema at "https://github.com/route4me/route4me-json-schemas/blob/master/Addressbook_v4.dtd" </para>
     ''' <para>Note: 'contact' means 'address book contact' and 'address' means 'geographic address of the contact'.</para>
     ''' </summary>
     <DataContract>

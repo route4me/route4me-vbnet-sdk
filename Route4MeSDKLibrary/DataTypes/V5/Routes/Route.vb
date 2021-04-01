@@ -287,14 +287,14 @@ Namespace Route4MeSDK.DataTypes.V5
         Public Property Notes As AddressNote()
 
         ''' <summary>
-        ''' Edge by edge turn-by-turn directions. See <see cref="Direction"/>
+        ''' Edge by edge turn-by-turn directions. See "Direction".
         ''' </summary>
         <DataMember(Name:="directions")>
         <[ReadOnly](True)>
         Public Property Directions As Direction()
 
         ''' <summary>
-        ''' Edge-wise path to be drawn on the map See <see cref="DirectionPathPoint"/>
+        ''' Edge-wise path to be drawn on the map See "DirectionPathPoint".
         ''' </summary>
         <DataMember(Name:="path")>
         <[ReadOnly](True)>

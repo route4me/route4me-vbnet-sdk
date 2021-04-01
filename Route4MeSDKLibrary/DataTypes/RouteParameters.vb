@@ -58,9 +58,9 @@ Namespace Route4MeSDK.DataTypes
 
         ''' <summary>Gets or sets the optimize parameter.
         ''' <para>Availabale values:</para>
-        ''' <value>Distance</value>, 
-        ''' <value>Time</value>, 
-        ''' <value>timeWithTraffic</value>
+        ''' <para>- Distance</para>, 
+        ''' <para>- Time</para>, 
+        ''' <para>- timeWithTraffic</para>
         ''' </summary>
         <DataMember(Name:="optimize", EmitDefaultValue:=False)>
         Public Property Optimize As String
@@ -216,11 +216,11 @@ Namespace Route4MeSDK.DataTypes
 
         ''' <summary>
         ''' Metric system. Available values:
-        ''' <para><value>1 = ROUTE4ME_METRIC_EUCLIDEAN</value> (use euclidean distance when computing point to point distance)</para>
-        ''' <para><value>2 = ROUTE4ME_METRIC_MANHATTAN</value> (use manhattan distance (taxicab geometry) when computing point to point distance)</para>
-        ''' <para><value>3 = ROUTE4ME_METRIC_GEODESIC</value> (use geodesic distance when computing point to point distance)</para>
-        ''' <para><value>4 = ROUTE4ME_METRIC_MATRIX (default)</value> (use road network driving distance when computing point to point distance)</para>
-        ''' <para><value>5 = ROUTE4ME_METRIC_EXACT_2D</value> (use exact rectilinear distance)</para>
+        ''' <para>1 = ROUTE4ME_METRIC_EUCLIDEAN (use euclidean distance when computing point to point distance)</para>
+        ''' <para>2 = ROUTE4ME_METRIC_MANHATTAN (use manhattan distance (taxicab geometry) when computing point to point distance)</para>
+        ''' <para>3 = ROUTE4ME_METRIC_GEODESIC (use geodesic distance when computing point to point distance)</para>
+        ''' <para>4 = ROUTE4ME_METRIC_MATRIX (default) (use road network driving distance when computing point to point distance)</para>
+        ''' <para>5 = ROUTE4ME_METRIC_EXACT_2D (use exact rectilinear distance)</para>
         ''' </summary>
         <DataMember(Name:="metric", EmitDefaultValue:=False)>
         Public Property Metric As Metric
@@ -251,12 +251,12 @@ Namespace Route4MeSDK.DataTypes
         ''' <summary>
         ''' The method to use when compute the distance between the points in a route.
         ''' <para>Available values:</para>
-        ''' <para><value>1 = DEFAULT</value> (R4M PROPRIETARY ROUTING)</para>
-        ''' <para><value>2 = DEPRECRATED</value></para>
-        ''' <para><value>3 = R4M TRAFFIC ENGINE</value></para>
-        ''' <para><value>4 = DEPRECATED</value></para>
-        ''' <para><value>5 = DEPRECATED</value></para>
-        ''' <para><value>6 = TRUCKING</value></para>
+        ''' <para>1 = DEFAULT (R4M PROPRIETARY ROUTING)</para>
+        ''' <para>2 = DEPRECRATED</para>
+        ''' <para>3 = R4M TRAFFIC ENGINE</para>
+        ''' <para>4 = DEPRECATED</para>
+        ''' <para>5 = DEPRECATED</para>
+        ''' <para>6 = TRUCKING</para>
         ''' </summary>
         <DataMember(Name:="dm", EmitDefaultValue:=False)>
         <Range(1, 12)>
@@ -265,10 +265,10 @@ Namespace Route4MeSDK.DataTypes
         ''' <summary>
         ''' Directions method.
         ''' <para>Available values:</para>
-        ''' <para><value>1 = DEFAULT</value> (R4M PROPRIETARY INTERNAL NAVIGATION SYSTEM)</para>
-        ''' <para><value>2 = DEPRECATED</value></para>
-        ''' <para><value>3 = TRUCKING</value></para>
-        ''' <para><value>4 = DEPRECATED</value></para>
+        ''' <para>1 = DEFAULT (R4M PROPRIETARY INTERNAL NAVIGATION SYSTEM)</para>
+        ''' <para>2 = DEPRECATED</para>
+        ''' <para>3 = TRUCKING</para>
+        ''' <para>4 = DEPRECATED</para>
         ''' </summary>
         <DataMember(Name:="dirm", EmitDefaultValue:=False)>
         <Range(1, 10)>
@@ -293,11 +293,11 @@ Namespace Route4MeSDK.DataTypes
         ''' <summary>
         ''' The type of device making this request.
         ''' <para>Available values:</para>
-        ''' <value>web</value>, 
-        ''' <value>iphone</value>, 
-        ''' <value>ipad</value>, 
-        ''' <value>android_phone</value>, 
-        ''' <value>android_tablet</value>
+        ''' <para>- web</para>, 
+        ''' <para>- iphone</para>, 
+        ''' <para>- ipad</para>, 
+        ''' <para>- android_phone</para>, 
+        ''' <para>- android_tablet</para>
         ''' </summary>
         <DataMember(Name:="device_type", EmitDefaultValue:=False)>
         Public Property DeviceType As String
@@ -473,9 +473,9 @@ Namespace Route4MeSDK.DataTypes
         ''' <summary>
         ''' The optimization quality.
         ''' <para>Available values:</para>
-        ''' <para><value>1</value> - Generate Optimized Routes As Quickly as Possible;</para>
-        ''' <para><value>2</value> - Generate Routes That Look Better On A Map;</para>
-        ''' <para><value>3</value> - Generate The Shortest And Quickest Possible Routes.</para>
+        ''' <para>1 - Generate Optimized Routes As Quickly as Possible;</para>
+        ''' <para>2 - Generate Routes That Look Better On A Map;</para>
+        ''' <para>3 - Generate The Shortest And Quickest Possible Routes.</para>
         ''' </summary>
         <DataMember(Name:="optimization_quality", EmitDefaultValue:=False)>
         Public Property OptimizationQuality As Integer?
