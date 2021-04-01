@@ -25,4 +25,5 @@
     <ProjectReference Include="..\Route4MeSDKLibrary\Route4MeSDKLibrary.vbproj" />
   </ItemGroup>
 
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
