@@ -18,13 +18,12 @@ configuration: Debug
 before_build:
   # Display .net version
   - cmd: dotnet --version
-  
-  - nuget restore "route4me-vbnet-sdk\Route4Me Route Optimization Examples.sln"
-
+  - cmd: dotnet restore "route4me-vbnet-sdk/Route4MeSDKLibrary/Route4MeSDKLibrary.csproj"
+  - cmd: dotnet restore "route4me-vbnet-sdk/Route4meSDKLibraryUnitTests/Route4meSDKUnitTest.csproj"
 
 # MSBuild settings
 build_script:
-  - dotnet build "route4me-vbnet-sdk\Route4MeSDKLibrary.vbproj"
+  - dotnet build "route4me-vbnet-sdk/Route4MeSDKLibrary/Route4MeSDKLibrary.vbproj"
 
 
 test_script:
@@ -33,9 +32,9 @@ test_script:
   - cmd: cd Route4meSDKLibraryUnitTests
   - cmd: dotnet mstest
   
-  - cmd: dotnet restore ./Route4MeSdkV5UnitTest/Route4MeSdkV5UnitTest.csproj --verbosity m
-  - cmd: cd Route4MeSdkV5UnitTest
-  - cmd: dotnet xunit
+  # - cmd: dotnet restore ./Route4MeSdkV5UnitTest/Route4MeSdkV5UnitTest.csproj --verbosity m
+  # - cmd: cd Route4MeSdkV5UnitTest
+  # - cmd: dotnet xunit
 
 only_commits:
   files:
