@@ -1,5 +1,6 @@
 ﻿Imports System.CodeDom.Compiler
 Imports System.IO
+Imports System.Reflection
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
@@ -35,12 +36,17 @@ Namespace Route4MeSDKTest.Examples
 
             Dim tempFilePath As String = Nothing
 
-            Using stream As Stream = File.Open("test.png", FileMode.Open)
+            Dim names As String() = Assembly.GetExecutingAssembly().GetManifestResourceNames()
+
+            For Each nm As String In names
+                Console.WriteLine(nm)
+            Next
+
+            Using stream As Stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Route4Me_Route_Optimization_Examples.test.png")
                 Dim tempFiles = New TempFileCollection()
 
                 If True Then
                     tempFilePath = tempFiles.AddExtension("png")
-
                     Console.WriteLine(tempFilePath)
 
                     Using fileStream As Stream = File.OpenWrite(tempFilePath)

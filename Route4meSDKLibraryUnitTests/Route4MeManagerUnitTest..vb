@@ -1,11 +1,15 @@
-﻿Imports Route4MeSDKLibrary.Route4MeSDK
+﻿Imports System.Text
+Imports Microsoft.VisualStudio.TestTools.UnitTesting
+Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.FastProcessing
 Imports System.IO
 Imports System.Runtime.Serialization
+Imports System.Reflection
 Imports System.CodeDom.Compiler
 Imports System.Threading
+Imports CsvHelper
 Imports Route4MeSDKLibrary.Route4MeSDK.Route4MeManager
 
 Public Class ApiKeys
@@ -204,25 +208,43 @@ End Class
         Assert.IsNotNull(route1, "ResequenceRouteDestinationsTest failed.")
     End Sub
 
+
+    'Public Sub ResequenceReoptimizeRouteTest()
+    '    Dim route4Me As New Route4MeManager(c_ApiKey)
+
+    '    Dim route_id As String = tdr.SD10Stops_route_id
+
+    '    Assert.IsNotNull(route_id, "rote_id is null...")
+
+    '    Dim roParameters As New Dictionary(Of String, String)() From {
+    '        {"route_id", route_id},
+    '        {"disable_optimization", "0"},
+    '        {"optimize", "Distance"}
+    '    }
+
+    '    ' Run the query
+    '    Dim errorString As String = ""
+    '    Dim result As Boolean = route4Me.ResequenceReoptimizeRoute(roParameters, errorString)
+
+    '    Assert.IsTrue(result, "ResequenceReoptimizeRouteTest failed.")
+    'End Sub
+
     <TestMethod>
     Public Sub ResequenceReoptimizeRouteTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
-
+        Dim route4Me = New Route4MeManager(c_ApiKey)
         Dim route_id As String = tdr.SD10Stops_route_id
 
         Assert.IsNotNull(route_id, "rote_id is null...")
-
-        Dim roParameters As New Dictionary(Of String, String)() From {
-            {"route_id", route_id},
-            {"disable_optimization", "0"},
-            {"optimize", "Distance"}
+        Dim routeParams = New RouteParametersQuery() With {
+            .RouteId = route_id,
+            .ReOptimize = True,
+            .Remaining = False,
+            .DeviceType = DeviceType.Web.GetEnumDescription()
         }
-
-        ' Run the query
-        Dim errorString As String = ""
-        Dim result As Boolean = route4Me.ResequenceReoptimizeRoute(roParameters, errorString)
-
-        Assert.IsTrue(result, "ResequenceReoptimizeRouteTest failed.")
+        Dim errorString As String = Nothing
+        Dim result = route4Me.ReoptimizeRoute(routeParams, errorString)
+        Assert.IsNotNull(result, "ResequenceReoptimizeRouteTest failed.")
+        Assert.IsInstanceOfType(result, GetType(DataObjectRoute), "ResequenceReoptimizeRouteTest failed. " & errorString)
     End Sub
 
     <TestMethod>
@@ -299,7 +321,7 @@ End Class
                                 Nothing)
         Dim tempFilePath As String = Nothing
 
-        Using stream As Stream = File.Open("test.png", FileMode.Open)
+        Using stream As Stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Route4meSDKLibraryUnitTests.test.png")
             Dim tempFiles = New TempFileCollection()
 
             If True Then
@@ -429,7 +451,7 @@ End Class
 
         Dim vehicles = vehicleGroup.getVehiclesList()
 
-        If (If(vehicles?.Total, 0)) < 1 Then
+        If (If(vehicles?.Length, 0)) < 1 Then
             Dim newVehicle = New VehicleV4Parameters() With {
                 .VehicleName = "Ford Transit Test 6",
                 .VehicleAlias = "Ford Transit Test 6"
@@ -440,8 +462,8 @@ End Class
             lsVehicleIDs.Add(vehicle.VehicleGuid)
         End If
 
-        Dim vehicleId As String = If((If(vehicles?.Total, 0)) > 0,
-                                        vehicles.Data((New Random()).[Next](0, vehicles.PerPage - 1)).VehicleId,
+        Dim vehicleId As String = If((If(vehicles?.Length, 0)) > 0,
+                                        vehicles((New Random()).[Next](0, vehicles.Length - 1)).VehicleId,
                                         lsVehicleIDs(0))
 
         Dim routeId As String = tdr.SD10Stops_route_id
@@ -938,20 +960,64 @@ End Class
     End Sub
 
     'this test excluded because website refuses sending of the file
+
+
+    'Public Sub AddAddressNoteWithFileTest()
+    '    Dim route4Me As New Route4MeManager(c_ApiKey)
+
+    '    Dim routeId As String = tdr.SDRT_route_id
+
+    '    Assert.IsNotNull(routeId, "routeId_SingleDriverRoundTrip is null...")
+
+    '    Dim addressId As Integer = If((tdr.dataObjectSDRT IsNot Nothing AndAlso tdr.SDRT_route IsNot Nothing AndAlso tdr.SDRT_route.Addresses.Length > 1 AndAlso tdr.SDRT_route.Addresses(1).RouteDestinationId IsNot Nothing), tdr.SDRT_route.Addresses(1).RouteDestinationId.Value, 0)
+
+    '    Dim lat As Double = If(tdr.SDRT_route.Addresses.Length > 1, tdr.SDRT_route.Addresses(1).Latitude, 33.132675170898)
+    '    Dim lng As Double = If(tdr.SDRT_route.Addresses.Length > 1, tdr.SDRT_route.Addresses(1).Longitude, -83.244743347168)
+
+    '    Dim noteParameters As New NoteParameters() With {
+    '        .RouteId = routeId,
+    '        .AddressId = addressId,
+    '        .Latitude = lat,
+    '        .Longitude = lng,
+    '        .DeviceType = DeviceType.Web.GetEnumDescription(),
+    '        .ActivityType = StatusUpdateType.DropOff.GetEnumDescription()
+    '    }
+
+    '    Dim tempFilePath As String = Nothing
+
+    '    Using stream As Stream = File.Open("test.png", FileMode.Open)
+    '        Dim tempFiles = New TempFileCollection()
+    '        If True Then
+    '            tempFilePath = tempFiles.AddExtension("png")
+    '            System.Console.WriteLine(tempFilePath)
+    '            Using fileStream As Stream = File.OpenWrite(tempFilePath)
+    '                stream.CopyTo(fileStream)
+    '            End Using
+    '        End If
+    '    End Using
+
+    '    ' Run the query
+    '    Dim errorString As String = ""
+    '    Dim contents As String = "Test Note Contents with Attachment " + DateTime.Now.ToString()
+    '    Dim note As AddressNote = route4Me.AddAddressNote(noteParameters, contents, tempFilePath, errorString)
+
+    '    Assert.IsNotNull(
+    '        note,
+    '        Convert.ToString("AddAddressNoteWithFileTest failed. ") & errorString)
+
+    'End Sub
+
     <TestMethod>
     Public Sub AddAddressNoteWithFileTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
-
+        Dim route4Me = New Route4MeManager(c_ApiKey)
         Dim routeId As String = tdr.SDRT_route_id
 
-        Assert.IsNotNull(routeId, "routeId_SingleDriverRoundTrip is null...")
-
+        Assert.IsNotNull(routeId, "routeId_SingleDriverRoundTrip is null.")
         Dim addressId As Integer = If((tdr.dataObjectSDRT IsNot Nothing AndAlso tdr.SDRT_route IsNot Nothing AndAlso tdr.SDRT_route.Addresses.Length > 1 AndAlso tdr.SDRT_route.Addresses(1).RouteDestinationId IsNot Nothing), tdr.SDRT_route.Addresses(1).RouteDestinationId.Value, 0)
-
         Dim lat As Double = If(tdr.SDRT_route.Addresses.Length > 1, tdr.SDRT_route.Addresses(1).Latitude, 33.132675170898)
         Dim lng As Double = If(tdr.SDRT_route.Addresses.Length > 1, tdr.SDRT_route.Addresses(1).Longitude, -83.244743347168)
 
-        Dim noteParameters As New NoteParameters() With {
+        Dim noteParameters = New NoteParameters() With {
             .RouteId = routeId,
             .AddressId = addressId,
             .Latitude = lat,
@@ -962,26 +1028,25 @@ End Class
 
         Dim tempFilePath As String = Nothing
 
-        Using stream As Stream = File.Open("test.png", FileMode.Open)
+        Using stream As Stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Route4meSDKLibraryUnitTests.test.png")
             Dim tempFiles = New TempFileCollection()
+
             If True Then
                 tempFilePath = tempFiles.AddExtension("png")
-                System.Console.WriteLine(tempFilePath)
+                Console.WriteLine(tempFilePath)
+
                 Using fileStream As Stream = File.OpenWrite(tempFilePath)
                     stream.CopyTo(fileStream)
                 End Using
             End If
         End Using
 
-        ' Run the query
-        Dim errorString As String = ""
-        Dim contents As String = "Test Note Contents with Attachment " + DateTime.Now.ToString()
-        Dim note As AddressNote = route4Me.AddAddressNote(noteParameters, contents, tempFilePath, errorString)
+        Dim contents As String = "Test Note Contents with Attachment " & DateTime.Now.ToString()
 
-        Assert.IsNotNull(
-            note,
-            Convert.ToString("AddAddressNoteWithFileTest failed. ") & errorString)
+        Dim errorString As String = Nothing
+        Dim note = route4Me.AddAddressNote(noteParameters, contents, tempFilePath, errorString)
 
+        Assert.IsNotNull(note, "AddAddressNoteWithFileTest failed. " & errorString)
     End Sub
 
     <TestMethod>
@@ -10882,15 +10947,17 @@ End Class
 <TestClass()> Public Class VehiclesGroup
     Shared c_ApiKey As String = ApiKeys.actualApiKey
     Shared lsVehicleIDs As List(Of String)
+    Shared lsCreatedVehicleIDs As List(Of String)
 
     <ClassInitialize()>
     Public Shared Sub VehiclesGroupInitialize(ByVal context As TestContext)
         lsVehicleIDs = New List(Of String)()
+        lsCreatedVehicleIDs = New List(Of String)()
 
         Dim vehicleGroup = New VehiclesGroup()
         Dim vehicles = vehicleGroup.getVehiclesList()
 
-        If (If(vehicles?.Total, 0)) < 1 Then
+        If (If(vehicles?.Length, 0)) < 1 Then
             Dim newVehicle = New VehicleV4Parameters() With {
                 .VehicleName = "Ford Transit Test 6",
                 .VehicleAlias = "Ford Transit Test 6"
@@ -10899,8 +10966,9 @@ End Class
             Dim vehicle = vehicleGroup.createVehicle(newVehicle)
 
             lsVehicleIDs.Add(vehicle.VehicleGuid)
+            lsCreatedVehicleIDs.Add(vehicle.VehicleGuid)
         Else
-            For Each veh1 In vehicles.Data
+            For Each veh1 In vehicles
                 lsVehicleIDs.Add(veh1.VehicleId)
             Next
         End If
@@ -10908,10 +10976,10 @@ End Class
 
     <TestMethod>
     Public Sub GetVehiclesListTest()
-        Dim vehicles As VehiclesPaginated = getVehiclesList()
+        Dim vehicles As DataTypes.V5.Vehicle() = getVehiclesList()
     End Sub
 
-    Public Function getVehiclesList() As VehiclesPaginated
+    Public Function getVehiclesList() As DataTypes.V5.Vehicle()
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
         Dim vehicleParameters As VehicleParameters = New VehicleParameters With {
@@ -10921,7 +10989,7 @@ End Class
         }
 
         Dim errorString As String = ""
-        Dim vehicles As VehiclesPaginated = route4Me.GetVehicles(vehicleParameters, errorString)
+        Dim vehicles As DataTypes.V5.Vehicle() = route4Me.GetVehicles(vehicleParameters, errorString)
 
         Return vehicles
     End Function
@@ -10949,6 +11017,7 @@ End Class
         If commonVehicle IsNot Nothing AndAlso
             commonVehicle.[GetType]() = GetType(VehicleV4CreateResponse) Then
             lsVehicleIDs.Add(commonVehicle.VehicleGuid)
+            lsCreatedVehicleIDs.Add(commonVehicle.VehicleGuid)
         End If
 
         Dim class6TruckParams = New VehicleV4Parameters() With {
@@ -10987,6 +11056,7 @@ End Class
         If class6Truck IsNot Nothing AndAlso
             class6Truck.[GetType]() = GetType(VehicleV4CreateResponse) Then
             lsVehicleIDs.Add(class6Truck.VehicleGuid)
+            lsCreatedVehicleIDs.Add(class6Truck.VehicleGuid)
         End If
 
         Dim class7TruckParams = New VehicleV4Parameters() With {
@@ -11028,6 +11098,7 @@ End Class
         If class7Truck IsNot Nothing AndAlso
             class7Truck.[GetType]() = GetType(VehicleV4CreateResponse) Then
             lsVehicleIDs.Add(class7Truck.VehicleGuid)
+            lsCreatedVehicleIDs.Add(class7Truck.VehicleGuid)
         End If
 
         Dim class8TruckParams = New VehicleV4Parameters() With {
@@ -11069,6 +11140,7 @@ End Class
         If class8Truck IsNot Nothing AndAlso
             class8Truck.[GetType]() = GetType(VehicleV4CreateResponse) Then
             lsVehicleIDs.Add(class8Truck.VehicleGuid)
+            lsCreatedVehicleIDs.Add(class8Truck.VehicleGuid)
         End If
     End Sub
 
@@ -11099,6 +11171,7 @@ End Class
             }
             Dim vehicle As VehicleV4CreateResponse = createVehicle(newVehicle)
             lsVehicleIDs.Add(vehicle.VehicleGuid)
+            lsCreatedVehicleIDs.Add(vehicle.VehicleGuid)
         End If
 
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
@@ -11155,7 +11228,7 @@ End Class
         Dim route4Me = New Route4MeManager(c_ApiKey)
         Dim errorString As String = Nothing
 
-        For Each vehicleId In lsVehicleIDs
+        For Each vehicleId In lsCreatedVehicleIDs
             Dim vehicleParams = New VehicleV4Parameters() With {
                 .VehicleId = vehicleId
             }

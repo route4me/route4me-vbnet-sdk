@@ -663,6 +663,42 @@ Namespace Route4MeSDK
             End If
         End Function
 
+        ''' <summary>
+        ''' Reoptimze a route
+        ''' </summary>
+        ''' <param name="queryParams">Route query parameters containing parameters:
+        ''' - ReOptimize = true, enables reoptimization of a route
+        ''' - Remaining=0 - disables resequencing of the remaining stops.
+        ''' - Remaining=1 - enables resequencing of the remaining stops.
+        ''' </param>
+        ''' <param name="errorString">Error string</param>
+        ''' <returns>Reoptimized route</returns>
+        Public Function ReoptimizeRoute(ByVal queryParams As RouteParametersQuery, ByRef errorString As String) As DataObjectRoute
+            Dim result = GetJsonObjectFromAPI(Of DataObjectRoute)(queryParams, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, errorString)
+
+            If result IsNot Nothing AndAlso result.[GetType]() = GetType(DataObjectRoute) AndAlso queryParams.ShiftByTimeZone Then
+                result = ShiftRouteDateTimeByTz(result)
+            End If
+
+            Return result
+        End Function
+
+        ''' <summary>
+        ''' Shift the route date and route time to make them as shown in the web app.
+        ''' </summary>
+        ''' <param name="route">Input route object</param>
+        ''' <returns>Modified route object</returns>
+        Public Function ShiftRouteDateTimeByTz(ByVal route As DataObjectRoute) As DataObjectRoute
+            Dim tz = R4MeUtils.GetLocalTimeZone()
+            Dim totalTime As Long = CLng((route.Parameters.RouteDate + route.Parameters.RouteTime))
+
+            totalTime += tz
+            route.Parameters.RouteDate = (totalTime / 86400) * 86400
+            route.Parameters.RouteTime = CInt((totalTime - route.Parameters.RouteDate))
+
+            Return route
+        End Function
+
         <DataContract()>
         Private NotInheritable Class ManuallyResequenceRouteRequest
             Inherits GenericParameters
@@ -3271,9 +3307,9 @@ Namespace Route4MeSDK
         ''' <param name="errorString"> out: Error as string </param>
         ''' <returns> Vehicle object list </returns>
         Public Function GetVehicles(ByVal vehParams As VehicleParameters,
-                                    ByRef errorString As String) As VehiclesPaginated
+                                    ByRef errorString As String) As DataTypes.V5.Vehicle()
 
-            Dim response As VehiclesPaginated = GetJsonObjectFromAPI(Of VehiclesPaginated)(
+            Dim response As DataTypes.V5.Vehicle() = GetJsonObjectFromAPI(Of DataTypes.V5.Vehicle())(
                 vehParams,
                 R4MEInfrastructureSettings.Vehicle_V4,
                 HttpMethodType.[Get],

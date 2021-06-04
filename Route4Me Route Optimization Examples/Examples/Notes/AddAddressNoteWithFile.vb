@@ -27,20 +27,14 @@ Namespace Route4MeSDKTest.Examples
                 .DeviceType = DeviceType.Web.GetEnumDescription(),
                 .ActivityType = StatusUpdateType.DropOff.GetEnumDescription()
             }
-            Dim names As String() = Assembly.GetExecutingAssembly().GetManifestResourceNames()
-
-            For Each nm As String In names
-                Console.WriteLine(nm)
-            Next
 
             Dim tempFilePath As String = Nothing
 
-            Using stream As Stream = File.Open("test.png", FileMode.Open)
+            Using stream As Stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Route4Me_Route_Optimization_Examples.test.png")
                 Dim tempFiles = New TempFileCollection()
 
                 If True Then
                     tempFilePath = tempFiles.AddExtension("png")
-
                     Console.WriteLine(tempFilePath)
 
                     Using fileStream As Stream = File.OpenWrite(tempFilePath)

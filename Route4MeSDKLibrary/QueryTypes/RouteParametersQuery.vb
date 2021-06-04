@@ -189,5 +189,19 @@ Namespace Route4MeSDK.QueryTypes
         ''' </summary>
         <DataMember(Name:="unlink_from_master_optimization", EmitDefaultValue:=False)>
         Public Property UnlinkFromMasterOptimization As Boolean
+
+        ''' <summary>
+        ''' Device type
+        ''' Available Values:
+        ''' iphone, ipad, android_phone, android_tablet
+        ''' </summary>
+        ''' <returns></returns>
+        <DataMember(Name:="device_type", EmitDefaultValue:=False)>
+        Public Property DeviceType As String
+
+        ''' <summary>
+        ''' If true, the route time is shifted by timezone.
+        ''' </summary>
+        Public Property ShiftByTimeZone As Boolean
     End Class
 End Namespace

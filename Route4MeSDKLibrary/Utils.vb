@@ -589,6 +589,16 @@ Namespace Route4MeSDK
                 Return Nothing
             End If
         End Function
+
+        ''' <summary>
+        ''' Get local timezone in seconds.
+        ''' </summary>
+        ''' <returns>Timezone in seconds</returns>
+        Public Function GetLocalTimeZone() As Integer
+            Dim seconds = CInt(TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow).TotalSeconds)
+
+            Return seconds
+        End Function
     End Module
 End Namespace
 
