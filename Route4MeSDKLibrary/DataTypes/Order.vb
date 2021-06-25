@@ -153,20 +153,20 @@ Namespace Route4MeSDK.DataTypes
         ''' <summary>
         ''' Custom data
         ''' </summary>
-        <DataMember(Name:="EXT_FIELD_custom_data", EmitDefaultValue:=False)> _
-        Public Property EXT_FIELD_custom_data() As Object
+        <DataMember(Name:="EXT_FIELD_custom_data", EmitDefaultValue:=False)>
+        Public Property EXT_FIELD_custom_data() As Dictionary(Of String, String)()
             Get
                 Return _ext_field_custom_data
             End Get
-            Set(value As Object)
-                If value.[GetType]().ToString() = "System.Collections.Generic.Dictionary" Then
+            Set(ByVal value As Dictionary(Of String, String)())
+                If value.[GetType]() = GetType(Dictionary(Of String, String)()) Then
                     _ext_field_custom_data = value
                 Else
                     _ext_field_custom_data = Nothing
                 End If
             End Set
         End Property
-        Private _ext_field_custom_data As Object
+        Private _ext_field_custom_data As Dictionary(Of String, String)()
 
         ''' <summary>
         ''' Local timezone string
