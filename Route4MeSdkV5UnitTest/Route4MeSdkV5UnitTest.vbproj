@@ -10,6 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="app.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="app.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -24,6 +34,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Route4MeSDKLibrary\Route4MeSDKLibrary.vbproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="My Project\" />
+    <Folder Include="V5\TelematicsPlatformApi\" />
   </ItemGroup>
 
 </Project>

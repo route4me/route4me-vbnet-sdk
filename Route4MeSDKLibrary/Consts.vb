@@ -117,7 +117,7 @@
 
 #Region "Telematics Platform"
 
-        Public Const StagingHost As String = "https://virtserver.swaggerhub.com/Route4Me/telematics-gateway/1.0.0"
+        Public Const StagingHost As String = "/api"  ' Temporary unavailable
         Public Const TelematicsConnection As String = StagingHost & "/connections"
         Public Const TelematicsConnectionVehicles As String = StagingHost & "/connections/{connection_token}/vehicles"
         Public Const TelematicsAccessToken As String = StagingHost & "/access-tokens"
