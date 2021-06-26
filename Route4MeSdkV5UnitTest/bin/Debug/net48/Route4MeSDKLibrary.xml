@@ -577,7 +577,7 @@ Route4MeSDKLibrary
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact">
  <summary>
  Address book contact class. 
- <para>See the JSON schema at <see cref="!:https://github.com/route4me/route4me-json-schemas/blob/master/Addressbook_v4.dtd">link</see> </para>
+ <para>See the JSON schema at "https://github.com/route4me/route4me-json-schemas/blob/master/Addressbook_v4.dtd" </para>
  <para>Note: 'contact' means 'address book contact' and 'address' means 'geographic address of the contact'.</para>
  </summary>
 </member>
@@ -982,7 +982,7 @@ Route4MeSDKLibrary
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressNote.ActivityType">
  <summary>
  The activity type
- See available activity types here: <see cref="!:https://github.com/route4me/route4me-json-schemas/blob/master/Activity.dtd#L23"/>
+ See available activity types here: "https://github.com/route4me/route4me-json-schemas/blob/master/Activity.dtd#L23"/>
  </summary>
  <returns></returns>
 </member>
@@ -2353,6 +2353,12 @@ Route4MeSDKLibrary
  Getter of the dynamic properties
  </summary>
 </member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Route4MeDynamicClass.ToString">
+ <summary>
+ Tries to set member
+ </summary>
+ <returns>Multiline property name and value pairs</returns>
+</member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Route4MeDynamicClass.CopyPropertiesFromClass(System.Object,System.Collections.Generic.List{System.String},System.String@)">
  <summary>
  Copy a specified list of the properties of the Route4Me object to the dynamic class.
@@ -2404,9 +2410,9 @@ Route4MeSDKLibrary
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.Optimize">
  <summary>Gets or sets the optimize parameter.
  <para>Availabale values:</para>
- <value>Distance</value>, 
- <value>Time</value>, 
- <value>timeWithTraffic</value>
+ <para>- Distance</para>, 
+ <para>- Time</para>, 
+ <para>- timeWithTraffic</para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.LockLast">
@@ -2531,11 +2537,11 @@ Route4MeSDKLibrary
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.Metric">
  <summary>
  Metric system. Available values:
- <para><value>1 = ROUTE4ME_METRIC_EUCLIDEAN</value> (use euclidean distance when computing point to point distance)</para>
- <para><value>2 = ROUTE4ME_METRIC_MANHATTAN</value> (use manhattan distance (taxicab geometry) when computing point to point distance)</para>
- <para><value>3 = ROUTE4ME_METRIC_GEODESIC</value> (use geodesic distance when computing point to point distance)</para>
- <para><value>4 = ROUTE4ME_METRIC_MATRIX (default)</value> (use road network driving distance when computing point to point distance)</para>
- <para><value>5 = ROUTE4ME_METRIC_EXACT_2D</value> (use exact rectilinear distance)</para>
+ <para>1 = ROUTE4ME_METRIC_EUCLIDEAN (use euclidean distance when computing point to point distance)</para>
+ <para>2 = ROUTE4ME_METRIC_MANHATTAN (use manhattan distance (taxicab geometry) when computing point to point distance)</para>
+ <para>3 = ROUTE4ME_METRIC_GEODESIC (use geodesic distance when computing point to point distance)</para>
+ <para>4 = ROUTE4ME_METRIC_MATRIX (default) (use road network driving distance when computing point to point distance)</para>
+ <para>5 = ROUTE4ME_METRIC_EXACT_2D (use exact rectilinear distance)</para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.AlgorithmType">
@@ -2562,22 +2568,22 @@ Route4MeSDKLibrary
  <summary>
  The method to use when compute the distance between the points in a route.
  <para>Available values:</para>
- <para><value>1 = DEFAULT</value> (R4M PROPRIETARY ROUTING)</para>
- <para><value>2 = DEPRECRATED</value></para>
- <para><value>3 = R4M TRAFFIC ENGINE</value></para>
- <para><value>4 = DEPRECATED</value></para>
- <para><value>5 = DEPRECATED</value></para>
- <para><value>6 = TRUCKING</value></para>
+ <para>1 = DEFAULT (R4M PROPRIETARY ROUTING)</para>
+ <para>2 = DEPRECRATED</para>
+ <para>3 = R4M TRAFFIC ENGINE</para>
+ <para>4 = DEPRECATED</para>
+ <para>5 = DEPRECATED</para>
+ <para>6 = TRUCKING</para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.Dirm">
  <summary>
  Directions method.
  <para>Available values:</para>
- <para><value>1 = DEFAULT</value> (R4M PROPRIETARY INTERNAL NAVIGATION SYSTEM)</para>
- <para><value>2 = DEPRECATED</value></para>
- <para><value>3 = TRUCKING</value></para>
- <para><value>4 = DEPRECATED</value></para>
+ <para>1 = DEFAULT (R4M PROPRIETARY INTERNAL NAVIGATION SYSTEM)</para>
+ <para>2 = DEPRECATED</para>
+ <para>3 = TRUCKING</para>
+ <para>4 = DEPRECATED</para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.Parts">
@@ -2594,11 +2600,11 @@ Route4MeSDKLibrary
  <summary>
  The type of device making this request.
  <para>Available values:</para>
- <value>web</value>, 
- <value>iphone</value>, 
- <value>ipad</value>, 
- <value>android_phone</value>, 
- <value>android_tablet</value>
+ <para>- web</para>, 
+ <para>- iphone</para>, 
+ <para>- ipad</para>, 
+ <para>- android_phone</para>, 
+ <para>- android_tablet</para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.HasTrailer">
@@ -2751,9 +2757,9 @@ Route4MeSDKLibrary
  <summary>
  The optimization quality.
  <para>Available values:</para>
- <para><value>1</value> - Generate Optimized Routes As Quickly as Possible;</para>
- <para><value>2</value> - Generate Routes That Look Better On A Map;</para>
- <para><value>3</value> - Generate The Shortest And Quickest Possible Routes.</para>
+ <para>1 - Generate Optimized Routes As Quickly as Possible;</para>
+ <para>2 - Generate Routes That Look Better On A Map;</para>
+ <para>3 - Generate The Shortest And Quickest Possible Routes.</para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.Uturn">
@@ -3053,7 +3059,7 @@ Route4MeSDKLibrary
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.Vendor">
  <summary>
- Telemetics connection vendor <see cref="!:Enum.TelematicsVendorType" />
+ Telemetics connection vendor. See "Enum.TelematicsVendorType" />
  </summary>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsRegisterMemberResponse">
@@ -3482,7 +3488,7 @@ User email.
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Address">
  <summary>
  Route destination class.
- <para>See the JSON schema at <see cref="!:https://github.com/route4me/route4me-json-schemas/blob/master/Address.dtd"/> </para>
+ <para>See the JSON schema at. See "https://github.com/route4me/route4me-json-schemas/blob/master/Address.dtd" </para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Address.RouteDestinationId">
@@ -3935,7 +3941,7 @@ User email.
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DataObject">
  <summary>
  Main data object data-structure
- See <see cref="!:https://www.assembla.com/spaces/route4me_api/wiki/Optimization_Problem_V4"/>  
+ See "Optimization_Problem_V4".
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DataObject.State">
@@ -4573,12 +4579,12 @@ User email.
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DataObjectRoute.Directions">
  <summary>
- Edge by edge turn-by-turn directions. See <see cref="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Direction"/>
+ Edge by edge turn-by-turn directions. See "Direction".
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DataObjectRoute.Path">
  <summary>
- Edge-wise path to be drawn on the map See <see cref="!:DirectionPathPoint"/>
+ Edge-wise path to be drawn on the map See "DirectionPathPoint".
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DataObjectRoute.Vehilce">
@@ -5161,7 +5167,7 @@ User email.
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.OverrideAddresses">
  <summary>
- Subclass of the class RouteParameters. See <see cref="!:RouteParameters.overrideAddresses"/>
+ Subclass of the class RouteParameters. See "RouteParameters.overrideAddresses".
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.OverrideAddresses.Time">
@@ -5428,7 +5434,7 @@ User email.
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.Vendor">
  <summary>
- Telemetics connection type <see cref="!:Enum.TelematicsVendorType" />
+ Telemetics connection type. See "Enum.TelematicsVendorType".
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.Host">
@@ -6963,6 +6969,12 @@ User email.
  Increment the offset by the limit number to move to the next page.
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Original">
+ <summary>
+ Output addresses and directions in the original optimization request sequence. 
+ This is to allow us to compare routes before after after optimization.
+ </summary>
+</member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Notes">
  <summary>
  Output route and stop-specific notes. The notes will have timestamps, 
@@ -7051,6 +7063,19 @@ User email.
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.UnlinkFromMasterOptimization">
  <summary>
  If true, the route will be unlinked from the master optimization.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.DeviceType">
+ <summary>
+ Device type
+ Available Values:
+ iphone, ipad, android_phone, android_tablet
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.ShiftByTimeZone">
+ <summary>
+ If true, the route time is shifted by timezone.
  </summary>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery">
@@ -7150,7 +7175,7 @@ User email.
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters.Vendor">
  <summary>
- Telemetics connection type <see cref="!:Enum.TelematicsVendorType" />
+ Telemetics connection type. See cref="Enum.TelematicsVendorType".
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters.ValidateRemoteCredentials">
@@ -7430,6 +7455,12 @@ User email.
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.RouteParametersQuery.EndDate">
  <summary>
  End date
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.RouteParametersQuery.Original">
+ <summary>
+ Output addresses and directions in the original optimization request sequence. 
+ This Is to allow us to compare routes before and after optimization.
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.RouteParametersQuery.Notes">
@@ -7713,7 +7744,7 @@ User email.
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters.Vendor">
  <summary>
- Telemetics connection type <see cref="!:Enum.TelematicsVendorType" />
+ Telemetics connection type. See "Enum.TelematicsVendorType".
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters.VendorId">
@@ -7941,6 +7972,25 @@ User email.
  <param name="addressParameters">Contains an address object</param>
  <param name="errorString">Returned error string in case of the processs failing</param>
  <returns>The updated address</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.ReoptimizeRoute(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery,System.String@)">
+ <summary>
+ Reoptimze a route
+ </summary>
+ <param name="queryParams">Route query parameters containing parameters:
+ - ReOptimize = true, enables reoptimization of a route
+ - Remaining=0 - disables resequencing of the remaining stops.
+ - Remaining=1 - enables resequencing of the remaining stops.
+ </param>
+ <param name="errorString">Error string</param>
+ <returns>Reoptimized route</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.ShiftRouteDateTimeByTz(Route4MeSDKLibrary.Route4MeSDK.DataTypes.DataObjectRoute)">
+ <summary>
+ Shift the route date and route time to make them as shown in the web app.
+ </summary>
+ <param name="route">Input route object</param>
+ <returns>Modified route object</returns>
 </member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetScheduleCalendar(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery,System.String@)">
  <summary>
@@ -8999,6 +9049,12 @@ User email.
  <param name="ddhhmm">The dd:HH:mm format String</param>
  <param name="errorString">Error string</param>
  <returns>Seconds</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.GetLocalTimeZone">
+ <summary>
+ Get local timezone in seconds.
+ </summary>
+ <returns>Timezone in seconds</returns>
 </member>
 <member name="M:Route4MeSDKLibrary.System.Net.Http.HttpClientExtensions.PatchAsync(System.Net.Http.HttpClient,System.String,System.Net.Http.HttpContent)">
  <summary>
