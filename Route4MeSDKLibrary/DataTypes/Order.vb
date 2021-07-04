@@ -1,4 +1,5 @@
-﻿Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
+﻿Imports Newtonsoft.Json
+Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Imports System.Runtime.Serialization
 
 Namespace Route4MeSDK.DataTypes
@@ -151,22 +152,27 @@ Namespace Route4MeSDK.DataTypes
         Public Property EXT_FIELD_phone As String
 
         ''' <summary>
-        ''' Custom data
+        ''' Not serialized - for prevention wrong data (e.g. Dictionary(Of String, String)())
         ''' </summary>
-        <DataMember(Name:="EXT_FIELD_custom_data", EmitDefaultValue:=False)>
-        Public Property EXT_FIELD_custom_data() As Dictionary(Of String, String)()
+        <JsonIgnore>
+        Public Property EXT_FIELD_custom_data As Dictionary(Of String, String)
             Get
-                Return _ext_field_custom_data
+                Return If(
+                    EXT_FIELD_custom_data2 IsNot Nothing AndAlso EXT_FIELD_custom_data2.[GetType]() = GetType(Dictionary(Of String, String)),
+                    CType(EXT_FIELD_custom_data2, Dictionary(Of String, String)),
+                    Nothing
+                    )
             End Get
-            Set(ByVal value As Dictionary(Of String, String)())
-                If value.[GetType]() = GetType(Dictionary(Of String, String)()) Then
-                    _ext_field_custom_data = value
-                Else
-                    _ext_field_custom_data = Nothing
-                End If
+            Set(ByVal value As Dictionary(Of String, String))
+                EXT_FIELD_custom_data2 = value
             End Set
         End Property
-        Private _ext_field_custom_data As Dictionary(Of String, String)()
+
+        ''' <summary>
+        ''' Custom data - serialized
+        ''' </summary>
+        <DataMember(Name:="EXT_FIELD_custom_data", EmitDefaultValue:=False)>
+        Private Property EXT_FIELD_custom_data2 As Object
 
         ''' <summary>
         ''' Local timezone string
