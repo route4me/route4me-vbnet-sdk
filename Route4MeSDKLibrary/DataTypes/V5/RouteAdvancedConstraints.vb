@@ -48,5 +48,53 @@ Namespace Route4MeSDK.DataTypes.V5
         <DataMember(Name:="route4me_members_id", EmitDefaultValue:=False)>
         Public Property Route4meMembersId As Integer()
 
+        ''' <summary>
+        ''' An array of the skilled driver IDs.
+        ''' </summary>
+        <DataMember(Name:="location_sequence_pattern", EmitDefaultValue:=False)>
+        Public Property LocationSequencePattern As LocationSequencePattern()
+
     End Class
+
+
+    <DataContract>
+    Public Class LocationSequencePattern
+
+        ''' <summary>
+        ''' Address alias
+        ''' </summary>
+        <DataMember(Name:="alias", EmitDefaultValue:=False)>
+        Public Property [Alias] As String
+
+        ''' <summary>
+        ''' Route destination address
+        ''' </summary>
+        <DataMember(Name:="address")>
+        Public Property AddressString As String
+
+        ''' <summary>
+        ''' The latitude of this address
+        ''' </summary>
+        <DataMember(Name:="lat")>
+        Public Property Latitude As Double
+
+        ''' <summary>
+        ''' The longitude of this address
+        ''' </summary>
+        <DataMember(Name:="lng")>
+        Public Property Longitude As Double
+
+        ''' <summary>
+        ''' The expected amount of time that will be spent at this address by the driver/user.
+        ''' </summary>
+        <DataMember(Name:="time", EmitDefaultValue:=False)>
+        Public Property Time As Long?
+
+        ''' <summary>
+        ''' Route destination ID
+        ''' </summary>
+        <DataMember(Name:="route_destination_id", EmitDefaultValue:=False)>
+        Public Property RouteDestinationId As Integer?
+    End Class
+
 End Namespace

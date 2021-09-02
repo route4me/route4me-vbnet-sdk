@@ -34,13 +34,19 @@ Namespace Route4MeSDK.DataTypes
         Public Property Host As String
 
         ''' <summary>
+        ''' Telematics connection access api_key
+        ''' </summary>
+        <DataMember(Name:="api_key", EmitDefaultValue:=False)>
+        Public Property ApiKey As String
+
+        ''' <summary>
         ''' Telemetics connection type ID
         ''' </summary>
         <DataMember(Name:="vendor_id", EmitDefaultValue:=False)>
         Public Property VendorId As Integer?
 
         ''' <summary>
-        ''' Telemetics connection name
+        ''' elemetics connection name
         ''' </summary>
         <DataMember(Name:="name", EmitDefaultValue:=False)>
         Public Property Name As String
@@ -50,6 +56,36 @@ Namespace Route4MeSDK.DataTypes
         ''' </summary>
         <DataMember(Name:="vehicle_position_refresh_rate", EmitDefaultValue:=False)>
         Public Property VehiclePositionRefreshRate As Integer?
+
+        ''' <summary>
+        ''' Maximum idle time
+        ''' </summary>
+        <DataMember(Name:="max_idle_time", EmitDefaultValue:=False)>
+        Public Property MaxIdleTime As Integer?
+
+        ''' <summary>
+        ''' Disable/enable vehicle tracking
+        ''' </summary>
+        <DataMember(Name:="is_enabled", EmitDefaultValue:=False)>
+        Public Property IsEnabled As Boolean?
+
+        ''' <summary>
+        ''' The last timestamp the vehicles reloaded
+        ''' </summary>
+        <DataMember(Name:="last_vehicles_reload", EmitDefaultValue:=False)>
+        Public Property LastVehiclesReload As String
+
+        ''' <summary>
+        ''' The last timestamp the addresses reloaded
+        ''' </summary>
+        <DataMember(Name:="last_addresses_reload", EmitDefaultValue:=False)>
+        Public Property LastAddressesReload As String
+
+        ''' <summary>
+        ''' The last timestamp the postions reloaded
+        ''' </summary>
+        <DataMember(Name:="last_position_reload", EmitDefaultValue:=False)>
+        Public Property LastPositionReload As String
 
         ''' <summary>
         ''' Telematics connection access token
@@ -94,13 +130,19 @@ Namespace Route4MeSDK.DataTypes
         Public Property TotalVehiclesCount As Integer?
 
         ''' <summary>
+        ''' Total addresses count
+        ''' </summary>
+        <DataMember(Name:="total_addresses_count", EmitDefaultValue:=False)>
+        Public Property TotalAddressesCount As Integer?
+
+        ''' <summary>
         ''' Syncronized vehicles count
         ''' </summary>
         <DataMember(Name:="synced_vehicles_count", EmitDefaultValue:=False)>
         Public Property SyncedVehiclesCount As Integer?
 
         ''' <summary>
-        ''' Telemetics connection vendor. See "Enum.TelematicsVendorType" />
+        ''' Telemetics connection vendor <see cref="Enum.TelematicsVendorType" />
         ''' </summary>
         <DataMember(Name:="vendor", EmitDefaultValue:=False)>
         Public Property Vendor As String

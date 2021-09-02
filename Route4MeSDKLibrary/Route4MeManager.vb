@@ -643,6 +643,13 @@ Namespace Route4MeSDK
             End If
         End Function
 
+        ''' <summary>
+        ''' Resequences/roptimizes a route. TO DO: this endpoint seems to be deprecated and should be disabled
+        ''' </summary>
+        ''' <param name="roParames">The parameters for reoptimizng</param>
+        ''' <param name="errorString">Error string</param>
+        ''' <returns>True, if a route reoptimized/resequences successfully</returns>
+        <Obsolete("The method is obsolete, use the method ReoptimizeRoute instead.")>
         Public Function ResequenceReoptimizeRoute(roParames As Dictionary(Of String, String), ByRef errorString As String) As Boolean
             Dim request As New RouteParametersQuery With {
                .RouteId = roParames.Item("route_id"),

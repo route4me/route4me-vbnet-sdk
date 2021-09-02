@@ -1,4 +1,7 @@
-﻿Imports Route4MeSDKLibrary.Route4MeSDK
+﻿Imports Route4MeSDKLibrary
+Imports Route4MeSDKLibrary.Route4MeSDK
+Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
+Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 
 Namespace Route4MeSDKTest.Examples
     Partial Public NotInheritable Class Route4MeExamples
@@ -10,7 +13,6 @@ Namespace Route4MeSDKTest.Examples
         Public Sub ResequenceReoptimizeRoute(ByVal Optional routeId As String = Nothing)
             ' Create the manager with the api key
             Dim route4Me = New Route4MeManager(ActualApiKey)
-
             Dim isInnerExample As Boolean = If(routeId Is Nothing, True, False)
 
             If isInnerExample Then
@@ -23,24 +25,21 @@ Namespace Route4MeSDKTest.Examples
                 routeId = SD10Stops_route_id
             End If
 
-            Dim roParameters = New Dictionary(Of String, String)() From {
-                {"route_id", routeId},
-                {"disable_optimization", "0"},
-                {"optimize", "Distance"}
+            Dim queryParameters = New RouteParametersQuery() With {
+                .RouteId = routeId,
+                .DisableOptimization = False,
+                .Optimize = Optimize.Distance.GetEnumDescription()
             }
 
-            ' Run the query
             Dim errorString As String = Nothing
-            Dim result As Boolean = route4Me.
-                ResequenceReoptimizeRoute(roParameters, errorString)
+            Dim result = route4Me.ReoptimizeRoute(queryParameters, errorString)
 
             Console.WriteLine(
                 If(
-                    result,
-                    "ResequenceReoptimizeRoute executed successfully",
-                    String.Format("ResequenceReoptimizeRoute error: {0}", errorString)
-                  )
-            )
+                result IsNot Nothing AndAlso result.[GetType]() = GetType(DataTypes.DataObjectRoute),
+                "ResequenceReoptimizeRoute executed successfully",
+                String.Format("ResequenceReoptimizeRoute error: {0}", errorString))
+             )
 
             If isInnerExample Then RemoveTestOptimizations()
         End Sub
