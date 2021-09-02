@@ -49,6 +49,7 @@
 
         Public Const Geocoder As String = MainHost + "/api/geocoder.php"
         Public Const FastGeocoder As String = MainHost + "/actions/upload/json-geocode.php"
+        Public Const SaveGeocodedAddresses As String = MainHost & "/api/address_book/save_geocoded.php"
         Public Const r4meValidator As String = "https://validator.route4me.com:443/"
         Public Const RapidStreetData As String = "https://rapid.route4me.com/street_data"
         Public Const RapidStreetZipcode As String = "https://rapid.route4me.com/street_data/zipcode"
@@ -146,7 +147,29 @@
         Public Const TelematicsMemberModuleVehicleId As String = StagingHost & "​​​/user-activated-modules​/{module_id}​/vehicles​/{vehicle_id}"
         Public Const TelematicsVendors As String = StagingHost & "​/vendors"
         Public Const TelematicsVendorId As String = StagingHost & "​​/vendors​/{vendor_id}"
+#End Region
 
+#Region "Address Book Contacts"
+        Public Const ContactHost As String = MainHost & "/address-book"
+        Public Const ContactsGetAll As String = ContactHost & "/addresses/index/all"
+        Public Const ContactsGetAllPaginated As String = ContactHost & "/addresses/index/pagination"
+        Public Const ContactsGetClusters As String = ContactHost & "/addresses/index/clustering"
+        Public Const ContactsFind As String = ContactHost & "/addresses/show"
+        Public Const ContactsAddNew As String = ContactHost & "/addresses"
+        Public Const ContactsAddMultiple As String = ContactHost & "/addresses/batch-create"
+        Public Const ContactsUpdateById As String = ContactHost & "/addresses/{address_id}"
+        Public Const ContactsUpdateMultiple As String = ContactHost & "/addresses/batch-update"
+        Public Const ContactsUpdateByAreas As String = ContactHost & "/addresses/update-by-areas"
+        Public Const ContactsDeleteMultiple As String = ContactHost & "/addresses/delete"
+        Public Const ContactsDeleteByAreas As String = ContactHost & "/addresses/delete-by-areas"
+        Public Const ContactsGetCustomFields As String = ContactHost & "/addresses/custom-fields"
+        Public Const ContactsGetDepots As String = ContactHost & "/addresses/depots"
+        Public Const ContactsReindexCallback As String = ContactHost & "/reindex-callback"
+        Public Const ContactsExport As String = ContactHost & "/addresses/export"
+        Public Const ContactsExportByAreas As String = ContactHost & "/addresses/export-by-areas"
+        Public Const ContactsExportByAreaIds As String = ContactHost & "/addresses/export-by-area-ids"
+        Public Const ContactsGetAsyncJobStatus As String = ContactHost & "/addresses/job-tracker/status/{job_id}"
+        Public Const ContactsGetAsyncJobResult As String = ContactHost & "/addresses/job-tracker/result/{job_id}"
 #End Region
 
     End Module

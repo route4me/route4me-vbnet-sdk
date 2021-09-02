@@ -23,6 +23,8 @@ Namespace Route4MeSDK
         Private ReadOnly m_DefaultTimeOut As TimeSpan = New TimeSpan(TimeSpan.TicksPerMinute * 30)
         Private parseWithNewtonJson As Boolean
 
+        Private mandatoryFields As String()
+
         Public Sub New(ByVal apiKey As String)
             m_ApiKey = apiKey
             parseWithNewtonJson = False
@@ -395,38 +397,144 @@ Namespace Route4MeSDK
 #Region "Address Book Contacts"
 
         ''' <summary>
-        ''' The request parameter for the address book contacts removing process.
-        ''' </summary>
-        <DataContract>
-        Private NotInheritable Class RemoveAddressBookContactsRequest
-            Inherits QueryTypes.GenericParameters
-
-            ''' <summary>
-            ''' <value>The array of the address IDs</value>
-            ''' </summary>
-            <DataMember(Name:="address_ids", EmitDefaultValue:=False)>
-            Public Property AddressIds As String()
-
-        End Class
-
-        ''' <summary>
         ''' Remove the address book contacts.
         ''' </summary>
-        ''' <param name="addressIds">The array of the address ID</param>
-        ''' <param name="resultResponse">out: Error as string</param>
+        ''' <param name="contactIDs">The array of the address ID</param>
+        ''' <param name="resultResponse">out: Error response</param>
         ''' <returns>If true the contacts were removed successfully</returns>
-        Public Function RemoveAddressBookContacts(ByVal addressIds As String(), <Out> ByRef resultResponse As ResultResponse) As Boolean
-            Dim request = New RemoveAddressBookContactsRequest() With {
-                .AddressIds = addressIds
+        Public Function RemoveAddressBookContacts(ByVal contactIDs As Integer(),
+                                                  <Out> ByRef resultResponse As ResultResponse) As Boolean
+            Dim request = New AddressBookContactsRequest() With {
+                .AddressIds = contactIDs
             }
-
             Dim response = GetJsonObjectFromAPI(Of StatusResponse)(
                 request,
-                R4MEInfrastructureSettings.AddressBook,
+                R4MEInfrastructureSettingsV5.ContactsDeleteMultiple,
                 HttpMethodType.Delete,
                 resultResponse)
 
-            Return If((response IsNot Nothing AndAlso response.status), True, False)
+            Return If(resultResponse Is Nothing, True, False)
+        End Function
+
+
+        Public Function GetAddressBookContacts(ByVal addressBookParameters As AddressBookParameters,
+                                               <Out> ByRef resultResponse As ResultResponse) As AddressBookContactsResponse
+
+            Dim response = GetJsonObjectFromAPI(Of AddressBookContactsResponse)(
+                addressBookParameters,
+                R4MEInfrastructureSettingsV5.ContactsGetAll,
+                HttpMethodType.[Get],
+                resultResponse)
+
+            Return response
+        End Function
+
+        ''' <summary>
+        ''' Get an address book contact by ID
+        ''' </summary>
+        ''' <param name="contactId">contact ID</param>
+        ''' <param name="resultResponse">Failing response</param>
+        ''' <returns>An AddressBookContact type object</returns>
+        Public Function GetAddressBookContactById(ByVal contactId As Integer,
+                                                  <Out> ByRef resultResponse As ResultResponse) As AddressBookContact
+
+            Dim gparams = New Route4MeSDK.QueryTypes.GenericParameters()
+
+            gparams.ParametersCollection.Add("address_id", contactId.ToString())
+
+            Dim response = GetJsonObjectFromAPI(Of AddressBookContact)(
+                gparams,
+                R4MEInfrastructureSettingsV5.ContactsFind,
+                HttpMethodType.[Get], resultResponse)
+
+            Return response
+        End Function
+
+        ''' <summary>
+        ''' The request parameter for the address book contacts removing process.
+        ''' </summary>
+        <DataContract>
+        Public NotInheritable Class AddressBookContactsRequest
+            Inherits QueryTypes.GenericParameters
+
+            ''' The array of the address IDs
+            <DataMember(Name:="address_ids", EmitDefaultValue:=False)>
+            Public Property AddressIds As Integer()
+        End Class
+
+        ''' <summary>
+        ''' Get address book contacts by sending an array of address IDs.
+        ''' </summary>
+        ''' <param name="contactIDs">An array of address IDs</param>
+        ''' <param name="resultResponse">Failing response</param>
+        ''' <returns>An AddressBookContactsResponse type object</returns>
+        Public Function GetAddressBookContactsByIds(ByVal contactIDs As Integer(),
+                                                    <Out> ByRef resultResponse As ResultResponse) As AddressBookContactsResponse
+
+            Dim request = New AddressBookContactsRequest() With {
+                .AddressIds = contactIDs
+            }
+
+            Dim response = GetJsonObjectFromAPI(Of AddressBookContactsResponse)(
+                request,
+                R4MEInfrastructureSettingsV5.ContactsFind,
+                HttpMethodType.Post,
+                resultResponse)
+
+            Return response
+        End Function
+
+        ''' <summary>
+        ''' Add an address book contact to database.
+        ''' </summary>
+        ''' <param name="contactParams">The contact parameters</param>
+        ''' <param name="resultResponse">Failing response</param>
+        ''' <returns>Created address book contact</returns>
+        Public Function AddAddressBookContact(ByVal contactParams As AddressBookContact,
+                                              <Out> ByRef resultResponse As ResultResponse) As AddressBookContact
+
+            parseWithNewtonJson = True
+            contactParams.PrepareForSerialization()
+
+            Return GetJsonObjectFromAPI(Of AddressBookContact)(
+                contactParams,
+                R4MEInfrastructureSettingsV5.ContactsAddNew,
+                HttpMethodType.Post,
+                resultResponse)
+
+        End Function
+
+        ''' <summary>
+        ''' The request parameter for the multiple address book contacts creating process.
+        ''' </summary>
+        <DataContract>
+        Public NotInheritable Class BatchCreatingAddressBookContactsRequest
+            Inherits QueryTypes.GenericParameters
+
+            ''' The array of the address IDs
+            <DataMember(Name:="data", EmitDefaultValue:=False)>
+            Public Property Data As AddressBookContact()
+        End Class
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="contactParams"></param>
+        ''' <param name="mandatoryNullableFields"></param>
+        ''' <param name="resultResponse"></param>
+        ''' <returns></returns>
+        Public Function BatchCreateAdressBookContacts(ByVal contactParams As BatchCreatingAddressBookContactsRequest,
+                                                      ByVal mandatoryNullableFields As String(),
+                                                      <Out> ByRef resultResponse As ResultResponse) As StatusResponse
+
+            Me.mandatoryFields = mandatoryNullableFields
+            contactParams.PrepareForSerialization()
+
+            Return GetJsonObjectFromAPI(Of StatusResponse)(
+                contactParams,
+                R4MEInfrastructureSettingsV5.ContactsAddMultiple,
+                HttpMethodType.Post,
+                resultResponse)
         End Function
 
 #End Region
@@ -1341,7 +1449,6 @@ Namespace Route4MeSDK
             Dim resultResponse As ResultResponse = Nothing
 
             Try
-
                 Using httpClient As HttpClient = CreateAsyncHttpClient(url)
                     Dim parametersURI As String = optimizationParameters.Serialize(m_ApiKey)
 
@@ -1359,8 +1466,13 @@ Namespace Route4MeSDK
                             If httpContent IsNot Nothing Then
                                 content = httpContent
                             Else
-                                Dim jsonString As String = R4MeUtils.SerializeObjectToJson(optimizationParameters)
+                                Dim jsonString As String = If(
+                                    (If(Me.mandatoryFields?.Length, 0)) > 0,
+                                    R4MeUtils.SerializeObjectToJson(optimizationParameters, Me.mandatoryFields),
+                                    R4MeUtils.SerializeObjectToJson(optimizationParameters))
+
                                 content = New StringContent(jsonString)
+
                                 content.Headers.ContentType = New MediaTypeHeaderValue("application/json")
                             End If
 

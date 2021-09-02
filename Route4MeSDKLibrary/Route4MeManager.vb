@@ -3296,6 +3296,32 @@ Namespace Route4MeSDK
             Return result
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="tempOptimizationProblemID"></param>
+        ''' <param name="errorString"></param>
+        ''' <returns></returns>
+        Public Function SaveGeocodedAddressesToDatabase(ByVal tempOptimizationProblemID As String,
+                                                        ByRef errorString As String) As Boolean
+            Dim request = New GeocodingRequest
+
+            Dim json As String = "{""optimization_problem_id"":" & tempOptimizationProblemID & "}"
+
+            Dim content As HttpContent = New StringContent(json)
+            content.Headers.ContentType = New MediaTypeHeaderValue("application/json")
+
+            Dim result As Tuple(Of uploadAddressesToTemporaryStorageResponse, String) = GetJsonObjectFromAPIAsync(Of uploadAddressesToTemporaryStorageResponse)(
+                request, 
+                R4MEInfrastructureSettings.SaveGeocodedAddresses, 
+                HttpMethodType.Post, 
+                content, 
+                False).GetAwaiter().GetResult()
+            Thread.SpinWait(5000)
+            errorString = result.Item2
+            Return If(result?.Item1?.status, False)
+        End Function
+
 #End Region
 
 #Region "Vehicles"

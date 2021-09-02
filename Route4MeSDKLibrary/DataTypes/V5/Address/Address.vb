@@ -538,12 +538,12 @@ Namespace Route4MeSDK.DataTypes.V5
         Public Property Dropoff As String
 
         ''' <summary>
-        ''' If equal to 1, the pickup and dropoff addresses are joint 
+        ''' If true, the pickup and dropoff addresses are joint 
         ''' (one by one despite the regular pickup-dropoff addresses 
         ''' when it's possible to have multiple pickup addresses with one dropoff address).
         ''' </summary>
         <DataMember(Name:="joint", EmitDefaultValue:=False)>
-        Public Property Joint As Integer?
+        Public Property Joint As Boolean?
 
         ''' <summary>
         ''' Bundle count

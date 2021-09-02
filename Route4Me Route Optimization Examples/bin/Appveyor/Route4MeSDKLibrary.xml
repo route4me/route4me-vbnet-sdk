@@ -564,7 +564,7 @@ Route4MeSDKLibrary
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Address.Joint">
  <summary>
- If equal to 1, the pickup and dropoff addresses are joint 
+ If true, the pickup and dropoff addresses are joint 
  (one by one despite the regular pickup-dropoff addresses 
  when it's possible to have multiple pickup addresses with one dropoff address).
  </summary>
@@ -577,7 +577,7 @@ Route4MeSDKLibrary
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressBookContact">
  <summary>
  Address book contact class. 
- <para>See the JSON schema at <see cref="!:https://github.com/route4me/route4me-json-schemas/blob/master/Addressbook_v4.dtd">link</see> </para>
+ <para>See the JSON schema at "https://github.com/route4me/route4me-json-schemas/blob/master/Addressbook_v4.dtd" </para>
  <para>Note: 'contact' means 'address book contact' and 'address' means 'geographic address of the contact'.</para>
  </summary>
 </member>
@@ -982,7 +982,7 @@ Route4MeSDKLibrary
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.AddressNote.ActivityType">
  <summary>
  The activity type
- See available activity types here: <see cref="!:https://github.com/route4me/route4me-json-schemas/blob/master/Activity.dtd#L23"/>
+ See available activity types here: "https://github.com/route4me/route4me-json-schemas/blob/master/Activity.dtd#L23"/>
  </summary>
  <returns></returns>
 </member>
@@ -1520,6 +1520,51 @@ Route4MeSDKLibrary
  The place ID
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.GeocodingResponse">
+ <summary>
+ Response from the address geocoding process
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.GeocodingResponse.Address">
+ <summary>
+ Address name
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.GeocodingResponse.Lat">
+ <summary>
+ Latitude
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.GeocodingResponse.Lng">
+ <summary>
+ Longitude
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.GeocodingResponse.Type">
+ <summary>
+ The address geocoding type. Available values:
+ <para>street_address, premise, locality, political,</para>
+ <para>postal_code, administrative_area_level_2, </para>
+ <para>political, political, administrative_area_level_1,</para>
+ <para>political, country, political</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.GeocodingResponse.Confidence">
+ <summary>
+ Confidence level in the address geocoding.
+ <para>Available values: high, medium, low</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.GeocodingResponse.Original">
+ <summary>
+ Original address string
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.GeocodingResponse.Normalized">
+ <summary>
+ Normalized address
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Location">
  <summary>
  Direction location parameters
@@ -1992,7 +2037,12 @@ Route4MeSDKLibrary
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.EXT_FIELD_custom_data">
  <summary>
- Custom data
+ Not serialized - for prevention wrong data (e.g. Dictionary(Of String, String)())
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.EXT_FIELD_custom_data2">
+ <summary>
+ Custom data - serialized
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.local_timezone_string">
@@ -2353,6 +2403,12 @@ Route4MeSDKLibrary
  Getter of the dynamic properties
  </summary>
 </member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Route4MeDynamicClass.ToString">
+ <summary>
+ Tries to set member
+ </summary>
+ <returns>Multiline property name and value pairs</returns>
+</member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Route4MeDynamicClass.CopyPropertiesFromClass(System.Object,System.Collections.Generic.List{System.String},System.String@)">
  <summary>
  Copy a specified list of the properties of the Route4Me object to the dynamic class.
@@ -2404,9 +2460,9 @@ Route4MeSDKLibrary
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.Optimize">
  <summary>Gets or sets the optimize parameter.
  <para>Availabale values:</para>
- <value>Distance</value>, 
- <value>Time</value>, 
- <value>timeWithTraffic</value>
+ <para>- Distance</para>, 
+ <para>- Time</para>, 
+ <para>- timeWithTraffic</para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.LockLast">
@@ -2531,11 +2587,11 @@ Route4MeSDKLibrary
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.Metric">
  <summary>
  Metric system. Available values:
- <para><value>1 = ROUTE4ME_METRIC_EUCLIDEAN</value> (use euclidean distance when computing point to point distance)</para>
- <para><value>2 = ROUTE4ME_METRIC_MANHATTAN</value> (use manhattan distance (taxicab geometry) when computing point to point distance)</para>
- <para><value>3 = ROUTE4ME_METRIC_GEODESIC</value> (use geodesic distance when computing point to point distance)</para>
- <para><value>4 = ROUTE4ME_METRIC_MATRIX (default)</value> (use road network driving distance when computing point to point distance)</para>
- <para><value>5 = ROUTE4ME_METRIC_EXACT_2D</value> (use exact rectilinear distance)</para>
+ <para>1 = ROUTE4ME_METRIC_EUCLIDEAN (use euclidean distance when computing point to point distance)</para>
+ <para>2 = ROUTE4ME_METRIC_MANHATTAN (use manhattan distance (taxicab geometry) when computing point to point distance)</para>
+ <para>3 = ROUTE4ME_METRIC_GEODESIC (use geodesic distance when computing point to point distance)</para>
+ <para>4 = ROUTE4ME_METRIC_MATRIX (default) (use road network driving distance when computing point to point distance)</para>
+ <para>5 = ROUTE4ME_METRIC_EXACT_2D (use exact rectilinear distance)</para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.AlgorithmType">
@@ -2562,22 +2618,22 @@ Route4MeSDKLibrary
  <summary>
  The method to use when compute the distance between the points in a route.
  <para>Available values:</para>
- <para><value>1 = DEFAULT</value> (R4M PROPRIETARY ROUTING)</para>
- <para><value>2 = DEPRECRATED</value></para>
- <para><value>3 = R4M TRAFFIC ENGINE</value></para>
- <para><value>4 = DEPRECATED</value></para>
- <para><value>5 = DEPRECATED</value></para>
- <para><value>6 = TRUCKING</value></para>
+ <para>1 = DEFAULT (R4M PROPRIETARY ROUTING)</para>
+ <para>2 = DEPRECRATED</para>
+ <para>3 = R4M TRAFFIC ENGINE</para>
+ <para>4 = DEPRECATED</para>
+ <para>5 = DEPRECATED</para>
+ <para>6 = TRUCKING</para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.Dirm">
  <summary>
  Directions method.
  <para>Available values:</para>
- <para><value>1 = DEFAULT</value> (R4M PROPRIETARY INTERNAL NAVIGATION SYSTEM)</para>
- <para><value>2 = DEPRECATED</value></para>
- <para><value>3 = TRUCKING</value></para>
- <para><value>4 = DEPRECATED</value></para>
+ <para>1 = DEFAULT (R4M PROPRIETARY INTERNAL NAVIGATION SYSTEM)</para>
+ <para>2 = DEPRECATED</para>
+ <para>3 = TRUCKING</para>
+ <para>4 = DEPRECATED</para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.Parts">
@@ -2594,11 +2650,11 @@ Route4MeSDKLibrary
  <summary>
  The type of device making this request.
  <para>Available values:</para>
- <value>web</value>, 
- <value>iphone</value>, 
- <value>ipad</value>, 
- <value>android_phone</value>, 
- <value>android_tablet</value>
+ <para>- web</para>, 
+ <para>- iphone</para>, 
+ <para>- ipad</para>, 
+ <para>- android_phone</para>, 
+ <para>- android_tablet</para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.HasTrailer">
@@ -2751,9 +2807,9 @@ Route4MeSDKLibrary
  <summary>
  The optimization quality.
  <para>Available values:</para>
- <para><value>1</value> - Generate Optimized Routes As Quickly as Possible;</para>
- <para><value>2</value> - Generate Routes That Look Better On A Map;</para>
- <para><value>3</value> - Generate The Shortest And Quickest Possible Routes.</para>
+ <para>1 - Generate Optimized Routes As Quickly as Possible;</para>
+ <para>2 - Generate Routes That Look Better On A Map;</para>
+ <para>3 - Generate The Shortest And Quickest Possible Routes.</para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.RouteParameters.Uturn">
@@ -3053,7 +3109,7 @@ Route4MeSDKLibrary
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsConnection.Vendor">
  <summary>
- Telemetics connection vendor <see cref="!:Enum.TelematicsVendorType" />
+ Telemetics connection vendor. See "Enum.TelematicsVendorType" />
  </summary>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.TelematicsRegisterMemberResponse">
@@ -3479,10 +3535,292 @@ User email.
  Prefered unnits of the account
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.TerritoryName">
+ <summary>
+ A territory shape name the contact belongs.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.CreatedTimestamp">
+ <summary>
+ Time when the contact was created.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressId">
+ <summary>
+ Unique ID of the contact.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.Address1">
+ <summary>
+ The geographic address of the contact.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.Address2">
+ <summary>
+ Second geographic address of the contact.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.MemberId">
+ <summary>
+ Unique ID of the member.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressAlias">
+ <summary>
+ The contact's alias.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressGroup">
+ <summary>
+ A group the contact belongs.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.FirstName">
+ <summary>
+ The first name of the contact person.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.LastName">
+ <summary>
+ The last name of the contact person.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.LocalTimeWindowStart">
+ <summary>
+ Start of the contact's local time window.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.LocalTimeWindowEnd">
+ <summary>
+ End of the contact's local time window.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.LocalTimeWindowStart2">
+ <summary>
+ Start of the contact's second local time window.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.LocalTimeWindowEnd2">
+ <summary>
+ End of the contact's second local time window.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressEmail">
+ <summary>
+ The contact's email.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressPhoneNumber">
+ <summary>
+ The contact's phone number.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.CachedLat">
+ <summary>
+ A latitude of the contact's cached position.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.CachedLng">
+ <summary>
+ A longitude of the contact's cached position.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.CurbsideLat">
+ <summary>
+ A latitude of the contact's curbside.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.CurbsideLng">
+ <summary>
+ A longitude of the contact's curbside.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressCity">
+ <summary>
+ A city the contact belongs.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressStateId">
+ <summary>
+ The ID of the state the contact belongs.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressCountryId">
+ <summary>
+ The ID of the country the contact belongs.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressZip">
+ <summary>
+ The contact's ZIP code.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressCustomData">
+ <summary>
+ An array of the contact's custom field-value pairs.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.Schedule">
+ <summary>
+ An array of the contact's schedules.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.ScheduleBlacklist">
+ <summary>
+ The list of dates that should be omitted from the schedules.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.InRouteCount">
+ <summary>
+ Number of the routes containing the contact.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.VisitedCount">
+ <summary>
+ Number of the visits to the contact.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.LastVisitedTimestamp">
+ <summary>
+ When the contact was last visited.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.LastRoutedTimestamp">
+ <summary>
+ When the contact was last routed.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.ServiceTime">
+ <summary>
+ The service time at the contact's address.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.LocalTimezoneString">
+ <summary>
+ The contact's local timezone.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.Color">
+ <summary>
+ The contact's color on the map.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressIcon">
+ <summary>
+ The contact's icon on the map.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressStopType">
+ <summary>
+ The contact's stop type.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressCube">
+ <summary>
+ The cubic volume of the contact's cargo.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressPieces">
+ <summary>
+ The number of pieces/palllets that this destination/order/line-item consumes/contains on a vehicle.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressReferenceNo">
+ <summary>
+ The reference number of the address.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressRevenue">
+ <summary>
+ The revenue from the contact.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressWeight">
+ <summary>
+ The weight of the contact's cargo.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressPriority">
+ <summary>
+ If present, the priority will sequence addresses in all the optimal routes so that
+ higher priority addresses are general at the beginning of the route sequence.
+ 1 Is the highest priority, 100000 Is the lowest.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.AddressCustomerPo">
+ <summary>
+ The customer purchase order of the contact.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.IsAssigned">
+ <summary>
+ Assigned to the member
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.EligiblePickup">
+ <summary>
+ If true, the contact is eligigble for pickup.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact.EligibleDepot">
+ <summary>
+ If true, the contact is eligigble for depot.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ContactAssignedTo">
+ <summary>
+ Data structure of an assigned member.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ContactAssignedTo.MemberId">
+ <summary>
+ Unique ID of the member.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ContactAssignedTo.MemberFirstName">
+ <summary>
+ The first name of the contact person.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ContactAssignedTo.MemberLastName">
+ <summary>
+ The last name of the contact person.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ContactAssignedTo.MemberEmail">
+ <summary>
+ The contact's email.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ContactAssignedTo.Until">
+ <summary>
+ Membership expiration date
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContactsResponse">
+ <summary>
+ Response from the get address book contacts request
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContactsResponse.Fields">
+ <summary>
+ An array of the visible addresses
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContactsResponse.Results">
+ <summary>
+ An array of the AddressBookContact type objects
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContactsResponse.Total">
+ <summary>
+ Total number of the returned address book contacts
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Address">
  <summary>
  Route destination class.
- <para>See the JSON schema at <see cref="!:https://github.com/route4me/route4me-json-schemas/blob/master/Address.dtd"/> </para>
+ <para>See the JSON schema at. See "https://github.com/route4me/route4me-json-schemas/blob/master/Address.dtd" </para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Address.RouteDestinationId">
@@ -3905,7 +4243,7 @@ User email.
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.Address.Joint">
  <summary>
- If equal to 1, the pickup and dropoff addresses are joint 
+ If true, the pickup and dropoff addresses are joint 
  (one by one despite the regular pickup-dropoff addresses 
  when it's possible to have multiple pickup addresses with one dropoff address).
  </summary>
@@ -3935,7 +4273,7 @@ User email.
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DataObject">
  <summary>
  Main data object data-structure
- See <see cref="!:https://www.assembla.com/spaces/route4me_api/wiki/Optimization_Problem_V4"/>  
+ See "Optimization_Problem_V4".
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DataObject.State">
@@ -4573,12 +4911,12 @@ User email.
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DataObjectRoute.Directions">
  <summary>
- Edge by edge turn-by-turn directions. See <see cref="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Direction"/>
+ Edge by edge turn-by-turn directions. See "Direction".
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DataObjectRoute.Path">
  <summary>
- Edge-wise path to be drawn on the map See <see cref="!:DirectionPathPoint"/>
+ Edge-wise path to be drawn on the map See "DirectionPathPoint".
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.DataObjectRoute.Vehilce">
@@ -5161,7 +5499,7 @@ User email.
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.OverrideAddresses">
  <summary>
- Subclass of the class RouteParameters. See <see cref="!:RouteParameters.overrideAddresses"/>
+ Subclass of the class RouteParameters. See "RouteParameters.overrideAddresses".
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.OverrideAddresses.Time">
@@ -5428,7 +5766,7 @@ User email.
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.Vendor">
  <summary>
- Telemetics connection type <see cref="!:Enum.TelematicsVendorType" />
+ Telemetics connection type. See "Enum.TelematicsVendorType".
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.TelematicsPlatform.Connection.Host">
@@ -6963,6 +7301,12 @@ User email.
  Increment the offset by the limit number to move to the next page.
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Original">
+ <summary>
+ Output addresses and directions in the original optimization request sequence. 
+ This is to allow us to compare routes before after after optimization.
+ </summary>
+</member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.Notes">
  <summary>
  Output route and stop-specific notes. The notes will have timestamps, 
@@ -7051,6 +7395,19 @@ User email.
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.UnlinkFromMasterOptimization">
  <summary>
  If true, the route will be unlinked from the master optimization.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.DeviceType">
+ <summary>
+ Device type
+ Available Values:
+ iphone, ipad, android_phone, android_tablet
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery.ShiftByTimeZone">
+ <summary>
+ If true, the route time is shifted by timezone.
  </summary>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery">
@@ -7150,7 +7507,7 @@ User email.
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters.Vendor">
  <summary>
- Telemetics connection type <see cref="!:Enum.TelematicsVendorType" />
+ Telemetics connection type. See cref="Enum.TelematicsVendorType".
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TelematicsConnectionParameters.ValidateRemoteCredentials">
@@ -7251,6 +7608,50 @@ User email.
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.TerritoryQuery.Orders">
  <summary>
  Id equal to 1, the enclosed orders will be inserted in the response.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.AddressBookParameters">
+ <summary>
+ Parameters for execution of a vehicle order.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.AddressBookParameters.AddressId">
+ <summary>
+ Unique ID of an address book contact.
+ <remarks><para>Query parameter.</para></remarks>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.AddressBookParameters.Limit">
+ <summary>
+ Limit the number of records in response.
+ <remarks><para>Query parameter.</para></remarks>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.AddressBookParameters.Offset">
+ <summary>
+ Only records from that offset will be considered.
+ <remarks><para>Query parameter.</para></remarks>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.AddressBookParameters.Query">
+ <summary>
+ Query string for filtering of the address book contacts.
+ <para>Query parameter.</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.AddressBookParameters.Fields">
+ <summary>
+ An array of the fields.
+ <para><remarks>If specified, the response will contain only the values of the listed fields.</remarks></para>
+ <para>Query parameter.</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.AddressBookParameters.Display">
+ <summary>
+ Specifies which address book contacts to display.
+ <para>Available values are:
+ <value>'all', 'routed', 'unrouted'</value>
+ </para>
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.DriverReviewParameters.Rating">
@@ -7430,6 +7831,12 @@ User email.
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.RouteParametersQuery.EndDate">
  <summary>
  End date
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.RouteParametersQuery.Original">
+ <summary>
+ Output addresses and directions in the original optimization request sequence. 
+ This Is to allow us to compare routes before and after optimization.
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.RouteParametersQuery.Notes">
@@ -7713,7 +8120,7 @@ User email.
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters.Vendor">
  <summary>
- Telemetics connection type <see cref="!:Enum.TelematicsVendorType" />
+ Telemetics connection type. See "Enum.TelematicsVendorType".
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5.ConnectionParameters.VendorId">
@@ -7941,6 +8348,25 @@ User email.
  <param name="addressParameters">Contains an address object</param>
  <param name="errorString">Returned error string in case of the processs failing</param>
  <returns>The updated address</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.ReoptimizeRoute(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.RouteParametersQuery,System.String@)">
+ <summary>
+ Reoptimze a route
+ </summary>
+ <param name="queryParams">Route query parameters containing parameters:
+ - ReOptimize = true, enables reoptimization of a route
+ - Remaining=0 - disables resequencing of the remaining stops.
+ - Remaining=1 - enables resequencing of the remaining stops.
+ </param>
+ <param name="errorString">Error string</param>
+ <returns>Reoptimized route</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.ShiftRouteDateTimeByTz(Route4MeSDKLibrary.Route4MeSDK.DataTypes.DataObjectRoute)">
+ <summary>
+ Shift the route date and route time to make them as shown in the web app.
+ </summary>
+ <param name="route">Input route object</param>
+ <returns>Modified route object</returns>
 </member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetScheduleCalendar(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ScheduleCalendarQuery,System.String@)">
  <summary>
@@ -8320,6 +8746,14 @@ User email.
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.uploadAddressesToTemporaryStorageResponse.status">
  <value>Status of the process: true, false</value>
 </member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.SaveGeocodedAddressesToDatabase(System.String,System.String@)">
+ <summary>
+ 
+ </summary>
+ <param name="tempOptimizationProblemID"></param>
+ <param name="errorString"></param>
+ <returns></returns>
+</member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.GetVehicles(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.VehicleParameters,System.String@)">
  <summary>
  Get Vehicles
@@ -8514,23 +8948,62 @@ User email.
  <param name="resultResponse">Failing response</param>
  <returns>Driver review</returns>
 </member>
-<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.RemoveAddressBookContactsRequest">
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.RemoveAddressBookContacts(System.Int32[],Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Remove the address book contacts.
+ </summary>
+ <param name="contactIDs">The array of the address ID</param>
+ <param name="resultResponse">out: Error response</param>
+ <returns>If true the contacts were removed successfully</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.GetAddressBookContactById(System.Int32,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Get an address book contact by ID
+ </summary>
+ <param name="contactId">contact ID</param>
+ <param name="resultResponse">Failing response</param>
+ <returns>An AddressBookContact type object</returns>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.AddressBookContactsRequest">
  <summary>
  The request parameter for the address book contacts removing process.
  </summary>
 </member>
-<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.RemoveAddressBookContactsRequest.AddressIds">
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.AddressBookContactsRequest.AddressIds">
+ The array of the address IDs
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.GetAddressBookContactsByIds(System.Int32[],Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
  <summary>
- <value>The array of the address IDs</value>
+ Get address book contacts by sending an array of address IDs.
+ </summary>
+ <param name="contactIDs">An array of address IDs</param>
+ <param name="resultResponse">Failing response</param>
+ <returns>An AddressBookContactsResponse type object</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.AddAddressBookContact(Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.AddressBookContact,Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+ <summary>
+ Add an address book contact to database.
+ </summary>
+ <param name="contactParams">The contact parameters</param>
+ <param name="resultResponse">Failing response</param>
+ <returns>Created address book contact</returns>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.BatchCreatingAddressBookContactsRequest">
+ <summary>
+ The request parameter for the multiple address book contacts creating process.
  </summary>
 </member>
-<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.RemoveAddressBookContacts(System.String[],Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.BatchCreatingAddressBookContactsRequest.Data">
+ The array of the address IDs
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.BatchCreateAdressBookContacts(Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.BatchCreatingAddressBookContactsRequest,System.String[],Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
  <summary>
- Remove the address book contacts.
+ 
  </summary>
- <param name="addressIds">The array of the address ID</param>
- <param name="resultResponse">out: Error as string</param>
- <returns>If true the contacts were removed successfully</returns>
+ <param name="contactParams"></param>
+ <param name="mandatoryNullableFields"></param>
+ <param name="resultResponse"></param>
+ <returns></returns>
 </member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManagerV5.GetAccountProfile(Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5.ResultResponse@)">
  <summary>
@@ -8951,6 +9424,14 @@ User email.
  <typeparam name="T">Class type</typeparam>
  <returns>Property postions in the class</returns>
 </member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.GetPropertyName``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+ <summary>
+ Get the name of a static or instance property from a property access lambda.
+ </summary>
+ <typeparam name="T">Type of the property</typeparam>
+ <param name="propertyLambda">lambda expression of the form: '() => Class.Property' or '() => object.Property'</param>
+ <returns>The name of the property</returns>
+</member>
 <member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.OrderPropertiesByPosition``1(System.Collections.Generic.List{System.String},System.String@)">
  <summary>
  Returns ordered property names.
@@ -8999,6 +9480,12 @@ User email.
  <param name="ddhhmm">The dd:HH:mm format String</param>
  <param name="errorString">Error string</param>
  <returns>Seconds</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.GetLocalTimeZone">
+ <summary>
+ Get local timezone in seconds.
+ </summary>
+ <returns>Timezone in seconds</returns>
 </member>
 <member name="M:Route4MeSDKLibrary.System.Net.Http.HttpClientExtensions.PatchAsync(System.Net.Http.HttpClient,System.String,System.Net.Http.HttpContent)">
  <summary>

@@ -9,7 +9,6 @@ Namespace Route4MeSDKTest.Examples
         ''' </summary>
         Public Sub AssignVehicleToRoute()
             Dim route4Me = New Route4MeManager(ActualApiKey)
-
             Dim vehicleParameters = New VehicleParameters With {
                 .WithPagination = True,
                 .Page = 1,
@@ -17,11 +16,10 @@ Namespace Route4MeSDKTest.Examples
             }
 
             Dim errorString As String = Nothing
+
             Dim vehicles = route4Me.GetVehicles(vehicleParameters, errorString)
-
-            Dim randomNumber As Integer = (New Random()).[Next](0, vehicles.PerPage - 1)
-
-            Dim vehicleId = vehicles.Data(randomNumber).VehicleId
+            Dim randomNumber As Integer = (New Random()).[Next](0, vehicles.Length - 1)
+            Dim vehicleId = vehicles(randomNumber).VehicleId
 
             RunOptimizationSingleDriverRoute10Stops()
 
@@ -30,7 +28,6 @@ Namespace Route4MeSDKTest.Examples
             }
 
             Dim routeId As String = SD10Stops_route_id
-
             Dim routeParameters = New RouteParametersQuery() With {
                 .RouteId = routeId,
                 .Parameters = New RouteParameters() With {

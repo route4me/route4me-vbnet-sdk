@@ -6,11 +6,25 @@ Namespace Route4MeSDK
     Public Class DataContractResolver
         Inherits DefaultContractResolver
 
+        Public Property MandatoryFields As String()
+
+        Public Sub New()
+
+        End Sub
+
+        Public Sub New(ByVal mandatoryFields As String())
+            mandatoryFields = mandatoryFields
+        End Sub
+
         Protected Overrides Function CreateProperty(ByVal member As MemberInfo, ByVal memberSerialization As MemberSerialization) As JsonProperty
             Dim [property] = MyBase.CreateProperty(member, memberSerialization)
-            [property].NullValueHandling = NullValueHandling.Include
             [property].DefaultValueHandling = DefaultValueHandling.Include
-            [property].ShouldSerialize = Function(o) True
+
+            If (If(MandatoryFields?.Length, 0)) > 0 Then
+                Dim shouldSerialized As Boolean = If(MandatoryFields.Contains([property].PropertyName), True, False)
+                [property].ShouldSerialize = Function(o) shouldSerialized
+            End If
+
             Return [property]
         End Function
     End Class

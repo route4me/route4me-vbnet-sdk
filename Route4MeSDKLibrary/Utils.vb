@@ -3,6 +3,7 @@ Imports System.ComponentModel
 Imports System.Configuration
 Imports System.Globalization
 Imports System.IO
+Imports System.Linq.Expressions
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.Serialization.Json
@@ -124,6 +125,16 @@ Namespace Route4MeSDK
                 .ContractResolver = New DataContractResolver()
             }
             Dim result As String = JsonConvert.SerializeObject(obj, Formatting.None, jsonSettings)
+            Return result
+        End Function
+
+        Public Function SerializeObjectToJson(ByVal obj As Object, ByVal mandatoryFields As String()) As String
+            Dim jsonSettings = New JsonSerializerSettings() With {
+                .ContractResolver = New DataContractResolver()
+            }
+
+            Dim result As String = JsonConvert.SerializeObject(obj, Formatting.None, jsonSettings)
+
             Return result
         End Function
 
@@ -349,6 +360,22 @@ Namespace Route4MeSDK
             Next
 
             Return propertyPositions
+        End Function
+
+        ''' <summary>
+        ''' Get the name of a static or instance property from a property access lambda.
+        ''' </summary>
+        ''' <typeparam name="T">Type of the property</typeparam>
+        ''' <param name="propertyLambda">lambda expression of the form: '() => Class.Property' or '() => object.Property'</param>
+        ''' <returns>The name of the property</returns>
+        Public Function GetPropertyName(Of T)(ByVal propertyLambda As Expression(Of Func(Of T))) As String
+            Dim [me] = TryCast(propertyLambda.Body, MemberExpression)
+
+            If [me] Is Nothing Then
+                Throw New ArgumentException("You must pass a lambda of the form: '() => Class.Property' or '() => object.Property'")
+            End If
+
+            Return [me].Member.Name
         End Function
 
         ''' <summary>

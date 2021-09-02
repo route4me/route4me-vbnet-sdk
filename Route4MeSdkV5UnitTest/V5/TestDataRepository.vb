@@ -479,18 +479,25 @@ Namespace Route4MeSdkV5UnitTest.V5
 
         End Function
 
-        Public Function RemoveAddressBookContacts(lsRemLocations As List(Of String), ApiKey As String) As Boolean
-            Dim route4Me As New Route4MeManagerV5(ApiKey)
+        Public Function RemoveAddressBookContacts(ByVal lsRemLocations As List(Of Integer), ByVal ApiKey As String) As Boolean
+            Dim route4Me = New Route4MeManagerV5(ApiKey)
+            Dim resultResponse As ResultResponse = Nothing
 
             If lsRemLocations.Count > 0 Then
-                Dim resultResponse1 As ResultResponse = Nothing
-
-                Dim removed As Boolean = route4Me.RemoveAddressBookContacts(lsRemLocations.ToArray(), resultResponse1)
-
+                Dim removed As Boolean = route4Me.RemoveAddressBookContacts(lsRemLocations.ToArray(), resultResponse)
                 Return removed
             Else
                 Return False
             End If
+        End Function
+
+        Public Function RemoveOrders(ByVal lsOrders As List(Of String), ByVal ApiKey As String) As Boolean
+            Dim route4Me = New Route4MeManager(ApiKey)
+
+            Dim errorString As String = Nothing
+            Dim removed As Boolean = route4Me.RemoveOrders(lsOrders.ToArray(), errorString)
+
+            Return removed
         End Function
 
     End Class

@@ -142,6 +142,7 @@
     <Compile Include="DataTypes\ErrorResponse.vb" />
     <Compile Include="DataTypes\FindAssetResponse.vb" />
     <Compile Include="DataTypes\Geocoding.vb" />
+    <Compile Include="DataTypes\GeocodingResponse.vb" />
     <Compile Include="DataTypes\GeoPoint.vb" />
     <Compile Include="DataTypes\Links.vb" />
     <Compile Include="DataTypes\Location.vb" />
@@ -177,6 +178,8 @@
     <Compile Include="DataTypes\User.vb" />
     <Compile Include="DataTypes\UserLocation.vb" />
     <Compile Include="DataTypes\V5\AccountProfile.vb" />
+    <Compile Include="DataTypes\V5\AddressBookContact\AddressBookContact.vb" />
+    <Compile Include="DataTypes\V5\AddressBookContact\AddressBookContactsResponse.vb" />
     <Compile Include="DataTypes\V5\Address\Address.vb" />
     <Compile Include="DataTypes\V5\DataObject.vb" />
     <Compile Include="DataTypes\V5\DataObjectBase.vb" />
@@ -210,6 +213,7 @@
     <Compile Include="FastProcessing\ConnectionConstants.vb" />
     <Compile Include="FastProcessing\FastBulkGeocoding.vb" />
     <Compile Include="FastProcessing\FastFileReading.vb" />
+    <Compile Include="FastProcessing\FastValidateData.vb" />
     <Compile Include="FastProcessing\Options.vb" />
     <Compile Include="HttpClientExtensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -254,6 +258,7 @@
     <Compile Include="QueryTypes\TelematicsConnectionParameters.vb" />
     <Compile Include="QueryTypes\TelematicsVendorParameters.vb" />
     <Compile Include="QueryTypes\TerritoryQuery.vb" />
+    <Compile Include="QueryTypes\V5\AddressBookContact\AddressBookParameters.vb" />
     <Compile Include="QueryTypes\V5\DriverReviewParameters.vb" />
     <Compile Include="QueryTypes\V5\OptimizationParameters.vb" />
     <Compile Include="QueryTypes\V5\RouteFilterParameters.vb" />

@@ -475,6 +475,12 @@ The example refers to the process of query all the activities from the last spec
  Update a Configuration Key Value
  </summary>
 </member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.SingleDepotPickupDropoffJoint">
+ <summary>
+ The example referes to the process of creating an optimization
+ with pickup/dropof and joint addresses.
+ </summary>
+</member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.CreateUser">
  <summary>
  User Registration (v4)
@@ -1023,6 +1029,11 @@ The example refers to the process of query all the activities from the last spec
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetVehicle">
  <summary>
  The example refers to the process of getting a vehicle using the vehicleID path parameter.
+ </summary>
+</member>
+<member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.GetVehicles">
+ <summary>
+ Get Vehicles List
  </summary>
 </member>
 <member name="M:Route4Me_Route_Optimization_Examples.Route4MeSDKTest.Examples.Route4MeExamples.UpdateVehicle">
