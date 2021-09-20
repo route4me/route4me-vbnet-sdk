@@ -12,6 +12,10 @@ Namespace Route4MeSdkV5UnitTest.AddressBookContactApi
         Shared lsCreatedContacts As List(Of AddressBookContact)
 
         Public Sub New(ByVal output As ITestOutputHelper)
+            If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+                Return
+            End If
+
             _output = output
 
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
@@ -55,6 +59,10 @@ Namespace Route4MeSdkV5UnitTest.AddressBookContactApi
         End Sub
 
         Public Sub Dispose()
+            If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+                Return
+            End If
+
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
             Dim lsRemLocations = New List(Of String)()
@@ -69,7 +77,7 @@ Namespace Route4MeSdkV5UnitTest.AddressBookContactApi
             End If
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub GetAddressBookContactsTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -84,7 +92,7 @@ Namespace Route4MeSdkV5UnitTest.AddressBookContactApi
             Assert.IsType(Of AddressBookContactsResponse)(response)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub GetAddressBookContactsByIDsTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -98,7 +106,7 @@ Namespace Route4MeSdkV5UnitTest.AddressBookContactApi
             Assert.IsType(Of AddressBookContactsResponse)(response)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub DeleteAddressBookContacts()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -117,7 +125,7 @@ Namespace Route4MeSdkV5UnitTest.AddressBookContactApi
             lsCreatedContacts.RemoveAt(lsSize - 2)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub CreateAddressBookContact()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -137,7 +145,7 @@ Namespace Route4MeSdkV5UnitTest.AddressBookContactApi
             lsCreatedContacts.Add(contact)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub BatchCreatingAddressBookContacts()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 

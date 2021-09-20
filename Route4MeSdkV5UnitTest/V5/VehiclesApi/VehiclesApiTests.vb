@@ -16,6 +16,10 @@ Namespace Route4MeSdkV5UnitTest.VehiclesApi
         Shared preferedUnit As String
 
         Public Sub New(ByVal output As ITestOutputHelper)
+            If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+                Return
+            End If
+
             _output = output
             lsVehicles = New List(Of Vehicle)()
 
@@ -134,7 +138,7 @@ Namespace Route4MeSdkV5UnitTest.VehiclesApi
             End If
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub GetVehiclesPaginatedListTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -151,7 +155,7 @@ Namespace Route4MeSdkV5UnitTest.VehiclesApi
             Assert.IsType(Of Vehicle())(result)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub CreateVehicleTest()
             Dim class7TruckParams = New Vehicle() With {
                 .VehicleAlias = "FORD F750",
@@ -230,7 +234,7 @@ Namespace Route4MeSdkV5UnitTest.VehiclesApi
             Assert.IsType(Of VehicleOrderResponse)(result)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub GetLatestVehicleLocationsTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -245,7 +249,7 @@ Namespace Route4MeSdkV5UnitTest.VehiclesApi
             Assert.IsType(Of VehicleLocationResponse)(result)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub GetVehicleByIdTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -259,7 +263,7 @@ Namespace Route4MeSdkV5UnitTest.VehiclesApi
             Assert.Equal(lsVehicles(0).VehicleId, result.VehicleId)
         End Sub
 
-        <Fact>
+        <Fact(Skip:="The test temporary disabled")>
         Public Sub GetVehicleTrackByIdTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -272,7 +276,7 @@ Namespace Route4MeSdkV5UnitTest.VehiclesApi
             Assert.IsType(Of VehicleTrackResponse)(result)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub DeleteVehicleTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -287,7 +291,7 @@ Namespace Route4MeSdkV5UnitTest.VehiclesApi
             lsVehicles.Remove(lsVehicles(lsVehicles.Count - 1))
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub GetPaginatedVehicleProfilesTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -304,7 +308,7 @@ Namespace Route4MeSdkV5UnitTest.VehiclesApi
             Assert.IsType(Of VehicleProfilesResponse)(result)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub CreateVehicleProfileTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -334,7 +338,7 @@ Namespace Route4MeSdkV5UnitTest.VehiclesApi
             lsVehicleProfiles.Add(result)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub DeleteVehicleProfileTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -351,7 +355,7 @@ Namespace Route4MeSdkV5UnitTest.VehiclesApi
             lsVehicleProfiles.Remove(lsVehicleProfiles(lsVehicleProfiles.Count - 1))
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub GetVehicleProfileByIdTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -366,7 +370,7 @@ Namespace Route4MeSdkV5UnitTest.VehiclesApi
             Assert.IsType(Of VehicleProfile)(result)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub GetVehicleByLicensePlateTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -399,7 +403,7 @@ Namespace Route4MeSdkV5UnitTest.VehiclesApi
             Assert.IsType(Of Vehicle())(result)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub UpdateVehicleTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -415,7 +419,7 @@ Namespace Route4MeSdkV5UnitTest.VehiclesApi
             Assert.Contains("Updated", result.VehicleAlias)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub UpdateVehicleProfileTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -434,6 +438,10 @@ Namespace Route4MeSdkV5UnitTest.VehiclesApi
         End Sub
 
         Private Sub IDisposable_Dispose() Implements IDisposable.Dispose
+            If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+                Return
+            End If
+
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
             Dim resultResponse As ResultResponse = Nothing
 

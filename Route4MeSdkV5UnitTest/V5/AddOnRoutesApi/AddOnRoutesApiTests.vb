@@ -1,7 +1,4 @@
-﻿Imports System
-Imports Xunit
-Imports System.Collections.Generic
-Imports System.Text
+﻿Imports Xunit
 Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes.V5
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes.V5
@@ -20,6 +17,10 @@ Namespace Route4MeSdkV5UnitTest.AddOnRoutesApi
         Shared lsRoutenIDs As List(Of String)
 
         Public Sub New(ByVal output As ITestOutputHelper)
+            If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+                Return
+            End If
+
             _output = output
 
             lsOptimizationIDs = New List(Of String)()
@@ -45,7 +46,7 @@ Namespace Route4MeSdkV5UnitTest.AddOnRoutesApi
             lsOptimizationIDs.Add(tdr2.MDMD24_optimization_problem_id)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute()>
         Public Sub GetAllRoutesTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -60,7 +61,7 @@ Namespace Route4MeSdkV5UnitTest.AddOnRoutesApi
             Assert.IsType(Of DataObjectRoute())(dataObjects)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub GetAllRoutesWithPaginationTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -75,7 +76,7 @@ Namespace Route4MeSdkV5UnitTest.AddOnRoutesApi
             Assert.IsType(Of DataObjectRoute())(dataObjects)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub GetPaginatedRouteListWithoutElasticSearchTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -90,7 +91,7 @@ Namespace Route4MeSdkV5UnitTest.AddOnRoutesApi
             Assert.IsType(Of DataObjectRoute())(dataObjects)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub GetRouteDataTableWithoutElasticSearchTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -112,7 +113,7 @@ Namespace Route4MeSdkV5UnitTest.AddOnRoutesApi
             Assert.IsType(Of DataObjectRoute())(dataObjects)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub GetRouteDatatableWithElasticSearchTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -134,7 +135,7 @@ Namespace Route4MeSdkV5UnitTest.AddOnRoutesApi
             Assert.IsType(Of DataObjectRoute())(dataObjects)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub GetRouteListWithoutElasticSearchTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -149,7 +150,7 @@ Namespace Route4MeSdkV5UnitTest.AddOnRoutesApi
             Assert.IsType(Of DataObjectRoute())(dataObjects)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub DuplicateRoutesTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
             Dim routeIDs = New String() {tdr.SD10Stops_route.RouteID}
@@ -168,7 +169,7 @@ Namespace Route4MeSdkV5UnitTest.AddOnRoutesApi
             End If
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub DeleteRoutesTest()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
 
@@ -182,7 +183,7 @@ Namespace Route4MeSdkV5UnitTest.AddOnRoutesApi
             Assert.[True](result.Deleted)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub GetRouteDataTableConfig()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
             Dim resultResponse As ResultResponse = Nothing
@@ -192,7 +193,7 @@ Namespace Route4MeSdkV5UnitTest.AddOnRoutesApi
             Assert.IsType(Of RouteDataTableConfigResponse)(result)
         End Sub
 
-        <Fact>
+        <IgnoreOnWindowsFactAttribute>
         Public Sub GetRouteDataTableFallbackConfig()
             Dim route4Me = New Route4MeManagerV5(c_ApiKey)
             Dim resultResponse As ResultResponse = Nothing

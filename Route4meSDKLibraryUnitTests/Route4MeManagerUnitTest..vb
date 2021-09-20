@@ -1,6 +1,4 @@
-﻿Imports System.Text
-Imports Microsoft.VisualStudio.TestTools.UnitTesting
-Imports Route4MeSDKLibrary.Route4MeSDK
+﻿Imports Route4MeSDKLibrary.Route4MeSDK
 Imports Route4MeSDKLibrary.Route4MeSDK.DataTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.QueryTypes
 Imports Route4MeSDKLibrary.Route4MeSDK.FastProcessing
@@ -9,7 +7,6 @@ Imports System.Runtime.Serialization
 Imports System.Reflection
 Imports System.CodeDom.Compiler
 Imports System.Threading
-Imports CsvHelper
 Imports Route4MeSDKLibrary.Route4MeSDK.Route4MeManager
 
 Public Class ApiKeys
@@ -28,6 +25,10 @@ End Class
 
     <ClassInitialize>
     Public Shared Sub RoutesGroupInitialize(context As TestContext)
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
+        End If
+
         lsOptimizationIDs = New List(Of String)()
         lsVehicleIDs = New List(Of String)()
 
@@ -208,26 +209,6 @@ End Class
         Assert.IsNotNull(route1, "ResequenceRouteDestinationsTest failed.")
     End Sub
 
-
-    'Public Sub ResequenceReoptimizeRouteTest()
-    '    Dim route4Me As New Route4MeManager(c_ApiKey)
-
-    '    Dim route_id As String = tdr.SD10Stops_route_id
-
-    '    Assert.IsNotNull(route_id, "rote_id is null...")
-
-    '    Dim roParameters As New Dictionary(Of String, String)() From {
-    '        {"route_id", route_id},
-    '        {"disable_optimization", "0"},
-    '        {"optimize", "Distance"}
-    '    }
-
-    '    ' Run the query
-    '    Dim errorString As String = ""
-    '    Dim result As Boolean = route4Me.ResequenceReoptimizeRoute(roParameters, errorString)
-
-    '    Assert.IsTrue(result, "ResequenceReoptimizeRouteTest failed.")
-    'End Sub
 
     <TestMethod>
     Public Sub ResequenceReoptimizeRouteTest()
@@ -861,6 +842,10 @@ End Class
 
     <ClassInitialize>
     Public Shared Sub NotesGroupInitialize(ByVal context As TestContext)
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
+        End If
+
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
         lsOptimizationIDs = New List(Of String)()
@@ -958,54 +943,6 @@ End Class
 
         Assert.IsNotNull(note, "AddAddressNoteTest failed... " & errorString)
     End Sub
-
-    'this test excluded because website refuses sending of the file
-
-
-    'Public Sub AddAddressNoteWithFileTest()
-    '    Dim route4Me As New Route4MeManager(c_ApiKey)
-
-    '    Dim routeId As String = tdr.SDRT_route_id
-
-    '    Assert.IsNotNull(routeId, "routeId_SingleDriverRoundTrip is null...")
-
-    '    Dim addressId As Integer = If((tdr.dataObjectSDRT IsNot Nothing AndAlso tdr.SDRT_route IsNot Nothing AndAlso tdr.SDRT_route.Addresses.Length > 1 AndAlso tdr.SDRT_route.Addresses(1).RouteDestinationId IsNot Nothing), tdr.SDRT_route.Addresses(1).RouteDestinationId.Value, 0)
-
-    '    Dim lat As Double = If(tdr.SDRT_route.Addresses.Length > 1, tdr.SDRT_route.Addresses(1).Latitude, 33.132675170898)
-    '    Dim lng As Double = If(tdr.SDRT_route.Addresses.Length > 1, tdr.SDRT_route.Addresses(1).Longitude, -83.244743347168)
-
-    '    Dim noteParameters As New NoteParameters() With {
-    '        .RouteId = routeId,
-    '        .AddressId = addressId,
-    '        .Latitude = lat,
-    '        .Longitude = lng,
-    '        .DeviceType = DeviceType.Web.GetEnumDescription(),
-    '        .ActivityType = StatusUpdateType.DropOff.GetEnumDescription()
-    '    }
-
-    '    Dim tempFilePath As String = Nothing
-
-    '    Using stream As Stream = File.Open("test.png", FileMode.Open)
-    '        Dim tempFiles = New TempFileCollection()
-    '        If True Then
-    '            tempFilePath = tempFiles.AddExtension("png")
-    '            System.Console.WriteLine(tempFilePath)
-    '            Using fileStream As Stream = File.OpenWrite(tempFilePath)
-    '                stream.CopyTo(fileStream)
-    '            End Using
-    '        End If
-    '    End Using
-
-    '    ' Run the query
-    '    Dim errorString As String = ""
-    '    Dim contents As String = "Test Note Contents with Attachment " + DateTime.Now.ToString()
-    '    Dim note As AddressNote = route4Me.AddAddressNote(noteParameters, contents, tempFilePath, errorString)
-
-    '    Assert.IsNotNull(
-    '        note,
-    '        Convert.ToString("AddAddressNoteWithFileTest failed. ") & errorString)
-
-    'End Sub
 
     <TestMethod>
     Public Sub AddAddressNoteWithFileTest()
@@ -1169,11 +1106,15 @@ End Class
 
     <ClassInitialize()>
     Public Shared Sub RouteTypesGroupInitialize(ByVal context As TestContext)
-        If c_ApiKey = c_ApiKey_1 Then
-            skip = "yes"
-        Else
-            skip = "no"
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
         End If
+
+        'If c_ApiKey = c_ApiKey_1 Then
+        '    skip = "yes"
+        'Else
+        '    skip = "no"
+        'End If
     End Sub
 
     <TestMethod>
@@ -7566,6 +7507,10 @@ Public Class AddressbookContactsGroup
 
     <ClassInitialize>
     Public Shared Sub AddAddressBookContactsTest(context As TestContext)
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
+        End If
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         If c_ApiKey = c_ApiKey_1 Then
@@ -8114,6 +8059,10 @@ Public Class AddressbookGroupsGroup
 
     <ClassInitialize>
     Public Shared Sub AddressBookGroupsInitialize(ByVal context As TestContext)
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
+        End If
+
         Dim errorString As String
 
         group1 = CreateAddreessBookGroup(errorString)
@@ -8318,6 +8267,10 @@ End Class
 
     <ClassInitialize>
     Public Shared Sub AvoidanseZonesGroupInitialize(context As TestContext)
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
+        End If
+
         Dim route4Me As New Route4MeManager(c_ApiKey)
 
         Dim circleAvoidanceZoneParameters As New AvoidanceZoneParameters() With {
@@ -8543,6 +8496,10 @@ End Class
 
     <ClassInitialize()>
     Public Shared Sub TerritoriesGroupInitialize(ByVal context As TestContext)
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
+        End If
+
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
         Dim circleTerritoryParameters As AvoidanceZoneParameters = New AvoidanceZoneParameters() With {
@@ -8754,11 +8711,15 @@ End Class
 
     <ClassInitialize()>
     Public Shared Sub CreateOrderTest(ByVal context As TestContext)
-        If c_ApiKey = c_ApiKey_1 Then
-            skip = "yes"
-        Else
-            skip = "no"
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
         End If
+
+        'If c_ApiKey = c_ApiKey_1 Then
+        '    skip = "yes"
+        'Else
+        '    skip = "no"
+        'End If
 
         If skip = "yes" Then Return
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
@@ -9315,13 +9276,16 @@ Public Class OrderCustomUserFieldsGroup
 
     <ClassInitialize()>
     Public Shared Sub OrderCustomUserFieldsInitialize(ByVal context As TestContext)
-
-        If c_ApiKey = c_ApiKey_1 Then
-            skip = "yes"
-            Return
-        Else
-            skip = "no"
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
         End If
+
+        'If c_ApiKey = c_ApiKey_1 Then
+        '    skip = "yes"
+        '    Return
+        'Else
+        '    skip = "no"
+        'End If
 
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
         Dim errorString As String = Nothing
@@ -9476,8 +9440,12 @@ End Class
     Shared tdr As TestDataRepository
     Shared lsOptimizationIDs As List(Of String)
 
-    <ClassInitialize> _
+    <ClassInitialize>
     Public Shared Sub ActivitiesGroupInitialize(context As TestContext)
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
+        End If
+
         lsOptimizationIDs = New List(Of String)()
 
         tdr = New TestDataRepository()
@@ -10092,8 +10060,12 @@ End Class
     Shared lsOptimizationIDs As List(Of String)
     Shared removdAddressId As Int32
 
-    <ClassInitialize> _
+    <ClassInitialize>
     Public Shared Sub AddressGroupInitialize(context As TestContext)
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
+        End If
+
         lsOptimizationIDs = New List(Of String)()
 
         tdr = New TestDataRepository()
@@ -10377,8 +10349,12 @@ End Class
     Shared tdr As TestDataRepository
     Shared lsOptimizationIDs As List(Of String)
 
-    <ClassInitialize> _
+    <ClassInitialize>
     Public Shared Sub TrackingGroupInitialize(context As TestContext)
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
+        End If
+
         lsOptimizationIDs = New List(Of String)()
 
         tdr = New TestDataRepository()
@@ -10595,12 +10571,16 @@ End Class
 
     <ClassInitialize()>
     Public Shared Sub UserGroupInitialize(ByVal context As TestContext)
-        If c_ApiKey = c_ApiKey_1 Then
-            skip = "yes"
-            Return
-        Else
-            skip = "no"
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
         End If
+
+        'If c_ApiKey = c_ApiKey_1 Then
+        '    skip = "yes"
+        '    Return
+        'Else
+        '    skip = "no"
+        'End If
 
         lsMembers = New List(Of Integer)()
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
@@ -10863,8 +10843,12 @@ End Class
     Shared c_ApiKey As String = ApiKeys.actualApiKey
     Shared lsConfigurationKeys As List(Of String)
 
-    <ClassInitialize> _
+    <ClassInitialize>
     Public Shared Sub MemberConfigurationGroupInitialize(context As TestContext)
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
+        End If
+
         Dim route4Me As Route4MeManager = New Route4MeManager(c_ApiKey)
 
         lsConfigurationKeys = New List(Of String)()
@@ -11018,6 +11002,10 @@ End Class
 
     <ClassInitialize()>
     Public Shared Sub VehiclesGroupInitialize(ByVal context As TestContext)
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
+        End If
+
         lsVehicleIDs = New List(Of String)()
         lsCreatedVehicleIDs = New List(Of String)()
 
@@ -11310,6 +11298,13 @@ End Class
 
 <TestClass()> Public Class GeocodingGroup
     Shared c_ApiKey As String = ApiKeys.actualApiKey
+
+    <ClassInitialize()>
+    Public Shared Sub GeocodingGroupInitialize(ByVal context As TestContext)
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
+        End If
+    End Sub
 
     <TestMethod> _
     Public Sub GeocodingForwardTest()
@@ -11897,8 +11892,12 @@ End Class
     Shared lsAddressbookContacts As List(Of String)
     Shared lsOrders As List(Of String)
 
-    <ClassInitialize> _
+    <ClassInitialize>
     Public Shared Sub OptimizationsGroupInitialize(context As TestContext)
+        If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
+        End If
+
         lsOptimizationIDs = New List(Of String)()
         lsAddressbookContacts = New List(Of String)()
         lsOrders = New List(Of String)()
@@ -12519,7 +12518,7 @@ Public Class TelematicsGateWayAPI
     <ClassInitialize()>
     Public Shared Sub TelematicsGateWayAPIInitialize(ByVal context As TestContext)
         If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
-            Assert.Inconclusive("The test cannot done with demo API key")
+            Assert.Inconclusive("Cannot run the tests with demo API key - change it with your own")
         End If
 
         Dim route4Me = New Route4MeManager(c_ApiKey)

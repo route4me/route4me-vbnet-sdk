@@ -180,6 +180,7 @@
     <Compile Include="Examples\ExamplesInfrastructureV5.vb" />
     <Compile Include="Examples\Geocoding\uploadLargeContactsCsvFile.vb" />
     <Compile Include="Examples\Geocoding\validateLargeContactsCsvFile.vb" />
+    <Compile Include="Examples\Orders\AddOrderWithTrackingNumber.vb" />
     <Compile Include="Examples\RouteExamples\AsyncMultipleDepotMultipleDriver.vb" />
     <Compile Include="Examples\AvoidanceZone\AddAvoidanceZone.vb" />
     <Compile Include="Examples\Addressbook\GetAddressbookLocation.vb" />
@@ -213,6 +214,7 @@
     <Compile Include="Examples\MemberConfiguration\GetSpecificConfigurationKeyData.vb" />
     <Compile Include="Examples\MemberConfiguration\RemoveConfigurationKey.vb" />
     <Compile Include="Examples\MemberConfiguration\UpdateConfigurationKey.vb" />
+    <Compile Include="Examples\RouteExamples\OptimizationByOrderTerritories.vb" />
     <Compile Include="Examples\RouteExamples\SingleDepotPickupDropoffJoint.vb" />
     <Compile Include="Examples\Routes\ReoptimizeRemainingStops.vb" />
     <Compile Include="Examples\Users\AddEditCustomDataToUser.vb" />
