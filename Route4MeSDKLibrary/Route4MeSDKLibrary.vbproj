@@ -155,6 +155,7 @@
     <Compile Include="DataTypes\OrderCustomField.vb" />
     <Compile Include="DataTypes\OrderCustomFieldCreateResponse.vb" />
     <Compile Include="DataTypes\OrdersResponse.vb" />
+    <Compile Include="DataTypes\OrderTerritories.vb" />
     <Compile Include="DataTypes\ReadOnlyAttribute.vb" />
     <Compile Include="DataTypes\Route.vb" />
     <Compile Include="DataTypes\Route4MeDynamicClass.vb" />

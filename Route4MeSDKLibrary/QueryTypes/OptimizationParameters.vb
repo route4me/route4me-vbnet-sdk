@@ -3,7 +3,6 @@ Imports System.Runtime.Serialization
 
 Namespace Route4MeSDK.QueryTypes
 
-
     <DataContract> _
     Public NotInheritable Class OptimizationParameters
         Inherits GenericParameters
@@ -59,6 +58,13 @@ Namespace Route4MeSDK.QueryTypes
         Public Property State As UInteger?
 
         ''' <summary>
+        ''' If true, the response contains only optimization_problem_id
+        ''' </summary>
+        <IgnoreDataMember>
+        <HttpQueryMemberAttribute(Name:="id_only", EmitDefaultValue:=False)>
+        Public Property IdOnly As Boolean?
+
+        ''' <summary>
         ''' If true will be redirected
         ''' </summary>
         <IgnoreDataMember>
@@ -88,6 +94,12 @@ Namespace Route4MeSDK.QueryTypes
         ''' </summary>
         <DataMember(Name:="depots", EmitDefaultValue:=False)>
         Public Property Depots As Address()
+
+        ''' <summary>
+        ''' The order territories containing addresses for an optimization process.
+        ''' </summary>
+        <DataMember(Name:="order_territories")>
+        Public Property OrderTerritories As OrderTerritories
 
     End Class
 End Namespace

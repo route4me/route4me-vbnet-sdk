@@ -29,6 +29,12 @@ Namespace Route4MeSDK.QueryTypes
         Inherits GenericParameters
 
         ''' <summary>
+        ''' A query text for the orders searching.
+        ''' </summary>
+        <DataMember(Name:="query")>
+        Public Property Query As String
+
+        ''' <summary>
         ''' Available values: "all", "routed", "unrouted"
         ''' </summary>
         <DataMember(Name:="display")>
@@ -39,7 +45,13 @@ Namespace Route4MeSDK.QueryTypes
         ''' e.g. ["2019-06-01", "2019-06-18"]
         ''' </summary>
         <DataMember(Name:="scheduled_for_YYMMDD")>
-        Public Property Scheduled_for_YYMMDD As String()
+        Public Property Scheduled_for_YYYYMMDD As String()
+
+        ''' <summary>
+        ''' An array of the tracking numbers to filter the orders by tracking numbers.
+        ''' </summary>
+        <DataMember(Name:="tracking_numbers")>
+        Public Property TrackingNumbers As String()
 
     End Class
 End Namespace

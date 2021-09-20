@@ -45,7 +45,30 @@ Namespace Route4MeSDK
 #Region "Optimizations"
 
         Public Function RunOptimization(optimizationParameters As OptimizationParameters, ByRef errorString As String) As DataObject
-            Dim result = GetJsonObjectFromAPI(Of DataObject)(optimizationParameters, R4MEInfrastructureSettings.ApiHost, HttpMethodType.Post, False, errorString)
+            Dim result = GetJsonObjectFromAPI(Of DataObject)(
+                optimizationParameters,
+                R4MEInfrastructureSettings.ApiHost,
+                HttpMethodType.Post, False,
+                errorString)
+
+            Return result
+        End Function
+
+        ''' <summary>
+        ''' Generates optimized routes by order territories.
+        ''' </summary>
+        ''' <param name="optimizationParameters">The input parameters for the routes optimization, which encapsulates:
+        ''' the route parameters, addresses and order territories. </param>
+        ''' <param name="errorString">Returned error string in case of an optimization processs failing</param>
+        ''' <returns>An array of the optimization problem and smart optimization problem objects</returns>
+        Public Function RunOptimizationByOrderTerritories(ByVal optimizationParameters As OptimizationParameters,
+                                                          ByRef errorString As String) As DataObject()
+            Dim result = GetJsonObjectFromAPI(Of DataObject())(
+                optimizationParameters,
+                R4MEInfrastructureSettings.ApiHost,
+                HttpMethodType.Post,
+                False,
+                errorString)
 
             Return result
         End Function

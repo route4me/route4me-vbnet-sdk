@@ -4846,6 +4846,54 @@ End Class
     End Sub
 
     <TestMethod>
+    Public Sub OptimizationByOrderTerritoriesTest()
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        Dim parameters = New RouteParameters() With {
+            .AlgorithmType = AlgorithmType.CVRP_TW_SD,
+            .RouteName = "Optimization by order territories, " & DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+            .is_dynamic_start_time = False,
+            .Optimize = "Time",
+            .IgnoreTw = False,
+            .Parts = 10,
+            .RT = False,
+            .LockLast = False,
+            .DisableOptimization = False,
+            .VehicleId = ""
+        }
+
+        ' Specified as "all" for test purpose - after the first optimization, the orders become routed and the test is failing.
+        ' For real tasks should be specified as "unrouted"
+        Dim orderTerritories = New OrderTerritories() With {
+            .SplitTerritories = True,
+            .TerritoriesId = New String() {"5E66A5AFAB087B08E690DFAE4F8B151B", "6160CFC4CC3CD508409D238E04D6F6C4"},
+            .filters = New FilterDetails() With {
+                .Display = "all",
+                .Scheduled_for_YYYYMMDD = New String() {"2021-09-21"}
+            }
+        }
+
+        Dim optimizationParameters = New OptimizationParameters() With {
+            .Redirect = False,
+            .OrderTerritories = orderTerritories,
+            .Parameters = parameters
+        }
+
+        Dim errorString As String = Nothing
+        Dim dataObjects = route4Me.RunOptimizationByOrderTerritories(optimizationParameters, errorString)
+
+        Assert.IsNotNull(dataObjects, "OptimizationByOrderTerritoriesTest failed. " & errorString)
+
+        Dim returnedOptimizations As Integer = dataObjects.Length
+
+        For Each optProblem In dataObjects
+            tdr.RemoveOptimization(New String() {optProblem.OptimizationProblemId})
+        Next
+
+        Assert.IsTrue(returnedOptimizations = 2, "OptimizationByOrderTerritoriesTest failed - smart optimization ID not returned.")
+    End Sub
+
+    <TestMethod>
     Public Sub SingleDriverRoundTripGenericTest()
         Const uri As String = R4MEInfrastructureSettings.MainHost + "/api.v4/optimization_problem.php"
         Dim myApiKey As String = ApiKeys.actualApiKey
@@ -8850,7 +8898,7 @@ End Class
             .Limit = 10,
             .Filter = New FilterDetails() With {
                 .Display = "all",
-                .Scheduled_for_YYMMDD = New String() {startDate, endDate}
+                .Scheduled_for_YYYYMMDD = New String() {startDate, endDate}
             }
         }
 
@@ -8862,6 +8910,27 @@ End Class
             GetType(Order()),
             "GetOrdersByScheduleFilter failed. " & errorString
          )
+    End Sub
+
+    <TestMethod>
+    Public Sub FilterOrdersByTrackingNumbers()
+        If skip = "yes" Then Return
+
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        Dim oParams = New OrderFilterParameters() With {
+            .Limit = 10,
+            .Filter = New FilterDetails() With {
+                .Display = "all",
+                .TrackingNumbers = New String() {"TN1"}
+            }
+        }
+
+        Dim errorString As String = Nothing
+        Dim orders As Order() = route4Me.FilterOrders(oParams, errorString)
+
+        Assert.IsInstanceOfType(orders, GetType(Order()), "FilterOrdersByTrackingNumbers failed. " & errorString)
+
     End Sub
 
     <TestMethod> _

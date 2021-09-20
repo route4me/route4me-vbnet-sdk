@@ -198,5 +198,18 @@ Namespace Route4MeSDK.DataTypes
         <DataMember(Name:="visited_count", EmitDefaultValue:=False)>
         Public Property membVisitedCount As Integer
 
+        ''' <summary>
+        ''' Route address stop type. For available values see Enums.AddressStopType
+        ''' </summary>
+        <DataMember(Name:="address_stop_type")>
+        Public Property AddressStopType As String
+
+        ''' <summary>
+        ''' System-wide unique code, which permits end-users (recipients) 
+        ''' to track the status of their order.
+        ''' </summary>
+        <DataMember(Name:="tracking_number", EmitDefaultValue:=False)>
+        Public Property TrackingNumber As String
+
     End Class
 End Namespace

@@ -19,7 +19,7 @@ Namespace Route4MeSDKTest.Examples
                 .Limit = 10,
                 .Filter = New FilterDetails() With {
                     .Display = "all",
-                    .Scheduled_for_YYMMDD = New String() {startDate, endDate}
+                    .Scheduled_for_YYYYMMDD = New String() {startDate, endDate}
                 }
             }
 

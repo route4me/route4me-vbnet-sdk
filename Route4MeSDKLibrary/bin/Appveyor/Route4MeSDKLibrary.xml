@@ -2065,6 +2065,17 @@ Route4MeSDKLibrary
  How many times the order visited.
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.AddressStopType">
+ <summary>
+ Route address stop type. For available values see Enums.AddressStopType
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.Order.TrackingNumber">
+ <summary>
+ System-wide unique code, which permits end-users (recipients) 
+ to track the status of their order.
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.OrderCustomField">
  <summary>
  The class for the response from the order custom field query request.
@@ -2126,6 +2137,26 @@ Route4MeSDKLibrary
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.OrderCustomFieldCreateResponse.Data">
  <summary>
  Created/updated custom order field.
+ </summary>
+</member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.OrderTerritories">
+ <summary>
+ Order Territories for an optimization payload. 
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.OrderTerritories.SplitTerritories">
+ <summary>
+ If true, split each territory to own optimization
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.OrderTerritories.TerritoriesId">
+ <summary>
+ An array of the territory IDs
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.DataTypes.OrderTerritories.filters">
+ <summary>
+ Order filters.
  </summary>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.DataTypes.ReadOnlyAttribute">
@@ -6908,6 +6939,79 @@ User email.
  Vehicle weight in metric unit.
  </summary>
 </member>
+<member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ActivityParameters">
+ <summary>
+ Parameters for the activity feed request.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ActivityParameters.RouteId">
+ <summary>
+ Unique ID of a route.
+ <para>Query parameter.</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ActivityParameters.DeviceID">
+ <summary>
+ Unique ID of a device attached to a vehicle.
+ <para>Query parameter.</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ActivityParameters.MemberId">
+ <summary>
+ Unique ID of a member.
+ <para>Query parameter.</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ActivityParameters.Limit">
+ <summary>
+ Limit the number of records in response.
+ <para>Query parameter.</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ActivityParameters.Offset">
+ <summary>
+ Only records from that offset will be considered.
+ <para>Query parameter.</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ActivityParameters.team">
+ <summary>
+ If equal to 'true' the response will include team activities.
+ <para>Query parameter.</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ActivityParameters.Start">
+ <summary>
+ Start of the time filter.
+ <para>Query parameter.</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ActivityParameters.End">
+ <summary>
+ End of the time filter.
+ <para>Query parameter.</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ActivityParameters.ActivityType">
+ <summary>
+ If specified, the response will include only activities of the specified type.
+ <para>Query parameter.</para>
+ <para>Available values:</para>
+ <para>'', 'area-removed', 'area-added', 'area-updated', 'delete-destination', </para>
+ <para>'insert-destination', 'destination-out-sequence', 'driver-arrived-early', 'driver-arrived-late', </para>
+ <para>'driver-arrived-on-time', 'geofence-left', 'geofence-entered', 'mark-destination-departed', </para>
+ <para>'mark-destination-visited', 'member-created', 'member-deleted', 'member-modified', </para>
+ <para>'move-destination', 'note-insert', 'route-delete', 'route-optimized', </para>
+ <para>'route-owner-changed', 'route-duplicate', 'update-destinations', 'user_message'</para>
+ <para>'order-created', 'order-updated', 'order-deleted', 'unapproved-to-execute', 'route-update'</para>
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.ActivityParameters.ActivityMessage">
+ <summary>
+ Activity message.
+ <para>Query parameter.</para>
+ </summary>
+</member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.AvoidanceZoneParameters">
  <summary>
  Avoidance zone parameters
@@ -7225,6 +7329,11 @@ User email.
  InQueue = 7
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OptimizationParameters.IdOnly">
+ <summary>
+ If true, the response contains only optimization_problem_id
+ </summary>
+</member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OptimizationParameters.Redirect">
  <summary>
  If true will be redirected
@@ -7238,6 +7347,11 @@ User email.
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OptimizationParameters.Depots">
  <summary>
  Array of the depots
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OptimizationParameters.OrderTerritories">
+ <summary>
+ The order territories containing addresses for an optimization process.
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderCustomFieldParameters.OrderCustomFieldName">
@@ -7283,15 +7397,25 @@ User email.
  Offset.
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.FilterDetails.Query">
+ <summary>
+ A query text for the orders searching.
+ </summary>
+</member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.FilterDetails.Display">
  <summary>
  Available values: "all", "routed", "unrouted"
  </summary>
 </member>
-<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.FilterDetails.Scheduled_for_YYMMDD">
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.FilterDetails.Scheduled_for_YYYYMMDD">
  <summary>
  Start and end dates for filter the orders by schedule.
  e.g. ["2019-06-01", "2019-06-18"]
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.FilterDetails.TrackingNumbers">
+ <summary>
+ An array of the tracking numbers to filter the orders by tracking numbers.
  </summary>
 </member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.limit">
@@ -8386,6 +8510,15 @@ User email.
     to access any availaible functionality.
     See examples Route4MeExamples.GenericExample(), Route4MeExamples.SingleDriverRoundTripGeneric()
  </summary>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.RunOptimizationByOrderTerritories(Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OptimizationParameters,System.String@)">
+ <summary>
+ Generates optimized routes by order territories.
+ </summary>
+ <param name="optimizationParameters">The input parameters for the routes optimization, which encapsulates:
+ the route parameters, addresses and order territories. </param>
+ <param name="errorString">Returned error string in case of an optimization processs failing</param>
+ <returns>An array of the optimization problem and smart optimization problem objects</returns>
 </member>
 <member name="T:Route4MeSDKLibrary.Route4MeSDK.Route4MeManager.DataObjectOptimizations">
  <summary>
