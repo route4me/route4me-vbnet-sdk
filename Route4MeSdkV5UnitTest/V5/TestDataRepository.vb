@@ -44,6 +44,10 @@ Namespace Route4MeSdkV5UnitTest.V5
         Public Property MDMD24_route_id() As String
 
         Public Function RunOptimizationSingleDriverRoute10Stops() As Boolean
+            If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+                Return False
+            End If
+
             Dim r4mm As New Route4MeManagerV5(c_ApiKey)
 
             ' Prepare the addresses
@@ -142,6 +146,10 @@ Namespace Route4MeSdkV5UnitTest.V5
         End Function
 
         Public Function SingleDriverRoundTripTest() As Boolean
+            If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+                Return False
+            End If
+
             Dim route4Me As New Route4MeManagerV5(c_ApiKey)
 
             ' Prepare the addresses
@@ -243,6 +251,10 @@ Namespace Route4MeSdkV5UnitTest.V5
         End Function
 
         Public Function RemoveOptimization(optimizationProblemIDs As String()) As Boolean
+            If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+                Return False
+            End If
+
             Dim route4Me As New Route4MeManagerV5(c_ApiKey)
 
             ' Run the query
@@ -260,6 +272,10 @@ Namespace Route4MeSdkV5UnitTest.V5
         End Function
 
         Public Function MultipleDepotMultipleDriverWith24StopsTimeWindowTest() As Boolean
+            If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+                Return False
+            End If
+
             Dim route4Me As New Route4MeManagerV5(c_ApiKey)
 
             ' Prepare the addresses
@@ -480,6 +496,10 @@ Namespace Route4MeSdkV5UnitTest.V5
         End Function
 
         Public Function RemoveAddressBookContacts(ByVal lsRemLocations As List(Of Integer), ByVal ApiKey As String) As Boolean
+            If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+                Return False
+            End If
+
             Dim route4Me = New Route4MeManagerV5(ApiKey)
             Dim resultResponse As ResultResponse = Nothing
 
@@ -492,6 +512,10 @@ Namespace Route4MeSdkV5UnitTest.V5
         End Function
 
         Public Function RemoveOrders(ByVal lsOrders As List(Of String), ByVal ApiKey As String) As Boolean
+            If ApiKeys.actualApiKey = ApiKeys.demoApiKey Then
+                Return False
+            End If
+
             Dim route4Me = New Route4MeManager(ApiKey)
 
             Dim errorString As String = Nothing
