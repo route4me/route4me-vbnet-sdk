@@ -20,8 +20,9 @@ configuration:
 before_build:
   # Display .net version
   - cmd: dotnet --version
-  - cmd: dotnet restore "route4me-vbnet-sdk/Route4MeSDKLibrary/Route4MeSDKLibrary.csproj"
-  - cmd: dotnet restore "route4me-vbnet-sdk/Route4meSDKLibraryUnitTests/Route4meSDKUnitTest.csproj"
+  - nuget restore "%solution_name%"
+#  - cmd: dotnet restore "route4me-vbnet-sdk/Route4MeSDKLibrary/Route4MeSDKLibrary.csproj"
+#  - cmd: dotnet restore "route4me-vbnet-sdk/Route4meSDKLibraryUnitTests/Route4meSDKUnitTest.csproj"
 
 # MSBuild settings
 build_script:
