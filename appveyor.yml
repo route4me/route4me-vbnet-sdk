@@ -12,7 +12,10 @@ branches:
 platform: Any CPU
 
 # Build Configuration
-configuration: Debug
+configuration: Appveyor
+
+before_build:
+  - nuget restore "%solution_name%"
 
 # Execute script before build
 before_build:
