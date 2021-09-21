@@ -20,20 +20,20 @@ configuration:
 before_build:
   # Display .net version
   - cmd: dotnet --version
-  - nuget restore "%solution_name%"
-#  - cmd: dotnet restore "route4me-vbnet-sdk/Route4MeSDKLibrary/Route4MeSDKLibrary.csproj"
+#  - nuget restore "%solution_name%"
+  - cmd: dotnet restore "route4me-vbnet-sdk/Route4MeSDKLibrary/Route4MeSDKLibrary.csproj"
 #  - cmd: dotnet restore "route4me-vbnet-sdk/Route4meSDKLibraryUnitTests/Route4meSDKUnitTest.csproj"
 
 # MSBuild settings
 build_script:
-  - msbuild "route4me-vbnet-sdk/Route4MeSDKLibrary/Route4MeSDKLibrary.vbproj"
+  - dotnet build "route4me-vbnet-sdk/Route4MeSDKLibrary/Route4MeSDKLibrary.vbproj"
 
 
 test_script:
   # restore packages for mstest unit tests and run tests
-  - cmd: dotnet restore ./Route4meSDKLibraryUnitTests/Route4meSDKUnitTest.csproj --verbosity m
-  - cmd: cd Route4meSDKLibraryUnitTests
-  - cmd: dotnet mstest
+  # - cmd: dotnet restore ./Route4meSDKLibraryUnitTests/Route4meSDKUnitTest.csproj --verbosity m
+  # - cmd: cd Route4meSDKLibraryUnitTests
+  # - cmd: dotnet mstest
   
   # - cmd: dotnet restore ./Route4MeSdkV5UnitTest/Route4MeSdkV5UnitTest.csproj --verbosity m
   # - cmd: cd Route4MeSdkV5UnitTest
