@@ -4814,10 +4814,20 @@ End Class
             }
         }
 
+        Dim depots = New Address(0) {New Address() With {
+            .[Alias] = "HQ1",
+            .AddressString = "1010 N Florida ave, Tampa, FL",
+            .IsDepot = True,
+            .Latitude = 27.952941,
+            .Longitude = -82.459493,
+            .Time = 0
+        }}
+
         Dim optimizationParameters = New OptimizationParameters() With {
             .Redirect = False,
             .OrderTerritories = orderTerritories,
-            .Parameters = parameters
+            .Parameters = parameters,
+            .Depots = depots
         }
 
         Dim errorString As String = Nothing
@@ -9141,6 +9151,32 @@ End Class
 
         lsOrderiDs.Add(result.order_id.ToString())
         lsOrders.Add(result)
+    End Sub
+
+    <TestMethod>
+    Public Sub CreateOrderWithOrderTypeTest()
+        If skip = "yes" Then Return
+
+        ' Create the manager with the api key
+        Dim route4Me = New Route4MeManager(c_ApiKey)
+
+        'Using of an existing tracking number raises error
+        Dim randomTrackingNumber = R4MeUtils.GenerateRandomString(8, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+
+        Dim order = New Order() With {
+            .address_1 = "201 LAVACA ST APT 746, AUSTIN, TX, 78701, US",
+            .TrackingNumber = randomTrackingNumber,
+            .AddressStopType = AddressStopType.PickUp.GetEnumDescription()
+        }
+
+        ' Run the query
+        Dim errorString As String = Nothing
+        Dim resultOrder = route4Me.AddOrder(order, errorString)
+
+        Assert.IsNotNull(resultOrder, "AddOrdersToRouteTest failed. " & errorString)
+
+        Dim errorString2 As String = Nothing
+        route4Me.RemoveOrders(New String() {resultOrder.order_id.ToString()}, errorString2)
     End Sub
 
     <TestMethod>

@@ -626,6 +626,19 @@ Namespace Route4MeSDK
 
             Return seconds
         End Function
+
+        ''' <summary>
+        ''' Generate random string with a specified length from specified source string.
+        ''' </summary>
+        ''' <param name="length">Length of the generated random string</param>
+        ''' <param name="sourceString">Source string. Default: 'ABCDEF0123456789'</param>
+        ''' <returns>Generated random string</returns>
+        Public Function GenerateRandomString(ByVal length As Integer, ByVal Optional sourceString As String = "ABCDEF0123456789") As String
+            Dim random = New Random()
+
+            Return New String(Enumerable.Repeat(sourceString, length).[Select](Function(s) s(random.[Next](s.Length))).ToArray())
+
+        End Function
     End Module
 End Namespace
 

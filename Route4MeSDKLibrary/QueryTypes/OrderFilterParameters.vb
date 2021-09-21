@@ -53,5 +53,17 @@ Namespace Route4MeSDK.QueryTypes
         <DataMember(Name:="tracking_numbers")>
         Public Property TrackingNumbers As String()
 
+        ''' <summary>
+        ''' Start of a time range to filter the orders.
+        ''' </summary>
+        <DataMember(Name:="created_timestamp_start")>
+        Public Property CreatedTimestampStart As Long?
+
+        ''' <summary>
+        ''' Start of a time range to filter the orders.
+        ''' </summary>
+        <DataMember(Name:="created_timestamp_end")>
+        Public Property CreatedTimestampEnd As Long?
+
     End Class
 End Namespace

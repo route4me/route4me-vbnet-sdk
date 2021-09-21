@@ -7418,6 +7418,16 @@ User email.
  An array of the tracking numbers to filter the orders by tracking numbers.
  </summary>
 </member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.FilterDetails.CreatedTimestampStart">
+ <summary>
+ Start of a time range to filter the orders.
+ </summary>
+</member>
+<member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.FilterDetails.CreatedTimestampEnd">
+ <summary>
+ Start of a time range to filter the orders.
+ </summary>
+</member>
 <member name="P:Route4MeSDKLibrary.Route4MeSDK.QueryTypes.OrderParameters.limit">
  <summary>
  Limit per page, if you use 0 you will get all records
@@ -9697,6 +9707,14 @@ User email.
  Get local timezone in seconds.
  </summary>
  <returns>Timezone in seconds</returns>
+</member>
+<member name="M:Route4MeSDKLibrary.Route4MeSDK.R4MeUtils.GenerateRandomString(System.Int32,System.String)">
+ <summary>
+ Generate random string with a specified length from specified source string.
+ </summary>
+ <param name="length">Length of the generated random string</param>
+ <param name="sourceString">Source string. Default: 'ABCDEF0123456789'</param>
+ <returns>Generated random string</returns>
 </member>
 <member name="M:Route4MeSDKLibrary.System.Net.Http.HttpClientExtensions.PatchAsync(System.Net.Http.HttpClient,System.String,System.Net.Http.HttpContent)">
  <summary>
