@@ -26,7 +26,7 @@ before_build:
 
 # MSBuild settings
 build_script:
-  - dotnet build "route4me-vbnet-sdk/Route4MeSDKLibrary/Route4MeSDKLibrary.vbproj"
+  - msbuild "route4me-vbnet-sdk/Route4MeSDKLibrary/Route4MeSDKLibrary.vbproj"
 
 
 test_script:
