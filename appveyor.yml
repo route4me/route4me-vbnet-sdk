@@ -12,7 +12,9 @@ branches:
 platform: Any CPU
 
 # Build Configuration
-configuration: Appveyor
+configuration: 
+  - Debug
+  - Appveyor
 
 # Execute script before build
 before_build:
