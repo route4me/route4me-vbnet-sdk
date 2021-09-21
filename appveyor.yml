@@ -14,8 +14,6 @@ platform: Any CPU
 # Build Configuration
 configuration: Appveyor
 
-before_build:
- 
 # Execute script before build
 before_build:
   - nuget restore "Route4Me Route Optimization Examples.sln"
