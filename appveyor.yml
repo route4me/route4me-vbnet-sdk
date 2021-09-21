@@ -28,7 +28,9 @@ before_build:
 build_script:
   - dotnet build "route4me-vbnet-sdk/Route4MeSDKLibrary/Route4MeSDKLibrary.vbproj"
 
-
+build:
+  verbosity: minimal
+  
 test_script:
   # restore packages for mstest unit tests and run tests
   # - cmd: dotnet restore ./Route4meSDKLibraryUnitTests/Route4meSDKUnitTest.csproj --verbosity m
