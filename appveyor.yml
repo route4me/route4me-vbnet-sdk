@@ -15,10 +15,10 @@ platform: Any CPU
 configuration: Appveyor
 
 before_build:
-  - nuget restore "%solution_name%"
-
+ 
 # Execute script before build
 before_build:
+  - nuget restore "Route4Me Route Optimization Examples.sln"
   # Display .net version
   - cmd: dotnet --version
   - cmd: dotnet restore "route4me-vbnet-sdk/Route4MeSDKLibrary/Route4MeSDKLibrary.csproj"
