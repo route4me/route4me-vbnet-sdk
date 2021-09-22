@@ -13,7 +13,6 @@ platform: Any CPU
 
 # Build Configuration
 configuration: 
-  - Debug
   - Appveyor
 
 # Execute script before build
