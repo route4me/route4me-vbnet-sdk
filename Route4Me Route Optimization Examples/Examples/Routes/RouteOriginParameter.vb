@@ -11,35 +11,36 @@ Namespace Route4MeSDKTest.Examples
 
             RunOptimizationSingleDriverRoute10Stops()
 
-            OptimizationsToRemove = New List(Of String)() From {
+            OptimizationsToRemove = New System.Collections.Generic.List(Of String)() From {
                 SD10Stops_optimization_problem_id
             }
 
+#Region "Duplicate Route"
             Dim duplParameters = New RouteParametersQuery() With {
                 .RouteId = SD10Stops_route_id
             }
 
             Dim errorString As String = Nothing
-            Dim duplicatedRouteId As String = route4Me.
-                DuplicateRoute(duplParameters, errorString)
+            Dim duplicateResult = route4Me.DuplicateRoute(duplParameters, errorString)
 
-            If duplicatedRouteId IsNot Nothing Then
+            If (If(duplicateResult?.RouteIDs?.Length, 0)) > 0 Then
                 RoutesToRemove = New List(Of String)() From {
-                    duplicatedRouteId
+                    duplicateResult.RouteIDs(0)
                 }
             Else
                 Console.WriteLine("Cannot duplicate the route")
                 Return
             End If
+#End Region
 
             Dim routeParameters = New RouteParametersQuery() With {
-                .RouteId = duplicatedRouteId,
+                .RouteId = duplicateResult.RouteIDs(0),
                 .Original = True
             }
 
             Dim route = route4Me.GetRoute(routeParameters, errorString)
 
-            PrintExampleRouteResult(If(route?.OriginalRoute, Nothing), errorString)
+            PrintExampleRouteResult((If(route?.OriginalRoute, Nothing)), errorString)
 
             RemoveTestRoutes()
             RemoveTestOptimizations()

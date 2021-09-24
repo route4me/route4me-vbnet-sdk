@@ -260,21 +260,6 @@ Namespace Route4MeSDK
             Return route
         End Function
 
-        'Public Function UpdateRoute(ByVal route As DataObjectRoute, ByRef errorString As String) As DataObjectRoute
-
-        '    Dim routeParameters = New RouteParametersQuery() With {
-        '        .RouteId = route.RouteID,
-        '        .ApprovedForExecution = route.ApprovedForExecution,
-        '        .Parameters = route.Parameters,
-        '        .Addresses = route.Addresses
-        '    }
-
-        '    routeParameters.PrepareForSerialization()
-        '    Dim result = GetJsonObjectFromAPI(Of DataObjectRoute)(routeParameters, R4MEInfrastructureSettings.RouteHost, HttpMethodType.Put, errorString)
-
-        '    Return result
-        'End Function
-
         Public Function UpdateRoute(ByVal route As DataObjectRoute, ByVal initialRoute As DataObjectRoute, ByRef errorString As String) As DataObjectRoute
             errorString = ""
             parseWithNewtonJson = True
@@ -838,37 +823,42 @@ Namespace Route4MeSDK
             Return response
         End Function
 
+        ''' <summary>
+        ''' The response from a route duplicating process
+        ''' </summary>
         <DataContract>
-        Private NotInheritable Class DuplicateRouteResponse
+        Public NotInheritable Class DuplicateRouteResponse
+            ''' <summary>
+            ''' If true, the route(s) duplicated successfully
+            ''' </summary>
+            <DataMember(Name:="status")>
+            Public Property Status As Boolean
 
-            <DataMember(Name:="optimization_problem_id")>
-            Public Property OptimizationProblemId As String
-
-            <DataMember(Name:="success")>
-            Public Property Success As Boolean
+            ''' <summary>
+            ''' An array of the duplicated route IDs
+            ''' </summary>
+            <DataMember(Name:="route_ids")>
+            Public Property RouteIDs As String()
 
         End Class
 
-        Public Function DuplicateRoute(queryParameters As RouteParametersQuery, ByRef errorString As String) As String
+        ''' <summary>
+        ''' Duplicates a route
+        ''' </summary>
+        ''' <param name="queryParameters">The query parameters containing a route ID to be duplicated</param>
+        ''' <param name="errorString">Returned error string in case of the processs failing</param>
+        ''' <returns>DuplicateRouteResponse type object</returns>
+        Public Function DuplicateRoute(ByVal queryParameters As RouteParametersQuery,
+                                       ByRef errorString As String) As DuplicateRouteResponse
 
-            ' Redirect to page or return json for none
-            queryParameters.ParametersCollection("to") = "none"
+            Dim response = GetJsonObjectFromAPI(Of DuplicateRouteResponse)(
+                queryParameters,
+                R4MEInfrastructureSettings.RouteHost,
+                HttpMethodType.Post,
+                errorString)
 
-            Dim response As DuplicateRouteResponse = GetJsonObjectFromAPI(Of DuplicateRouteResponse)(queryParameters, R4MEInfrastructureSettings.DuplicateRoute, HttpMethodType.[Get], errorString)
+            Return response
 
-            'If response IsNot Nothing AndAlso response.Success Then
-            '    Dim optimizationProblemId As String = response.OptimizationProblemId
-            '    If optimizationProblemId IsNot Nothing Then
-            '        routeId = Me.GetRouteId(optimizationProblemId, errorString)
-            '    End If
-            'End If
-
-            Dim routeId = If(response IsNot Nothing AndAlso response.Success,
-                    If(response.OptimizationProblemId IsNot Nothing,
-                    response.OptimizationProblemId, Nothing),
-                Nothing)
-
-            Return routeId
         End Function
 
         <DataContract>
@@ -3825,13 +3815,27 @@ Namespace Route4MeSDK
                                 Dim streamTask = Await (CType(response.Content, StreamContent)).ReadAsStreamAsync()
                                 result = If(isString, TryCast(streamTask.ReadString(), T), streamTask.ReadObject(Of T)())
                             Else
-                                Dim streamTask = Await (CType(response.Content, StreamContent)).ReadAsStreamAsync()
+
                                 Dim errorResponse As ErrorResponse = Nothing
 
                                 Try
+                                    Dim streamTask = Await (CType(response.Content, StreamContent)).ReadAsStreamAsync()
                                     errorResponse = streamTask.ReadObject(Of ErrorResponse)()
                                 Catch
-                                    errorResponse = Nothing
+                                    If (If(response?.ReasonPhrase, Nothing)) IsNot Nothing Then
+                                        errorResponse = New ErrorResponse()
+                                        errorResponse.Errors = New List(Of String)() From {
+                                            response.ReasonPhrase
+                                        }
+
+                                        Dim reqMessage = If(response?.RequestMessage?.Content.ReadAsStringAsync().Result, "")
+
+                                        If reqMessage <> "" Then
+                                            errorResponse.Errors.Add($"Request content: {Environment.NewLine} {reqMessage}")
+                                        End If
+                                    Else
+                                        errorResponse = Nothing
+                                    End If
                                 End Try
 
                                 If errorResponse IsNot Nothing AndAlso errorResponse.Errors IsNot Nothing AndAlso errorResponse.Errors.Count > 0 Then
@@ -3950,14 +3954,28 @@ Namespace Route4MeSDK
                                     )
                                 End If
                             Else
-                                Dim streamTask = (CType(response.Result.Content, StreamContent)).ReadAsStreamAsync()
-                                streamTask.Wait()
+
                                 Dim errorResponse As ErrorResponse = Nothing
 
                                 Try
+                                    Dim streamTask = (CType(response.Result.Content, StreamContent)).ReadAsStreamAsync()
+                                    streamTask.Wait()
                                     errorResponse = streamTask.Result.ReadObject(Of ErrorResponse)()
                                 Catch
-                                    errorResponse = Nothing
+                                    If (If(response?.Result.ReasonPhrase, Nothing)) IsNot Nothing Then
+                                        errorResponse = New ErrorResponse()
+                                        errorResponse.Errors = New List(Of String)() From {
+                                            response.Result.ReasonPhrase
+                                        }
+
+                                        Dim reqMessage = If(response?.Result.RequestMessage?.Content.ReadAsStringAsync().Result, "")
+
+                                        If reqMessage <> "" Then
+                                            errorResponse.Errors.Add($"Request content: {Environment.NewLine} {reqMessage}")
+                                        End If
+                                    Else
+                                        errorResponse = Nothing
+                                    End If
                                 End Try
 
                                 If errorResponse IsNot Nothing AndAlso
@@ -4060,16 +4078,28 @@ Namespace Route4MeSDK
                                         'result = If(isString, TryCast(streamTask.Result.ReadString(), XmlDocument), streamTask.Result.ReadObject(Of XmlDocument)())
                                     End If
                                 Else
-                                    Dim streamTask = DirectCast(response.Result.Content, StreamContent).ReadAsStreamAsync()
-                                    streamTask.Wait()
-
                                     Dim errorResponse As ErrorResponse = Nothing
 
                                     Try
+                                        Dim streamTask = DirectCast(response.Result.Content, StreamContent).ReadAsStreamAsync()
+                                        streamTask.Wait()
+
                                         errorResponse = streamTask.Result.ReadObject(Of ErrorResponse)()
                                     Catch
-                                        ' (Exception e)
-                                        errorResponse = Nothing
+                                        If (If(response?.Result?.ReasonPhrase, Nothing)) IsNot Nothing Then
+                                            errorResponse = New ErrorResponse()
+                                            errorResponse.Errors = New List(Of String)() From {
+                                                response.Result.ReasonPhrase
+                                            }
+
+                                            Dim reqMessage = If(response?.Result?.RequestMessage?.Content.ReadAsStringAsync().Result, "")
+
+                                            If reqMessage <> "" Then
+                                                errorResponse.Errors.Add($"Request content: {Environment.NewLine} {reqMessage}")
+                                            End If
+                                        Else
+                                            errorResponse = Nothing
+                                        End If
                                     End Try
 
                                     If errorResponse IsNot Nothing AndAlso errorResponse.Errors IsNot Nothing AndAlso errorResponse.Errors.Count > 0 Then

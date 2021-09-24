@@ -200,8 +200,15 @@ Namespace Route4MeSDK.QueryTypes
         Public Property DeviceType As String
 
         ''' <summary>
+        ''' An array of the route IDs to duplicate.
+        ''' </summary>
+        <DataMember(Name:="duplicate_routes_id", EmitDefaultValue:=False)>
+        Public Property DuplicateRoutesId As String()
+
+        ''' <summary>
         ''' If true, the route time is shifted by timezone.
         ''' </summary>
         Public Property ShiftByTimeZone As Boolean
+
     End Class
 End Namespace

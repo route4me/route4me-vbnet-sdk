@@ -10,7 +10,6 @@ Namespace Route4MeSDKTest.Examples
         Public Sub DuplicateRoute(ByVal Optional routeId As String = Nothing)
             ' Create the manager with the api key
             Dim route4Me = New Route4MeManager(ActualApiKey)
-
             Dim isInnerEample As Boolean = If(routeId Is Nothing, True, False)
 
             If isInnerEample Then
@@ -24,23 +23,25 @@ Namespace Route4MeSDKTest.Examples
             End If
 
             Dim routeParameters = New RouteParametersQuery() With {
-                .RouteId = routeId
+                .DuplicateRoutesId = New String() {routeId}
             }
 
+            ' Run the query
             Dim errorString As String = Nothing
-            Dim duplicatedRouteId As String = route4Me.DuplicateRoute(routeParameters, errorString)
+            Dim result = route4Me.DuplicateRoute(routeParameters, errorString)
 
-            If duplicatedRouteId IsNot Nothing Then RoutesToRemove = New List(Of String)() From {
-                duplicatedRouteId
-            }
+            If ((If(result?.Status, False)) AndAlso (If(result?.RouteIDs?.Length, 0)) > 0) Then
+                RoutesToRemove = New List(Of String)() From {
+                    result.RouteIDs(0)
+                }
+            End If
 
             Console.WriteLine(
                 If(
-                    duplicatedRouteId IsNot Nothing,
-                    String.Format("DuplicateRoute executed successfully, duplicated route ID: {0}", duplicatedRouteId),
-                    String.Format("DuplicateRoute error {0}", errorString)
+                    (If(result?.Status, False)) AndAlso (If(result?.RouteIDs?.Length, 0)) > 0,
+                    String.Format("DuplicateRoute executed successfully, duplicated route ID: {0}", result.RouteIDs(0)),
+                    String.Format("DuplicateRoute error {0}", errorString))
                   )
-            )
 
             If isInnerEample Then
                 RemoveTestRoutes()

@@ -596,66 +596,68 @@ End Class
     Public Sub UnlinkRouteFromOptimizationTest()
         Dim route4Me = New Route4MeManager(c_ApiKey)
 
-        Dim routeId As String = tdr.SD10Stops_route_id
-
+        Dim routeId As String = tdr2.SDRT_route_id
         Assert.IsNotNull(routeId, "routeId_SingleDriverRoute10Stops is null.")
 
         Dim routeDuplicateParameters = New RouteParametersQuery() With {
-            .RouteId = routeId
+            .DuplicateRoutesId = New String() {routeId}
         }
 
         Dim errorString As String = Nothing
-        Dim duplicatedRouteId = route4Me.DuplicateRoute(routeDuplicateParameters, errorString)
+        Dim duplicateResult = route4Me.DuplicateRoute(routeDuplicateParameters, errorString)
 
-        Thread.Sleep(3000)
+        Assert.IsNotNull(duplicateResult, $"Cannot duplicate a route {If(routeId, "nll")}. " & errorString)
+        Assert.IsTrue(duplicateResult.Status, $"Cannot duplicate a route {If(routeId, "nll")}.")
+        Assert.IsTrue((If(duplicateResult?.RouteIDs?.Length, 0)) > 0, $"Cannot duplicate a route {If(routeId, "nll")}.")
 
-        Assert.IsNotNull(duplicatedRouteId, "Cannot duplicate a route. " & errorString)
-        Assert.IsTrue(duplicatedRouteId.Length = 32, "Cannot duplicate a route.")
+        Thread.Sleep(5000)
 
         Dim duplicatedRoute = route4Me.GetRoute(New RouteParametersQuery() With {
-            .RouteId = duplicatedRouteId
+            .RouteId = duplicateResult.RouteIDs(0)
         }, errorString)
 
         Assert.IsNotNull(duplicatedRoute, "Cannot retrieve the duplicated route.")
-        Assert.IsInstanceOfType(
-            duplicatedRoute,
-            GetType(DataObjectRoute),
-            "Cannot retrieve the duplicated route.")
-        'Assert.IsNotNull(duplicatedRoute.OptimizationProblemId, "Optimization problem ID of the duplicated route is null.")
+        Assert.IsInstanceOfType(duplicatedRoute, GetType(DataObjectRoute), "Cannot retrieve the duplicated route.")
 
         Dim routeParameters = New RouteParametersQuery() With {
-            .RouteId = duplicatedRouteId,
+            .RouteId = duplicateResult.RouteIDs(0),
             .UnlinkFromMasterOptimization = True
         }
 
-        lsOptimizationIDs.Add(duplicatedRoute.OptimizationProblemId)
-
         Dim unlinkedRoute = route4Me.UpdateRoute(routeParameters, errorString)
 
-        Assert.IsNotNull(
-            unlinkedRoute,
-            "UnlinkRouteFromOptimizationTest failed. " & errorString)
-        Assert.IsNull(
-            unlinkedRoute.OptimizationProblemId,
+        Assert.IsNotNull(unlinkedRoute,
+            "UnlinkRouteFromOptimizationTest failed. " & errorString & Environment.NewLine & "Route ID: " & routeId)
+        Assert.IsNull(If(unlinkedRoute?.OptimizationProblemId, Nothing),
             "Optimization problem ID of the unlinked route is not null.")
     End Sub
 
     <TestMethod>
     Public Sub DuplicateRouteTest()
-        Dim route4Me As New Route4MeManager(c_ApiKey)
+        Dim route4Me = New Route4MeManager(c_ApiKey)
 
         Dim routeId As String = tdr.SD10Stops_route_id
-        Assert.IsNotNull(routeId, "routeId is null")
 
-        Dim routeParameters As New RouteParametersQuery() With {
-            .RouteId = routeId
+        Assert.IsNotNull(routeId, "routeId is null.")
+        Dim routeParameters = New RouteParametersQuery() With {
+            .DuplicateRoutesId = New String() {routeId}
         }
 
-        ' Run the query
-        Dim errorString As String = ""
-        Dim routeId_DuplicateRoute As String = route4Me.DuplicateRoute(routeParameters, errorString)
+        Dim errorString As String = Nothing
+        Dim result = route4Me.DuplicateRoute(routeParameters, errorString)
 
-        Assert.IsNotNull(routeId_DuplicateRoute, "DuplicateRouteTest failed. " & errorString)
+        Assert.IsNotNull(result, "DuplicateRouteTest failed. " & errorString)
+        Assert.IsInstanceOfType(result, GetType(DuplicateRouteResponse), "DeleteRoutesTest failed. " & errorString)
+        Assert.IsTrue(result.Status, "DuplicateRouteTest failed")
+
+        Dim routeIdsToDelete = New List(Of String)()
+
+        For Each id In result.RouteIDs
+            routeIdsToDelete.Add(id)
+        Next
+
+        Dim errorString2 As String = Nothing
+        route4Me.DeleteRoutes(routeIdsToDelete.ToArray(), errorString2)
     End Sub
 
     <TestMethod>

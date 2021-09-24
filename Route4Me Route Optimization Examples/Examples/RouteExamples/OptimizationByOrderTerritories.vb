@@ -33,10 +33,20 @@ Namespace Route4MeSDKTest.Examples
                 }
             }
 
+            Dim depots = New Address(0) {New Address() With {
+                .[Alias] = "HQ1",
+                .AddressString = "1010 N Florida ave, Tampa, FL",
+                .IsDepot = True,
+                .Latitude = 27.952941,
+                .Longitude = -82.459493,
+                .Time = 0
+            }}
+
             Dim optimizationParameters = New OptimizationParameters() With {
                 .Redirect = False,
                 .OrderTerritories = orderTerritories,
-                .Parameters = parameters
+                .Parameters = parameters,
+                .Depots = depots
             }
 
             Dim errorString As String = Nothing
